@@ -1,1 +1,316 @@
 @import "tailwindcss";
+@import "tw-animate-css";
+
+@custom-variant dark (&:is([data-theme="dark"] *));
+
+:root {
+    /* ==================================================
+     BACKGROUND / SURFACE
+     ================================================== */
+
+    --color-background: #FFFAFA;
+    /* Page background */
+    --color-surface: #FFFFFF;
+    /* Cards, navbar, panels */
+    --color-surface-secondary: #F1F5F9;
+    /* Secondary surfaces / alternating panels */
+    --color-surface-muted: #EEF1EA;
+    /* Subtle sections / muted areas */
+    --color-overlay: rgb(0 0 0 / 50%);
+    /* overlays like modals, dropdowns, etc */
+
+
+    /* ==================================================
+     BRAND COLORS
+     ================================================== */
+
+    --color-primary: #253237;
+    /* Main brand / CTA */
+    --color-secondary: #5C6B73;
+    /* Secondary brand / secondary UI */
+    --color-accent: #E0FBFC;
+    /* Highlights / emphasis */
+    --color-supporting: #C2DFE3;
+    /* Borders / dividers / subtle UI */
+    --color-supporting-decorative: #9DB4C0;
+    /* Decorative / icons / subtle UI */
+
+
+    /* ==================================================
+     TEXT
+     ================================================== */
+
+    --color-text-primary: #253237;
+    --color-text-secondary: #5C6B73;
+    --color-text-muted: #5C6B73;
+    --color-text-disabled: #9CA3AF;
+
+
+    /* ==================================================
+     INTERACTIVE
+     ================================================== */
+
+    --color-primary-hover: #5C6B73;
+    --color-primary-active: #253237;
+
+    --color-on-primary: #FFFFFF;
+    /* Foreground on brand primary (follows --color-on-* pattern) */
+    --color-on-secondary: #FFFFFF;
+    /* Foreground on brand secondary */
+
+    --color-link: #4A6B8A;
+    --color-link-hover: #253237;
+
+    --color-focus-ring: #2563EB;
+
+
+    /* ==================================================
+     FEEDBACK / STATUS
+     ================================================== */
+
+    --color-success: #397354;
+    --color-on-success: #FFFFFF;
+    --color-success-bg: #F0FDF4;
+
+    --color-warning: #8A641F;
+    --color-on-warning: #FFFFFF;
+    --color-warning-bg: #FFFBEB;
+
+    --color-error: #B0503A;
+    --color-on-error: #FFFFFF;
+    --color-error-bg: #FEF2F2;
+
+    --color-info: #4A6B8A;
+    --color-on-info: #FFFFFF;
+    --color-info-bg: #F0F9FF;
+
+
+    /* ==================================================
+     BORDER
+     ================================================== */
+
+    --color-border: #E2E8F0;
+    --color-border-strong: #CBD5E1;
+
+
+    /* ==================================================
+     TYPOGRAPHY
+     ================================================== */
+
+    --font-display: "Space Grotesk", sans-serif;
+    --font-body: "Inter", sans-serif;
+    --font-mono: "IBM Plex Mono", monospace;
+
+
+    /* ==================================================
+     SPACING
+     ================================================== */
+
+    /* --space-1: 4px;
+    --space-2: 8px;
+    --space-3: 12px;
+    --space-4: 16px;
+    --space-5: 20px;
+    --space-6: 24px;
+    --space-8: 32px;
+    --space-10: 40px;
+    --space-12: 48px;
+    --space-14: 56px;
+    --space-16: 64px;
+    --space-20: 80px; */
+    /* We can use Tailwind's spacing */
+
+
+    /* ==================================================
+     RADIUS
+     ================================================== */
+
+    --radius-none: 0px;
+    --radius-sm: 4px;
+    --radius-md: 8px;
+    --radius-lg: 12px;
+    --radius-xl: 16px;
+    --radius-2xl: 24px;
+    --radius-full: 9999px;
+
+
+    /* ==================================================
+     SHADOWS
+     ================================================== */
+
+    --shadow-none: none;
+
+    --shadow-sm:
+        0 1px 2px rgba(37, 50, 55, 0.06);
+
+    --shadow-md:
+        0 4px 12px rgba(37, 50, 55, 0.08);
+
+    --shadow-lg:
+        0 10px 24px rgba(37, 50, 55, 0.10);
+
+    --shadow-xl:
+        0 20px 40px rgba(37, 50, 55, 0.12);
+
+
+    /* ==================================================
+     Z-INDEX
+     ================================================== */
+
+    --z-base: 0;
+    --z-toolbar: 5;
+    --z-nav: 10;
+    --z-dropdown: 50;
+    --z-popover: 60;
+    --z-modal: 100;
+    --z-toast: 200;
+
+
+    /* ==================================================
+     BREAKPOINTS
+     ================================================== */
+
+    --breakpoint-sm: 640px;
+    --breakpoint-md: 768px;
+    --breakpoint-lg: 1024px;
+    --breakpoint-xl: 1280px;
+    --breakpoint-2xl: 1536px;
+}
+
+
+/* ======================================================
+   SHADCN SEMANTIC ALIASES
+   ====================================================== */
+
+:root {
+    --background: var(--color-background);
+    --foreground: var(--color-text-primary);
+
+    --card: var(--color-surface);
+    --card-foreground: var(--color-text-primary);
+
+    --popover: var(--color-surface);
+    --popover-foreground: var(--color-text-primary);
+
+    --primary: var(--color-primary);
+    --primary-foreground: var(--color-on-primary);
+
+    --secondary: var(--color-secondary);
+    --secondary-foreground: var(--color-on-secondary);
+
+    --muted: var(--color-surface-secondary);
+    --muted-foreground: var(--color-text-muted);
+
+    --accent: var(--color-accent);
+    --accent-foreground: var(--color-text-primary);
+
+    --destructive: var(--color-error);
+    --destructive-foreground: var(--color-on-error);
+
+    --border: var(--color-border);
+    --input: var(--color-border);
+    --ring: var(--color-focus-ring);
+    --overlay: var(--color-overlay);
+}
+
+
+/* ======================================================
+   THEME MAPPING (Tailwind v4)
+   ====================================================== */
+
+@theme inline {
+    --font-display: var(--font-display);
+    --font-body: var(--font-body);
+    --font-mono: var(--font-mono);
+
+    --color-background: var(--background);
+    --color-foreground: var(--foreground);
+
+    --color-card: var(--card);
+    --color-card-foreground: var(--card-foreground);
+
+    --color-popover: var(--popover);
+    --color-popover-foreground: var(--popover-foreground);
+
+    --color-primary: var(--primary);
+    --color-primary-foreground: var(--primary-foreground);
+
+    --color-secondary: var(--secondary);
+    --color-secondary-foreground: var(--secondary-foreground);
+
+    --color-muted: var(--muted);
+    --color-muted-foreground: var(--muted-foreground);
+
+    --color-accent: var(--accent);
+    --color-accent-foreground: var(--accent-foreground);
+
+    --color-destructive: var(--destructive);
+    --color-destructive-foreground: var(--destructive-foreground);
+
+    --color-border: var(--border);
+    --color-input: var(--input);
+    --color-ring: var(--ring);
+
+    --color-overlay: var(--overlay);
+
+    --shadow-sm: var(--shadow-sm);
+    --shadow-md: var(--shadow-md);
+    --shadow-lg: var(--shadow-lg);
+    --shadow-xl: var(--shadow-xl);
+
+    --radius-sm: var(--radius-sm);
+    --radius-md: var(--radius-md);
+    --radius-lg: var(--radius-lg);
+    --radius-xl: var(--radius-xl);
+    --radius-2xl: var(--radius-2xl);
+}
+
+
+/* ======================================================
+   BASE LAYER
+   ====================================================== */
+
+@layer base {
+    * {
+        @apply border-border outline-ring/50;
+    }
+
+    body {
+        @apply bg-background text-foreground;
+    }
+}
+
+
+/* ======================================================
+   DARK THEME
+   ====================================================== */
+
+[data-theme="dark"] {
+    /* in future, add dark semantic values here */
+}
+
+
+/* ======================================================
+   BADGES
+   ====================================================== */
+
+.badge-stock {
+    background: rgba(57, 115, 84, 0.12);
+    color: var(--color-success);
+}
+
+.badge-low {
+    background: rgba(176, 80, 58, 0.10);
+    color: var(--color-error);
+}
+
+.badge-new {
+    background: var(--color-accent);
+    color: var(--color-text-primary);
+    border: 1px solid var(--color-supporting);
+}
+
+.badge-black {
+    background: var(--color-primary);
+    color: var(--color-accent);
+}

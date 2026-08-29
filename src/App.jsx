@@ -1,10 +1,13 @@
+import DesignSystem from "./pages/DesignSystem";
+import Home from "./pages/Home.jsx";
+import { Routes, Route } from "react-router";
+
 function App() {
   return (
-    <div className="min-h-screen bg-black flex items-center justify-center">
-      <h1 className="text-5xl font-bold text-red-500">
-        E-Commerce Store
-      </h1>
-    </div>
+    <Routes>
+      <Route path="/" element={<Home />} />
+      <Route path="/desgin-system" element={<DesignSystem />} />
+    </Routes>
   );
 }
 

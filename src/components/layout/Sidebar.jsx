@@ -1,4 +1,5 @@
 import { NavLink } from "react-router";
+import { Button } from "@/components/ui/button";
 import {
   LayoutDashboard,
   Package,
@@ -13,31 +14,31 @@ const navigationLinks = [
   {
     id: 0,
     label: "Dashboard",
-    path: "/admin",
+    path: "/",
     icon: <LayoutDashboard size={20} />,
   },
   {
     id: 1,
     label: "Products",
-    path: "/admin/products",
+    path: "/products",
     icon: <Package size={20} />,
   },
   {
     id: 2,
     label: "Orders",
-    path: "/admin/orders",
+    path: "/orders",
     icon: <FileText size={20} />,
   },
   {
     id: 3,
     label: "Users",
-    path: "/admin/users",
+    path: "/users",
     icon: <Users size={20} />,
   },
   {
     id: 4,
     label: "Carts",
-    path: "/admin/carts",
+    path: "/carts",
     icon: <ShoppingCart size={20} />,
   },
 ];
@@ -57,9 +58,14 @@ export default function Sidebar({ isOpen, onClose }) {
           </h2>
         </div>
         {/* Close button - Mobile */}
-        <button type="button" onClick={onClose} className="lg:hidden">
-          <X size={20} />
-        </button>
+        <Button
+          variant="ghost"
+          size="icon"
+          className="rounded-full cursor-pointer"
+          onClick={onClose}
+        >
+          <X size={20} aria-label="Close navigation menu" />
+        </Button>
       </div>
       {/* End Sidebar Header */}
 
@@ -70,7 +76,7 @@ export default function Sidebar({ isOpen, onClose }) {
             <li key={navigationLink.id}>
               <NavLink
                 to={navigationLink.path}
-                end={navigationLink.path === "/admin"}
+                end={navigationLink.path === "/"}
                 className={({ isActive }) =>
                   `flex gap-3 px-4 py-3 font-body rounded-full ${isActive ? "bg-accent text-primary" : ""}`
                 }

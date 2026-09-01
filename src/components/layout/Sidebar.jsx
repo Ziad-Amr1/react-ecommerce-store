@@ -1,4 +1,5 @@
 import { NavLink } from "react-router";
+import { Button } from "@/components/ui/button";
 import {
   LayoutDashboard,
   Package,
@@ -41,10 +42,12 @@ const navigationLinks = [
     icon: <ShoppingCart size={20} />,
   },
 ];
-export default function Sidebar({ isOpen, onClose }) {
+
+export default function Sidebar({ id, isOpen, onClose }) {
   return (
     <aside
-      className={`w-64 bg-primary text-primary-foreground p-5 relative -translate-x-full lg:translate-x-0 fixed z-[var(--z-nav)] duration-300 cursor-pointer ${isOpen ? "translate-x-0" : "-translate-x-full"}`}
+      id={id}
+      className={`min-h-screen w-64 bg-primary text-primary-foreground p-5 fixed z-[var(--z-popover)] duration-300 -translate-x-full lg:translate-x-0 lg:static ${isOpen ? "translate-x-0" : "-translate-x-full"}`}
     >
       {/* Start Sidebar Header */}
       <div className="mb-6 flex items-start justify-between">
@@ -56,10 +59,16 @@ export default function Sidebar({ isOpen, onClose }) {
             admin panel
           </h2>
         </div>
+
         {/* Close button - Mobile */}
-        <button type="button" onClick={onClose} className="lg:hidden">
-          <X size={20} />
-        </button>
+        <Button
+          variant="ghost"
+          size="icon"
+          className="rounded-full cursor-pointer lg:hidden"
+          onClick={onClose}
+        >
+          <X size={20} aria-label="Close navigation menu" />
+        </Button>
       </div>
       {/* End Sidebar Header */}
 
@@ -71,8 +80,11 @@ export default function Sidebar({ isOpen, onClose }) {
               <NavLink
                 to={navigationLink.path}
                 end={navigationLink.path === "/admin"}
+                onClick={onClose}
                 className={({ isActive }) =>
-                  `flex gap-3 px-4 py-3 font-body rounded-full ${isActive ? "bg-accent text-primary" : ""}`
+                  `flex gap-3 px-4 py-3 font-body rounded-full ${
+                    isActive ? "bg-accent text-primary" : ""
+                  }`
                 }
               >
                 {navigationLink.icon}

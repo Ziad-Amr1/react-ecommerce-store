@@ -2,11 +2,12 @@ import DesignSystem from "./pages/DesignSystem";
 import Home from "./pages/Home.jsx";
 import AdminLayout from "./components/layout/AdminLayout";
 import { Routes, Route } from "react-router";
-import Dashboard from "./pages/Dashboard";
-import Products from "./pages/Products";
-import Orders from "./pages/Orders";
-import Users from "./pages/Users";
-import Carts from "./pages/Carts";
+import Dashboard from "./pages/admin/Dashboard";
+import Products from "./pages/admin/Products";
+import Orders from "./pages/admin/Orders";
+import Users from "./pages/admin/Users";
+import Carts from "./pages/admin/Carts";
+import Login from "./pages/auth/Login.jsx";
 
 function App() {
   return (
@@ -14,8 +15,9 @@ function App() {
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/design-system" element={<DesignSystem />} />
+        <Route path="/login" element={<Login />} />
         {/* Start of Nested Routes  */}
-        <Route path="/admin" element={<AdminLayout />}>
+        <Route path="/admin/*" element={<AdminLayout />}>
           <Route index element={<Dashboard />} />
           <Route path="products" element={<Products />} />
           <Route path="orders" element={<Orders />} />

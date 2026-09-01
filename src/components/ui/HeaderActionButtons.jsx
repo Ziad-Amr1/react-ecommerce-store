@@ -1,7 +1,10 @@
 import { Button } from "@/components/ui/button";
 import { BellDot, Sun, LogOut } from "lucide-react";
+import useAuth from "@/hooks/useAuth";
 
 export default function HeaderActionButtons() {
+  const { logout } = useAuth();
+
   return (
     <div className="flex items-center gap-3">
       <Button variant="outline" size="icon" className="rounded-full">
@@ -19,7 +22,10 @@ export default function HeaderActionButtons() {
         Admin
       </div>
 
-      <Button className="bg-[var(--color-error)] hover:bg-red-600 text-white px-4 py-2 rounded-full text-sm flex items-center gap-2 cursor-pointer">
+      <Button
+        onClick={logout}
+        className="bg-[var(--color-error)] hover:bg-red-600 text-white px-4 py-2 rounded-full text-sm flex items-center gap-2 cursor-pointer"
+      >
         <LogOut size={20} aria-label="Logout" />
         <span className="hidden md:inline-flex">Logout</span>
       </Button>

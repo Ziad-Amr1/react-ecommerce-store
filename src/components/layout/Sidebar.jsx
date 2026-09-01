@@ -14,38 +14,39 @@ const navigationLinks = [
   {
     id: 0,
     label: "Dashboard",
-    path: "/",
+    path: "/admin",
     icon: <LayoutDashboard size={20} />,
   },
   {
     id: 1,
     label: "Products",
-    path: "/products",
+    path: "/admin/products",
     icon: <Package size={20} />,
   },
   {
     id: 2,
     label: "Orders",
-    path: "/orders",
+    path: "/admin/orders",
     icon: <FileText size={20} />,
   },
   {
     id: 3,
     label: "Users",
-    path: "/users",
+    path: "/admin/users",
     icon: <Users size={20} />,
   },
   {
     id: 4,
     label: "Carts",
-    path: "/carts",
+    path: "/admin/carts",
     icon: <ShoppingCart size={20} />,
   },
 ];
+
 export default function Sidebar({ isOpen, onClose }) {
   return (
     <aside
-      className={`w-64 bg-primary text-primary-foreground p-5 relative -translate-x-full lg:translate-x-0 fixed z-[var(--z-nav)] duration-300 cursor-pointer ${isOpen ? "translate-x-0" : "-translate-x-full"}`}
+      className={`min-h-screen w-64 bg-primary text-primary-foreground p-5 fixed z-[var(--z-nav)] duration-300 cursor-pointer -translate-x-full lg:translate-x-0 lg:static ${isOpen ? "translate-x-0" : "-translate-x-full"}`}
     >
       {/* Start Sidebar Header */}
       <div className="mb-6 flex items-start justify-between">
@@ -57,11 +58,12 @@ export default function Sidebar({ isOpen, onClose }) {
             admin panel
           </h2>
         </div>
+
         {/* Close button - Mobile */}
         <Button
           variant="ghost"
           size="icon"
-          className="rounded-full cursor-pointer"
+          className="rounded-full cursor-pointer lg:hidden"
           onClick={onClose}
         >
           <X size={20} aria-label="Close navigation menu" />
@@ -76,9 +78,12 @@ export default function Sidebar({ isOpen, onClose }) {
             <li key={navigationLink.id}>
               <NavLink
                 to={navigationLink.path}
-                end={navigationLink.path === "/"}
+                end={navigationLink.path === "/admin"}
+                onClick={onClose}
                 className={({ isActive }) =>
-                  `flex gap-3 px-4 py-3 font-body rounded-full ${isActive ? "bg-accent text-primary" : ""}`
+                  `flex gap-3 px-4 py-3 font-body rounded-full ${
+                    isActive ? "bg-accent text-primary" : ""
+                  }`
                 }
               >
                 {navigationLink.icon}

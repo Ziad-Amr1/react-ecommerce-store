@@ -1,9 +1,8 @@
-import brandLogo from "../../assets/brand-logo.png";
 import { Button } from "@/components/ui/button";
 import { Menu } from "lucide-react";
-import HeaderActionButtons from "../ui/HeaderActionButtons";
+import HeaderActionButtons from "./HeaderActionButtons";
 
-function AdminHeader({ onMenuClick }) {
+function AdminHeader({ onMenuClick, sidebarOpen, sidebarId }) {
   return (
     <header className="flex items-center justify-between border-b bg-surface px-4 py-2 lg:px-6 sticky top-0 z-[var(--z-nav)]">
       <div className="flex items-center gap-3">
@@ -12,12 +11,14 @@ function AdminHeader({ onMenuClick }) {
           size="icon"
           className="rounded-full cursor-pointer lg:hidden"
           onClick={onMenuClick}
+          aria-expanded={sidebarOpen}
+          aria-controls={sidebarId}
         >
           <Menu size={20} aria-label="Open navigation menu" />
         </Button>
 
         <img
-          src={brandLogo}
+          src="/favicon.ico"
           alt="Oversea Store Logo"
           className="h-18 object-contain"
         />

@@ -46,7 +46,7 @@ const navigationLinks = [
 export default function Sidebar({ isOpen, onClose }) {
   return (
     <aside
-      className={`min-h-screen w-64 bg-primary text-primary-foreground p-5 fixed z-[var(--z-nav)] duration-300 cursor-pointer -translate-x-full lg:translate-x-0 lg:static ${isOpen ? "translate-x-0" : "-translate-x-full"}`}
+      className={`min-h-screen w-64 bg-primary text-primary-foreground p-5 fixed z-[var(--z-popover)] duration-300 -translate-x-full lg:translate-x-0 lg:static ${isOpen ? "translate-x-0" : "-translate-x-full"}`}
     >
       {/* Start Sidebar Header */}
       <div className="mb-6 flex items-start justify-between">

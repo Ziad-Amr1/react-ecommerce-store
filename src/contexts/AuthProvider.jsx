@@ -7,7 +7,7 @@ const AuthProvider = ({ children }) => {
     const [token, setToken] = useState(() => localStorage.getItem("token"));
     const [isLoading, setIsLoading] = useState(true)
 
-    const isAuthenticated = !!token; //* !!"youssef" => true || !!null => false
+    const isAuthenticated = !isLoading && user !== null;
 
     //Login
     const login = async (email, password) => {

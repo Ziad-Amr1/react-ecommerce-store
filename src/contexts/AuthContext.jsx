@@ -66,14 +66,5 @@ export function AuthProvider({ children }) {
 export function useAuth() {
   return useContext(AuthContext);
 }
-const handleLogin = (e) => {
-  e.preventDefault();
 
-  if (email === "admin@koda.com" && password === "admin1212") {
-    // Login successful
-    navigate("/admin");
-  } else {
-    // Login failed
-    setError("Invalid email or password");
-  }
-};
+export default AuthContext;

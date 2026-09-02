@@ -8,6 +8,7 @@ import Orders from "./pages/admin/Orders";
 import Users from "./pages/admin/Users";
 import Carts from "./pages/admin/Carts";
 import Login from "./pages/auth/Login.jsx";
+import ProtectedRoute from "./ProtectedRoute.jsx";
 
 function App() {
   return (
@@ -16,15 +17,17 @@ function App() {
         <Route path="/" element={<Home />} />
         <Route path="/design-system" element={<DesignSystem />} />
         <Route path="/login" element={<Login />} />
-        {/* Start of Nested Routes  */}
-        <Route path="/admin/*" element={<AdminLayout />}>
-          <Route index element={<Dashboard />} />
-          <Route path="products" element={<Products />} />
-          <Route path="orders" element={<Orders />} />
-          <Route path="users" element={<Users />} />
-          <Route path="carts" element={<Carts />} />
+        {/* Start of Protected Admin Routes  */}
+        <Route path="/admin/*" element={<ProtectedRoute />}>
+          <Route element={<AdminLayout />}>
+            <Route index element={<Dashboard />} />
+            <Route path="products" element={<Products />} />
+            <Route path="orders" element={<Orders />} />
+            <Route path="users" element={<Users />} />
+            <Route path="carts" element={<Carts />} />
+          </Route>
         </Route>
-        {/* End of Nested Routes  */}
+        {/* End of Protected Admin Routes  */}
       </Routes>
     </>
   );

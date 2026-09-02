@@ -2068,9 +2068,9 @@ function PaymentsDemo() {
           className="grid gap-3 sm:grid-cols-2"
         >
           {methods.map((option) => (
-            <div
+            <label
               key={option.value}
-              onClick={() => setMethod(option.value)}
+              htmlFor={`payment-${option.value}`}
               className={`flex cursor-pointer items-center gap-3 rounded-xl border p-4 transition ${
                 method === option.value
                   ? "border-[var(--color-primary)] bg-[var(--color-accent)]"
@@ -2094,7 +2094,7 @@ function PaymentsDemo() {
                   {option.hint}
                 </span>
               </span>
-            </div>
+            </label>
           ))}
         </RadioGroup>
 

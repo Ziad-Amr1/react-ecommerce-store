@@ -1,8 +1,11 @@
 import { Button } from "@/components/ui/button";
 import { Menu } from "lucide-react";
+import { useTranslation } from "react-i18next";
 import HeaderActionButtons from "./HeaderActionButtons";
 
 function AdminHeader({ onMenuClick, sidebarOpen, sidebarId }) {
+  const { t } = useTranslation();
+
   return (
     <header className="flex items-center justify-between border-b bg-surface px-4 py-2 lg:px-6 sticky top-0 z-[var(--z-nav)]">
       <div className="flex items-center gap-3">
@@ -14,20 +17,20 @@ function AdminHeader({ onMenuClick, sidebarOpen, sidebarId }) {
           aria-expanded={sidebarOpen}
           aria-controls={sidebarId}
         >
-          <Menu size={20} aria-label="Open navigation menu" />
+          <Menu size={20} aria-label={t("navigation.menu.open")} />
         </Button>
 
         <img
           src="/favicon.ico"
-          alt="Oversea Store Logo"
+          alt={t("brand.logoAlt")}
           className="h-18 object-contain"
         />
         <div className="hidden sm:block">
           <h2 className="text-lg font-bold font-[var(--font-display)] text-[var(--color-text-primary)]">
-            Oversea Dashboard
+            {t("navigation.dashboardTitle")}
           </h2>
           <p className="text-xs text-[var(--color-text-secondary)]">
-            E-Commerce Admin Panel
+            {t("navigation.dashboardSubtitle")}
           </p>
         </div>
       </div>

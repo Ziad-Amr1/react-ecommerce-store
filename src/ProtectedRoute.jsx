@@ -1,11 +1,13 @@
 import { Navigate, Outlet } from "react-router";
+import { useTranslation } from "react-i18next";
 import useAuth from "./hooks/useAuth";
 
 const ProtectedRoute = () => {
+  const { t } = useTranslation();
   const { isAuthenticated, user, isLoading } = useAuth();
 
   if(isLoading){
-    return <div>Loading...</div>;
+    return <div>{t("common.loading")}</div>;
   }
 
   if(!isAuthenticated){

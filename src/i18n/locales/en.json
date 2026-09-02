@@ -1,0 +1,81 @@
+{
+  "common": {
+    "loading": "Loading..."
+  },
+  "brand": {
+    "logoAlt": "Oversea Store Logo",
+    "name": "Oversea Store"
+  },
+  "navigation": {
+    "menu": {
+      "open": "Open navigation menu",
+      "close": "Close navigation menu"
+    },
+    "brandEyebrow": "ecommerce",
+    "adminPanel": "admin panel",
+    "dashboardTitle": "Oversea Dashboard",
+    "dashboardSubtitle": "E-Commerce Admin Panel",
+    "dashboard": "Dashboard",
+    "products": "Products",
+    "orders": "Orders",
+    "users": "Users",
+    "carts": "Carts",
+    "notifications": "Notifications",
+    "toggleTheme": "Toggle theme",
+    "roleAdmin": "Admin",
+    "apiConnected": "API Connected",
+    "apiLabel": "E-commerce API"
+  },
+  "auth": {
+    "login": {
+      "heroTitle": "Manage Your Store Like a Pro",
+      "heroSubtitle": "Control products, orders, users, carts and analytics from a modern dashboard experience.",
+      "title": "Welcome Back",
+      "subtitle": "Sign in to your admin dashboard",
+      "emailLabel": "Email Address",
+      "emailPlaceholder": "admin@gmail.com",
+      "passwordLabel": "Password",
+      "passwordPlaceholder": "••••••••",
+      "submit": "Sign In",
+      "submitting": "Signing in..."
+    },
+    "benefits": {
+      "products": "Product Management",
+      "orders": "Order Tracking",
+      "customers": "Customer Insights"
+    },
+    "logout": {
+      "label": "Logout",
+      "loading": "Logging out...",
+      "loadingLabel": "Logging out"
+    },
+    "errors": {
+      "invalidCredentials": "Invalid email or password",
+      "logoutFailed": "Logout failed. Please try again."
+    }
+  },
+  "validation": {
+    "emailRequired": "Email is required",
+    "emailInvalid": "Please enter a valid email address",
+    "passwordRequired": "Password is required",
+    "passwordMin": "Password must be at least {{count}} characters"
+  },
+  "home": {
+    "title": "E-commerce Home page"
+  },
+  "dashboard": {
+    "title": "Dashboard Page"
+  },
+  "products": {
+    "title": "Products Page"
+  },
+  "orders": {
+    "title": "Orders Page"
+  },
+  "users": {
+    "title": "Users Page"
+  },
+  "carts": {
+    "title": "Carts Page"
+  }
+}

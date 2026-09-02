@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router";
+import { useTranslation } from "react-i18next";
 
 import {
   Lock,
@@ -15,6 +16,7 @@ import useAuth from "@/hooks/useAuth";
 
 export default function Login() {
   const navigate = useNavigate();
+  const { t } = useTranslation();
 
   const { login, isLoading } = useAuth();
 
@@ -30,19 +32,19 @@ export default function Login() {
 
     // Email validation
     if (!email.trim()) {
-      newErrors.email = "Email is required";
+      newErrors.email = t("validation.emailRequired");
     } else if (
       !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)
     ) {
-      newErrors.email = "Please enter a valid email address";
+      newErrors.email = t("validation.emailInvalid");
     }
 
     // Password validation
     if (!password) {
-      newErrors.password = "Password is required";
+      newErrors.password = t("validation.passwordRequired");
     } else if (password.length < 6) {
       newErrors.password =
-        "Password must be at least 6 characters";
+        t("validation.passwordMin", { count: 6 });
     }
 
     setErrors(newErrors);
@@ -77,14 +79,14 @@ export default function Login() {
       const message =
         error?.response?.data?.message ||
         error?.response?.data?.error ||
-        "Invalid email or password";
+        t("auth.errors.invalidCredentials");
 
       setApiError(message);
     }
   };
 
   return (
-    <div className="flex min-h-screen items-center justify-center bg-[var(--color-background)] p-4">
+    <main className="flex min-h-screen items-center justify-center bg-[var(--color-background)] p-4">
 
       <div className="flex w-full max-w-6xl overflow-hidden rounded-[var(--radius-2xl)] bg-[var(--color-surface)] shadow-[var(--shadow-xl)] border border-[var(--color-border)]">
 
@@ -101,18 +103,17 @@ export default function Login() {
               />
 
               <span className="text-4xl font-display font-bold">
-                Oversea Store
+                {t("brand.name")}
               </span>
 
             </div>
 
             <h1 className="font-display text-4xl font-bold leading-tight">
-              Manage Your Store Like a Pro
+              {t("auth.login.heroTitle")}
             </h1>
 
             <p className="mt-4 text-lg text-[var(--color-on-primary)]/80">
-              Control products, orders, users, carts and analytics
-              from a modern dashboard experience.
+              {t("auth.login.heroSubtitle")}
             </p>
 
           </div>
@@ -124,7 +125,7 @@ export default function Login() {
               <Check className="h-6 w-6 shrink-0 text-[var(--color-success)]" aria-hidden="true" />
 
               <span className="text-base font-medium">
-                Product Management
+                {t("auth.benefits.products")}
               </span>
 
             </li>
@@ -134,7 +135,7 @@ export default function Login() {
               <Check className="h-6 w-6 shrink-0 text-[var(--color-success)]" aria-hidden="true" />
 
               <span className="text-base font-medium">
-                Order Tracking
+                {t("auth.benefits.orders")}
               </span>
 
             </li>
@@ -144,7 +145,7 @@ export default function Login() {
               <Check className="h-6 w-6 shrink-0 text-[var(--color-success)]" aria-hidden="true" />
 
               <span className="text-base font-medium">
-                Customer Insights
+                {t("auth.benefits.customers")}
               </span>
 
             </li>
@@ -163,16 +164,16 @@ export default function Login() {
 
               <img
                 src="/favicon.ico"
-                alt="Oversea Store Logo"
+                alt={t("brand.logoAlt")}
                 className="mx-auto h-24 w-24 object-contain"
               />
 
               <h2 className="font-display text-3xl font-bold text-[var(--color-text-primary)]">
-                Welcome Back
+                {t("auth.login.title")}
               </h2>
 
               <p className="text-lg text-[var(--color-text-secondary)]">
-                Sign in to your admin dashboard
+                {t("auth.login.subtitle")}
               </p>
 
             </div>
@@ -191,6 +192,7 @@ export default function Login() {
             <form
               onSubmit={handleSubmit}
               noValidate
+              aria-busy={isLoading}
               className="space-y-4"
             >
 
@@ -201,7 +203,7 @@ export default function Login() {
                   htmlFor="login-email"
                   className="mb-1 block text-sm font-bold text-[var(--color-text-primary)]"
                 >
-                  Email Address
+                  {t("auth.login.emailLabel")}
                 </label>
 
                 <div className="relative">
@@ -216,7 +218,7 @@ export default function Login() {
                       setEmail(event.target.value);
                       clearFieldError("email");
                     }}
-                    placeholder="admin@gmail.com"
+                    placeholder={t("auth.login.emailPlaceholder")}
                     aria-invalid={Boolean(errors.email)}
                     aria-describedby={errors.email ? "login-email-error" : undefined}
                     className="bg-[var(--color-surface-secondary)] border-[var(--color-border)] rounded-[var(--radius-lg)] py-6 pl-11 text-[var(--color-text-primary)] placeholder:text-[var(--color-text-secondary)] focus-visible:ring-[var(--color-focus-ring)]"
@@ -244,7 +246,7 @@ export default function Login() {
                   htmlFor="login-password"
                   className="mb-1 block text-sm font-bold text-[var(--color-text-primary)]"
                 >
-                  Password
+                  {t("auth.login.passwordLabel")}
                 </label>
 
                 <div className="relative">
@@ -259,7 +261,7 @@ export default function Login() {
                       setPassword(event.target.value);
                       clearFieldError("password");
                     }}
-                    placeholder="••••••••"
+                    placeholder={t("auth.login.passwordPlaceholder")}
                     aria-invalid={Boolean(errors.password)}
                     aria-describedby={errors.password ? "login-password-error" : undefined}
                     className="bg-[var(--color-surface-secondary)] border-[var(--color-border)] rounded-[var(--radius-lg)] py-6 pl-11 text-[var(--color-text-primary)] placeholder:text-[var(--color-text-secondary)] focus-visible:ring-[var(--color-focus-ring)]"
@@ -290,10 +292,10 @@ export default function Login() {
                 {isLoading ? (
                   <>
                     <Loader2 className="animate-spin" aria-hidden="true" />
-                    Signing in...
+                    {t("auth.login.submitting")}
                   </>
                 ) : (
-                  "Sign In"
+                  t("auth.login.submit")
                 )}
               </Button>
 
@@ -305,6 +307,6 @@ export default function Login() {
 
       </div>
 
-    </div>
+    </main>
   );
 }

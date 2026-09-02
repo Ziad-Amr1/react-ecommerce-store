@@ -1,4 +1,5 @@
 import { NavLink } from "react-router";
+import { useTranslation } from "react-i18next";
 import { Button } from "@/components/ui/button";
 import {
   LayoutDashboard,
@@ -13,37 +14,39 @@ import {
 const navigationLinks = [
   {
     id: 0,
-    label: "Dashboard",
+    labelKey: "navigation.dashboard",
     path: "/admin",
     icon: <LayoutDashboard size={20} />,
   },
   {
     id: 1,
-    label: "Products",
+    labelKey: "navigation.products",
     path: "/admin/products",
     icon: <Package size={20} />,
   },
   {
     id: 2,
-    label: "Orders",
+    labelKey: "navigation.orders",
     path: "/admin/orders",
     icon: <FileText size={20} />,
   },
   {
     id: 3,
-    label: "Users",
+    labelKey: "navigation.users",
     path: "/admin/users",
     icon: <Users size={20} />,
   },
   {
     id: 4,
-    label: "Carts",
+    labelKey: "navigation.carts",
     path: "/admin/carts",
     icon: <ShoppingCart size={20} />,
   },
 ];
 
 export default function Sidebar({ id, isOpen, onClose }) {
+  const { t } = useTranslation();
+
   return (
     <aside
       id={id}
@@ -53,10 +56,10 @@ export default function Sidebar({ id, isOpen, onClose }) {
       <div className="mb-6 flex items-start justify-between">
         <div>
           <p className="uppercase text-[var(--color-supporting)] font-body">
-            ecommerce
+            {t("navigation.brandEyebrow")}
           </p>
           <h2 className="capitalize text-xl mt-1 font-semibold font-display">
-            admin panel
+            {t("navigation.adminPanel")}
           </h2>
         </div>
 
@@ -67,7 +70,7 @@ export default function Sidebar({ id, isOpen, onClose }) {
           className="rounded-full cursor-pointer lg:hidden"
           onClick={onClose}
         >
-          <X size={20} aria-label="Close navigation menu" />
+          <X size={20} aria-label={t("navigation.menu.close")} />
         </Button>
       </div>
       {/* End Sidebar Header */}
@@ -88,7 +91,7 @@ export default function Sidebar({ id, isOpen, onClose }) {
                 }
               >
                 {navigationLink.icon}
-                {navigationLink.label}
+                {t(navigationLink.labelKey)}
               </NavLink>
             </li>
           ))}
@@ -101,10 +104,10 @@ export default function Sidebar({ id, isOpen, onClose }) {
         <Radio className="w-5 h-5 text-[var(--color-surface-muted)]" />
         <div>
           <p className="text-sm font-medium text-[var(--color-accent)] font-body">
-            API Connected
+            {t("navigation.apiConnected")}
           </p>
           <p className="text-xs text-[var(--color-supporting)] font-body">
-            E-commerce API
+            {t("navigation.apiLabel")}
           </p>
         </div>
       </div>

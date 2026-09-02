@@ -10,16 +10,7 @@ const api = axios.create({
     "Content-Type": "application/json",
     Accept: "application/json",
   },
-});
-
-api.interceptors.request.use((config) => {
-  const token = localStorage.getItem("token");
-
-  if (token) {
-    config.headers.Authorization = `Bearer ${token}`;
-  }
-  
-  return config;
+  withCredentials: true,
 });
 
 api.interceptors.response.use(
@@ -27,10 +18,9 @@ api.interceptors.response.use(
   (error) => {
     // optional chaining
     if (error.response?.status === 401) {
-      localStorage.removeItem("token");
-      if (!window.location.pathname.startsWith("/login")) {
-        window.history.replaceState(null, "", "/login");
-      }
+      // Notify the AuthProvider so it clears the session; the
+      // ProtectedRoute then navigates to /login via React Router.
+      window.dispatchEvent(new Event("auth:unauthorized"));
     }
     return Promise.reject(error);
   },

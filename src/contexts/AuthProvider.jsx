@@ -4,7 +4,6 @@ import AuthContext from "./AuthContext";
 
 const AuthProvider = ({ children }) => {
     const [user, setUser] = useState(null);
-    const [token, setToken] = useState(() => localStorage.getItem("token"));
     const [isLoading, setIsLoading] = useState(true)
 
     const isAuthenticated = !isLoading && user !== null;
@@ -16,11 +15,8 @@ const AuthProvider = ({ children }) => {
             password,
         })
 
-        const { token, user } = response.data;
+        const { user } = response.data;
 
-        localStorage.setItem("token", token);
-
-        setToken(token);
         setUser(user);
 
         return response.data;
@@ -32,8 +28,6 @@ const AuthProvider = ({ children }) => {
         try {
             await api.post("/auth/logout");
         } finally {
-            localStorage.removeItem("token");
-            setToken(null);
             setUser(null);
         }
     };
@@ -41,19 +35,10 @@ const AuthProvider = ({ children }) => {
     // restore authentication
     useEffect(() => {
         const restoreAuthentication = async () => {
-            const stordToken = localStorage.getItem('token');
-
-            if (!stordToken) {
-                setIsLoading(false)
-                return;
-            }
-
             try {
                 const response = await api.get('/auth/me');
                 setUser(response.data.user);
             } catch {
-                localStorage.removeItem("token");
-                setToken(null);
                 setUser(null)
             } finally {
                 setIsLoading(false);
@@ -63,10 +48,23 @@ const AuthProvider = ({ children }) => {
         restoreAuthentication();
     }, [])
 
+    // clear the session when the API reports an unauthorized response
+    useEffect(() => {
+        const clearSession = () => {
+            setIsLoading(false);
+            setUser(null);
+        };
+
+        window.addEventListener("auth:unauthorized", clearSession);
+
+        return () => {
+            window.removeEventListener("auth:unauthorized", clearSession);
+        };
+    }, [])
+
     return (
         <AuthContext.Provider value={{
             user,
-            token,
             isAuthenticated,
             isLoading,
             login,

@@ -1,4 +1,4 @@
-import { Navigate, Outlet } from "react-router-dom";
+import { Navigate, Outlet } from "react-router";
 import useAuth from "./hooks/useAuth";
 
 const ProtectedRoute = () => {
@@ -19,4 +19,4 @@ const ProtectedRoute = () => {
   return <Outlet />;
 };
 
-export default ProtectedRoute;  
+export default ProtectedRoute;

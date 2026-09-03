@@ -57,9 +57,13 @@
     /* Foreground on brand primary (follows --color-on-* pattern) */
     --color-on-secondary: #FFFFFF;
     /* Foreground on brand secondary */
+    --color-on-accent: #253237;
+    /* Foreground on brand accent (dark text on light accent) */
 
     --color-link: #4A6B8A;
     --color-link-hover: #253237;
+    --color-on-link: #FFFFFF;
+    /* Foreground on the link/semantic accent surface */
 
     --color-focus-ring: #2563EB;
 
@@ -202,7 +206,7 @@
     --muted-foreground: var(--color-text-muted);
 
     --accent: var(--color-accent);
-    --accent-foreground: var(--color-text-primary);
+    --accent-foreground: var(--color-on-accent);
 
     --destructive: var(--color-error);
     --destructive-foreground: var(--color-on-error);
@@ -344,9 +348,13 @@
 
     --color-on-primary: #0F1416;
     --color-on-secondary: #0F1416;
+    --color-on-accent: #0F1416;
+    /* Foreground on brand accent (dark text on light accent) */
 
     --color-link: #8DB4D6;
     --color-link-hover: #B5D4EF;
+    --color-on-link: #0F1416;
+    /* Foreground on the link/semantic accent surface */
 
     --color-focus-ring: #60A5FA;
 

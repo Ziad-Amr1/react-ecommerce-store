@@ -82,10 +82,10 @@ export default function HeaderActionButtons() {
         <DropdownMenuTrigger asChild>
           <button
             type="button"
-            className="hidden md:flex items-center gap-2 px-3 py-2 rounded-full bg-[var(--color-link)] text-white text-sm select-none cursor-pointer"
+            className="hidden md:flex items-center gap-2 px-3 py-2 rounded-full bg-[var(--color-link)] text-[var(--color-on-link)] text-sm select-none cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-focus-ring)] focus-visible:ring-offset-2"
             aria-label={t("navigation.accountDropdown")}
           >
-            <span className="size-6 rounded-full bg-white/20 flex items-center justify-center text-xs font-bold">
+            <span className="size-6 rounded-full bg-[var(--color-on-link)]/20 flex items-center justify-center text-xs font-bold">
               A
             </span>
             <span>{t("navigation.roleAdmin")}</span>

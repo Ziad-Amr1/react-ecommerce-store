@@ -1,30 +1,44 @@
 import { Button } from "@/components/ui/button";
-import { BellDot, Sun, LogOut } from "lucide-react";
+import { Sun, LogOut, Moon } from "lucide-react";
+import { useState } from "react";
 import useAuth from "@/hooks/useAuth";
+import { DropdownMenuIcons } from "../ui/DropdownMenuIcons";
+import NotificationsDropdown from "./NotificationsDropdown";
 
 export default function HeaderActionButtons() {
   const { logout } = useAuth();
+  const [mode, setMode] = useState("Light");
+
+  function toggleTheme() {
+    if (mode === "Light") {
+      setMode("Dark");
+    } else {
+      setMode("Light");
+    }
+  }
 
   return (
     <div className="flex items-center gap-3">
-      <Button variant="outline" size="icon" className="rounded-full">
-        <BellDot size={20} aria-label="Notifications" />
+      <NotificationsDropdown />
+
+      <Button
+        onClick={toggleTheme}
+        variant="outline"
+        size="icon"
+        className="rounded-full"
+      >
+        {mode === "Light" ? (
+          <Sun size={20} aria-label="Light mode" />
+        ) : (
+          <Moon size={20} aria-label="Dark mode" />
+        )}
       </Button>
 
-      <Button variant="outline" size="icon" className="rounded-full">
-        <Sun size={20} aria-label="Toggle theme" />
-      </Button>
-
-      <div className="hidden md:flex items-center gap-2 px-4 py-2 rounded-full bg-[var(--color-link)] text-white text-sm select-none">
-        <span className="size-6 rounded-full bg-white/20 flex items-center justify-center text-xs font-bold">
-          A
-        </span>
-        Admin
-      </div>
+      <DropdownMenuIcons className="border w-[200px]" />
 
       <Button
         onClick={logout}
-        className="bg-[var(--color-error)] hover:bg-red-600 text-white px-4 py-2 rounded-full text-sm flex items-center gap-2 cursor-pointer"
+        className="bg-[var(--color-error)] hover:bg-red-600 text-white px-4 py-2 rounded-md px-4 py-2  text-sm flex items-center gap-2 cursor-pointer"
       >
         <LogOut size={20} aria-label="Logout" />
         <span className="hidden md:inline-flex">Logout</span>

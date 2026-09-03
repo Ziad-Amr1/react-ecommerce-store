@@ -1,10 +1,11 @@
 import { Outlet } from "react-router";
-import Sidebar from "./Sidebar";
+import DashboardSidebar from "./DashboardSidebar";
 import { useState } from "react";
-import AdminHeader from "./AdminHeader";
+import DashboardHeader from "./DashboardHeader";
 
-export default function AdminLayout() {
+export default function DashboardLayout() {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+  const [isSidebarCollapsed, setIsSidebarCollapsed] = useState(false);
   function showSidebar() {
     setIsSidebarOpen(true);
   }
@@ -14,7 +15,12 @@ export default function AdminLayout() {
   return (
     <div className="min-h-screen bg-background">
       <div className="flex min-h-screen">
-        <Sidebar isOpen={isSidebarOpen} onClose={closeSidebar} />
+        <DashboardSidebar
+          isOpen={isSidebarOpen}
+          isCollapsed={isSidebarCollapsed}
+          onClose={closeSidebar}
+          setIsSidebarCollapsed={setIsSidebarCollapsed}
+        />
         {isSidebarOpen && (
           <div
             className="fixed inset-0 bg-overlay z-[var(--z-dropdown)] lg:hidden"
@@ -22,8 +28,8 @@ export default function AdminLayout() {
           />
         )}
 
-        <main className="min-w-0 flex-1 p-4 lg:p-6">
-          <AdminHeader onMenuClick={showSidebar} />
+        <main className="min-w-0 flex-1 ">
+          <DashboardHeader onMenuClick={showSidebar} />
           <Outlet />
         </main>
       </div>

@@ -96,6 +96,12 @@ const colorTokens = [
     text: "#253237",
   },
   {
+    name: "--color-on-accent",
+    role: "On Accent",
+    description: "Foreground/content on accent surfaces",
+    text: "#253237",
+  },
+  {
     name: "--color-supporting",
     role: "Supporting",
     description: "Subtle UI, borders and dividers",
@@ -147,6 +153,12 @@ const colorTokens = [
     name: "--color-link",
     role: "Link",
     description: "Links and informational interactive text",
+    text: "#FFFFFF",
+  },
+  {
+    name: "--color-on-link",
+    role: "On Link",
+    description: "Foreground/content on link surfaces (e.g. account pill)",
     text: "#FFFFFF",
   },
   {

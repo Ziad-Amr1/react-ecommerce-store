@@ -59,9 +59,40 @@ export default function HeaderActionButtons() {
 
   return (
     <div className="flex items-center gap-3">
-      <Button variant="outline" size="icon" className="rounded-full">
-        <BellDot size={20} aria-label={t("navigation.notifications")} />
-      </Button>
+      <DropdownMenu>
+        <DropdownMenuTrigger asChild>
+          <Button
+            variant="outline"
+            size="icon"
+            className="rounded-full cursor-pointer"
+            aria-label={t("navigation.notifications")}
+          >
+            <BellDot size={20} />
+          </Button>
+        </DropdownMenuTrigger>
+
+        <DropdownMenuContent align="end" className="w-72">
+          <DropdownMenuGroup>
+            <DropdownMenuLabel className="px-4 py-2">
+              {t("navigation.notificationsPanel.title")}
+            </DropdownMenuLabel>
+
+            <div className="flex flex-col items-center justify-center gap-2 px-4 py-10 text-center">
+              <BellDot
+                size={28}
+                className="text-[var(--color-supporting-decorative)]"
+                aria-hidden="true"
+              />
+              <p className="text-sm font-medium text-[var(--color-text-primary)]">
+                {t("navigation.notificationsPanel.emptyTitle")}
+              </p>
+              <p className="text-xs text-[var(--color-text-secondary)]">
+                {t("navigation.notificationsPanel.emptyMessage")}
+              </p>
+            </div>
+          </DropdownMenuGroup>
+        </DropdownMenuContent>
+      </DropdownMenu>
 
       <Button
         variant="outline"
@@ -82,10 +113,10 @@ export default function HeaderActionButtons() {
         <DropdownMenuTrigger asChild>
           <button
             type="button"
-            className="hidden md:flex items-center gap-2 px-3 py-2 rounded-full bg-[var(--color-link)] text-white text-sm select-none cursor-pointer"
+            className="hidden md:flex items-center gap-2 px-3 py-2 rounded-full bg-[var(--color-link)] text-[var(--color-on-link)] text-sm select-none cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-focus-ring)] focus-visible:ring-offset-2"
             aria-label={t("navigation.accountDropdown")}
           >
-            <span className="size-6 rounded-full bg-white/20 flex items-center justify-center text-xs font-bold">
+            <span className="size-6 rounded-full bg-[var(--color-on-link)]/20 flex items-center justify-center text-xs font-bold">
               A
             </span>
             <span>{t("navigation.roleAdmin")}</span>

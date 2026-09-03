@@ -1,6 +1,7 @@
 {
   "common": {
-    "loading": "Loading..."
+    "loading": "Loading...",
+    "checkingSession": "Checking session..."
   },
   "brand": {
     "logoAlt": "Oversea Store Logo",
@@ -21,6 +22,11 @@
     "users": "Users",
     "carts": "Carts",
     "notifications": "Notifications",
+    "notificationsPanel": {
+      "title": "Notifications",
+      "emptyTitle": "No notifications yet",
+      "emptyMessage": "When you have notifications, they will show up here."
+    },
     "toggleTheme": "Toggle theme",
     "theme": {
       "switchToDark": "Switch to dark theme",

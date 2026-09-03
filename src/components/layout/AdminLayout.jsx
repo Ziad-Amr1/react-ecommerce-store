@@ -62,7 +62,9 @@ export default function AdminLayout() {
           />
         )}
 
-        <main className="min-w-0 flex-1">
+        <main
+          className={`min-w-0 flex-1 ${isSidebarCollapsed ? "lg:pl-20" : "lg:pl-64"}`}
+        >
           <AdminHeader
             onMenuClick={showSidebar}
             sidebarOpen={isSidebarOpen}

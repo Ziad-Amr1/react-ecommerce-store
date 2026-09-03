@@ -52,7 +52,7 @@ export default function Sidebar({ id, isOpen, isCollapsed, onClose, onToggleColl
   return (
     <aside
       id={id}
-      className={`min-h-screen border-r bg-[var(--color-surface)] text-[var(--color-text-primary)] fixed z-[var(--z-popover)] duration-300 overflow-hidden -translate-x-full lg:translate-x-0 lg:static ${
+      className={`fixed left-0 top-0 h-screen border-r bg-[var(--color-surface)] text-[var(--color-text-primary)] z-[var(--z-popover)] duration-300 overflow-hidden -translate-x-full lg:translate-x-0 ${
         isOpen ? "translate-x-0" : "-translate-x-full"
       } ${isCollapsed ? "w-20" : "w-64"}`}
     >

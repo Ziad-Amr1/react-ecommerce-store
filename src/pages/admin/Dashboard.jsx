@@ -10,7 +10,7 @@ import {
   CardContent,
 } from "@/components/ui/card";
 
-import { Badge } from "@/components/ui/badge";
+import { Skeleton } from "@/components/ui/skeleton";
 
 import {
   ShoppingBag,
@@ -31,7 +31,36 @@ export default function Dashboard() {
   }, [fetchDashboard]);
 
   if (loading) {
-    return <div>{t("dashboard.loading")}</div>;
+    return (
+      <div className="w-full space-y-6" aria-busy="true" role="status">
+        <Card>
+          <CardHeader className="space-y-3">
+            <Skeleton className="h-5 w-36" />
+            <Skeleton className="h-7 w-64" />
+            <Skeleton className="h-4 w-80 max-w-full" />
+          </CardHeader>
+        </Card>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {Array.from({ length: 6 }).map((_, i) => (
+            <Card
+              key={i}
+              className="overflow-hidden border-t-4 border-t-[var(--color-accent)]"
+            >
+              <CardHeader className="space-y-3">
+                <Skeleton className="h-5 w-1/2" />
+                <Skeleton className="h-4 w-3/4" />
+              </CardHeader>
+
+              <CardContent className="flex items-end justify-between">
+                <Skeleton className="h-8 w-16" />
+                <Skeleton className="size-14 rounded-xl" />
+              </CardContent>
+            </Card>
+          ))}
+        </div>
+      </div>
+    );
   }
 
   if (error) {
@@ -123,9 +152,9 @@ export default function Dashboard() {
               <CardContent className="flex items-end justify-between">
                 <h2 className="text-2xl font-bold">{card.cardNumber}</h2>
 
-                <Badge className="w-14 h-14 rounded-xl flex items-center justify-center">
-                  <Icon size={32} />
-                </Badge>
+                <div className="flex size-14 items-center justify-center rounded-xl bg-primary text-primary-foreground">
+                  <Icon className="size-8" aria-hidden="true" />
+                </div>
               </CardContent>
             </Card>
           );

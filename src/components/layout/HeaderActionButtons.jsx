@@ -1,16 +1,48 @@
 import { useState } from "react";
-import { useNavigate } from "react-router";
+import { Link, useNavigate } from "react-router";
 import { useTranslation } from "react-i18next";
 import { Button } from "@/components/ui/button";
-import { BellDot, Sun, LogOut, Loader2 } from "lucide-react";
+import {
+  BellDot,
+  Sun,
+  Moon,
+  ChevronDown,
+  LogOut,
+  Loader2,
+  LayoutDashboard,
+  Package,
+  FileText,
+  Users,
+  ShoppingCart,
+} from "lucide-react";
+import {
+  DropdownMenu,
+  DropdownMenuTrigger,
+  DropdownMenuContent,
+  DropdownMenuLabel,
+  DropdownMenuGroup,
+  DropdownMenuItem,
+} from "@/components/ui/dropdown-menu";
 import useAuth from "@/hooks/useAuth";
+import useTheme from "@/hooks/useTheme";
+
+const accountLinks = [
+  { labelKey: "navigation.dashboard", path: "/admin", icon: <LayoutDashboard size={16} /> },
+  { labelKey: "navigation.products", path: "/admin/products", icon: <Package size={16} /> },
+  { labelKey: "navigation.orders", path: "/admin/orders", icon: <FileText size={16} /> },
+  { labelKey: "navigation.users", path: "/admin/users", icon: <Users size={16} /> },
+  { labelKey: "navigation.carts", path: "/admin/carts", icon: <ShoppingCart size={16} /> },
+];
 
 export default function HeaderActionButtons() {
   const { t } = useTranslation();
   const { logout } = useAuth();
+  const { theme, toggleTheme } = useTheme();
   const navigate = useNavigate();
   const [isLoggingOut, setIsLoggingOut] = useState(false);
   const [logoutError, setLogoutError] = useState("");
+
+  const isDark = theme === "dark";
 
   async function handleLogout() {
     if (isLoggingOut) return;
@@ -31,16 +63,50 @@ export default function HeaderActionButtons() {
         <BellDot size={20} aria-label={t("navigation.notifications")} />
       </Button>
 
-      <Button variant="outline" size="icon" className="rounded-full">
-        <Sun size={20} aria-label={t("navigation.toggleTheme")} />
+      <Button
+        variant="outline"
+        size="icon"
+        className="rounded-full cursor-pointer"
+        onClick={toggleTheme}
+        aria-pressed={isDark}
+        title={isDark ? t("navigation.theme.switchToLight") : t("navigation.theme.switchToDark")}
+      >
+        {isDark ? (
+          <Moon size={20} aria-label={t("navigation.theme.switchToLight")} />
+        ) : (
+          <Sun size={20} aria-label={t("navigation.theme.switchToDark")} />
+        )}
       </Button>
 
-      <div className="hidden md:flex items-center gap-2 px-4 py-2 rounded-full bg-[var(--color-link)] text-white text-sm select-none">
-        <span className="size-6 rounded-full bg-white/20 flex items-center justify-center text-xs font-bold">
-          A
-        </span>
-        {t("navigation.roleAdmin")}
-      </div>
+      <DropdownMenu>
+        <DropdownMenuTrigger asChild>
+          <button
+            type="button"
+            className="hidden md:flex items-center gap-2 px-3 py-2 rounded-full bg-[var(--color-link)] text-white text-sm select-none cursor-pointer"
+            aria-label={t("navigation.accountDropdown")}
+          >
+            <span className="size-6 rounded-full bg-white/20 flex items-center justify-center text-xs font-bold">
+              A
+            </span>
+            <span>{t("navigation.roleAdmin")}</span>
+            <ChevronDown size={14} aria-hidden="true" />
+          </button>
+        </DropdownMenuTrigger>
+
+        <DropdownMenuContent align="end" className="w-56">
+          <DropdownMenuLabel>{t("navigation.account")}</DropdownMenuLabel>
+          <DropdownMenuGroup>
+            {accountLinks.map((item) => (
+              <DropdownMenuItem key={item.path} asChild>
+                <Link to={item.path}>
+                  {item.icon}
+                  {t(item.labelKey)}
+                </Link>
+              </DropdownMenuItem>
+            ))}
+          </DropdownMenuGroup>
+        </DropdownMenuContent>
+      </DropdownMenu>
 
       <Button
         variant="destructive"

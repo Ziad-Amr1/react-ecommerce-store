@@ -90,7 +90,7 @@ export default function Dashboard() {
   ];
 
   return (
-    <div className="p-6 w-full space-y-6">
+    <div className="w-full space-y-6">
       <Card>
         <CardHeader>
           <span className="text-lg text-(--color-text-primary)">
@@ -110,7 +110,10 @@ export default function Dashboard() {
           const Icon = card.cardIcon;
 
           return (
-            <Card key={card.id}>
+            <Card
+              key={card.id}
+              className="overflow-hidden border-t-4 border-t-[var(--color-accent)]"
+            >
               <CardHeader>
                 <CardTitle>{card.cardTitle}</CardTitle>
 
@@ -120,8 +123,8 @@ export default function Dashboard() {
               <CardContent className="flex items-end justify-between">
                 <h2 className="text-2xl font-bold">{card.cardNumber}</h2>
 
-                <Badge className="w-12 h-12 rounded-xl flex items-center justify-center">
-                  <Icon size={28} />
+                <Badge className="w-14 h-14 rounded-xl flex items-center justify-center">
+                  <Icon size={32} />
                 </Badge>
               </CardContent>
             </Card>

@@ -22,6 +22,14 @@
     "carts": "Carts",
     "notifications": "Notifications",
     "toggleTheme": "Toggle theme",
+    "theme": {
+      "switchToDark": "Switch to dark theme",
+      "switchToLight": "Switch to light theme"
+    },
+    "collapseSidebar": "Collapse sidebar",
+    "expandSidebar": "Expand sidebar",
+    "account": "Account",
+    "accountDropdown": "Account menu",
     "roleAdmin": "Admin",
     "apiConnected": "API Connected",
     "apiLabel": "E-commerce API"

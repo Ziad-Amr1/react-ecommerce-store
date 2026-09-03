@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { NavLink } from "react-router";
 import { useTranslation } from "react-i18next";
 import { Button } from "@/components/ui/button";
@@ -18,155 +19,181 @@ const navigationLinks = [
     id: 0,
     labelKey: "navigation.dashboard",
     path: "/admin",
-    icon: <LayoutDashboard size={20} />,
+    icon: LayoutDashboard,
   },
   {
     id: 1,
     labelKey: "navigation.products",
     path: "/admin/products",
-    icon: <Package size={20} />,
+    icon: Package,
   },
   {
     id: 2,
     labelKey: "navigation.orders",
     path: "/admin/orders",
-    icon: <FileText size={20} />,
+    icon: FileText,
   },
   {
     id: 3,
     labelKey: "navigation.users",
     path: "/admin/users",
-    icon: <Users size={20} />,
+    icon: Users,
   },
   {
     id: 4,
     labelKey: "navigation.carts",
     path: "/admin/carts",
-    icon: <ShoppingCart size={20} />,
+    icon: ShoppingCart,
   },
 ];
 
 export default function Sidebar({ id, isOpen, isCollapsed, onClose, onToggleCollapse }) {
   const { t } = useTranslation();
+  const [hoveredItem, setHoveredItem] = useState(null);
 
   return (
-    <aside
-      id={id}
-      className={`fixed left-0 top-0 h-screen border-r bg-[var(--color-surface)] text-[var(--color-text-primary)] z-[var(--z-popover)] duration-300 overflow-hidden -translate-x-full lg:translate-x-0 ${
-        isOpen ? "translate-x-0" : "-translate-x-full"
-      } ${isCollapsed ? "w-20" : "w-64"}`}
-    >
-      {/* Start Sidebar Header */}
+    <>
+      {/* Mobile overlay */}
       <div
-        className={`mb-6 h-[60px] flex items-start justify-between ${
-          isCollapsed ? "px-2" : "p-5"
+        className={`fixed inset-0 z-[var(--z-modal)] bg-[var(--color-overlay)] backdrop-blur-sm transition-opacity duration-300 lg:hidden ${
+          isOpen ? "opacity-100" : "pointer-events-none opacity-0"
         }`}
+        onClick={onClose}
+        aria-hidden="true"
+      />
+
+      <aside
+        id={id}
+        className={`fixed left-0 top-0 z-[var(--z-modal)] h-screen border-r border-[var(--color-border)] bg-[var(--color-surface)] text-[var(--color-text-primary)] transition-all duration-300 ease-out ${
+          isOpen ? "translate-x-0" : "-translate-x-full lg:translate-x-0"
+        } ${isCollapsed ? "w-20" : "w-72"}`}
       >
-        <div
-          className={`overflow-hidden whitespace-nowrap transition-all duration-300 ${
-            isCollapsed ? "w-0 opacity-0" : "w-auto opacity-100"
-          }`}
-        >
-          <p className="uppercase text-[var(--color-text-primary)] font-body">
-            {t("navigation.brandEyebrow")}
-          </p>
-          <h2 className="capitalize text-xl mt-1 font-semibold font-display">
-            {t("navigation.adminPanel")}
-          </h2>
-        </div>
-
-        {/* Close button - Mobile */}
-        <Button
-          variant="ghost"
-          size="icon"
-          className="rounded-full cursor-pointer lg:hidden"
-          onClick={onClose}
-        >
-          <X size={20} aria-label={t("navigation.menu.close")} />
-        </Button>
-      </div>
-      {/* End Sidebar Header */}
-
-      {/* Start Navigation Links */}
-      <nav>
-        <ul className="space-y-1">
-          {navigationLinks.map((navigationLink) => (
-            <li key={navigationLink.id}>
-              <NavLink
-                to={navigationLink.path}
-                end={navigationLink.path === "/admin"}
-                onClick={onClose}
-                title={t(navigationLink.labelKey)}
-                className={({ isActive }) =>
-                  `flex items-center h-11 rounded-full text-[var(--color-link)] duration-300 ${
-                    isCollapsed ? "justify-center mx-auto p-0" : "gap-3 px-4 py-3 mx-3"
-                  } ${
-                    isActive
-                      ? "bg-[var(--color-primary)] text-[var(--color-on-primary)]"
-                      : "hover:bg-[var(--color-surface-secondary)]"
-                  }`
-                }
-              >
-                {navigationLink.icon}
-
-                <span
-                  className={`whitespace-nowrap overflow-hidden transition-all duration-300 ${
-                    isCollapsed ? "w-0 opacity-0" : "w-auto opacity-100"
-                  }`}
-                >
-                  {t(navigationLink.labelKey)}
-                </span>
-              </NavLink>
-            </li>
-          ))}
-        </ul>
-      </nav>
-      {/* End Navigation Links */}
-
-      {/* Start Sidebar Footnote */}
-      <div
-        className={`absolute bottom-5 left-0 right-0 flex items-center border-t p-3 text-[var(--color-text-secondary)] ${
-          isCollapsed ? "justify-center gap-0" : "gap-3"
-        }`}
-      >
-        <div
-          className={`overflow-hidden whitespace-nowrap transition-all duration-300 flex items-center gap-3 ${
-            isCollapsed ? "w-0 opacity-0" : "w-auto opacity-100"
-          }`}
-        >
-          <Radio className="w-5 h-5 shrink-0 text-[var(--color-supporting-decorative)]" />
-          <div>
-            <p className="text-sm font-medium font-body">
-              {t("navigation.apiConnected")}
+        {/* Header */}
+        <div className="flex h-[72px] items-center justify-between border-b border-[var(--color-border)] px-5">
+          <div
+            className={`overflow-hidden whitespace-nowrap transition-all duration-300 ${
+              isCollapsed ? "w-0 opacity-0" : "w-auto opacity-100"
+            }`}
+          >
+            <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-[var(--color-text-secondary)]">
+              {t("navigation.brandEyebrow")}
             </p>
-            <p className="text-xs font-body">{t("navigation.apiLabel")}</p>
+            <h2 className="mt-0.5 font-display text-xl font-bold text-[var(--color-text-primary)]">
+              {t("navigation.adminPanel")}
+            </h2>
           </div>
+
+          <Button
+            variant="ghost"
+            size="icon"
+            className="rounded-full lg:hidden hover:bg-[var(--color-surface-secondary)]"
+            onClick={onClose}
+          >
+            <X size={20} aria-label={t("navigation.menu.close")} />
+          </Button>
         </div>
 
-        <Button
-          variant="ghost"
-          size="icon"
-          className="rounded-full cursor-pointer shrink-0"
-          onClick={onToggleCollapse}
-          aria-label={
-            isCollapsed
-              ? t("navigation.expandSidebar")
-              : t("navigation.collapseSidebar")
-          }
-          title={
-            isCollapsed
-              ? t("navigation.expandSidebar")
-              : t("navigation.collapseSidebar")
-          }
+        {/* Navigation */}
+        <nav className="px-3 py-4">
+          <ul className="space-y-1">
+            {navigationLinks.map((link) => {
+              const Icon = link.icon;
+              return (
+                <li key={link.id}>
+                  <NavLink
+                    to={link.path}
+                    end={link.path === "/admin"}
+                    onClick={onClose}
+                    onMouseEnter={() => setHoveredItem(link.id)}
+                    onMouseLeave={() => setHoveredItem(null)}
+                    className={({ isActive }) =>
+                      `group relative flex h-11 items-center rounded-xl transition-all duration-200 ${
+                        isCollapsed ? "justify-center" : "gap-3 px-4"
+                      } ${
+                        isActive
+                          ? "bg-[var(--color-primary)] text-[var(--color-on-primary)] shadow-[var(--shadow-sm)]"
+                          : "text-[var(--color-text-secondary)] hover:bg-[var(--color-surface-secondary)] hover:text-[var(--color-text-primary)]"
+                      }`
+                    }
+                  >
+                    {({ isActive }) => (
+                      <>
+                        <span
+                          className={`absolute left-0 top-1/2 h-6 w-1 -translate-y-1/2 rounded-r-full bg-[var(--color-on-primary)] transition-opacity duration-200 ${
+                            isActive ? "opacity-100" : "opacity-0"
+                          } ${isCollapsed ? "hidden" : "block"}`}
+                        />
+                        <Icon size={20} className="shrink-0" />
+                        <span
+                          className={`whitespace-nowrap overflow-hidden transition-all duration-300 ${
+                            isCollapsed ? "w-0 opacity-0" : "w-auto opacity-100"
+                          }`}
+                        >
+                          {t(link.labelKey)}
+                        </span>
+                        {isCollapsed && hoveredItem === link.id && (
+                          <div className="absolute left-full ml-3 rounded-lg bg-[var(--color-primary)] px-3 py-1.5 text-sm font-medium text-[var(--color-on-primary)] shadow-[var(--shadow-lg)] whitespace-nowrap z-50">
+                            {t(link.labelKey)}
+                            <span className="absolute left-0 top-1/2 -translate-x-1 -translate-y-1/2 border-4 border-transparent border-r-[var(--color-primary)]" />
+                          </div>
+                        )}
+                      </>
+                    )}
+                  </NavLink>
+                </li>
+              );
+            })}
+          </ul>
+        </nav>
+
+        {/* Footer */}
+        <div
+          className={`absolute bottom-0 left-0 right-0 border-t border-[var(--color-border)] bg-[var(--color-surface)] p-3 ${
+            isCollapsed ? "flex justify-center" : "flex items-center justify-between gap-3"
+          }`}
         >
-          {isCollapsed ? (
-            <PanelRightClose size={18} aria-hidden="true" />
-          ) : (
-            <PanelLeftClose size={18} aria-hidden="true" />
-          )}
-        </Button>
-      </div>
-      {/* End Sidebar Footnote */}
-    </aside>
+          <div
+            className={`overflow-hidden whitespace-nowrap transition-all duration-300 ${
+              isCollapsed ? "w-0 opacity-0" : "flex w-auto items-center gap-3 opacity-100"
+            }`}
+          >
+            <div className="flex size-8 shrink-0 items-center justify-center rounded-full bg-[var(--color-success-bg)]">
+              <Radio className="size-4 text-[var(--color-success)]" aria-hidden="true" />
+            </div>
+            <div className="min-w-0">
+              <p className="truncate text-sm font-medium text-[var(--color-text-primary)]">
+                {t("navigation.apiConnected")}
+              </p>
+              <p className="truncate text-xs text-[var(--color-text-secondary)]">
+                {t("navigation.apiLabel")}
+              </p>
+            </div>
+          </div>
+
+          <Button
+            variant="ghost"
+            size="icon"
+            className="shrink-0 rounded-full hover:bg-[var(--color-surface-secondary)]"
+            onClick={onToggleCollapse}
+            aria-label={
+              isCollapsed
+                ? t("navigation.expandSidebar")
+                : t("navigation.collapseSidebar")
+            }
+            title={
+              isCollapsed
+                ? t("navigation.expandSidebar")
+                : t("navigation.collapseSidebar")
+            }
+          >
+            {isCollapsed ? (
+              <PanelRightClose size={18} aria-hidden="true" />
+            ) : (
+              <PanelLeftClose size={18} aria-hidden="true" />
+            )}
+          </Button>
+        </div>
+      </aside>
+    </>
   );
 }

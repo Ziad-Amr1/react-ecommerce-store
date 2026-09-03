@@ -294,16 +294,16 @@
      BACKGROUND / SURFACE
      ================================================== */
 
-    --color-background: #0F1416;
+    --color-background: #0D1315;
     /* Main application background */
 
-    --color-surface: #172126;
+    --color-surface: #161F23;
     /* Cards, navigation, panels */
 
-    --color-surface-secondary: #202C31;
+    --color-surface-secondary: #1F2A30;
     /* Secondary surfaces / alternating panels */
 
-    --color-surface-muted: #243138;
+    --color-surface-muted: #29383F;
     /* Subtle branded / muted sections */
 
     --color-overlay: rgb(0 0 0 / 65%);
@@ -313,19 +313,23 @@
      BRAND COLORS
      ================================================== */
 
-    --color-primary: #E0FBFC;
-    /* Primary actions in dark mode */
+    --color-primary: #6FE1E8;
+    /* Primary actions in dark mode — a real saturated teal, not a
+       near-white tint, so buttons read as a distinct colored surface
+       instead of blending into --color-text-primary */
 
-    --color-secondary: #9DB4C0;
+    --color-secondary: #85A0AC;
     /* Secondary actions */
 
-    --color-accent: #C2DFE3;
-    /* Highlight / selected state */
+    --color-accent: #1B3238;
+    /* Highlight / selected state — a deep tinted surface rather than a
+       pale card, so it reads as part of the dark UI and gives on-accent
+       text somewhere dark enough to sit on */
 
-    --color-supporting: #49616A;
+    --color-supporting: #46606A;
     /* Borders / dividers / subtle UI */
 
-    --color-supporting-decorative: #7F9AA6;
+    --color-supporting-decorative: #7B98A3;
     /* Decorative / subtle icons */
 
 
@@ -343,13 +347,14 @@
      INTERACTIVE
      ================================================== */
 
-    --color-primary-hover: #C2DFE3;
-    --color-primary-active: #E0FBFC;
+    --color-primary-hover: #8FEAEF;
+    --color-primary-active: #52C7CE;
 
     --color-on-primary: #0F1416;
     --color-on-secondary: #0F1416;
-    --color-on-accent: #0F1416;
-    /* Foreground on brand accent (dark text on light accent) */
+    --color-on-accent: #EAFBFC;
+    /* Foreground on brand accent — light text, since accent is now a
+       dark tinted surface in this theme (see BRAND COLORS) */
 
     --color-link: #8DB4D6;
     --color-link-hover: #B5D4EF;
@@ -384,8 +389,8 @@
      BORDER
      ================================================== */
 
-    --color-border: #33444B;
-    --color-border-strong: #49616A;
+    --color-border: #3C525C;
+    --color-border-strong: #547082;
 }
 
 
@@ -405,11 +410,11 @@
 
 .badge-new {
     background: var(--color-accent);
-    color: var(--color-text-primary);
+    color: var(--color-on-accent);
     border: 1px solid var(--color-supporting);
 }
 
 .badge-black {
     background: var(--color-primary);
-    color: var(--color-accent);
+    color: var(--color-on-primary);
 }

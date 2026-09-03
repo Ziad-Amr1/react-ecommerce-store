@@ -53,17 +53,8 @@ export default function AdminLayout() {
           onToggleCollapse={toggleCollapse}
         />
 
-        {isSidebarOpen && (
-          <button
-            type="button"
-            aria-label="Close navigation menu"
-            className="fixed inset-0 bg-overlay z-[var(--z-dropdown)] lg:hidden cursor-pointer"
-            onClick={closeSidebar}
-          />
-        )}
-
         <main
-          className={`min-w-0 flex-1 ${isSidebarCollapsed ? "lg:pl-20" : "lg:pl-64"}`}
+          className={`min-w-0 flex-1 ${isSidebarCollapsed ? "lg:pl-20" : "lg:pl-72"}`}
         >
           <AdminHeader
             onMenuClick={showSidebar}

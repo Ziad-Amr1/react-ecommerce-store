@@ -21,6 +21,11 @@
     "users": "Users",
     "carts": "Carts",
     "notifications": "Notifications",
+    "notificationsPanel": {
+      "title": "Notifications",
+      "emptyTitle": "No notifications yet",
+      "emptyMessage": "When you have notifications, they will show up here."
+    },
     "toggleTheme": "Toggle theme",
     "theme": {
       "switchToDark": "Switch to dark theme",

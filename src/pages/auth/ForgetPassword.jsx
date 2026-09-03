@@ -2,7 +2,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router";
 import { useTranslation } from "react-i18next";
 
-import { Lock, Mail, Check, Shield, Loader2 } from "lucide-react";
+import { Mail, Check, Shield, Loader2 } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -12,14 +12,13 @@ export default function Login() {
   const navigate = useNavigate();
   const { t } = useTranslation();
 
-  const { login, isLoading } = useAuth();
+  const { sendForgotPasswordOTP, isLoading } = useAuth();
 
   const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
 
-  const [errors, setErrors] = useState({}); //store error validation
+  const [errors, setErrors] = useState({});
 
-  const [apiError, setApiError] = useState(""); //store error from backend/API
+  const [apiError, setApiError] = useState("");
 
   const validateForm = () => {
     const newErrors = {};
@@ -27,17 +26,8 @@ export default function Login() {
     // Email validation
     if (!email.trim()) {
       newErrors.email = t("validation.emailRequired");
-    } else if (
-      !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email) //regular expression
-    ) {
+    } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
       newErrors.email = t("validation.emailInvalid");
-    }
-
-    // Password validation
-    if (!password) {
-      newErrors.password = t("validation.passwordRequired");
-    } else if (password.length < 6) {
-      newErrors.password = t("validation.passwordMin", { count: 6 });
     }
 
     setErrors(newErrors);
@@ -46,34 +36,34 @@ export default function Login() {
   };
 
   const clearFieldError = (field) => {
-    //remove error while user start fixing the field input
     setErrors((prev) => (prev[field] ? { ...prev, [field]: "" } : prev));
     setApiError("");
   };
 
   const handleSubmit = async (event) => {
-    event.preventDefault(); //prevent reload
+    event.preventDefault();
 
-    setApiError(""); //clear API error
+    setApiError("");
 
     const isValid = validateForm();
 
     if (!isValid) {
-      return; //stop
+      return;
     }
 
     try {
-      await login(email, password); //from useAuth
+      await sendForgotPasswordOTP(email);
 
-      // Login successful
-      navigate("/admin");
+      navigate("auth/forgot-password/verify-otp", {
+        state: { email },
+      });
     } catch (error) {
-      console.error("Login error:", error);
+      console.error("Forget Password error:", error);
 
-      const message = //error from backend (APIError)
+      const message =
         error?.response?.data?.message ||
         error?.response?.data?.error ||
-        t("auth.errors.invalidCredentials");
+        t("auth.errors.forgotPasswordFailed");
 
       setApiError(message);
     }
@@ -153,11 +143,11 @@ export default function Login() {
               />
 
               <h2 className="font-display text-3xl font-bold text-[var(--color-text-primary)]">
-                {t("auth.login.title")}
+                {t("auth.forgetPassword.title")}
               </h2>
 
               <p className="text-lg text-[var(--color-text-secondary)]">
-                {t("auth.login.subtitle")}
+                {t("auth.forgetPassword.subtitle")}
               </p>
             </div>
 
@@ -184,12 +174,12 @@ export default function Login() {
                   htmlFor="login-email"
                   className="mb-1 block text-sm font-bold text-[var(--color-text-primary)]"
                 >
-                  {t("auth.login.emailLabel")}
+                  {t("auth.forgetPassword.emailLabel")}
                 </label>
 
                 <div className="relative">
                   <Input
-                    id="login-email"
+                    id="forget-password-email"
                     name="email"
                     type="email"
                     autoComplete="email"
@@ -198,10 +188,10 @@ export default function Login() {
                       setEmail(event.target.value);
                       clearFieldError("email");
                     }}
-                    placeholder={t("auth.login.emailPlaceholder")}
+                    placeholder={t("auth.forgetPassword.emailPlaceholder")}
                     aria-invalid={Boolean(errors.email)}
                     aria-describedby={
-                      errors.email ? "login-email-error" : undefined
+                      errors.email ? "forgot-password-email-error" : undefined
                     }
                     className="bg-[var(--color-surface-secondary)] border-[var(--color-border)] rounded-[var(--radius-lg)] py-6 pl-11 text-[var(--color-text-primary)] placeholder:text-[var(--color-text-secondary)] focus-visible:ring-[var(--color-focus-ring)]"
                   />
@@ -214,7 +204,7 @@ export default function Login() {
 
                 {errors.email && (
                   <p
-                    id="login-email-error"
+                    id="forgot-password-email-error"
                     className="mt-1 text-sm text-[var(--color-error)]"
                   >
                     {errors.email}
@@ -222,51 +212,6 @@ export default function Login() {
                 )}
               </div>
 
-              {/* PASSWORD */}
-              <div>
-                <label
-                  htmlFor="login-password"
-                  className="mb-1 block text-sm font-bold text-[var(--color-text-primary)]"
-                >
-                  {t("auth.login.passwordLabel")}
-                </label>
-
-                <div className="relative">
-                  <Input
-                    id="login-password"
-                    name="password"
-                    type="password"
-                    autoComplete="current-password"
-                    value={password}
-                    onChange={(event) => {
-                      setPassword(event.target.value);
-                      clearFieldError("password");
-                    }}
-                    placeholder={t("auth.login.passwordPlaceholder")}
-                    aria-invalid={Boolean(errors.password)}
-                    aria-describedby={
-                      errors.password ? "login-password-error" : undefined
-                    }
-                    className="bg-[var(--color-surface-secondary)] border-[var(--color-border)] rounded-[var(--radius-lg)] py-6 pl-11 text-[var(--color-text-primary)] placeholder:text-[var(--color-text-secondary)] focus-visible:ring-[var(--color-focus-ring)]"
-                  />
-
-                  <Lock
-                    className="pointer-events-none absolute left-4 top-1/2 -translate-y-1/2 h-5 w-5 text-[var(--color-text-secondary)]"
-                    aria-hidden="true"
-                  />
-                </div>
-
-                {errors.password && (
-                  <p
-                    id="login-password-error"
-                    className="mt-1 text-sm text-[var(--color-error)]"
-                  >
-                    {errors.password}
-                  </p>
-                )}
-              </div>
-
-              {/* LOGIN BUTTON */}
               <Button
                 type="submit"
                 size="lg"
@@ -276,10 +221,10 @@ export default function Login() {
                 {isLoading ? (
                   <>
                     <Loader2 className="animate-spin" aria-hidden="true" />
-                    {t("auth.login.submitting")}
+                    {t("auth.forgetPassword.submitting")}
                   </>
                 ) : (
-                  t("auth.login.submit")
+                  t("auth.forgetPassword.submit")
                 )}
               </Button>
             </form>

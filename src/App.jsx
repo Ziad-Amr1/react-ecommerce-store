@@ -8,7 +8,9 @@ import Orders from "./pages/admin/Orders";
 import Users from "./pages/admin/Users";
 import Carts from "./pages/admin/Carts";
 import Login from "./pages/auth/Login.jsx";
+import ForgetPassword from "./pages/auth/ForgetPassword.jsx";
 import ProtectedRoute from "./ProtectedRoute.jsx";
+import { DashboardProvider } from "./features/admin/dashboard/DashboardContext";
 
 function App() {
   return (
@@ -17,10 +19,18 @@ function App() {
         <Route path="/" element={<Home />} />
         <Route path="/design-system" element={<DesignSystem />} />
         <Route path="/login" element={<Login />} />
+        <Route path="/forget-password" element={<ForgetPassword />} />
         {/* Start of Protected Admin Routes  */}
         <Route path="/admin/*" element={<ProtectedRoute />}>
           <Route element={<AdminLayout />}>
-            <Route index element={<Dashboard />} />
+            <Route
+              path="dashboard"
+              element={
+                <DashboardProvider>
+                  <Dashboard />
+                </DashboardProvider>
+              }
+            />
             <Route path="products" element={<Products />} />
             <Route path="orders" element={<Orders />} />
             <Route path="users" element={<Users />} />

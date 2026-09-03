@@ -39,6 +39,14 @@
       "submit": "Sign In",
       "submitting": "Signing in..."
     },
+    "forgetPassword": {
+      "title": "Forgot Password?",
+      "subtitle": "Enter your email address and we'll send you a verification code.",
+      "emailLabel": "Email Address",
+      "emailPlaceholder": "admin@gmail.com",
+      "submit": "Send OTP",
+      "submitting": "Sending OTP..."
+    },
     "benefits": {
       "products": "Product Management",
       "orders": "Order Tracking",
@@ -51,7 +59,8 @@
     },
     "errors": {
       "invalidCredentials": "Invalid email or password",
-      "logoutFailed": "Logout failed. Please try again."
+      "logoutFailed": "Logout failed. Please try again.",
+      "forgotPasswordFailed": "Send OTP failed. Please try again."
     }
   },
   "validation": {
@@ -64,7 +73,31 @@
     "title": "E-commerce Home page"
   },
   "dashboard": {
-    "title": "Dashboard Page"
+    "loading": "Loading dashboard...",
+    "error": "Failed to load dashboard data.",
+    "noData": "No dashboard data available.",
+
+    "adminOverview": "Admin Overview",
+    "commerceHealth": "Commerce Health",
+    "commerceHealthDescription": "Monitor your store's performance and key statistics.",
+
+    "totalOrders": "Total Orders",
+    "totalOrdersDescription": "All orders received",
+
+    "pendingOrders": "Pending Orders",
+    "pendingOrderDescription": "Orders waiting to be processed",
+
+    "totalRevenue": "Total Revenue",
+    "totalRevenueDescription": "Total gross revenue",
+
+    "thisMonth": "This Month",
+    "thisMonthDescription": "Monthly sales target",
+
+    "topProduct": "Top Product",
+    "topProductDescription": "{{count}} sold",
+
+    "totalUsers": "Users",
+    "totalUsersDescription": "Total registered customers"
   },
   "products": {
     "title": "Products Page"

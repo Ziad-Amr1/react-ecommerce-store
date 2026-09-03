@@ -20,9 +20,9 @@ api.interceptors.response.use(
     if (error.response?.status === 401) {
       // Notify the AuthProvider so it clears the session; the
       // ProtectedRoute then navigates to /login via React Router.
-      window.dispatchEvent(new Event("auth:unauthorized"));
+      window.dispatchEvent(new Event("auth:unauthorized")); // بيبلغ ال authProvider بالمشكله
     }
-    return Promise.reject(error);
+    return Promise.reject(error); //pass error to catch.
   },
 );
 

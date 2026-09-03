@@ -1,0 +1,126 @@
+{
+  "common": {
+    "loading": "جاري التحميل..."
+  },
+
+  "brand": {
+    "logoAlt": "شعار متجر أوفرسي",
+    "name": "متجر أوفرسي"
+  },
+
+  "navigation": {
+    "menu": {
+      "open": "فتح قائمة التنقل",
+      "close": "إغلاق قائمة التنقل"
+    },
+    "brandEyebrow": "التجارة الإلكترونية",
+    "adminPanel": "لوحة الإدارة",
+    "dashboardTitle": "لوحة تحكم أوفرسي",
+    "dashboardSubtitle": "لوحة إدارة التجارة الإلكترونية",
+    "dashboard": "لوحة التحكم",
+    "products": "المنتجات",
+    "orders": "الطلبات",
+    "users": "المستخدمون",
+    "carts": "عربات التسوق",
+    "notifications": "الإشعارات",
+    "toggleTheme": "تبديل المظهر",
+    "roleAdmin": "مسؤول",
+    "apiConnected": "واجهة API متصلة",
+    "apiLabel": "واجهة برمجة تطبيقات المتجر"
+  },
+
+  "auth": {
+    "login": {
+      "heroTitle": "أدر متجرك باحترافية",
+      "heroSubtitle": "تحكم في المنتجات والطلبات والمستخدمين وعربات التسوق والتحليلات من خلال لوحة تحكم حديثة.",
+      "title": "مرحبًا بعودتك",
+      "subtitle": "سجل الدخول إلى لوحة تحكم الإدارة",
+      "emailLabel": "عنوان البريد الإلكتروني",
+      "emailPlaceholder": "admin@gmail.com",
+      "passwordLabel": "كلمة المرور",
+      "passwordPlaceholder": "••••••••",
+      "submit": "تسجيل الدخول",
+      "submitting": "جاري تسجيل الدخول..."
+    },
+    
+    "forgetPassword": {
+      "title": "هل نسيت كلمة المرور؟",
+      "subtitle": "أدخل بريدك الإلكتروني وسنرسل لك رمز التحقق.",
+      "emailLabel": "البريد الإلكتروني",
+      "emailPlaceholder": "admin@gmail.com",
+      "submit": "إرسال رمز التحقق",
+      "submitting": "جاري إرسال رمز التحقق..."
+    },
+
+    "benefits": {
+      "products": "إدارة المنتجات",
+      "orders": "متابعة الطلبات",
+      "customers": "تحليلات العملاء"
+    },
+
+    "logout": {
+      "label": "تسجيل الخروج",
+      "loading": "جاري تسجيل الخروج...",
+      "loadingLabel": "جاري تسجيل الخروج"
+    },
+
+    "errors": {
+      "invalidCredentials": "البريد الإلكتروني أو كلمة المرور غير صحيحة",
+      "logoutFailed": "فشل تسجيل الخروج. يرجى المحاولة مرة أخرى."
+    }
+  },
+
+  "validation": {
+    "emailRequired": "البريد الإلكتروني مطلوب",
+    "emailInvalid": "يرجى إدخال عنوان بريد إلكتروني صحيح",
+    "passwordRequired": "كلمة المرور مطلوبة",
+    "passwordMin": "يجب أن تتكون كلمة المرور من {{count}} أحرف على الأقل"
+  },
+
+  "home": {
+    "title": "الصفحة الرئيسية للمتجر الإلكتروني"
+  },
+
+  "dashboard": {
+    "loading": "جاري تحميل لوحة التحكم...",
+    "error": "فشل تحميل بيانات لوحة التحكم.",
+    "noData": "لا توجد بيانات متاحة للوحة التحكم.",
+
+    "adminOverview": "نظرة عامة على لوحة التحكم",
+    "commerceHealth": "أداء المتجر",
+    "commerceHealthDescription": "تابع أداء متجرك والإحصائيات الرئيسية.",
+
+    "totalOrders": "إجمالي الطلبات",
+    "totalOrdersDescription": "جميع الطلبات التي تم إجراؤها في متجرك",
+
+    "pendingOrders": "الطلبات المعلقة",
+    "pendingOrderDescription": "الطلبات التي تنتظر المعالجة",
+
+    "totalRevenue": "إجمالي الإيرادات",
+    "totalRevenueDescription": "إجمالي الإيرادات الناتجة عن الطلبات",
+
+    "thisMonth": "هذا الشهر",
+    "thisMonthDescription": "الإيرادات الناتجة هذا الشهر",
+
+    "topProduct": "المنتج الأكثر مبيعًا",
+    "topProductDescription": "تم بيع {{count}}",
+
+    "totalUsers": "إجمالي المستخدمين",
+    "totalUsersDescription": "إجمالي العملاء المسجلين"
+  },
+  "products": {
+    "title": "صفحة المنتجات"
+  },
+
+  "orders": {
+    "title": "صفحة الطلبات"
+  },
+
+  "users": {
+    "title": "صفحة المستخدمين"
+  },
+
+  "carts": {
+    "title": "صفحة عربات التسوق"
+  }
+}

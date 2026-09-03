@@ -54,7 +54,9 @@ export default function AdminLayout() {
         />
 
         <main
-          className={`min-w-0 flex-1 ${isSidebarCollapsed ? "lg:pl-20" : "lg:pl-72"}`}
+          className={`min-w-0 flex-1 transition-[padding] duration-300 ease-out ${
+            isSidebarCollapsed ? "lg:pl-20" : "lg:pl-72"
+          }`}
         >
           <AdminHeader
             onMenuClick={showSidebar}

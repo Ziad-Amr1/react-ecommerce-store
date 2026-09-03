@@ -286,7 +286,98 @@
    ====================================================== */
 
 [data-theme="dark"] {
-    /* in future, add dark semantic values here */
+    /* ==================================================
+     BACKGROUND / SURFACE
+     ================================================== */
+
+    --color-background: #0F1416;
+    /* Main application background */
+
+    --color-surface: #172126;
+    /* Cards, navigation, panels */
+
+    --color-surface-secondary: #202C31;
+    /* Secondary surfaces / alternating panels */
+
+    --color-surface-muted: #243138;
+    /* Subtle branded / muted sections */
+
+    --color-overlay: rgb(0 0 0 / 65%);
+
+
+    /* ==================================================
+     BRAND COLORS
+     ================================================== */
+
+    --color-primary: #E0FBFC;
+    /* Primary actions in dark mode */
+
+    --color-secondary: #9DB4C0;
+    /* Secondary actions */
+
+    --color-accent: #C2DFE3;
+    /* Highlight / selected state */
+
+    --color-supporting: #49616A;
+    /* Borders / dividers / subtle UI */
+
+    --color-supporting-decorative: #7F9AA6;
+    /* Decorative / subtle icons */
+
+
+    /* ==================================================
+     TEXT
+     ================================================== */
+
+    --color-text-primary: #F5F7F8;
+    --color-text-secondary: #B9C5CA;
+    --color-text-muted: #9CAAB0;
+    --color-text-disabled: #6F7C82;
+
+
+    /* ==================================================
+     INTERACTIVE
+     ================================================== */
+
+    --color-primary-hover: #C2DFE3;
+    --color-primary-active: #E0FBFC;
+
+    --color-on-primary: #0F1416;
+    --color-on-secondary: #0F1416;
+
+    --color-link: #8DB4D6;
+    --color-link-hover: #B5D4EF;
+
+    --color-focus-ring: #60A5FA;
+
+
+    /* ==================================================
+     FEEDBACK / STATUS
+     ================================================== */
+
+    --color-success: #6FBF8F;
+    --color-on-success: #0F1416;
+    --color-success-bg: #163325;
+
+    --color-warning: #D6A64E;
+    --color-on-warning: #0F1416;
+    --color-warning-bg: #33280F;
+
+    --color-error: #E07A63;
+    --color-on-error: #0F1416;
+    --color-error-bg: #3A1D17;
+
+    --color-info: #8DB4D6;
+    --color-on-info: #0F1416;
+    --color-info-bg: #182B39;
+
+
+    /* ==================================================
+     BORDER
+     ================================================== */
+
+    --color-border: #33444B;
+    --color-border-strong: #49616A;
 }
 
 

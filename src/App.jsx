@@ -8,7 +8,10 @@ import Orders from "./pages/admin/Orders";
 import Users from "./pages/admin/Users";
 import Carts from "./pages/admin/Carts";
 import Login from "./pages/auth/Login.jsx";
+import ForgetPassword from "./pages/auth/ForgetPassword.jsx";
+import VerifyOtp from "./pages/auth/VerifyOtp.jsx";
 import ProtectedRoute from "./ProtectedRoute.jsx";
+import { DashboardProvider } from "./features/admin/dashboard/DashboardProvider";
 
 function App() {
   return (
@@ -17,10 +20,19 @@ function App() {
         <Route path="/" element={<Home />} />
         <Route path="/design-system" element={<DesignSystem />} />
         <Route path="/login" element={<Login />} />
+        <Route path="/forgot-password" element={<ForgetPassword />} />
+        <Route path="/forgot-password/verify-otp" element={<VerifyOtp />} />
         {/* Start of Protected Admin Routes  */}
         <Route path="/admin/*" element={<ProtectedRoute />}>
           <Route element={<AdminLayout />}>
-            <Route index element={<Dashboard />} />
+            <Route
+              index
+              element={
+                <DashboardProvider>
+                  <Dashboard />
+                </DashboardProvider>
+              }
+            />
             <Route path="products" element={<Products />} />
             <Route path="orders" element={<Orders />} />
             <Route path="users" element={<Users />} />

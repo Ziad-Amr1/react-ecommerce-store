@@ -1,50 +1,38 @@
 import { useState } from "react";
-import { useNavigate, Link } from "react-router";
+import { useLocation, useNavigate } from "react-router";
 import { useTranslation } from "react-i18next";
 
-import {
-  Lock,
-  Mail,
-  Check,
-  Shield,
-  Loader2,
-} from "lucide-react";
+import { KeyRound, Check, Shield, Loader2, ArrowLeft } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import useAuth from "@/hooks/useAuth";
+import { verifyForgotPasswordOTP } from "@/features/auth/auth.service";
 
-export default function Login() {
+export default function VerifyOtp() {
+  const location = useLocation();
   const navigate = useNavigate();
   const { t } = useTranslation();
 
-  const { login, isLoading } = useAuth();
+  const email = location.state?.email || "";
 
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-
+  const [otp, setOtp] = useState("");
+  const [newPassword, setNewPassword] = useState("");
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const [errors, setErrors] = useState({});
-
   const [apiError, setApiError] = useState("");
+  const [success, setSuccess] = useState(false);
 
   const validateForm = () => {
     const newErrors = {};
 
-    // Email validation
-    if (!email.trim()) {
-      newErrors.email = t("validation.emailRequired");
-    } else if (
-      !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)
-    ) {
-      newErrors.email = t("validation.emailInvalid");
+    if (!/^\d{6}$/.test(otp)) {
+      newErrors.otp = t("validation.otpRequired");
     }
 
-    // Password validation
-    if (!password) {
-      newErrors.password = t("validation.passwordRequired");
-    } else if (password.length < 6) {
-      newErrors.password =
-        t("validation.passwordMin", { count: 6 });
+    if (!newPassword) {
+      newErrors.newPassword = t("validation.passwordRequired");
+    } else if (newPassword.length < 6) {
+      newErrors.newPassword = t("validation.passwordMin", { count: 6 });
     }
 
     setErrors(newErrors);
@@ -69,34 +57,64 @@ export default function Login() {
     }
 
     try {
-      await login(email, password);
+      setIsSubmitting(true);
 
-      // Login successful
-      navigate("/admin");
+      await verifyForgotPasswordOTP(email, otp, newPassword);
+
+      setSuccess(true);
     } catch (error) {
-      console.error("Login error:", error);
-
       const message =
         error?.response?.data?.message ||
         error?.response?.data?.error ||
-        t("auth.errors.invalidCredentials");
+        t("auth.verifyOtp.failed");
 
       setApiError(message);
+    } finally {
+      setIsSubmitting(false);
     }
   };
 
-  return (
-    <main className="flex min-h-screen items-center justify-center bg-[var(--color-background)] p-4">
-
-      <div className="flex w-full max-w-6xl overflow-hidden rounded-[var(--radius-2xl)] bg-[var(--color-surface)] shadow-[var(--shadow-xl)] border border-[var(--color-border)]">
-
-        {/* LEFT SIDE */}
-        <div className="hidden w-1/2 flex-col justify-between bg-[var(--color-primary)] p-12 text-[var(--color-on-primary)] lg:flex">
+  if (success) {
+    return (
+      <main className="flex min-h-screen items-center justify-center bg-[var(--color-background)] p-4">
+        <div className="w-full max-w-md space-y-6 rounded-[var(--radius-2xl)] bg-[var(--color-surface)] p-8 text-center shadow-[var(--shadow-xl)] border border-[var(--color-border)]">
+          <div
+            role="status"
+            className="mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-[var(--color-success)]/15 text-[var(--color-success)]"
+          >
+            <Check className="h-8 w-8" aria-hidden="true" />
+          </div>
 
           <div>
+            <h2 className="font-display text-2xl font-bold text-[var(--color-text-primary)]">
+              {t("auth.verifyOtp.successTitle")}
+            </h2>
 
+            <p className="mt-2 text-[var(--color-text-secondary)]">
+              {t("auth.verifyOtp.successMessage")}
+            </p>
+          </div>
+
+          <Button
+            type="button"
+            size="lg"
+            onClick={() => navigate("/login")}
+            className="w-full rounded-[var(--radius-lg)] text-base font-semibold"
+          >
+            {t("auth.verifyOtp.goToLogin")}
+          </Button>
+        </div>
+      </main>
+    );
+  }
+
+  return (
+    <main className="flex min-h-screen items-center justify-center bg-[var(--color-background)] p-4">
+      <div className="flex w-full max-w-6xl overflow-hidden rounded-[var(--radius-2xl)] bg-[var(--color-surface)] shadow-[var(--shadow-xl)] border border-[var(--color-border)]">
+        {/* LEFT SIDE */}
+        <div className="hidden w-1/2 flex-col justify-between bg-[var(--color-primary)] p-12 text-[var(--color-on-primary)] lg:flex">
+          <div>
             <div className="mb-10 flex items-center gap-3">
-
               <Shield
                 className="h-14 w-14 rounded-[var(--radius-lg)] bg-[var(--color-surface)]/10 p-2 text-[var(--color-on-primary)]"
                 aria-hidden="true"
@@ -105,7 +123,6 @@ export default function Login() {
               <span className="text-4xl font-display font-bold">
                 {t("brand.name")}
               </span>
-
             </div>
 
             <h1 className="font-display text-4xl font-bold leading-tight">
@@ -115,53 +132,13 @@ export default function Login() {
             <p className="mt-4 text-lg text-[var(--color-on-primary)]/80">
               {t("auth.login.heroSubtitle")}
             </p>
-
           </div>
-
-          <ul className="space-y-4">
-
-            <li className="flex items-center gap-3 rounded-[var(--radius-xl)] bg-[var(--color-surface)]/10 p-4">
-
-              <Check className="h-6 w-6 shrink-0 text-[var(--color-success)]" aria-hidden="true" />
-
-              <span className="text-base font-medium">
-                {t("auth.benefits.products")}
-              </span>
-
-            </li>
-
-            <li className="flex items-center gap-3 rounded-[var(--radius-xl)] bg-[var(--color-surface)]/10 p-4">
-
-              <Check className="h-6 w-6 shrink-0 text-[var(--color-success)]" aria-hidden="true" />
-
-              <span className="text-base font-medium">
-                {t("auth.benefits.orders")}
-              </span>
-
-            </li>
-
-            <li className="flex items-center gap-3 rounded-[var(--radius-xl)] bg-[var(--color-surface)]/10 p-4">
-
-              <Check className="h-6 w-6 shrink-0 text-[var(--color-success)]" aria-hidden="true" />
-
-              <span className="text-base font-medium">
-                {t("auth.benefits.customers")}
-              </span>
-
-            </li>
-
-          </ul>
-
         </div>
 
         {/* RIGHT SIDE */}
         <div className="flex w-full flex-col justify-center bg-[var(--color-surface)] p-8 lg:w-1/2 lg:p-14">
-
           <div className="mx-auto w-full max-w-md space-y-6">
-
-            {/* Logo */}
             <div className="text-center">
-
               <img
                 src="/favicon.ico"
                 alt={t("brand.logoAlt")}
@@ -169,16 +146,14 @@ export default function Login() {
               />
 
               <h2 className="font-display text-3xl font-bold text-[var(--color-text-primary)]">
-                {t("auth.login.title")}
+                {t("auth.verifyOtp.title")}
               </h2>
 
               <p className="text-lg text-[var(--color-text-secondary)]">
-                {t("auth.login.subtitle")}
+                {t("auth.verifyOtp.subtitle", { email })}
               </p>
-
             </div>
 
-            {/* API ERROR */}
             {apiError && (
               <div
                 role="alert"
@@ -188,135 +163,133 @@ export default function Login() {
               </div>
             )}
 
-            {/* FORM */}
             <form
               onSubmit={handleSubmit}
               noValidate
-              aria-busy={isLoading}
+              aria-busy={isSubmitting}
               className="space-y-4"
             >
-
-              {/* EMAIL */}
+              {/* OTP */}
               <div>
-
                 <label
-                  htmlFor="login-email"
+                  htmlFor="verify-otp-code"
                   className="mb-1 block text-sm font-bold text-[var(--color-text-primary)]"
                 >
-                  {t("auth.login.emailLabel")}
+                  {t("auth.verifyOtp.otpLabel")}
                 </label>
 
                 <div className="relative">
-
                   <Input
-                    id="login-email"
-                    name="email"
-                    type="email"
-                    autoComplete="email"
-                    value={email}
+                    id="verify-otp-code"
+                    name="otp"
+                    type="text"
+                    inputMode="numeric"
+                    autoComplete="one-time-code"
+                    maxLength={6}
+                    value={otp}
                     onChange={(event) => {
-                      setEmail(event.target.value);
-                      clearFieldError("email");
+                      setOtp(event.target.value);
+                      clearFieldError("otp");
                     }}
-                    placeholder={t("auth.login.emailPlaceholder")}
-                    aria-invalid={Boolean(errors.email)}
-                    aria-describedby={errors.email ? "login-email-error" : undefined}
+                    placeholder={t("auth.verifyOtp.otpPlaceholder")}
+                    aria-invalid={Boolean(errors.otp)}
+                    aria-describedby={
+                      errors.otp ? "verify-otp-code-error" : undefined
+                    }
                     className="bg-[var(--color-surface-secondary)] border-[var(--color-border)] rounded-[var(--radius-lg)] py-6 pl-11 text-[var(--color-text-primary)] placeholder:text-[var(--color-text-secondary)] focus-visible:ring-[var(--color-focus-ring)]"
                   />
 
-                  <Mail
+                  <KeyRound
                     className="pointer-events-none absolute left-4 top-1/2 -translate-y-1/2 h-5 w-5 text-[var(--color-text-secondary)]"
                     aria-hidden="true"
                   />
-
                 </div>
 
-                {errors.email && (
-                  <p id="login-email-error" className="mt-1 text-sm text-[var(--color-error)]">
-                    {errors.email}
+                {errors.otp && (
+                  <p
+                    id="verify-otp-code-error"
+                    className="mt-1 text-sm text-[var(--color-error)]"
+                  >
+                    {errors.otp}
                   </p>
                 )}
-
               </div>
 
-              {/* PASSWORD */}
+              {/* NEW PASSWORD */}
               <div>
-
                 <label
-                  htmlFor="login-password"
+                  htmlFor="verify-otp-new-password"
                   className="mb-1 block text-sm font-bold text-[var(--color-text-primary)]"
                 >
-                  {t("auth.login.passwordLabel")}
+                  {t("auth.verifyOtp.newPasswordLabel")}
                 </label>
 
                 <div className="relative">
-
                   <Input
-                    id="login-password"
-                    name="password"
+                    id="verify-otp-new-password"
+                    name="newPassword"
                     type="password"
-                    autoComplete="current-password"
-                    value={password}
+                    autoComplete="new-password"
+                    value={newPassword}
                     onChange={(event) => {
-                      setPassword(event.target.value);
-                      clearFieldError("password");
+                      setNewPassword(event.target.value);
+                      clearFieldError("newPassword");
                     }}
-                    placeholder={t("auth.login.passwordPlaceholder")}
-                    aria-invalid={Boolean(errors.password)}
-                    aria-describedby={errors.password ? "login-password-error" : undefined}
+                    placeholder={t("auth.verifyOtp.newPasswordPlaceholder")}
+                    aria-invalid={Boolean(errors.newPassword)}
+                    aria-describedby={
+                      errors.newPassword
+                        ? "verify-otp-new-password-error"
+                        : undefined
+                    }
                     className="bg-[var(--color-surface-secondary)] border-[var(--color-border)] rounded-[var(--radius-lg)] py-6 pl-11 text-[var(--color-text-primary)] placeholder:text-[var(--color-text-secondary)] focus-visible:ring-[var(--color-focus-ring)]"
                   />
 
-                  <Lock
+                  <KeyRound
                     className="pointer-events-none absolute left-4 top-1/2 -translate-y-1/2 h-5 w-5 text-[var(--color-text-secondary)]"
                     aria-hidden="true"
                   />
-
                 </div>
 
-                {errors.password && (
-                  <p id="login-password-error" className="mt-1 text-sm text-[var(--color-error)]">
-                    {errors.password}
+                {errors.newPassword && (
+                  <p
+                    id="verify-otp-new-password-error"
+                    className="mt-1 text-sm text-[var(--color-error)]"
+                  >
+                    {errors.newPassword}
                   </p>
                 )}
-
               </div>
 
-              {/* FORGOT PASSWORD LINK */}
-              <div className="flex justify-end">
-                <Link
-                  to="/forgot-password"
-                  className="text-sm font-medium text-[var(--color-link)] hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-focus-ring)] rounded"
-                >
-                  {t("auth.login.forgotPassword")}
-                </Link>
-              </div>
-
-              {/* LOGIN BUTTON */}
               <Button
                 type="submit"
                 size="lg"
-                disabled={isLoading}
+                disabled={isSubmitting}
                 className="w-full rounded-[var(--radius-lg)] text-base font-semibold"
               >
-                {isLoading ? (
+                {isSubmitting ? (
                   <>
                     <Loader2 className="animate-spin" aria-hidden="true" />
-                    {t("auth.login.submitting")}
+                    {t("auth.verifyOtp.submitting")}
                   </>
                 ) : (
-                  t("auth.login.submit")
+                  t("auth.verifyOtp.submit")
                 )}
               </Button>
-
             </form>
 
+            <Button
+              type="button"
+              variant="ghost"
+              onClick={() => navigate("/forgot-password")}
+              className="w-full text-sm gap-2"
+            >
+              <ArrowLeft size={16} aria-hidden="true" />
+              {t("auth.verifyOtp.backToForgot")}
+            </Button>
           </div>
-
         </div>
-
       </div>
-
     </main>
   );
 }

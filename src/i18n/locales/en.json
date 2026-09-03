@@ -37,7 +37,33 @@
       "passwordLabel": "Password",
       "passwordPlaceholder": "••••••••",
       "submit": "Sign In",
-      "submitting": "Signing in..."
+      "submitting": "Signing in...",
+      "forgotPassword": "Forgot password?"
+    },
+    "forgetPassword": {
+      "title": "Forgot Password?",
+      "subtitle": "Enter your email address and we'll send you a verification code.",
+      "emailLabel": "Email Address",
+      "emailPlaceholder": "admin@gmail.com",
+      "submit": "Send OTP",
+      "submitting": "Sending OTP...",
+      "failed": "Send OTP failed. Please try again.",
+      "backToLogin": "Back to Sign In"
+    },
+    "verifyOtp": {
+      "title": "Verify Code",
+      "subtitle": "Enter the 6-digit code sent to {{email}} and set a new password.",
+      "otpLabel": "Verification Code",
+      "otpPlaceholder": "123456",
+      "newPasswordLabel": "New Password",
+      "newPasswordPlaceholder": "••••••••",
+      "submit": "Reset Password",
+      "submitting": "Resetting password...",
+      "failed": "Reset failed. Please try again.",
+      "backToForgot": "Back to Forgot Password",
+      "successTitle": "Password Updated",
+      "successMessage": "Your password has been reset successfully. You can now sign in with your new password.",
+      "goToLogin": "Go to Sign In"
     },
     "benefits": {
       "products": "Product Management",
@@ -58,13 +84,40 @@
     "emailRequired": "Email is required",
     "emailInvalid": "Please enter a valid email address",
     "passwordRequired": "Password is required",
-    "passwordMin": "Password must be at least {{count}} characters"
+    "passwordMin": "Password must be at least {{count}} characters",
+    "otpRequired": "Please enter the 6-digit code"
   },
   "home": {
     "title": "E-commerce Home page"
   },
   "dashboard": {
-    "title": "Dashboard Page"
+    "title": "Dashboard Page",
+    "loading": "Loading dashboard...",
+    "loadError": "Failed to load dashboard data.",
+    "noData": "No dashboard data available.",
+    "noProducts": "No products",
+
+    "adminOverview": "Admin Overview",
+    "commerceHealth": "Commerce Health",
+    "commerceHealthDescription": "Monitor your store's performance and key statistics.",
+
+    "totalOrders": "Total Orders",
+    "totalOrdersDescription": "All orders received",
+
+    "pendingOrders": "Pending Orders",
+    "pendingOrderDescription": "Orders waiting to be processed",
+
+    "totalRevenue": "Total Revenue",
+    "totalRevenueDescription": "Total gross revenue",
+
+    "thisMonth": "This Month",
+    "thisMonthDescription": "Monthly sales target",
+
+    "topProduct": "Top Product",
+    "topProductDescription": "{{count}} sold",
+
+    "totalUsers": "Users",
+    "totalUsersDescription": "Total registered customers"
   },
   "products": {
     "title": "Products Page"

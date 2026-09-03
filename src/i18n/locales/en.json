@@ -1,6 +1,7 @@
 {
   "common": {
-    "loading": "Loading..."
+    "loading": "Loading...",
+    "checkingSession": "Checking session..."
   },
   "brand": {
     "logoAlt": "Oversea Store Logo",

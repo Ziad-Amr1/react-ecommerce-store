@@ -22,7 +22,9 @@ import {
   TriangleAlert,
   Inbox,
 } from "lucide-react";
-
+import OrderStatus from "@/components/OrderStatus";
+import TopProducts from "@/components/TopProducts";
+import RecentOrders from "@/components/RecentOrders";
 const CURRENCY = "USD";
 
 export default function Dashboard() {
@@ -230,6 +232,16 @@ export default function Dashboard() {
           );
         })}
       </div>
+            <div className="grid grid-cols-1 gap-6 xl:grid-cols-2">
+        <OrderStatus
+          ordersByStatus={dashboard.ordersByStatus}
+          totalOrders={dashboard.orders.total}
+        />
+
+        <TopProducts products={dashboard.topProducts} />
+      </div>
+
+      <RecentOrders orders={dashboard.recentOrders} />
     </div>
   );
 }

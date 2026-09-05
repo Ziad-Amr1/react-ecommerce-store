@@ -80,13 +80,13 @@ export default function HeaderActionButtons() {
             <div className="flex flex-col items-center justify-center gap-2 px-4 py-10 text-center">
               <BellDot
                 size={28}
-                className="text-[var(--color-supporting-decorative)]"
+                className="text-(--color-supporting-decorative)"
                 aria-hidden="true"
               />
-              <p className="text-sm font-medium text-[var(--color-text-primary)]">
+              <p className="text-sm font-medium text-(--color-text-primary)">
                 {t("navigation.notificationsPanel.emptyTitle")}
               </p>
-              <p className="text-xs text-[var(--color-text-secondary)]">
+              <p className="text-xs text-(--color-text-secondary)">
                 {t("navigation.notificationsPanel.emptyMessage")}
               </p>
             </div>
@@ -113,10 +113,10 @@ export default function HeaderActionButtons() {
         <DropdownMenuTrigger asChild>
           <button
             type="button"
-            className="hidden md:flex items-center gap-2 px-3 py-2 rounded-full bg-[var(--color-link)] text-[var(--color-on-link)] text-sm select-none cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-focus-ring)] focus-visible:ring-offset-2"
+            className="hidden md:flex items-center gap-2 px-3 py-2 rounded-full bg-(--color-link) text-(--color-on-link) text-sm select-none cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-(--color-focus-ring) focus-visible:ring-offset-2"
             aria-label={t("navigation.accountDropdown")}
           >
-            <span className="size-6 rounded-full bg-[var(--color-on-link)]/20 flex items-center justify-center text-xs font-bold">
+            <span className="size-6 rounded-full bg-(--color-on-link)/20 flex items-center justify-center text-xs font-bold">
               A
             </span>
             <span>{t("navigation.roleAdmin")}</span>
@@ -157,7 +157,7 @@ export default function HeaderActionButtons() {
       </Button>
 
       {logoutError && (
-        <p role="alert" className="text-xs text-[var(--color-error)]">
+        <p role="alert" className="text-xs text-(--color-error)">
           {logoutError}
         </p>
       )}

@@ -76,21 +76,21 @@ export default function VerifyOtp() {
 
   if (success) {
     return (
-      <main className="flex min-h-screen items-center justify-center bg-[var(--color-background)] p-4">
-        <div className="w-full max-w-md space-y-6 rounded-[var(--radius-2xl)] bg-[var(--color-surface)] p-8 text-center shadow-[var(--shadow-xl)] border border-[var(--color-border)]">
+      <main className="flex min-h-screen items-center justify-center bg-(--color-background) p-4">
+        <div className="w-full max-w-md space-y-6 rounded-(--radius-2xl) bg-(--color-surface) p-8 text-center shadow-(--shadow-xl) border border-(--color-border)">
           <div
             role="status"
-            className="mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-[var(--color-success)]/15 text-[var(--color-success)]"
+            className="mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-(--color-success)/15 text-(--color-success)"
           >
             <Check className="h-8 w-8" aria-hidden="true" />
           </div>
 
           <div>
-            <h2 className="font-display text-2xl font-bold text-[var(--color-text-primary)]">
+            <h2 className="font-display text-2xl font-bold text-(--color-text-primary)">
               {t("auth.verifyOtp.successTitle")}
             </h2>
 
-            <p className="mt-2 text-[var(--color-text-secondary)]">
+            <p className="mt-2 text-(--color-text-secondary)">
               {t("auth.verifyOtp.successMessage")}
             </p>
           </div>
@@ -99,7 +99,7 @@ export default function VerifyOtp() {
             type="button"
             size="lg"
             onClick={() => navigate("/login")}
-            className="w-full rounded-[var(--radius-lg)] text-base font-semibold"
+            className="w-full rounded-(--radius-lg) text-base font-semibold"
           >
             {t("auth.verifyOtp.goToLogin")}
           </Button>
@@ -109,14 +109,14 @@ export default function VerifyOtp() {
   }
 
   return (
-    <main className="flex min-h-screen items-center justify-center bg-[var(--color-background)] p-4">
-      <div className="flex w-full max-w-6xl overflow-hidden rounded-[var(--radius-2xl)] bg-[var(--color-surface)] shadow-[var(--shadow-xl)] border border-[var(--color-border)]">
+    <main className="flex min-h-screen items-center justify-center bg-(--color-background) p-4">
+      <div className="flex w-full max-w-6xl overflow-hidden rounded-(--radius-2xl) bg-(--color-surface) shadow-(--shadow-xl) border border-(--color-border)">
         {/* LEFT SIDE */}
-        <div className="hidden w-1/2 flex-col justify-between bg-[var(--color-primary)] p-12 text-[var(--color-on-primary)] lg:flex">
+        <div className="hidden w-1/2 flex-col justify-between bg-(--color-primary) p-12 text-(--color-on-primary) lg:flex">
           <div>
             <div className="mb-10 flex items-center gap-3">
               <Shield
-                className="h-14 w-14 rounded-[var(--radius-lg)] bg-[var(--color-surface)]/10 p-2 text-[var(--color-on-primary)]"
+                className="h-14 w-14 rounded-(--radius-lg) bg-(--color-surface)/10 p-2 text-(--color-on-primary)"
                 aria-hidden="true"
               />
 
@@ -129,14 +129,14 @@ export default function VerifyOtp() {
               {t("auth.login.heroTitle")}
             </h1>
 
-            <p className="mt-4 text-lg text-[var(--color-on-primary)]/80">
+            <p className="mt-4 text-lg text-(--color-on-primary)/80">
               {t("auth.login.heroSubtitle")}
             </p>
           </div>
         </div>
 
         {/* RIGHT SIDE */}
-        <div className="flex w-full flex-col justify-center bg-[var(--color-surface)] p-8 lg:w-1/2 lg:p-14">
+        <div className="flex w-full flex-col justify-center bg-(--color-surface) p-8 lg:w-1/2 lg:p-14">
           <div className="mx-auto w-full max-w-md space-y-6">
             <div className="text-center">
               <img
@@ -145,11 +145,11 @@ export default function VerifyOtp() {
                 className="mx-auto h-24 w-24 object-contain"
               />
 
-              <h2 className="font-display text-3xl font-bold text-[var(--color-text-primary)]">
+              <h2 className="font-display text-3xl font-bold text-(--color-text-primary)">
                 {t("auth.verifyOtp.title")}
               </h2>
 
-              <p className="text-lg text-[var(--color-text-secondary)]">
+              <p className="text-lg text-(--color-text-secondary)">
                 {t("auth.verifyOtp.subtitle", { email })}
               </p>
             </div>
@@ -157,7 +157,7 @@ export default function VerifyOtp() {
             {apiError && (
               <div
                 role="alert"
-                className="rounded-[var(--radius-lg)] border border-[var(--color-error)]/25 bg-[var(--color-error-bg)] p-3 text-center text-sm font-medium text-[var(--color-error)]"
+                className="rounded-(--radius-lg) border border-(--color-error)/25 bg-(--color-error-bg) p-3 text-center text-sm font-medium text-(--color-error)"
               >
                 {apiError}
               </div>
@@ -173,7 +173,7 @@ export default function VerifyOtp() {
               <div>
                 <label
                   htmlFor="verify-otp-code"
-                  className="mb-1 block text-sm font-bold text-[var(--color-text-primary)]"
+                  className="mb-1 block text-sm font-bold text-(--color-text-primary)"
                 >
                   {t("auth.verifyOtp.otpLabel")}
                 </label>
@@ -196,11 +196,11 @@ export default function VerifyOtp() {
                     aria-describedby={
                       errors.otp ? "verify-otp-code-error" : undefined
                     }
-                    className="bg-[var(--color-surface-secondary)] border-[var(--color-border)] rounded-[var(--radius-lg)] py-6 pl-11 text-[var(--color-text-primary)] placeholder:text-[var(--color-text-secondary)] focus-visible:ring-[var(--color-focus-ring)]"
+                    className="bg-(--color-surface-secondary) border-(--color-border) rounded-(--radius-lg) py-6 pl-11 text-(--color-text-primary) placeholder:text-(--color-text-secondary) focus-visible:ring-(--color-focus-ring)"
                   />
 
                   <KeyRound
-                    className="pointer-events-none absolute left-4 top-1/2 -translate-y-1/2 h-5 w-5 text-[var(--color-text-secondary)]"
+                    className="pointer-events-none absolute left-4 top-1/2 -translate-y-1/2 h-5 w-5 text-(--color-text-secondary)"
                     aria-hidden="true"
                   />
                 </div>
@@ -208,7 +208,7 @@ export default function VerifyOtp() {
                 {errors.otp && (
                   <p
                     id="verify-otp-code-error"
-                    className="mt-1 text-sm text-[var(--color-error)]"
+                    className="mt-1 text-sm text-(--color-error)"
                   >
                     {errors.otp}
                   </p>
@@ -219,7 +219,7 @@ export default function VerifyOtp() {
               <div>
                 <label
                   htmlFor="verify-otp-new-password"
-                  className="mb-1 block text-sm font-bold text-[var(--color-text-primary)]"
+                  className="mb-1 block text-sm font-bold text-(--color-text-primary)"
                 >
                   {t("auth.verifyOtp.newPasswordLabel")}
                 </label>
@@ -242,11 +242,11 @@ export default function VerifyOtp() {
                         ? "verify-otp-new-password-error"
                         : undefined
                     }
-                    className="bg-[var(--color-surface-secondary)] border-[var(--color-border)] rounded-[var(--radius-lg)] py-6 pl-11 text-[var(--color-text-primary)] placeholder:text-[var(--color-text-secondary)] focus-visible:ring-[var(--color-focus-ring)]"
+                    className="bg-(--color-surface-secondary) border-(--color-border) rounded-(--radius-lg) py-6 pl-11 text-(--color-text-primary) placeholder:text-(--color-text-secondary) focus-visible:ring-(--color-focus-ring)"
                   />
 
                   <KeyRound
-                    className="pointer-events-none absolute left-4 top-1/2 -translate-y-1/2 h-5 w-5 text-[var(--color-text-secondary)]"
+                    className="pointer-events-none absolute left-4 top-1/2 -translate-y-1/2 h-5 w-5 text-(--color-text-secondary)"
                     aria-hidden="true"
                   />
                 </div>
@@ -254,7 +254,7 @@ export default function VerifyOtp() {
                 {errors.newPassword && (
                   <p
                     id="verify-otp-new-password-error"
-                    className="mt-1 text-sm text-[var(--color-error)]"
+                    className="mt-1 text-sm text-(--color-error)"
                   >
                     {errors.newPassword}
                   </p>
@@ -265,7 +265,7 @@ export default function VerifyOtp() {
                 type="submit"
                 size="lg"
                 disabled={isSubmitting}
-                className="w-full rounded-[var(--radius-lg)] text-base font-semibold"
+                className="w-full rounded-(--radius-lg) text-base font-semibold"
               >
                 {isSubmitting ? (
                   <>

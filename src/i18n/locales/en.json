@@ -150,7 +150,11 @@
     "phoneInvalid": "Please enter a valid phone number"
   },
   "home": {
-    "title": "E-commerce Home page"
+    "title": "E-commerce Home page",
+    "description": "Welcome to the E-commerce platform. Explore our products and manage your orders.",
+    "login": "Login",
+    "designSystem": "Design System",
+    "comingSoon": "This feature isn't implemented yet. It is planned for an upcoming release."
   },
   "dashboard": {
     "title": "Dashboard Page",

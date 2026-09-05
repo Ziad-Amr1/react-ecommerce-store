@@ -9,11 +9,6 @@ import {
   ChevronDown,
   LogOut,
   Loader2,
-  LayoutDashboard,
-  Package,
-  FileText,
-  Users,
-  ShoppingCart,
 } from "lucide-react";
 import {
   DropdownMenu,
@@ -25,14 +20,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import useAuth from "@/hooks/useAuth";
 import useTheme from "@/hooks/useTheme";
-
-const accountLinks = [
-  { labelKey: "navigation.dashboard", path: "/admin", icon: <LayoutDashboard size={16} /> },
-  { labelKey: "navigation.products", path: "/admin/products", icon: <Package size={16} /> },
-  { labelKey: "navigation.orders", path: "/admin/orders", icon: <FileText size={16} /> },
-  { labelKey: "navigation.users", path: "/admin/users", icon: <Users size={16} /> },
-  { labelKey: "navigation.carts", path: "/admin/carts", icon: <ShoppingCart size={16} /> },
-];
+import { adminNavigation } from "@/config/navigation";
 
 export default function HeaderActionButtons() {
   const { t } = useTranslation();
@@ -127,14 +115,18 @@ export default function HeaderActionButtons() {
         <DropdownMenuContent align="end" className="w-56">
           <DropdownMenuLabel>{t("navigation.account")}</DropdownMenuLabel>
           <DropdownMenuGroup>
-            {accountLinks.map((item) => (
-              <DropdownMenuItem key={item.path} asChild>
-                <Link to={item.path}>
-                  {item.icon}
-                  {t(item.labelKey)}
-                </Link>
-              </DropdownMenuItem>
-            ))}
+            {adminNavigation.map((item) => {
+              const Icon = item.icon;
+
+              return (
+                <DropdownMenuItem key={item.path} asChild>
+                  <Link to={item.path}>
+                    <Icon size={16} />
+                    {t(item.labelKey)}
+                  </Link>
+                </DropdownMenuItem>
+              );
+            })}
           </DropdownMenuGroup>
         </DropdownMenuContent>
       </DropdownMenu>

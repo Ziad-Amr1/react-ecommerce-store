@@ -1,11 +1,12 @@
 import { useState } from "react";
-import { useNavigate } from "react-router";
+import { useLocation, useNavigate } from "react-router";
 import { useTranslation } from "react-i18next";
 
 import { Mail, Loader2, ArrowLeft } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import BackLink from "@/components/ui/back-link";
 import ApiErrorBanner from "@/features/auth/components/ApiErrorBanner";
 import AuthBenefits from "@/features/auth/components/AuthBenefits";
 import AuthHero from "@/features/auth/components/AuthHero";
@@ -15,7 +16,10 @@ import { validateEmail } from "@/features/auth/utils/validation";
 
 export default function ForgetPassword() {
   const navigate = useNavigate();
+  const location = useLocation();
   const { t } = useTranslation();
+
+  const from = location.state?.from || "/";
 
   const [email, setEmail] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -57,7 +61,7 @@ export default function ForgetPassword() {
       await sendForgotPasswordOTP(email);
 
       navigate("/forgot-password/verify-otp", {
-        state: { email },
+        state: { email, from },
       });
     } catch (error) {
       setApiError(getApiErrorMessage(error, t("auth.forgetPassword.failed")));
@@ -83,6 +87,9 @@ export default function ForgetPassword() {
         {/* RIGHT SIDE */}
         <div className="flex w-full flex-col justify-center bg-(--color-surface) p-8 lg:w-1/2 lg:p-14">
           <div className="mx-auto w-full max-w-md space-y-6">
+            {/* BACK */}
+            <BackLink labelKey="auth.back.toPrevious" />
+
             {/* Logo */}
             <div className="text-center">
               <img
@@ -174,7 +181,7 @@ export default function ForgetPassword() {
             <Button
               type="button"
               variant="ghost"
-              onClick={() => navigate("/login")}
+              onClick={() => navigate("/login", { state: { from } })}
               className="w-full text-sm gap-2"
             >
               <ArrowLeft size={16} aria-hidden="true" />

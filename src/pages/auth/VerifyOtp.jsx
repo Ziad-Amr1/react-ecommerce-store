@@ -6,6 +6,7 @@ import { KeyRound, Loader2, ArrowLeft } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import PasswordInput from "@/components/ui/password-input";
 import ApiErrorBanner from "@/features/auth/components/ApiErrorBanner";
 import AuthHero from "@/features/auth/components/AuthHero";
 import { OTP_FLOWS } from "@/features/auth/otpFlows";
@@ -49,22 +50,38 @@ function OtpField({
       </label>
 
       <div className="relative">
-        <Input
-          id={id}
-          name={name}
-          type={type}
-          autoComplete={autoComplete}
-          maxLength={maxLength}
-          inputMode={inputMode}
-          value={value}
-          onChange={onChange}
-          placeholder={placeholder}
-          aria-invalid={Boolean(error)}
-          aria-describedby={error ? `${id}-error` : undefined}
-          className={inputClass}
-        />
+        {type === "password" ? (
+          <PasswordInput
+            id={id}
+            name={name}
+            autoComplete={autoComplete}
+            value={value}
+            onChange={onChange}
+            placeholder={placeholder}
+            aria-invalid={Boolean(error)}
+            aria-describedby={error ? `${id}-error` : undefined}
+            className={inputClass}
+          />
+        ) : (
+          <>
+            <Input
+              id={id}
+              name={name}
+              type={type}
+              autoComplete={autoComplete}
+              maxLength={maxLength}
+              inputMode={inputMode}
+              value={value}
+              onChange={onChange}
+              placeholder={placeholder}
+              aria-invalid={Boolean(error)}
+              aria-describedby={error ? `${id}-error` : undefined}
+              className={inputClass}
+            />
 
-        <KeyRound className={iconClass} aria-hidden="true" />
+            <KeyRound className={iconClass} aria-hidden="true" />
+          </>
+        )}
       </div>
 
       {error && (
@@ -84,6 +101,7 @@ export default function VerifyOtp() {
 
   const flowConfig = OTP_FLOWS[flow];
   const email = location.state?.email || "";
+  const from = location.state?.from || "/";
 
   const [otp, setOtp] = useState("");
   const [fieldValues, setFieldValues] = useState({});
@@ -93,7 +111,7 @@ export default function VerifyOtp() {
   const [success, setSuccess] = useState(false);
 
   if (!flowConfig) {
-    return <Navigate to="/login" replace />;
+    return <Navigate to="/login" state={{ from }} replace />;
   }
 
   const validateForm = () => {
@@ -175,7 +193,7 @@ export default function VerifyOtp() {
           <Button
             type="button"
             size="lg"
-            onClick={() => navigate("/login")}
+            onClick={() => navigate("/login", { state: { from } })}
             className={`w-full ${flowConfig.buttonRadius} text-base font-semibold`}
           >
             {t(flowConfig.success.goToLoginKey)}
@@ -290,7 +308,7 @@ export default function VerifyOtp() {
       <Button
         type="button"
         variant="ghost"
-        onClick={() => navigate(flowConfig.back.path)}
+        onClick={() => navigate(flowConfig.back.path, { state: { from } })}
         className={
           compact ? "w-full text-sm" : "w-full text-sm gap-2"
         }

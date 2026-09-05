@@ -26,6 +26,18 @@ export const validatePassword = (value, t) => {
   return "";
 };
 
+export const validateConfirmPassword = (password, value, t) => {
+  if (!value) {
+    return t("validation.confirmPasswordRequired");
+  }
+
+  if (value !== password) {
+    return t("validation.confirmPasswordMismatch");
+  }
+
+  return "";
+};
+
 export const validateOtp = (value, t) => {
   if (!OTP_REGEX.test(value)) {
     return t("validation.otpRequired");

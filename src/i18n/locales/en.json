@@ -42,9 +42,16 @@
     "apiLabel": "E-commerce API"
   },
   "auth": {
+    "password": {
+      "show": "Show password",
+      "hide": "Hide password"
+    },
+    "back": {
+      "toPrevious": "Back"
+    },
     "login": {
-      "heroTitle": "Manage Your Store Like a Pro",
-      "heroSubtitle": "Control products, orders, users, carts and analytics from a modern dashboard experience.",
+      "heroTitle": "A Better Shopping Experience Starts Here",
+      "heroSubtitle": "Shop, track your orders, and manage your account with ease.",
       "title": "Welcome Back",
       "subtitle": "Sign in to your admin dashboard",
       "emailLabel": "Email Address",
@@ -94,6 +101,8 @@
       "passwordLabel": "Password",
       "passwordPlaceholder": "••••••••",
       "passwordHint": "Must be at least 6 characters.",
+      "confirmPasswordLabel": "Confirm Password",
+      "confirmPasswordPlaceholder": "••••••••",
       "submit": "Create Account",
       "submitting": "Creating account...",
       "failed": "Registration failed. Please try again.",
@@ -114,9 +123,9 @@
       "goToLogin": "Go to Sign In"
     },
     "benefits": {
-      "products": "Product Management",
+      "products": "Easy Shopping",
       "orders": "Order Tracking",
-      "customers": "Customer Insights"
+      "customers": "Secure Account"
     },
     "logout": {
       "label": "Logout",
@@ -133,6 +142,8 @@
     "emailInvalid": "Please enter a valid email address",
     "passwordRequired": "Password is required",
     "passwordMin": "Password must be at least {{count}} characters",
+    "confirmPasswordRequired": "Please confirm your password",
+    "confirmPasswordMismatch": "Passwords do not match",
     "otpRequired": "Please enter the 6-digit code",
     "usernameRequired": "Username is required",
     "usernameMin": "Username must be at least {{count}} characters",

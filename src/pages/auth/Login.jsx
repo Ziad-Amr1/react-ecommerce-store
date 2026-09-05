@@ -26,7 +26,7 @@ export default function Login() {
   const navigate = useNavigate();
   const { t } = useTranslation();
 
-  const { login, isLoading } = useAuth();
+  const { login } = useAuth();
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -34,6 +34,8 @@ export default function Login() {
   const [errors, setErrors] = useState({});
 
   const [apiError, setApiError] = useState("");
+
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const validateForm = () => {
     const newErrors = {};
@@ -74,6 +76,8 @@ export default function Login() {
     }
 
     try {
+      setIsSubmitting(true);
+
       await login(email, password);
 
       // Login successful
@@ -87,6 +91,8 @@ export default function Login() {
         t("auth.errors.invalidCredentials");
 
       setApiError(message);
+    } finally {
+      setIsSubmitting(false);
     }
   };
 
@@ -208,7 +214,7 @@ export default function Login() {
             <form
               onSubmit={handleSubmit}
               noValidate
-              aria-busy={isLoading}
+              aria-busy={isSubmitting}
               className="space-y-4"
             >
               {fields.map((field) => {
@@ -271,10 +277,10 @@ export default function Login() {
               <Button
                 type="submit"
                 size="lg"
-                disabled={isLoading}
+                disabled={isSubmitting}
                 className="w-full rounded-lg text-base font-semibold"
               >
-                {isLoading ? (
+                {isSubmitting ? (
                   <>
                     <Loader2 className="animate-spin" aria-hidden="true" />
                     {t("auth.login.submitting")}

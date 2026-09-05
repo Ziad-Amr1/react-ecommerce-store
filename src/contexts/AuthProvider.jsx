@@ -1,5 +1,9 @@
 import { useEffect, useState } from "react";
-import api from "@/api/axios";
+import {
+  loginUser,
+  logoutUser,
+  getCurrentUser,
+} from "@/features/auth/auth.service";
 import AuthContext from "./AuthContext";
 
 const AuthProvider = ({ children }) => {
@@ -10,23 +14,20 @@ const AuthProvider = ({ children }) => {
 
     //Login
     const login = async (email, password) => {
-        const response = await api.post("/auth/login", {
-            email,
-            password,
-        })
+        const data = await loginUser(email, password);
 
-        const { user } = response.data;
+        const { user } = data;
 
         setUser(user);
 
-        return response.data;
+        return data;
     }
 
 
     //Logout
     const logout = async () => {
         try {
-            await api.post("/auth/logout");
+            await logoutUser();
         } finally {
             setUser(null);
         }
@@ -36,8 +37,8 @@ const AuthProvider = ({ children }) => {
     useEffect(() => {
         const restoreAuthentication = async () => {
             try {
-                const response = await api.get('/auth/me');
-                setUser(response.data.user);
+                const data = await getCurrentUser();
+                setUser(data.user);
             } catch {
                 setUser(null)
             } finally {

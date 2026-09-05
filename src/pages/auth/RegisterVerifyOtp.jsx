@@ -6,7 +6,10 @@ import { KeyRound, Loader2, BadgeCheck } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import ApiErrorBanner from "@/features/auth/components/ApiErrorBanner";
 import { verifyRegistrationOTP } from "@/features/auth/auth.service";
+import { getApiErrorMessage } from "@/features/auth/utils/getApiErrorMessage";
+import { validateOtp } from "@/features/auth/utils/validation";
 
 export default function RegisterVerifyOtp() {
   const location = useLocation();
@@ -24,8 +27,9 @@ export default function RegisterVerifyOtp() {
   const validateForm = () => {
     const newErrors = {};
 
-    if (!/^\d{6}$/.test(otp)) {
-      newErrors.otp = t("validation.otpRequired");
+    const otpError = validateOtp(otp, t);
+    if (otpError) {
+      newErrors.otp = otpError;
     }
 
     setErrors(newErrors);
@@ -56,12 +60,7 @@ export default function RegisterVerifyOtp() {
 
       setSuccess(true);
     } catch (error) {
-      const message =
-        error?.response?.data?.message ||
-        error?.response?.data?.error ||
-        t("auth.registerVerifyOtp.failed");
-
-      setApiError(message);
+      setApiError(getApiErrorMessage(error, t("auth.registerVerifyOtp.failed")));
     } finally {
       setIsSubmitting(false);
     }
@@ -116,16 +115,7 @@ export default function RegisterVerifyOtp() {
         </div>
 
         {/* API ERROR */}
-        {apiError && (
-          <div
-            role="alert"
-            className="flex items-start gap-3 rounded-lg border border-(--color-error) bg-(--color-error-bg) p-4"
-          >
-            <p className="text-sm leading-5 font-medium text-(--color-error)">
-              {apiError}
-            </p>
-          </div>
-        )}
+        {apiError && <ApiErrorBanner message={apiError} variant="default" />}
 
         {/* FORM */}
         <form

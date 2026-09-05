@@ -2,11 +2,15 @@ import { useState } from "react";
 import { useLocation, useNavigate } from "react-router";
 import { useTranslation } from "react-i18next";
 
-import { KeyRound, Check, Shield, Loader2, ArrowLeft } from "lucide-react";
+import { KeyRound, Check, Loader2, ArrowLeft } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import ApiErrorBanner from "@/features/auth/components/ApiErrorBanner";
+import AuthHero from "@/features/auth/components/AuthHero";
 import { verifyForgotPasswordOTP } from "@/features/auth/auth.service";
+import { getApiErrorMessage } from "@/features/auth/utils/getApiErrorMessage";
+import { validateOtp, validatePassword } from "@/features/auth/utils/validation";
 
 export default function VerifyOtp() {
   const location = useLocation();
@@ -25,14 +29,14 @@ export default function VerifyOtp() {
   const validateForm = () => {
     const newErrors = {};
 
-    if (!/^\d{6}$/.test(otp)) {
-      newErrors.otp = t("validation.otpRequired");
+    const otpError = validateOtp(otp, t);
+    if (otpError) {
+      newErrors.otp = otpError;
     }
 
-    if (!newPassword) {
-      newErrors.newPassword = t("validation.passwordRequired");
-    } else if (newPassword.length < 6) {
-      newErrors.newPassword = t("validation.passwordMin", { count: 6 });
+    const passwordError = validatePassword(newPassword, t);
+    if (passwordError) {
+      newErrors.newPassword = passwordError;
     }
 
     setErrors(newErrors);
@@ -63,12 +67,7 @@ export default function VerifyOtp() {
 
       setSuccess(true);
     } catch (error) {
-      const message =
-        error?.response?.data?.message ||
-        error?.response?.data?.error ||
-        t("auth.verifyOtp.failed");
-
-      setApiError(message);
+      setApiError(getApiErrorMessage(error, t("auth.verifyOtp.failed")));
     } finally {
       setIsSubmitting(false);
     }
@@ -113,26 +112,11 @@ export default function VerifyOtp() {
       <div className="flex w-full max-w-6xl overflow-hidden rounded-[var(--radius-2xl)] bg-[var(--color-surface)] shadow-[var(--shadow-xl)] border border-[var(--color-border)]">
         {/* LEFT SIDE */}
         <div className="hidden w-1/2 flex-col justify-between bg-[var(--color-primary)] p-12 text-[var(--color-on-primary)] lg:flex">
-          <div>
-            <div className="mb-10 flex items-center gap-3">
-              <Shield
-                className="h-14 w-14 rounded-[var(--radius-lg)] bg-[var(--color-surface)]/10 p-2 text-[var(--color-on-primary)]"
-                aria-hidden="true"
-              />
-
-              <span className="text-4xl font-display font-bold">
-                {t("brand.name")}
-              </span>
-            </div>
-
-            <h1 className="font-display text-4xl font-bold leading-tight">
-              {t("auth.login.heroTitle")}
-            </h1>
-
-            <p className="mt-4 text-lg text-[var(--color-on-primary)]/80">
-              {t("auth.login.heroSubtitle")}
-            </p>
-          </div>
+          <AuthHero
+            titleKey="auth.login.heroTitle"
+            subtitleKey="auth.login.heroSubtitle"
+            variant="surface"
+          />
         </div>
 
         {/* RIGHT SIDE */}
@@ -154,14 +138,7 @@ export default function VerifyOtp() {
               </p>
             </div>
 
-            {apiError && (
-              <div
-                role="alert"
-                className="rounded-[var(--radius-lg)] border border-[var(--color-error)]/25 bg-[var(--color-error-bg)] p-3 text-center text-sm font-medium text-[var(--color-error)]"
-              >
-                {apiError}
-              </div>
-            )}
+            {apiError && <ApiErrorBanner message={apiError} variant="plain" />}
 
             <form
               onSubmit={handleSubmit}

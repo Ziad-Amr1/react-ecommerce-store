@@ -1,15 +1,6 @@
 import { useTranslation } from "react-i18next";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-
-const STATUS_KEYS = {
-  pending: "dashboard.statusLabels.pending",
-  processing: "dashboard.statusLabels.processing",
-  confirmed: "dashboard.statusLabels.confirmed",
-  shipped: "dashboard.statusLabels.shipped",
-  delivered: "dashboard.statusLabels.delivered",
-  cancelled: "dashboard.statusLabels.cancelled",
-  returned: "dashboard.statusLabels.returned",
-};
+import { STATUS_KEYS } from "@/features/admin/dashboard/constants";
 
 const statusStyles = {
   pending: "bg-(--color-warning-bg) text-(--color-warning)",

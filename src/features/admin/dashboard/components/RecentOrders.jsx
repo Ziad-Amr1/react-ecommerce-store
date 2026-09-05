@@ -15,16 +15,7 @@ import {
 } from "@/components/ui/table";
 import { Badge } from "@/components/ui/badge";
 import { formatCurrency } from "@/utils/formatCurrency";
-
-const STATUS_KEYS = {
-  pending: "dashboard.statusLabels.pending",
-  processing: "dashboard.statusLabels.processing",
-  confirmed: "dashboard.statusLabels.confirmed",
-  shipped: "dashboard.statusLabels.shipped",
-  delivered: "dashboard.statusLabels.delivered",
-  cancelled: "dashboard.statusLabels.cancelled",
-  returned: "dashboard.statusLabels.returned",
-};
+import { STATUS_KEYS } from "@/features/admin/dashboard/constants";
 
 const statusVariants = {
   pending: "secondary",

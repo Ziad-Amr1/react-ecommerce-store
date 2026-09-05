@@ -15,6 +15,7 @@ import OrderStatus from "@/features/admin/dashboard/components/OrderStatus";
 import TopProducts from "@/features/admin/dashboard/components/TopProducts";
 import RecentOrders from "@/features/admin/dashboard/components/RecentOrders";
 import { formatCurrency } from "@/utils/formatCurrency";
+import { formatNumber } from "@/utils/formatNumber";
 
 import {
   ShoppingBag,
@@ -106,21 +107,12 @@ export default function Dashboard() {
     );
   }
 
-  const numberFormatter = new Intl.NumberFormat(i18n.language);
-
-  // Passes pre-formatted or non-numeric values through untouched
-  // instead of rendering "NaN".
-  const formatNumber = (value) =>
-    typeof value === "number" && Number.isFinite(value)
-      ? numberFormatter.format(value)
-      : value;
-
   const cardList = [
     {
       id: 1,
       cardTitle: t("dashboard.totalOrders"),
       cardDescription: t("dashboard.totalOrdersDescription"),
-      cardNumber: formatNumber(dashboard.orders.total),
+      cardNumber: formatNumber(dashboard.orders.total, i18n.language),
       cardIcon: ShoppingBag,
       borderClass: "border-t-primary",
       iconClass: "bg-primary text-primary-foreground",
@@ -129,7 +121,7 @@ export default function Dashboard() {
       id: 2,
       cardTitle: t("dashboard.pendingOrders"),
       cardDescription: t("dashboard.pendingOrderDescription"),
-      cardNumber: formatNumber(dashboard.orders.pending),
+      cardNumber: formatNumber(dashboard.orders.pending, i18n.language),
       cardIcon: Package,
       borderClass: "border-t-secondary",
       iconClass: "bg-(--color-surface-secondary) text-(--color-secondary)",
@@ -167,7 +159,7 @@ export default function Dashboard() {
       id: 6,
       cardTitle: t("dashboard.totalUsers"),
       cardDescription: t("dashboard.totalUsersDescription"),
-      cardNumber: formatNumber(dashboard.totalCustomers),
+      cardNumber: formatNumber(dashboard.totalCustomers, i18n.language),
       cardIcon: Users,
       borderClass: "border-t-(--color-success)",
       iconClass: "bg-(--color-success-bg) text-(--color-success)",

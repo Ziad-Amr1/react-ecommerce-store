@@ -17,3 +17,23 @@ export const verifyForgotPasswordOTP = async (email, otp, newPassword) => {
 
   return response.data;
 };
+
+export const sendRegistrationOTP = async (username, email, password, phone) => {
+  const response = await api.post("/auth/register/send-otp", {
+    username,
+    email,
+    password,
+    phone,
+  });
+
+  return response.data;
+};
+
+export const verifyRegistrationOTP = async (email, otp) => {
+  const response = await api.post("/auth/register/verify-otp", {
+    email,
+    otp,
+  });
+
+  return response.data;
+};

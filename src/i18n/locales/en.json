@@ -52,7 +52,9 @@
       "passwordPlaceholder": "••••••••",
       "submit": "Sign In",
       "submitting": "Signing in...",
-      "forgotPassword": "Forgot password?"
+      "forgotPassword": "Forgot password?",
+      "noAccount": "Don&apos;t have an account?",
+      "signUp": "Sign up"
     },
     "forgetPassword": {
       "title": "Forgot Password?",
@@ -79,6 +81,40 @@
       "successMessage": "Your password has been reset successfully. You can now sign in with your new password.",
       "goToLogin": "Go to Sign In"
     },
+    "register": {
+      "title": "Create Account",
+      "subtitle": "Sign up to get started",
+      "usernameLabel": "Username",
+      "usernamePlaceholder": "johndoe",
+      "emailLabel": "Email Address",
+      "emailPlaceholder": "you@example.com",
+      "phoneLabel": "Phone Number (optional)",
+      "phonePlaceholder": "+201234567890",
+      "passwordLabel": "Password",
+      "passwordPlaceholder": "••••••••",
+      "passwordHint": "Must be at least 6 characters.",
+      "submit": "Create Account",
+      "submitting": "Creating account...",
+      "sentTitle": "Check Your Email",
+      "sentMessage": "We sent a 6-digit verification code to {{email}}. Enter it on the next screen to finish creating your account.",
+      "continue": "Continue",
+      "failed": "Registration failed. Please try again.",
+      "alreadyHaveAccount": "Already have an account?",
+      "signIn": "Sign in"
+    },
+    "registerVerifyOtp": {
+      "title": "Verify Your Email",
+      "subtitle": "Enter the 6-digit code sent to {{email}} to activate your account.",
+      "otpLabel": "Verification Code",
+      "otpPlaceholder": "123456",
+      "submit": "Verify & Create Account",
+      "submitting": "Verifying...",
+      "failed": "Verification failed. Please try again.",
+      "backToRegister": "Back to Sign Up",
+      "successTitle": "Account Created",
+      "successMessage": "Your account has been created successfully. You can now sign in.",
+      "goToLogin": "Go to Sign In"
+    },
     "benefits": {
       "products": "Product Management",
       "orders": "Order Tracking",
@@ -99,7 +135,10 @@
     "emailInvalid": "Please enter a valid email address",
     "passwordRequired": "Password is required",
     "passwordMin": "Password must be at least {{count}} characters",
-    "otpRequired": "Please enter the 6-digit code"
+    "otpRequired": "Please enter the 6-digit code",
+    "usernameRequired": "Username is required",
+    "usernameMin": "Username must be at least {{count}} characters",
+    "phoneInvalid": "Please enter a valid phone number"
   },
   "home": {
     "title": "E-commerce Home page"

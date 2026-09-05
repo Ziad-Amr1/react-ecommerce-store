@@ -284,6 +284,17 @@ export default function Login() {
                 )}
               </Button>
             </form>
+
+            {/* SIGN UP LINK */}
+            <p className="text-center text-sm text-(--color-text-secondary)">
+              {t("auth.login.noAccount")}{" "}
+              <Link
+                to="/register"
+                className="rounded-sm font-medium text-(--color-link) hover:text-(--color-link-hover) hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-(--color-focus-ring)"
+              >
+                {t("auth.login.signUp")}
+              </Link>
+            </p>
           </div>
         </div>
       </div>

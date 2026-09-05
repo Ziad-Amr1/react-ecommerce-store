@@ -2,17 +2,12 @@ import { useState } from "react";
 import { useNavigate, Link } from "react-router";
 import { useTranslation } from "react-i18next";
 
-import {
-  Check,
-  CircleX,
-  Loader2,
-  Lock,
-  Mail,
-  Shield,
-} from "lucide-react";
+import { Check, Loader2, Lock, Mail, Shield } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import ApiErrorBanner from "@/features/auth/components/ApiErrorBanner";
+import { getApiErrorMessage } from "@/features/auth/utils/getApiErrorMessage";
 import useAuth from "@/hooks/useAuth";
 
 // Keys only — translated at render time so language switching keeps working.
@@ -85,12 +80,7 @@ export default function Login() {
     } catch (error) {
       console.error("Login error:", error);
 
-      const message =
-        error?.response?.data?.message ||
-        error?.response?.data?.error ||
-        t("auth.errors.invalidCredentials");
-
-      setApiError(message);
+      setApiError(getApiErrorMessage(error, t("auth.errors.invalidCredentials")));
     } finally {
       setIsSubmitting(false);
     }
@@ -194,21 +184,7 @@ export default function Login() {
             </div>
 
             {/* API ERROR */}
-            {apiError && (
-              <div
-                role="alert"
-                className="flex items-start gap-3 rounded-lg border border-(--color-error) bg-(--color-error-bg) p-4"
-              >
-                <CircleX
-                  className="mt-0.5 size-5 shrink-0 text-(--color-error)"
-                  aria-hidden="true"
-                />
-
-                <p className="text-sm leading-5 font-medium text-(--color-error)">
-                  {apiError}
-                </p>
-              </div>
-            )}
+            {apiError && <ApiErrorBanner message={apiError} variant="default" icon />}
 
             {/* FORM */}
             <form

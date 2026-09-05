@@ -6,7 +6,9 @@ import { Mail, Check, Shield, Loader2, ArrowLeft } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import ApiErrorBanner from "@/features/auth/components/ApiErrorBanner";
 import { sendForgotPasswordOTP } from "@/features/auth/auth.service";
+import { getApiErrorMessage } from "@/features/auth/utils/getApiErrorMessage";
 
 export default function ForgetPassword() {
   const navigate = useNavigate();
@@ -56,12 +58,7 @@ export default function ForgetPassword() {
         state: { email },
       });
     } catch (error) {
-      const message =
-        error?.response?.data?.message ||
-        error?.response?.data?.error ||
-        t("auth.forgetPassword.failed");
-
-      setApiError(message);
+      setApiError(getApiErrorMessage(error, t("auth.forgetPassword.failed")));
     } finally {
       setIsSubmitting(false);
     }
@@ -150,14 +147,7 @@ export default function ForgetPassword() {
             </div>
 
             {/* API ERROR */}
-            {apiError && (
-              <div
-                role="alert"
-                className="rounded-[var(--radius-lg)] border border-[var(--color-error)]/25 bg-[var(--color-error-bg)] p-3 text-center text-sm font-medium text-[var(--color-error)]"
-              >
-                {apiError}
-              </div>
-            )}
+            {apiError && <ApiErrorBanner message={apiError} variant="plain" />}
 
             {/* FORM */}
             <form

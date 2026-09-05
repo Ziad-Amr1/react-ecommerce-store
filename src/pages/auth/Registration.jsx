@@ -4,7 +4,6 @@ import { useTranslation } from "react-i18next";
 
 import {
   Check,
-  CircleX,
   Loader2,
   Lock,
   Mail,
@@ -15,7 +14,9 @@ import {
 
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import ApiErrorBanner from "@/features/auth/components/ApiErrorBanner";
 import { sendRegistrationOTP } from "@/features/auth/auth.service";
+import { getApiErrorMessage } from "@/features/auth/utils/getApiErrorMessage";
 
 // Keys only — translated at render time so language switching keeps working.
 const BENEFIT_KEYS = [
@@ -97,12 +98,7 @@ export default function Registration() {
         state: { email },
       });
     } catch (error) {
-      const message =
-        error?.response?.data?.message ||
-        error?.response?.data?.error ||
-        t("auth.register.failed");
-
-      setApiError(message);
+      setApiError(getApiErrorMessage(error, t("auth.register.failed")));
     } finally {
       setIsSubmitting(false);
     }
@@ -237,21 +233,7 @@ export default function Registration() {
             </div>
 
             {/* API ERROR */}
-            {apiError && (
-              <div
-                role="alert"
-                className="flex items-start gap-3 rounded-lg border border-(--color-error) bg-(--color-error-bg) p-4"
-              >
-                <CircleX
-                  className="mt-0.5 size-5 shrink-0 text-(--color-error)"
-                  aria-hidden="true"
-                />
-
-                <p className="text-sm leading-5 font-medium text-(--color-error)">
-                  {apiError}
-                </p>
-              </div>
-            )}
+            {apiError && <ApiErrorBanner message={apiError} variant="default" icon />}
 
             {/* FORM */}
             <form

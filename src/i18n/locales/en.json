@@ -95,9 +95,6 @@
       "passwordHint": "Must be at least 6 characters.",
       "submit": "Create Account",
       "submitting": "Creating account...",
-      "sentTitle": "Check Your Email",
-      "sentMessage": "We sent a 6-digit verification code to {{email}}. Enter it on the next screen to finish creating your account.",
-      "continue": "Continue",
       "failed": "Registration failed. Please try again.",
       "alreadyHaveAccount": "Already have an account?",
       "signIn": "Sign in"

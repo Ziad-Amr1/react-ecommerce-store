@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import api from "@/api/axios";
+import api from "@/api/axios"; 
 
 import {
   Table,
@@ -40,8 +40,8 @@ export default function Users() {
   const [confirmPassword, setConfirmPassword] = useState("");
 
   // Fetch Users
-  useEffect(() => {
-    const fetchUsers = async () => {
+   useEffect(() => {
+    const fetchUsers = async() => {
       setIsLoading(true);
 
       try {
@@ -57,9 +57,8 @@ export default function Users() {
         setIsLoading(false);
       }
     };
-
-    fetchUsers();
-  }, []);
+      fetchUsers();
+    }, []);
 
   // Add Admin
   const handleAddAdmin = (event) => {
@@ -268,7 +267,7 @@ export default function Users() {
 
         </DialogContent>
       </Dialog>
-
+    
     </div>
   );
 }

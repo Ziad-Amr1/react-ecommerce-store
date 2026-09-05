@@ -3,49 +3,12 @@ import { NavLink } from "react-router";
 import { useTranslation } from "react-i18next";
 import { Button } from "@/components/ui/button";
 import {
-  LayoutDashboard,
-  Package,
-  FileText,
-  Users,
-  ShoppingCart,
   Radio,
   X,
   PanelLeftClose,
   PanelRightClose,
 } from "lucide-react";
-
-const navigationLinks = [
-  {
-    id: 0,
-    labelKey: "navigation.dashboard",
-    path: "/admin",
-    icon: LayoutDashboard,
-  },
-  {
-    id: 1,
-    labelKey: "navigation.products",
-    path: "/admin/products",
-    icon: Package,
-  },
-  {
-    id: 2,
-    labelKey: "navigation.orders",
-    path: "/admin/orders",
-    icon: FileText,
-  },
-  {
-    id: 3,
-    labelKey: "navigation.users",
-    path: "/admin/users",
-    icon: Users,
-  },
-  {
-    id: 4,
-    labelKey: "navigation.carts",
-    path: "/admin/carts",
-    icon: ShoppingCart,
-  },
-];
+import { adminNavigation } from "@/config/navigation";
 
 export default function Sidebar({ id, isOpen, isCollapsed, onClose, onToggleCollapse }) {
   const { t } = useTranslation();
@@ -96,15 +59,15 @@ export default function Sidebar({ id, isOpen, isCollapsed, onClose, onToggleColl
         {/* Navigation */}
         <nav className="px-3 py-4">
           <ul className="space-y-1">
-            {navigationLinks.map((link) => {
+            {adminNavigation.map((link) => {
               const Icon = link.icon;
               return (
-                <li key={link.id}>
+                <li key={link.path}>
                   <NavLink
                     to={link.path}
                     end={link.path === "/admin"}
                     onClick={onClose}
-                    onMouseEnter={() => setHoveredItem(link.id)}
+                    onMouseEnter={() => setHoveredItem(link.path)}
                     onMouseLeave={() => setHoveredItem(null)}
                     className={({ isActive }) =>
                       `group relative flex h-11 items-center rounded-xl transition-all duration-200 ${
@@ -131,7 +94,7 @@ export default function Sidebar({ id, isOpen, isCollapsed, onClose, onToggleColl
                         >
                           {t(link.labelKey)}
                         </span>
-                        {isCollapsed && hoveredItem === link.id && (
+                        {isCollapsed && hoveredItem === link.path && (
                           <div className="absolute left-full ml-3 rounded-lg bg-[var(--color-primary)] px-3 py-1.5 text-sm font-medium text-[var(--color-on-primary)] shadow-[var(--shadow-lg)] whitespace-nowrap z-50">
                             {t(link.labelKey)}
                             <span className="absolute left-0 top-1/2 -translate-x-1 -translate-y-1/2 border-4 border-transparent border-r-[var(--color-primary)]" />

@@ -2,11 +2,13 @@ import { useState } from "react";
 import { useNavigate } from "react-router";
 import { useTranslation } from "react-i18next";
 
-import { Mail, Check, Shield, Loader2, ArrowLeft } from "lucide-react";
+import { Mail, Loader2, ArrowLeft } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import ApiErrorBanner from "@/features/auth/components/ApiErrorBanner";
+import AuthBenefits from "@/features/auth/components/AuthBenefits";
+import AuthHero from "@/features/auth/components/AuthHero";
 import { sendForgotPasswordOTP } from "@/features/auth/auth.service";
 import { getApiErrorMessage } from "@/features/auth/utils/getApiErrorMessage";
 import { validateEmail } from "@/features/auth/utils/validation";
@@ -69,61 +71,13 @@ export default function ForgetPassword() {
       <div className="flex w-full max-w-6xl overflow-hidden rounded-[var(--radius-2xl)] bg-[var(--color-surface)] shadow-[var(--shadow-xl)] border border-[var(--color-border)]">
         {/* LEFT SIDE */}
         <div className="hidden w-1/2 flex-col justify-between bg-[var(--color-primary)] p-12 text-[var(--color-on-primary)] lg:flex">
-          <div>
-            <div className="mb-10 flex items-center gap-3">
-              <Shield
-                className="h-14 w-14 rounded-[var(--radius-lg)] bg-[var(--color-surface)]/10 p-2 text-[var(--color-on-primary)]"
-                aria-hidden="true"
-              />
+          <AuthHero
+            titleKey="auth.login.heroTitle"
+            subtitleKey="auth.login.heroSubtitle"
+            variant="surface"
+          />
 
-              <span className="text-4xl font-display font-bold">
-                {t("brand.name")}
-              </span>
-            </div>
-
-            <h1 className="font-display text-4xl font-bold leading-tight">
-              {t("auth.login.heroTitle")}
-            </h1>
-
-            <p className="mt-4 text-lg text-[var(--color-on-primary)]/80">
-              {t("auth.login.heroSubtitle")}
-            </p>
-          </div>
-
-          <ul className="space-y-4">
-            <li className="flex items-center gap-3 rounded-[var(--radius-xl)] bg-[var(--color-surface)]/10 p-4">
-              <Check
-                className="h-6 w-6 shrink-0 text-[var(--color-success)]"
-                aria-hidden="true"
-              />
-
-              <span className="text-base font-medium">
-                {t("auth.benefits.products")}
-              </span>
-            </li>
-
-            <li className="flex items-center gap-3 rounded-[var(--radius-xl)] bg-[var(--color-surface)]/10 p-4">
-              <Check
-                className="h-6 w-6 shrink-0 text-[var(--color-success)]"
-                aria-hidden="true"
-              />
-
-              <span className="text-base font-medium">
-                {t("auth.benefits.orders")}
-              </span>
-            </li>
-
-            <li className="flex items-center gap-3 rounded-[var(--radius-xl)] bg-[var(--color-surface)]/10 p-4">
-              <Check
-                className="h-6 w-6 shrink-0 text-[var(--color-success)]"
-                aria-hidden="true"
-              />
-
-              <span className="text-base font-medium">
-                {t("auth.benefits.customers")}
-              </span>
-            </li>
-          </ul>
+          <AuthBenefits variant="surface" />
         </div>
 
         {/* RIGHT SIDE */}

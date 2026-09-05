@@ -3,28 +3,21 @@ import { useNavigate, Link } from "react-router";
 import { useTranslation } from "react-i18next";
 
 import {
-  Check,
   Loader2,
   Lock,
   Mail,
   Phone,
-  Shield,
   User,
 } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import ApiErrorBanner from "@/features/auth/components/ApiErrorBanner";
+import AuthBenefits from "@/features/auth/components/AuthBenefits";
+import AuthHero from "@/features/auth/components/AuthHero";
 import { sendRegistrationOTP } from "@/features/auth/auth.service";
 import { getApiErrorMessage } from "@/features/auth/utils/getApiErrorMessage";
 import { validateEmail, validatePassword } from "@/features/auth/utils/validation";
-
-// Keys only — translated at render time so language switching keeps working.
-const BENEFIT_KEYS = [
-  "auth.benefits.products",
-  "auth.benefits.orders",
-  "auth.benefits.customers",
-];
 
 export default function Registration() {
   const navigate = useNavigate();
@@ -174,41 +167,13 @@ export default function Registration() {
       <div className="flex w-full max-w-6xl overflow-hidden rounded-2xl border border-(--color-border) bg-(--color-surface) shadow-xl">
         {/* LEFT SIDE */}
         <div className="hidden w-1/2 flex-col justify-between bg-primary p-12 text-primary-foreground lg:flex">
-          <div>
-            <div className="mb-10 flex items-center gap-3">
-              <Shield
-                className="size-14 rounded-lg border border-(--color-supporting) bg-primary-foreground/10 p-2"
-                aria-hidden="true"
-              />
+          <AuthHero
+            titleKey="auth.login.heroTitle"
+            subtitleKey="auth.login.heroSubtitle"
+            variant="primary"
+          />
 
-              <span className="font-display text-4xl font-bold">
-                {t("brand.name")}
-              </span>
-            </div>
-
-            <h1 className="font-display text-4xl font-bold leading-tight text-balance">
-              {t("auth.login.heroTitle")}
-            </h1>
-
-            <p className="mt-4 text-lg text-primary-foreground/80">
-              {t("auth.login.heroSubtitle")}
-            </p>
-          </div>
-
-          <ul className="space-y-4">
-            {BENEFIT_KEYS.map((key) => (
-              <li
-                key={key}
-                className="flex items-center gap-3 rounded-xl bg-primary-foreground/10 p-4"
-              >
-                <span className="flex size-6 shrink-0 items-center justify-center rounded-full bg-(--color-success-bg) text-(--color-success)">
-                  <Check className="size-4" aria-hidden="true" />
-                </span>
-
-                <span className="text-base font-medium">{t(key)}</span>
-              </li>
-            ))}
-          </ul>
+          <AuthBenefits variant="success" />
         </div>
 
         {/* RIGHT SIDE */}

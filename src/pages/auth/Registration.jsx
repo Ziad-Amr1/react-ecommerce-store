@@ -8,12 +8,14 @@ import {
   Loader2,
   Lock,
   Mail,
+  Phone,
   Shield,
+  User,
 } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import useAuth from "@/hooks/useAuth";
+import { sendRegistrationOTP } from "@/features/auth/auth.service";
 
 // Keys only — translated at render time so language switching keeps working.
 const BENEFIT_KEYS = [
@@ -22,27 +24,39 @@ const BENEFIT_KEYS = [
   "auth.benefits.customers",
 ];
 
-export default function Login() {
+export default function Registration() {
   const navigate = useNavigate();
   const { t } = useTranslation();
 
-  const { login, isLoading } = useAuth();
-
+  const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
+  const [phone, setPhone] = useState("");
   const [password, setPassword] = useState("");
 
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const [errors, setErrors] = useState({});
-
   const [apiError, setApiError] = useState("");
 
   const validateForm = () => {
     const newErrors = {};
+
+    // Username validation
+    if (!username.trim()) {
+      newErrors.username = t("validation.usernameRequired");
+    } else if (username.length < 3) {
+      newErrors.username = t("validation.usernameMin", { count: 3 });
+    }
 
     // Email validation
     if (!email.trim()) {
       newErrors.email = t("validation.emailRequired");
     } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
       newErrors.email = t("validation.emailInvalid");
+    }
+
+    // Phone validation (optional)
+    if (phone.trim() && !/^\+?[0-9\s-]{8,}$/.test(phone.trim())) {
+      newErrors.phone = t("validation.phoneInvalid");
     }
 
     // Password validation
@@ -74,19 +88,23 @@ export default function Login() {
     }
 
     try {
-      await login(email, password);
+      setIsSubmitting(true);
 
-      // Login successful
-      navigate("/admin");
+      await sendRegistrationOTP(username, email, password, phone);
+
+      // OTP sent — move to verification step
+      navigate("/register/verify-otp", {
+        state: { email },
+      });
     } catch (error) {
-      console.error("Login error:", error);
-
       const message =
         error?.response?.data?.message ||
         error?.response?.data?.error ||
-        t("auth.errors.invalidCredentials");
+        t("auth.register.failed");
 
       setApiError(message);
+    } finally {
+      setIsSubmitting(false);
     }
   };
 
@@ -94,12 +112,27 @@ export default function Login() {
   // errors, and handlers without changing any logic.
   const fields = [
     {
-      id: "login-email",
+      id: "register-username",
+      name: "username",
+      type: "text",
+      autoComplete: "username",
+      labelKey: "auth.register.usernameLabel",
+      placeholderKey: "auth.register.usernamePlaceholder",
+      icon: User,
+      value: username,
+      error: errors.username,
+      onChange: (event) => {
+        setUsername(event.target.value);
+        clearFieldError("username");
+      },
+    },
+    {
+      id: "register-email",
       name: "email",
       type: "email",
       autoComplete: "email",
-      labelKey: "auth.login.emailLabel",
-      placeholderKey: "auth.login.emailPlaceholder",
+      labelKey: "auth.register.emailLabel",
+      placeholderKey: "auth.register.emailPlaceholder",
       icon: Mail,
       value: email,
       error: errors.email,
@@ -109,12 +142,28 @@ export default function Login() {
       },
     },
     {
-      id: "login-password",
+      id: "register-phone",
+      name: "phone",
+      type: "tel",
+      autoComplete: "tel",
+      labelKey: "auth.register.phoneLabel",
+      placeholderKey: "auth.register.phonePlaceholder",
+      icon: Phone,
+      value: phone,
+      error: errors.phone,
+      onChange: (event) => {
+        setPhone(event.target.value);
+        clearFieldError("phone");
+      },
+    },
+    {
+      id: "register-password",
       name: "password",
       type: "password",
-      autoComplete: "current-password",
-      labelKey: "auth.login.passwordLabel",
-      placeholderKey: "auth.login.passwordPlaceholder",
+      autoComplete: "new-password",
+      labelKey: "auth.register.passwordLabel",
+      placeholderKey: "auth.register.passwordPlaceholder",
+      helpKey: "auth.register.passwordHint",
       icon: Lock,
       value: password,
       error: errors.password,
@@ -179,11 +228,11 @@ export default function Login() {
               />
 
               <h2 className="font-display text-3xl font-bold text-(--color-text-primary)">
-                {t("auth.login.title")}
+                {t("auth.register.title")}
               </h2>
 
               <p className="text-base text-(--color-text-secondary)">
-                {t("auth.login.subtitle")}
+                {t("auth.register.subtitle")}
               </p>
             </div>
 
@@ -208,7 +257,7 @@ export default function Login() {
             <form
               onSubmit={handleSubmit}
               noValidate
-              aria-busy={isLoading}
+              aria-busy={isSubmitting}
               className="space-y-4"
             >
               {fields.map((field) => {
@@ -245,54 +294,50 @@ export default function Login() {
                       />
                     </div>
 
-                    {field.error && (
+                    {field.error ? (
                       <p
                         id={`${field.id}-error`}
                         className="text-sm text-(--color-error)"
                       >
                         {field.error}
                       </p>
+                    ) : (
+                      field.helpKey && (
+                        <p className="text-sm text-(--color-text-secondary)">
+                          {t(field.helpKey)}
+                        </p>
+                      )
                     )}
                   </div>
                 );
               })}
 
-              {/* FORGOT PASSWORD LINK */}
-              <div className="flex justify-end">
-                <Link
-                  to="/forgot-password"
-                  className="rounded-sm text-sm font-medium text-(--color-link) hover:text-(--color-link-hover) hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-(--color-focus-ring)"
-                >
-                  {t("auth.login.forgotPassword")}
-                </Link>
-              </div>
-
-              {/* LOGIN BUTTON */}
+              {/* REGISTER BUTTON */}
               <Button
                 type="submit"
                 size="lg"
-                disabled={isLoading}
+                disabled={isSubmitting}
                 className="w-full rounded-lg text-base font-semibold"
               >
-                {isLoading ? (
+                {isSubmitting ? (
                   <>
                     <Loader2 className="animate-spin" aria-hidden="true" />
-                    {t("auth.login.submitting")}
+                    {t("auth.register.submitting")}
                   </>
                 ) : (
-                  t("auth.login.submit")
+                  t("auth.register.submit")
                 )}
               </Button>
             </form>
 
-            {/* SIGN UP LINK */}
+            {/* SIGN IN LINK */}
             <p className="text-center text-sm text-(--color-text-secondary)">
-              {t("auth.login.noAccount")}{" "}
+              {t("auth.register.alreadyHaveAccount")}{" "}
               <Link
-                to="/register"
+                to="/login"
                 className="rounded-sm font-medium text-(--color-link) hover:text-(--color-link-hover) hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-(--color-focus-ring)"
               >
-                {t("auth.login.signUp")}
+                {t("auth.register.signIn")}
               </Link>
             </p>
           </div>

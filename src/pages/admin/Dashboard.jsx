@@ -11,6 +11,10 @@ import {
 } from "@/components/ui/card";
 
 import { Skeleton } from "@/components/ui/skeleton";
+import OrderStatus from "@/features/admin/dashboard/components/OrderStatus";
+import TopProducts from "@/features/admin/dashboard/components/TopProducts";
+import RecentOrders from "@/features/admin/dashboard/components/RecentOrders";
+import { formatCurrency } from "@/utils/formatCurrency";
 
 import {
   ShoppingBag,
@@ -104,21 +108,11 @@ export default function Dashboard() {
 
   const numberFormatter = new Intl.NumberFormat(i18n.language);
 
-  const currencyFormatter = new Intl.NumberFormat(i18n.language, {
-    style: "currency",
-    currency: CURRENCY,
-  });
-
   // Passes pre-formatted or non-numeric values through untouched
   // instead of rendering "NaN".
   const formatNumber = (value) =>
     typeof value === "number" && Number.isFinite(value)
       ? numberFormatter.format(value)
-      : value;
-
-  const formatCurrency = (value) =>
-    typeof value === "number" && Number.isFinite(value)
-      ? currencyFormatter.format(value)
       : value;
 
   const cardList = [
@@ -144,7 +138,7 @@ export default function Dashboard() {
       id: 3,
       cardTitle: t("dashboard.totalRevenue"),
       cardDescription: t("dashboard.totalRevenueDescription"),
-      cardNumber: formatCurrency(dashboard.revenue.total),
+      cardNumber: formatCurrency(dashboard.revenue.total, CURRENCY, i18n.language),
       cardIcon: DollarSign,
       borderClass: "border-t-(--color-supporting)",
       iconClass: "bg-(--color-supporting) text-(--color-primary)",
@@ -153,7 +147,7 @@ export default function Dashboard() {
       id: 4,
       cardTitle: t("dashboard.thisMonth"),
       cardDescription: t("dashboard.thisMonthDescription"),
-      cardNumber: formatCurrency(dashboard.revenue.thisMonth),
+      cardNumber: formatCurrency(dashboard.revenue.thisMonth, CURRENCY, i18n.language),
       cardIcon: Clock,
       borderClass: "border-t-(--color-warning)",
       iconClass: "bg-(--color-warning-bg) text-(--color-warning)",
@@ -230,6 +224,17 @@ export default function Dashboard() {
           );
         })}
       </div>
+
+      <div className="grid grid-cols-1 gap-6 xl:grid-cols-2">
+        <OrderStatus
+          ordersByStatus={dashboard.ordersByStatus}
+          totalOrders={dashboard.orders.total}
+        />
+
+        <TopProducts products={dashboard.topProducts} />
+      </div>
+
+      <RecentOrders orders={dashboard.recentOrders} />
     </div>
   );
 }

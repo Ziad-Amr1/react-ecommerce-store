@@ -9,7 +9,7 @@ const ProtectedRoute = () => {
 
   if(isLoading){
     return (
-      <main className="flex min-h-screen items-center justify-center bg-[var(--color-background)] p-4">
+      <main className="flex min-h-screen items-center justify-center bg-(--color-background) p-4">
         <div
           role="status"
           aria-live="polite"
@@ -17,10 +17,10 @@ const ProtectedRoute = () => {
           className="flex flex-col items-center gap-3 text-center"
         >
           <Loader2
-            className="size-8 animate-spin text-[var(--color-primary)]"
+            className="size-8 animate-spin text-(--color-primary)"
             aria-hidden="true"
           />
-          <p className="text-sm text-[var(--color-text-secondary)]">
+          <p className="text-sm text-(--color-text-secondary)">
             {t("common.checkingSession")}
           </p>
         </div>

@@ -18,7 +18,7 @@ export default function Sidebar({ id, isOpen, isCollapsed, onClose, onToggleColl
     <>
       {/* Mobile overlay */}
       <div
-        className={`fixed inset-0 z-[var(--z-modal)] bg-[var(--color-overlay)] backdrop-blur-sm transition-opacity duration-300 lg:hidden ${
+        className={`fixed inset-0 z-(--z-modal) bg-(--color-overlay) backdrop-blur-sm transition-opacity duration-300 lg:hidden ${
           isOpen ? "opacity-100" : "pointer-events-none opacity-0"
         }`}
         onClick={onClose}
@@ -27,21 +27,21 @@ export default function Sidebar({ id, isOpen, isCollapsed, onClose, onToggleColl
 
       <aside
         id={id}
-        className={`fixed left-0 top-0 z-[var(--z-modal)] h-screen border-r border-[var(--color-border)] bg-[var(--color-surface)] text-[var(--color-text-primary)] transition-all duration-300 ease-out ${
+        className={`fixed left-0 top-0 z-(--z-modal) h-screen border-r border-(--color-border) bg-(--color-surface) text-(--color-text-primary) transition-all duration-300 ease-out ${
           isOpen ? "translate-x-0" : "-translate-x-full lg:translate-x-0"
         } ${isCollapsed ? "w-20" : "w-72"}`}
       >
         {/* Header */}
-        <div className="flex h-[72px] items-center justify-between border-b border-[var(--color-border)] px-5">
+        <div className="flex h-[72px] items-center justify-between border-b border-(--color-border) px-5">
           <div
             className={`overflow-hidden whitespace-nowrap transition-all duration-300 ${
               isCollapsed ? "w-0 opacity-0" : "w-auto opacity-100"
             }`}
           >
-            <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-[var(--color-text-secondary)]">
+            <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-(--color-text-secondary)">
               {t("navigation.brandEyebrow")}
             </p>
-            <h2 className="mt-0.5 font-display text-xl font-bold text-[var(--color-text-primary)]">
+            <h2 className="mt-0.5 font-display text-xl font-bold text-(--color-text-primary)">
               {t("navigation.adminPanel")}
             </h2>
           </div>
@@ -49,7 +49,7 @@ export default function Sidebar({ id, isOpen, isCollapsed, onClose, onToggleColl
           <Button
             variant="ghost"
             size="icon"
-            className="rounded-full lg:hidden hover:bg-[var(--color-surface-secondary)]"
+            className="rounded-full lg:hidden hover:bg-(--color-surface-secondary)"
             onClick={onClose}
           >
             <X size={20} aria-label={t("navigation.menu.close")} />
@@ -74,15 +74,15 @@ export default function Sidebar({ id, isOpen, isCollapsed, onClose, onToggleColl
                         isCollapsed ? "justify-center" : "gap-3 px-4"
                       } ${
                         isActive
-                          ? "bg-[var(--color-primary)] text-[var(--color-on-primary)] shadow-[var(--shadow-sm)]"
-                          : "text-[var(--color-text-secondary)] hover:bg-[var(--color-surface-secondary)] hover:text-[var(--color-text-primary)]"
+                          ? "bg-(--color-primary) text-(--color-on-primary) shadow-(--shadow-sm)"
+                          : "text-(--color-text-secondary) hover:bg-(--color-surface-secondary) hover:text-(--color-text-primary)"
                       }`
                     }
                   >
                     {({ isActive }) => (
                       <>
                         <span
-                          className={`absolute left-0 top-1/2 h-6 w-1 -translate-y-1/2 rounded-r-full bg-[var(--color-on-primary)] transition-opacity duration-200 ${
+                          className={`absolute left-0 top-1/2 h-6 w-1 -translate-y-1/2 rounded-r-full bg-(--color-on-primary) transition-opacity duration-200 ${
                             isActive ? "opacity-100" : "opacity-0"
                           } ${isCollapsed ? "hidden" : "block"}`}
                         />
@@ -95,9 +95,9 @@ export default function Sidebar({ id, isOpen, isCollapsed, onClose, onToggleColl
                           {t(link.labelKey)}
                         </span>
                         {isCollapsed && hoveredItem === link.path && (
-                          <div className="absolute left-full ml-3 rounded-lg bg-[var(--color-primary)] px-3 py-1.5 text-sm font-medium text-[var(--color-on-primary)] shadow-[var(--shadow-lg)] whitespace-nowrap z-50">
+                          <div className="absolute left-full ml-3 rounded-lg bg-(--color-primary) px-3 py-1.5 text-sm font-medium text-(--color-on-primary) shadow-(--shadow-lg) whitespace-nowrap z-50">
                             {t(link.labelKey)}
-                            <span className="absolute left-0 top-1/2 -translate-x-1 -translate-y-1/2 border-4 border-transparent border-r-[var(--color-primary)]" />
+                            <span className="absolute left-0 top-1/2 -translate-x-1 -translate-y-1/2 border-4 border-transparent border-r-(--color-primary)" />
                           </div>
                         )}
                       </>
@@ -111,7 +111,7 @@ export default function Sidebar({ id, isOpen, isCollapsed, onClose, onToggleColl
 
         {/* Footer */}
         <div
-          className={`absolute bottom-0 left-0 right-0 border-t border-[var(--color-border)] bg-[var(--color-surface)] p-3 ${
+          className={`absolute bottom-0 left-0 right-0 border-t border-(--color-border) bg-(--color-surface) p-3 ${
             isCollapsed ? "flex justify-center" : "flex items-center justify-between gap-3"
           }`}
         >
@@ -120,14 +120,14 @@ export default function Sidebar({ id, isOpen, isCollapsed, onClose, onToggleColl
               isCollapsed ? "w-0 opacity-0" : "flex w-auto items-center gap-3 opacity-100"
             }`}
           >
-            <div className="flex size-8 shrink-0 items-center justify-center rounded-full bg-[var(--color-success-bg)]">
-              <Radio className="size-4 text-[var(--color-success)]" aria-hidden="true" />
+            <div className="flex size-8 shrink-0 items-center justify-center rounded-full bg-(--color-success-bg)">
+              <Radio className="size-4 text-(--color-success)" aria-hidden="true" />
             </div>
             <div className="min-w-0">
-              <p className="truncate text-sm font-medium text-[var(--color-text-primary)]">
+              <p className="truncate text-sm font-medium text-(--color-text-primary)">
                 {t("navigation.apiConnected")}
               </p>
-              <p className="truncate text-xs text-[var(--color-text-secondary)]">
+              <p className="truncate text-xs text-(--color-text-secondary)">
                 {t("navigation.apiLabel")}
               </p>
             </div>
@@ -136,7 +136,7 @@ export default function Sidebar({ id, isOpen, isCollapsed, onClose, onToggleColl
           <Button
             variant="ghost"
             size="icon"
-            className="shrink-0 rounded-full hover:bg-[var(--color-surface-secondary)]"
+            className="shrink-0 rounded-full hover:bg-(--color-surface-secondary)"
             onClick={onToggleCollapse}
             aria-label={
               isCollapsed

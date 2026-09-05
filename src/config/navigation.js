@@ -1,9 +1,10 @@
 import {
+  FileText,
   LayoutDashboard,
   Package,
-  FileText,
-  Users,
+  Settings,
   ShoppingCart,
+  Users,
 } from "lucide-react";
 
 export const adminNavigation = [
@@ -12,4 +13,5 @@ export const adminNavigation = [
   { labelKey: "navigation.orders", path: "/admin/orders", icon: FileText },
   { labelKey: "navigation.users", path: "/admin/users", icon: Users },
   { labelKey: "navigation.carts", path: "/admin/carts", icon: ShoppingCart },
+  { labelKey: "navigation.settings", path: "/admin/settings", icon: Settings },
 ];

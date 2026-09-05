@@ -7,10 +7,12 @@ import Products from "./pages/admin/Products";
 import Orders from "./pages/admin/Orders";
 import Users from "./pages/admin/Users";
 import Carts from "./pages/admin/Carts";
+import Settings from "./pages/admin/Settings";
 import Login from "./pages/auth/Login.jsx";
 import Registration from "./pages/auth/Registration.jsx";
 import ForgetPassword from "./pages/auth/ForgetPassword.jsx";
 import VerifyOtp from "./pages/auth/VerifyOtp.jsx";
+import NotFound from "./pages/NotFound.jsx";
 import ProtectedRoute from "./ProtectedRoute.jsx";
 
 const DesignSystem = lazy(() => import("./pages/DesignSystem"));
@@ -55,9 +57,11 @@ function App() {
             <Route path="orders" element={<Orders />} />
             <Route path="users" element={<Users />} />
             <Route path="carts" element={<Carts />} />
+            <Route path="settings" element={<Settings />} />
           </Route>
         </Route>
         {/* End of Protected Admin Routes  */}
+        <Route path="*" element={<NotFound />} />
       </Routes>
     </>
   );

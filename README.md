@@ -1,16 +1,38 @@
-# React + Vite
+# e-commerce-store
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Frontend for the e-commerce system (online store + admin dashboard),
+built with React and Vite.
 
-Currently, two official plugins are available:
+## Stack
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+- React 19 + Vite 8 (JavaScript)
+- Tailwind CSS v4
+- React Router v7
+- i18next / react-i18next
+- Axios
+- shadcn-style UI primitives (Radix UI + `class-variance-authority`,
+  `clsx`, `tailwind-merge`) in `src/components/ui`
 
-## React Compiler
+## Getting started
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+```bash
+npm install
+npm run dev
+```
 
-## Expanding the ESLint configuration
+The API base URL is read from `VITE_API_URL` in a local `.env` file.
+Do not commit `.env` files.
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+## Scripts
+
+- `npm run dev` — start the dev server
+- `npm run build` — production build
+- `npm run lint` — run ESLint
+- `npm run preview` — preview the production build
+
+## Documentation
+
+- [docs/Architecture.md](docs/Architecture.md) — project architecture
+- [docs/WorkFlow.md](docs/WorkFlow.md) — Git and GitHub workflow
+- [docs/WorkCheck.md](docs/WorkCheck.md) — task and team tracking
+- [docs/Project_Setup.md](docs/Project_Setup.md) — project foundation and conventions

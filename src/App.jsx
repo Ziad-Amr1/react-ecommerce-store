@@ -12,7 +12,6 @@ import Registration from "./pages/auth/Registration.jsx";
 import ForgetPassword from "./pages/auth/ForgetPassword.jsx";
 import VerifyOtp from "./pages/auth/VerifyOtp.jsx";
 import ProtectedRoute from "./ProtectedRoute.jsx";
-import { DashboardProvider } from "./features/admin/dashboard/DashboardProvider";
 
 const DesignSystem = lazy(() => import("./pages/DesignSystem"));
 
@@ -50,11 +49,7 @@ function App() {
           <Route element={<AdminLayout />}>
             <Route
               index
-              element={
-                <DashboardProvider>
-                  <Dashboard />
-                </DashboardProvider>
-              }
+              element={<Dashboard />}
             />
             <Route path="products" element={<Products />} />
             <Route path="orders" element={<Orders />} />

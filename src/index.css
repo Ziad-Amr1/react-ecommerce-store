@@ -110,18 +110,6 @@
      SPACING
      ================================================== */
 
-    /* --space-1: 4px;
-    --space-2: 8px;
-    --space-3: 12px;
-    --space-4: 16px;
-    --space-5: 20px;
-    --space-6: 24px;
-    --space-8: 32px;
-    --space-10: 40px;
-    --space-12: 48px;
-    --space-14: 56px;
-    --space-16: 64px;
-    --space-20: 80px; */
     /* We can use Tailwind's spacing */
 
 
@@ -391,30 +379,4 @@
 
     --color-border: #3C525C;
     --color-border-strong: #547082;
-}
-
-
-/* ======================================================
-   BADGES
-   ====================================================== */
-
-.badge-stock {
-    background: rgba(57, 115, 84, 0.12);
-    color: var(--color-success);
-}
-
-.badge-low {
-    background: rgba(176, 80, 58, 0.10);
-    color: var(--color-error);
-}
-
-.badge-new {
-    background: var(--color-accent);
-    color: var(--color-on-accent);
-    border: 1px solid var(--color-supporting);
-}
-
-.badge-black {
-    background: var(--color-primary);
-    color: var(--color-on-primary);
 }

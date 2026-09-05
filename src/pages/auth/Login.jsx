@@ -1,11 +1,13 @@
 import { useState } from "react";
-import { useNavigate, Link } from "react-router";
+import { useNavigate, useLocation, Link } from "react-router";
 import { useTranslation } from "react-i18next";
 
-import { Loader2, Lock, Mail } from "lucide-react";
+import { Loader2, Mail } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import PasswordInput from "@/components/ui/password-input";
+import BackLink from "@/components/ui/back-link";
 import ApiErrorBanner from "@/features/auth/components/ApiErrorBanner";
 import AuthBenefits from "@/features/auth/components/AuthBenefits";
 import AuthHero from "@/features/auth/components/AuthHero";
@@ -15,9 +17,12 @@ import useAuth from "@/hooks/useAuth";
 
 export default function Login() {
   const navigate = useNavigate();
+  const location = useLocation();
   const { t } = useTranslation();
 
   const { login } = useAuth();
+
+  const from = location.state?.from || "/";
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -102,10 +107,10 @@ export default function Login() {
       id: "login-password",
       name: "password",
       type: "password",
+      password: true,
       autoComplete: "current-password",
       labelKey: "auth.login.passwordLabel",
       placeholderKey: "auth.login.passwordPlaceholder",
-      icon: Lock,
       value: password,
       error: errors.password,
       onChange: (event) => {
@@ -132,6 +137,9 @@ export default function Login() {
         {/* RIGHT SIDE */}
         <div className="flex w-full flex-col justify-center bg-(--color-surface) p-8 lg:w-1/2 lg:p-14">
           <div className="mx-auto w-full max-w-md space-y-6">
+            {/* BACK */}
+            <BackLink labelKey="auth.back.toPrevious" />
+
             {/* Logo */}
             <div className="space-y-2 text-center">
               <img
@@ -171,11 +179,10 @@ export default function Login() {
                       {t(field.labelKey)}
                     </label>
 
-                    <div className="relative">
-                      <Input
+                    {field.password ? (
+                      <PasswordInput
                         id={field.id}
                         name={field.name}
-                        type={field.type}
                         autoComplete={field.autoComplete}
                         value={field.value}
                         onChange={field.onChange}
@@ -184,14 +191,31 @@ export default function Login() {
                         aria-describedby={
                           field.error ? `${field.id}-error` : undefined
                         }
-                        className="h-11 rounded-lg border-(--color-border) bg-(--color-surface-secondary) pl-11 text-(--color-text-primary) placeholder:text-(--color-text-secondary) focus-visible:ring-(--color-focus-ring)"
+                        className="h-11"
                       />
+                    ) : (
+                      <div className="relative">
+                        <Input
+                          id={field.id}
+                          name={field.name}
+                          type={field.type}
+                          autoComplete={field.autoComplete}
+                          value={field.value}
+                          onChange={field.onChange}
+                          placeholder={t(field.placeholderKey)}
+                          aria-invalid={Boolean(field.error)}
+                          aria-describedby={
+                            field.error ? `${field.id}-error` : undefined
+                          }
+                          className="h-11 rounded-lg border-(--color-border) bg-(--color-surface-secondary) pl-11 text-(--color-text-primary) placeholder:text-(--color-text-secondary) focus-visible:ring-(--color-focus-ring)"
+                        />
 
-                      <Icon
-                        className="pointer-events-none absolute top-1/2 left-4 size-5 -translate-y-1/2 text-(--color-text-secondary)"
-                        aria-hidden="true"
-                      />
-                    </div>
+                        <Icon
+                          className="pointer-events-none absolute top-1/2 left-4 size-5 -translate-y-1/2 text-(--color-text-secondary)"
+                          aria-hidden="true"
+                        />
+                      </div>
+                    )}
 
                     {field.error && (
                       <p
@@ -209,6 +233,7 @@ export default function Login() {
               <div className="flex justify-end">
                 <Link
                   to="/forgot-password"
+                  state={{ from }}
                   className="rounded-sm text-sm font-medium text-(--color-link) hover:text-(--color-link-hover) hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-(--color-focus-ring)"
                 >
                   {t("auth.login.forgotPassword")}
@@ -238,6 +263,7 @@ export default function Login() {
               {t("auth.login.noAccount")}{" "}
               <Link
                 to="/register"
+                state={{ from }}
                 className="rounded-sm font-medium text-(--color-link) hover:text-(--color-link-hover) hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-(--color-focus-ring)"
               >
                 {t("auth.login.signUp")}

@@ -9,7 +9,6 @@ import Users from "./pages/admin/Users";
 import Carts from "./pages/admin/Carts";
 import Login from "./pages/auth/Login.jsx";
 import Registration from "./pages/auth/Registration.jsx";
-import RegisterVerifyOtp from "./pages/auth/RegisterVerifyOtp.jsx";
 import ForgetPassword from "./pages/auth/ForgetPassword.jsx";
 import VerifyOtp from "./pages/auth/VerifyOtp.jsx";
 import ProtectedRoute from "./ProtectedRoute.jsx";
@@ -23,9 +22,8 @@ function App() {
         <Route path="/design-system" element={<DesignSystem />} />
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Registration />} />
-        <Route path="/register/verify-otp" element={<RegisterVerifyOtp />} />
         <Route path="/forgot-password" element={<ForgetPassword />} />
-        <Route path="/forgot-password/verify-otp" element={<VerifyOtp />} />
+        <Route path="/:flow/verify-otp" element={<VerifyOtp />} />
         {/* Start of Protected Admin Routes  */}
         <Route path="/admin/*" element={<ProtectedRoute />}>
           <Route element={<AdminLayout />}>

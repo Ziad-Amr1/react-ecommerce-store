@@ -1,30 +1,100 @@
 import { useState } from "react";
-import { useLocation, useNavigate } from "react-router";
+import { Navigate, useLocation, useNavigate, useParams } from "react-router";
 import { useTranslation } from "react-i18next";
 
-import { KeyRound, Check, Loader2, ArrowLeft } from "lucide-react";
+import { KeyRound, Loader2, ArrowLeft } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import ApiErrorBanner from "@/features/auth/components/ApiErrorBanner";
 import AuthHero from "@/features/auth/components/AuthHero";
-import { verifyForgotPasswordOTP } from "@/features/auth/auth.service";
+import { OTP_FLOWS } from "@/features/auth/otpFlows";
 import { getApiErrorMessage } from "@/features/auth/utils/getApiErrorMessage";
-import { validateOtp, validatePassword } from "@/features/auth/utils/validation";
+import { validateOtp } from "@/features/auth/utils/validation";
+
+function OtpField({
+  id,
+  name,
+  type = "text",
+  autoComplete,
+  maxLength,
+  inputMode,
+  label,
+  placeholder,
+  value,
+  error,
+  onChange,
+  compact,
+}) {
+  const labelClass = compact
+    ? "block text-sm font-medium text-(--color-text-primary)"
+    : "mb-1 block text-sm font-bold text-(--color-text-primary)";
+
+  const inputClass = compact
+    ? "h-11 rounded-lg border-(--color-border) bg-(--color-surface-secondary) pl-11 text-(--color-text-primary) placeholder:text-(--color-text-secondary) focus-visible:ring-(--color-focus-ring)"
+    : "bg-(--color-surface-secondary) border-(--color-border) rounded-(--radius-lg) py-6 pl-11 text-(--color-text-primary) placeholder:text-(--color-text-secondary) focus-visible:ring-(--color-focus-ring)";
+
+  const iconClass = compact
+    ? "pointer-events-none absolute top-1/2 left-4 size-5 -translate-y-1/2 text-(--color-text-secondary)"
+    : "pointer-events-none absolute left-4 top-1/2 -translate-y-1/2 h-5 w-5 text-(--color-text-secondary)";
+
+  const errorClass = compact
+    ? "text-sm text-(--color-error)"
+    : "mt-1 text-sm text-(--color-error)";
+
+  return (
+    <div className={compact ? "space-y-2" : ""}>
+      <label htmlFor={id} className={labelClass}>
+        {label}
+      </label>
+
+      <div className="relative">
+        <Input
+          id={id}
+          name={name}
+          type={type}
+          autoComplete={autoComplete}
+          maxLength={maxLength}
+          inputMode={inputMode}
+          value={value}
+          onChange={onChange}
+          placeholder={placeholder}
+          aria-invalid={Boolean(error)}
+          aria-describedby={error ? `${id}-error` : undefined}
+          className={inputClass}
+        />
+
+        <KeyRound className={iconClass} aria-hidden="true" />
+      </div>
+
+      {error && (
+        <p id={`${id}-error`} className={errorClass}>
+          {error}
+        </p>
+      )}
+    </div>
+  );
+}
 
 export default function VerifyOtp() {
   const location = useLocation();
   const navigate = useNavigate();
+  const { flow } = useParams();
   const { t } = useTranslation();
 
+  const flowConfig = OTP_FLOWS[flow];
   const email = location.state?.email || "";
 
   const [otp, setOtp] = useState("");
-  const [newPassword, setNewPassword] = useState("");
+  const [fieldValues, setFieldValues] = useState({});
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [errors, setErrors] = useState({});
   const [apiError, setApiError] = useState("");
   const [success, setSuccess] = useState(false);
+
+  if (!flowConfig) {
+    return <Navigate to="/login" replace />;
+  }
 
   const validateForm = () => {
     const newErrors = {};
@@ -34,18 +104,20 @@ export default function VerifyOtp() {
       newErrors.otp = otpError;
     }
 
-    const passwordError = validatePassword(newPassword, t);
-    if (passwordError) {
-      newErrors.newPassword = passwordError;
-    }
+    flowConfig.fields.forEach((field) => {
+      const fieldError = field.validate(fieldValues[field.name] ?? "", t);
+      if (fieldError) {
+        newErrors[field.name] = fieldError;
+      }
+    });
 
     setErrors(newErrors);
 
     return Object.keys(newErrors).length === 0;
   };
 
-  const clearFieldError = (field) => {
-    setErrors((prev) => (prev[field] ? { ...prev, [field]: "" } : prev));
+  const clearFieldError = (name) => {
+    setErrors((prev) => (prev[name] ? { ...prev, [name]: "" } : prev));
     setApiError("");
   };
 
@@ -54,43 +126,49 @@ export default function VerifyOtp() {
 
     setApiError("");
 
-    const isValid = validateForm();
-
-    if (!isValid) {
+    if (!validateForm()) {
       return;
     }
 
     try {
       setIsSubmitting(true);
 
-      await verifyForgotPasswordOTP(email, otp, newPassword);
+      const extraValues = flowConfig.fields.map(
+        (field) => fieldValues[field.name] ?? "",
+      );
+
+      await flowConfig.submit(email, otp, ...extraValues);
 
       setSuccess(true);
     } catch (error) {
-      setApiError(getApiErrorMessage(error, t("auth.verifyOtp.failed")));
+      setApiError(getApiErrorMessage(error, t(flowConfig.failedKey)));
     } finally {
       setIsSubmitting(false);
     }
   };
 
   if (success) {
+    const SuccessIcon = flowConfig.success.icon;
+
     return (
       <main className="flex min-h-screen items-center justify-center bg-(--color-background) p-4">
-        <div className="w-full max-w-md space-y-6 rounded-(--radius-2xl) bg-(--color-surface) p-8 text-center shadow-(--shadow-xl) border border-(--color-border)">
+        <div
+          className={`w-full max-w-md space-y-6 border border-(--color-border) bg-(--color-surface) p-8 text-center ${flowConfig.surfaceClass}`}
+        >
           <div
             role="status"
-            className="mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-(--color-success)/15 text-(--color-success)"
+            className={`mx-auto flex h-16 w-16 items-center justify-center rounded-full ${flowConfig.success.iconClass}`}
           >
-            <Check className="h-8 w-8" aria-hidden="true" />
+            <SuccessIcon className="h-8 w-8" aria-hidden="true" />
           </div>
 
           <div>
             <h2 className="font-display text-2xl font-bold text-(--color-text-primary)">
-              {t("auth.verifyOtp.successTitle")}
+              {t(flowConfig.success.titleKey)}
             </h2>
 
             <p className="mt-2 text-(--color-text-secondary)">
-              {t("auth.verifyOtp.successMessage")}
+              {t(flowConfig.success.messageKey)}
             </p>
           </div>
 
@@ -98,10 +176,150 @@ export default function VerifyOtp() {
             type="button"
             size="lg"
             onClick={() => navigate("/login")}
-            className="w-full rounded-(--radius-lg) text-base font-semibold"
+            className={`w-full ${flowConfig.buttonRadius} text-base font-semibold`}
           >
-            {t("auth.verifyOtp.goToLogin")}
+            {t(flowConfig.success.goToLoginKey)}
           </Button>
+        </div>
+      </main>
+    );
+  }
+
+  const compact = flowConfig.compact;
+
+  const formContent = (
+    <>
+      {/* Header */}
+      <div className="space-y-2 text-center">
+        {flowConfig.showLogo && (
+          <img
+            src="/favicon.ico"
+            alt={t("brand.logoAlt")}
+            className="mx-auto size-24 object-contain"
+          />
+        )}
+
+        <h2 className="font-display text-3xl font-bold text-(--color-text-primary)">
+          {t(flowConfig.titleKey)}
+        </h2>
+
+        <p
+          className={
+            compact
+              ? "text-base text-(--color-text-secondary)"
+              : "text-lg text-(--color-text-secondary)"
+          }
+        >
+          {t(flowConfig.subtitleKey, { email })}
+        </p>
+      </div>
+
+      {/* API ERROR */}
+      {apiError && (
+        <ApiErrorBanner message={apiError} variant={flowConfig.apiErrorVariant} />
+      )}
+
+      {/* FORM */}
+      <form
+        onSubmit={handleSubmit}
+        noValidate
+        aria-busy={isSubmitting}
+        className="space-y-4"
+      >
+        {/* OTP */}
+        <OtpField
+          id="verify-otp-code"
+          name="otp"
+          type="text"
+          autoComplete="one-time-code"
+          inputMode="numeric"
+          maxLength={6}
+          value={otp}
+          onChange={(event) => {
+            setOtp(event.target.value);
+            clearFieldError("otp");
+          }}
+          label={t(flowConfig.otpLabelKey)}
+          placeholder={t(flowConfig.otpPlaceholderKey)}
+          error={errors.otp}
+          compact={compact}
+        />
+
+        {/* FLOW-SPECIFIC FIELDS */}
+        {flowConfig.fields.map((field) => (
+          <OtpField
+            key={field.id}
+            id={field.id}
+            name={field.name}
+            type={field.type}
+            autoComplete={field.autoComplete}
+            value={fieldValues[field.name] ?? ""}
+            onChange={(event) => {
+              setFieldValues((prev) => ({
+                ...prev,
+                [field.name]: event.target.value,
+              }));
+              clearFieldError(field.name);
+            }}
+            label={t(field.labelKey)}
+            placeholder={t(field.placeholderKey)}
+            error={errors[field.name]}
+            compact={compact}
+          />
+        ))}
+
+        {/* SUBMIT */}
+        <Button
+          type="submit"
+          size="lg"
+          disabled={isSubmitting}
+          className={`w-full ${flowConfig.buttonRadius} text-base font-semibold`}
+        >
+          {isSubmitting ? (
+            <>
+              <Loader2 className="animate-spin" aria-hidden="true" />
+              {t(flowConfig.submittingKey)}
+            </>
+          ) : (
+            t(flowConfig.submitKey)
+          )}
+        </Button>
+      </form>
+
+      {/* BACK */}
+      <Button
+        type="button"
+        variant="ghost"
+        onClick={() => navigate(flowConfig.back.path)}
+        className={
+          compact ? "w-full text-sm" : "w-full text-sm gap-2"
+        }
+      >
+        {!compact && <ArrowLeft size={16} aria-hidden="true" />}
+        {t(flowConfig.back.labelKey)}
+      </Button>
+    </>
+  );
+
+  if (flowConfig.layout === "split") {
+    return (
+      <main className="flex min-h-screen items-center justify-center bg-(--color-background) p-4">
+        <div
+          className={`flex w-full max-w-6xl overflow-hidden border border-(--color-border) bg-(--color-surface) ${flowConfig.surfaceClass}`}
+        >
+          {/* LEFT SIDE */}
+          <div className="hidden w-1/2 flex-col justify-between bg-(--color-primary) p-12 text-(--color-on-primary) lg:flex">
+            <AuthHero
+              titleKey="auth.login.heroTitle"
+              subtitleKey="auth.login.heroSubtitle"
+              variant="surface"
+            />
+          </div>
+
+          {/* RIGHT SIDE */}
+          <div className="flex w-full flex-col justify-center bg-(--color-surface) p-8 lg:w-1/2 lg:p-14">
+            <div className="mx-auto w-full max-w-md space-y-6">{formContent}</div>
+          </div>
         </div>
       </main>
     );
@@ -109,163 +327,10 @@ export default function VerifyOtp() {
 
   return (
     <main className="flex min-h-screen items-center justify-center bg-(--color-background) p-4">
-      <div className="flex w-full max-w-6xl overflow-hidden rounded-(--radius-2xl) bg-(--color-surface) shadow-(--shadow-xl) border border-(--color-border)">
-        {/* LEFT SIDE */}
-        <div className="hidden w-1/2 flex-col justify-between bg-(--color-primary) p-12 text-(--color-on-primary) lg:flex">
-          <AuthHero
-            titleKey="auth.login.heroTitle"
-            subtitleKey="auth.login.heroSubtitle"
-            variant="surface"
-          />
-        </div>
-
-        {/* RIGHT SIDE */}
-        <div className="flex w-full flex-col justify-center bg-(--color-surface) p-8 lg:w-1/2 lg:p-14">
-          <div className="mx-auto w-full max-w-md space-y-6">
-            <div className="text-center">
-              <img
-                src="/favicon.ico"
-                alt={t("brand.logoAlt")}
-                className="mx-auto h-24 w-24 object-contain"
-              />
-
-              <h2 className="font-display text-3xl font-bold text-(--color-text-primary)">
-                {t("auth.verifyOtp.title")}
-              </h2>
-
-              <p className="text-lg text-(--color-text-secondary)">
-                {t("auth.verifyOtp.subtitle", { email })}
-              </p>
-            </div>
-
-            {apiError && <ApiErrorBanner message={apiError} variant="plain" />}
-
-            <form
-              onSubmit={handleSubmit}
-              noValidate
-              aria-busy={isSubmitting}
-              className="space-y-4"
-            >
-              {/* OTP */}
-              <div>
-                <label
-                  htmlFor="verify-otp-code"
-                  className="mb-1 block text-sm font-bold text-(--color-text-primary)"
-                >
-                  {t("auth.verifyOtp.otpLabel")}
-                </label>
-
-                <div className="relative">
-                  <Input
-                    id="verify-otp-code"
-                    name="otp"
-                    type="text"
-                    inputMode="numeric"
-                    autoComplete="one-time-code"
-                    maxLength={6}
-                    value={otp}
-                    onChange={(event) => {
-                      setOtp(event.target.value);
-                      clearFieldError("otp");
-                    }}
-                    placeholder={t("auth.verifyOtp.otpPlaceholder")}
-                    aria-invalid={Boolean(errors.otp)}
-                    aria-describedby={
-                      errors.otp ? "verify-otp-code-error" : undefined
-                    }
-                    className="bg-(--color-surface-secondary) border-(--color-border) rounded-(--radius-lg) py-6 pl-11 text-(--color-text-primary) placeholder:text-(--color-text-secondary) focus-visible:ring-(--color-focus-ring)"
-                  />
-
-                  <KeyRound
-                    className="pointer-events-none absolute left-4 top-1/2 -translate-y-1/2 h-5 w-5 text-(--color-text-secondary)"
-                    aria-hidden="true"
-                  />
-                </div>
-
-                {errors.otp && (
-                  <p
-                    id="verify-otp-code-error"
-                    className="mt-1 text-sm text-(--color-error)"
-                  >
-                    {errors.otp}
-                  </p>
-                )}
-              </div>
-
-              {/* NEW PASSWORD */}
-              <div>
-                <label
-                  htmlFor="verify-otp-new-password"
-                  className="mb-1 block text-sm font-bold text-(--color-text-primary)"
-                >
-                  {t("auth.verifyOtp.newPasswordLabel")}
-                </label>
-
-                <div className="relative">
-                  <Input
-                    id="verify-otp-new-password"
-                    name="newPassword"
-                    type="password"
-                    autoComplete="new-password"
-                    value={newPassword}
-                    onChange={(event) => {
-                      setNewPassword(event.target.value);
-                      clearFieldError("newPassword");
-                    }}
-                    placeholder={t("auth.verifyOtp.newPasswordPlaceholder")}
-                    aria-invalid={Boolean(errors.newPassword)}
-                    aria-describedby={
-                      errors.newPassword
-                        ? "verify-otp-new-password-error"
-                        : undefined
-                    }
-                    className="bg-(--color-surface-secondary) border-(--color-border) rounded-(--radius-lg) py-6 pl-11 text-(--color-text-primary) placeholder:text-(--color-text-secondary) focus-visible:ring-(--color-focus-ring)"
-                  />
-
-                  <KeyRound
-                    className="pointer-events-none absolute left-4 top-1/2 -translate-y-1/2 h-5 w-5 text-(--color-text-secondary)"
-                    aria-hidden="true"
-                  />
-                </div>
-
-                {errors.newPassword && (
-                  <p
-                    id="verify-otp-new-password-error"
-                    className="mt-1 text-sm text-(--color-error)"
-                  >
-                    {errors.newPassword}
-                  </p>
-                )}
-              </div>
-
-              <Button
-                type="submit"
-                size="lg"
-                disabled={isSubmitting}
-                className="w-full rounded-(--radius-lg) text-base font-semibold"
-              >
-                {isSubmitting ? (
-                  <>
-                    <Loader2 className="animate-spin" aria-hidden="true" />
-                    {t("auth.verifyOtp.submitting")}
-                  </>
-                ) : (
-                  t("auth.verifyOtp.submit")
-                )}
-              </Button>
-            </form>
-
-            <Button
-              type="button"
-              variant="ghost"
-              onClick={() => navigate("/forgot-password")}
-              className="w-full text-sm gap-2"
-            >
-              <ArrowLeft size={16} aria-hidden="true" />
-              {t("auth.verifyOtp.backToForgot")}
-            </Button>
-          </div>
-        </div>
+      <div
+        className={`w-full max-w-md space-y-6 border border-(--color-border) bg-(--color-surface) p-8 ${flowConfig.surfaceClass}`}
+      >
+        {formContent}
       </div>
     </main>
   );

@@ -28,12 +28,12 @@ function App() {
             <Suspense
               fallback={
                 <div className="mx-auto w-full max-w-6xl space-y-4 p-6">
-                  <div className="h-10 w-2/3 animate-pulse rounded-lg bg-[var(--color-surface-muted)]" />
-                  <div className="h-4 w-1/2 animate-pulse rounded bg-[var(--color-surface-muted)]" />
+                  <div className="h-10 w-2/3 animate-pulse rounded-lg bg-(--color-surface-muted)" />
+                  <div className="h-4 w-1/2 animate-pulse rounded bg-(--color-surface-muted)" />
                   <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-                    <div className="h-40 animate-pulse rounded-xl bg-[var(--color-surface-muted)]" />
-                    <div className="h-40 animate-pulse rounded-xl bg-[var(--color-surface-muted)]" />
-                    <div className="h-40 animate-pulse rounded-xl bg-[var(--color-surface-muted)]" />
+                    <div className="h-40 animate-pulse rounded-xl bg-(--color-surface-muted)" />
+                    <div className="h-40 animate-pulse rounded-xl bg-(--color-surface-muted)" />
+                    <div className="h-40 animate-pulse rounded-xl bg-(--color-surface-muted)" />
                   </div>
                 </div>
               }

@@ -16,13 +16,6 @@ export const DashboardProvider = ({ children }) => {
       setError(null);
 
       const data = await getDashboard();
-      console.log("DASHBOARD RESPONSE:", data);
-console.log("TOP PRODUCTS:", data.dashboard?.topProducts);
-console.log(
-  "FIRST TOP PRODUCT:",
-  data.dashboard?.topProducts?.[0]
-);
-
       setDashboard(data.dashboard);
     } catch (err) {
       setError(

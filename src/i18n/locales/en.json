@@ -21,6 +21,7 @@
     "orders": "Orders",
     "users": "Users",
     "carts": "Carts",
+    "settings": "Settings",
     "notifications": "Notifications",
     "notificationsPanel": {
       "title": "Notifications",
@@ -192,16 +193,21 @@
     "totalUsers": "Users",
     "totalUsersDescription": "Total registered customers"
   },
-  "products": {
-    "title": "Products Page"
+  "admin": {
+    "comingSoon": "This feature isn't implemented yet. It is planned for an upcoming release.",
+    "status": {
+      "planned": "Planned",
+      "inProgress": "In Progress",
+      "polishing": "Polishing",
+      "doneWaitingPR": "Done — Waiting for PR",
+      "done": "Done"
+    }
   },
-  "orders": {
-    "title": "Orders Page"
-  },
-  "users": {
-    "title": "Users Page"
-  },
-  "carts": {
-    "title": "Carts Page"
+  "notFound": {
+    "title": "Oops!",
+    "code": "Error 404",
+    "subtitle": "Page Not Found",
+    "description": "The page you're looking for doesn't exist or has been moved.",
+    "home": "Back to Home"
   }
 }

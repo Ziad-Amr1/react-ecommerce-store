@@ -1,11 +1,5 @@
-import { useTranslation } from "react-i18next";
+import FeatureStatusCard from "@/features/admin/components/FeatureStatusCard";
 
 export default function Users() {
-  const { t } = useTranslation();
-
-  return (
-    <div>
-      <h1 style={{ color: "orange" }}>{t("users.title")}</h1>
-    </div>
-  );
+  return <FeatureStatusCard featureKey="users" />;
 }

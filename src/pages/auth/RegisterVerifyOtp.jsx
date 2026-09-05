@@ -9,6 +9,7 @@ import { Input } from "@/components/ui/input";
 import ApiErrorBanner from "@/features/auth/components/ApiErrorBanner";
 import { verifyRegistrationOTP } from "@/features/auth/auth.service";
 import { getApiErrorMessage } from "@/features/auth/utils/getApiErrorMessage";
+import { validateOtp } from "@/features/auth/utils/validation";
 
 export default function RegisterVerifyOtp() {
   const location = useLocation();
@@ -26,8 +27,9 @@ export default function RegisterVerifyOtp() {
   const validateForm = () => {
     const newErrors = {};
 
-    if (!/^\d{6}$/.test(otp)) {
-      newErrors.otp = t("validation.otpRequired");
+    const otpError = validateOtp(otp, t);
+    if (otpError) {
+      newErrors.otp = otpError;
     }
 
     setErrors(newErrors);

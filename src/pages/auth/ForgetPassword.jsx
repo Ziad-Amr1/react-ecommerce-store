@@ -9,6 +9,7 @@ import { Input } from "@/components/ui/input";
 import ApiErrorBanner from "@/features/auth/components/ApiErrorBanner";
 import { sendForgotPasswordOTP } from "@/features/auth/auth.service";
 import { getApiErrorMessage } from "@/features/auth/utils/getApiErrorMessage";
+import { validateEmail } from "@/features/auth/utils/validation";
 
 export default function ForgetPassword() {
   const navigate = useNavigate();
@@ -22,10 +23,9 @@ export default function ForgetPassword() {
   const validateForm = () => {
     const newErrors = {};
 
-    if (!email.trim()) {
-      newErrors.email = t("validation.emailRequired");
-    } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
-      newErrors.email = t("validation.emailInvalid");
+    const emailError = validateEmail(email, t);
+    if (emailError) {
+      newErrors.email = emailError;
     }
 
     setErrors(newErrors);

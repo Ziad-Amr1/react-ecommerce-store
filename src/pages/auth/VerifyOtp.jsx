@@ -9,6 +9,7 @@ import { Input } from "@/components/ui/input";
 import ApiErrorBanner from "@/features/auth/components/ApiErrorBanner";
 import { verifyForgotPasswordOTP } from "@/features/auth/auth.service";
 import { getApiErrorMessage } from "@/features/auth/utils/getApiErrorMessage";
+import { validateOtp, validatePassword } from "@/features/auth/utils/validation";
 
 export default function VerifyOtp() {
   const location = useLocation();
@@ -27,14 +28,14 @@ export default function VerifyOtp() {
   const validateForm = () => {
     const newErrors = {};
 
-    if (!/^\d{6}$/.test(otp)) {
-      newErrors.otp = t("validation.otpRequired");
+    const otpError = validateOtp(otp, t);
+    if (otpError) {
+      newErrors.otp = otpError;
     }
 
-    if (!newPassword) {
-      newErrors.newPassword = t("validation.passwordRequired");
-    } else if (newPassword.length < 6) {
-      newErrors.newPassword = t("validation.passwordMin", { count: 6 });
+    const passwordError = validatePassword(newPassword, t);
+    if (passwordError) {
+      newErrors.newPassword = passwordError;
     }
 
     setErrors(newErrors);

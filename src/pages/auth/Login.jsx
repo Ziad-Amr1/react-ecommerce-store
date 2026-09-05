@@ -8,6 +8,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import ApiErrorBanner from "@/features/auth/components/ApiErrorBanner";
 import { getApiErrorMessage } from "@/features/auth/utils/getApiErrorMessage";
+import { validateEmail, validatePassword } from "@/features/auth/utils/validation";
 import useAuth from "@/hooks/useAuth";
 
 // Keys only — translated at render time so language switching keeps working.
@@ -36,17 +37,15 @@ export default function Login() {
     const newErrors = {};
 
     // Email validation
-    if (!email.trim()) {
-      newErrors.email = t("validation.emailRequired");
-    } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
-      newErrors.email = t("validation.emailInvalid");
+    const emailError = validateEmail(email, t);
+    if (emailError) {
+      newErrors.email = emailError;
     }
 
     // Password validation
-    if (!password) {
-      newErrors.password = t("validation.passwordRequired");
-    } else if (password.length < 6) {
-      newErrors.password = t("validation.passwordMin", { count: 6 });
+    const passwordError = validatePassword(password, t);
+    if (passwordError) {
+      newErrors.password = passwordError;
     }
 
     setErrors(newErrors);

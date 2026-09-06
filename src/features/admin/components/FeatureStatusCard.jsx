@@ -2,6 +2,7 @@ import { useTranslation } from "react-i18next";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { adminFeatures } from "@/config/adminFeatures";
+import { adminNavigation } from "@/config/navigation";
 
 const statusStyles = {
   planned: {
@@ -39,12 +40,13 @@ export default function FeatureStatusCard({ featureKey }) {
   const { t } = useTranslation();
 
   const feature = adminFeatures.find((item) => item.key === featureKey);
+  const navItem = adminNavigation.find((item) => item.key === featureKey);
 
-  if (!feature) {
+  if (!feature || !navItem) {
     return null;
   }
 
-  const Icon = feature.icon;
+  const Icon = navItem.icon;
   const styles = statusStyles[feature.status];
 
   return (
@@ -60,7 +62,7 @@ export default function FeatureStatusCard({ featureKey }) {
 
         <div className="flex flex-col items-center gap-2">
           <h2 className="font-display text-2xl font-bold text-(--color-text-primary)">
-            {t(feature.labelKey)}
+            {t(navItem.labelKey)}
           </h2>
 
           <Badge variant="outline" className={styles.badge}>

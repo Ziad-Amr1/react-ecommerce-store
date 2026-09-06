@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Link, useNavigate } from "react-router";
+import { useNavigate } from "react-router";
 import { useTranslation } from "react-i18next";
 import { Button } from "@/components/ui/button";
 import {
@@ -20,7 +20,6 @@ import {
 } from "@/components/ui/dropdown-menu";
 import useAuth from "@/hooks/useAuth";
 import useTheme from "@/hooks/useTheme";
-import { adminNavigation } from "@/config/navigation";
 
 export default function HeaderActionButtons() {
   const { t } = useTranslation();
@@ -115,18 +114,12 @@ export default function HeaderActionButtons() {
         <DropdownMenuContent align="end" className="w-56">
           <DropdownMenuLabel>{t("navigation.account")}</DropdownMenuLabel>
           <DropdownMenuGroup>
-            {adminNavigation.map((item) => {
-              const Icon = item.icon;
-
-              return (
-                <DropdownMenuItem key={item.path} asChild>
-                  <Link to={item.path}>
-                    <Icon size={16} />
-                    {t(item.labelKey)}
-                  </Link>
-                </DropdownMenuItem>
-              );
-            })}
+            <DropdownMenuItem className="cursor-default gap-2">
+              <span className="flex size-6 items-center justify-center rounded-full bg-(--color-surface-secondary) text-xs font-bold">
+                A
+              </span>
+              <span>{t("navigation.roleAdmin")}</span>
+            </DropdownMenuItem>
           </DropdownMenuGroup>
         </DropdownMenuContent>
       </DropdownMenu>

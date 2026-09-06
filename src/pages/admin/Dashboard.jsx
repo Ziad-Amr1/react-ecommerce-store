@@ -6,11 +6,13 @@ import {
   Card,
   CardHeader,
   CardTitle,
-  CardDescription,
   CardContent,
+  CardDescription,
 } from "@/components/ui/card";
 
+import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
+import StatCard from "@/features/admin/dashboard/components/StatCard";
 import OrderStatus from "@/features/admin/dashboard/components/OrderStatus";
 import TopProducts from "@/features/admin/dashboard/components/TopProducts";
 import RecentOrders from "@/features/admin/dashboard/components/RecentOrders";
@@ -22,8 +24,6 @@ import {
   Package,
   Users,
   DollarSign,
-  Clock,
-  CircleCheck,
   TriangleAlert,
   Inbox,
 } from "lucide-react";
@@ -52,8 +52,8 @@ export default function Dashboard() {
           </CardHeader>
         </Card>
 
-        <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
-          {Array.from({ length: 6 }).map((_, index) => (
+        <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 xl:grid-cols-4">
+          {Array.from({ length: 4 }).map((_, index) => (
             <Card
               key={index}
               className="overflow-hidden border-t-4 border-t-(--color-accent)"
@@ -78,16 +78,27 @@ export default function Dashboard() {
     return (
       <div
         role="alert"
-        className="flex w-full items-start gap-3 rounded-lg border border-(--color-error) bg-(--color-error-bg) p-4"
+        className="flex w-full flex-wrap items-center justify-between gap-4 rounded-lg border border-(--color-error) bg-(--color-error-bg) p-4"
       >
-        <TriangleAlert
-          className="mt-0.5 size-5 shrink-0 text-(--color-error)"
-          aria-hidden="true"
-        />
+        <div className="flex items-start gap-3">
+          <TriangleAlert
+            className="mt-0.5 size-5 shrink-0 text-(--color-error)"
+            aria-hidden="true"
+          />
 
-        <p className="text-sm font-medium leading-5 text-(--color-error)">
-          {error}
-        </p>
+          <p className="text-sm font-medium leading-5 text-(--color-error)">
+            {error}
+          </p>
+        </div>
+
+        <Button
+          variant="outline"
+          size="sm"
+          className="shrink-0 cursor-pointer"
+          onClick={fetchDashboard}
+        >
+          {t("dashboard.retry")}
+        </Button>
       </div>
     );
   }
@@ -114,8 +125,8 @@ export default function Dashboard() {
       cardDescription: t("dashboard.totalOrdersDescription"),
       cardNumber: formatNumber(dashboard.orders.total, i18n.language),
       cardIcon: ShoppingBag,
-      borderClass: "border-t-primary",
-      iconClass: "bg-primary text-primary-foreground",
+      borderClass: "border-t-(--color-primary)",
+      iconClass: "bg-(--color-primary) text-(--color-on-primary)",
     },
     {
       id: 2,
@@ -123,46 +134,37 @@ export default function Dashboard() {
       cardDescription: t("dashboard.pendingOrderDescription"),
       cardNumber: formatNumber(dashboard.orders.pending, i18n.language),
       cardIcon: Package,
-      borderClass: "border-t-secondary",
-      iconClass: "bg-(--color-surface-secondary) text-(--color-secondary)",
+      borderClass: "border-t-(--color-warning)",
+      iconClass: "bg-(--color-warning-bg) text-(--color-warning)",
     },
     {
       id: 3,
       cardTitle: t("dashboard.totalRevenue"),
       cardDescription: t("dashboard.totalRevenueDescription"),
-      cardNumber: formatCurrency(dashboard.revenue.total, CURRENCY, i18n.language),
+      cardNumber: formatCurrency(
+        dashboard.revenue.total,
+        CURRENCY,
+        i18n.language,
+      ),
+      cardSubline: t("dashboard.thisMonthRevenue", {
+        value: formatCurrency(
+          dashboard.revenue.thisMonth,
+          CURRENCY,
+          i18n.language,
+        ),
+      }),
       cardIcon: DollarSign,
-      borderClass: "border-t-(--color-supporting)",
-      iconClass: "bg-(--color-supporting) text-(--color-primary)",
+      borderClass: "border-t-(--color-success)",
+      iconClass: "bg-(--color-success-bg) text-(--color-success)",
     },
     {
       id: 4,
-      cardTitle: t("dashboard.thisMonth"),
-      cardDescription: t("dashboard.thisMonthDescription"),
-      cardNumber: formatCurrency(dashboard.revenue.thisMonth, CURRENCY, i18n.language),
-      cardIcon: Clock,
-      borderClass: "border-t-(--color-warning)",
-      iconClass: "bg-(--color-warning-bg) text-(--color-warning)",
-    },
-    {
-      id: 5,
-      cardTitle: t("dashboard.topProduct"),
-      cardDescription: t("dashboard.topProductDescription", {
-        count: dashboard.topProducts[0]?.totalSold ?? 0,
-      }),
-      cardNumber: dashboard.topProducts[0]?.name || t("dashboard.noProducts"),
-      cardIcon: CircleCheck,
-      borderClass: "border-t-(--color-info)",
-      iconClass: "bg-(--color-info-bg) text-(--color-info)",
-    },
-    {
-      id: 6,
       cardTitle: t("dashboard.totalUsers"),
       cardDescription: t("dashboard.totalUsersDescription"),
       cardNumber: formatNumber(dashboard.totalCustomers, i18n.language),
       cardIcon: Users,
-      borderClass: "border-t-(--color-success)",
-      iconClass: "bg-(--color-success-bg) text-(--color-success)",
+      borderClass: "border-t-(--color-info)",
+      iconClass: "bg-(--color-info-bg) text-(--color-info)",
     },
   ];
 
@@ -184,37 +186,19 @@ export default function Dashboard() {
         </CardHeader>
       </Card>
 
-      <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
-        {cardList.map((card) => {
-          const Icon = card.cardIcon;
-
-          return (
-            <Card
-              key={card.id}
-              className={`overflow-hidden border-t-4 shadow-sm ${card.borderClass}`}
-            >
-              <CardHeader>
-                <CardTitle className="font-display">
-                  {card.cardTitle}
-                </CardTitle>
-
-                <CardDescription>{card.cardDescription}</CardDescription>
-              </CardHeader>
-
-              <CardContent className="flex items-end justify-between gap-4">
-                <h2 className="font-display wrap-break-word text-2xl font-bold tabular-nums">
-                  {card.cardNumber}
-                </h2>
-
-                <div
-                  className={`flex size-14 shrink-0 items-center justify-center rounded-xl ${card.iconClass}`}
-                >
-                  <Icon className="size-8" aria-hidden="true" />
-                </div>
-              </CardContent>
-            </Card>
-          );
-        })}
+      <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 xl:grid-cols-4">
+        {cardList.map((card) => (
+          <StatCard
+            key={card.id}
+            title={card.cardTitle}
+            description={card.cardDescription}
+            value={card.cardNumber}
+            subline={card.cardSubline}
+            icon={card.cardIcon}
+            borderClass={card.borderClass}
+            iconClass={card.iconClass}
+          />
+        ))}
       </div>
 
       <div className="grid grid-cols-1 gap-6 xl:grid-cols-2">

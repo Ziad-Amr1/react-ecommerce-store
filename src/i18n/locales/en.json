@@ -160,6 +160,7 @@
     "title": "Dashboard Page",
     "loading": "Loading dashboard...",
     "loadError": "Failed to load dashboard data.",
+    "retry": "Retry",
     "noData": "No dashboard data available.",
     "noProducts": "No products",
 
@@ -198,12 +199,7 @@
 
     "totalRevenue": "Total Revenue",
     "totalRevenueDescription": "Total gross revenue",
-
-    "thisMonth": "This Month",
-    "thisMonthDescription": "Monthly sales target",
-
-    "topProduct": "Top Product",
-    "topProductDescription": "{{count}} sold",
+    "thisMonthRevenue": "{{value}} this month",
 
     "totalUsers": "Users",
     "totalUsersDescription": "Total registered customers"

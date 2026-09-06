@@ -1,32 +1,35 @@
 import { useState } from "react";
-import { useNavigate, Link } from "react-router";
+import { useNavigate, useLocation, Link } from "react-router";
 import { useTranslation } from "react-i18next";
 
-import {
-  Check,
-  CircleX,
-  Loader2,
-  Lock,
-  Mail,
-  Shield,
-} from "lucide-react";
+import { Loader2, Mail } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import PasswordInput from "@/components/ui/password-input";
+import BackLink from "@/components/ui/back-link";
+import ApiErrorBanner from "@/features/auth/components/ApiErrorBanner";
+import AuthBenefits from "@/features/auth/components/AuthBenefits";
+import AuthHero from "@/features/auth/components/AuthHero";
+import { getApiErrorMessage } from "@/features/auth/utils/getApiErrorMessage";
+import { validateEmail, validatePassword } from "@/features/auth/utils/validation";
 import useAuth from "@/hooks/useAuth";
-
-// Keys only — translated at render time so language switching keeps working.
-const BENEFIT_KEYS = [
-  "auth.benefits.products",
-  "auth.benefits.orders",
-  "auth.benefits.customers",
-];
 
 export default function Login() {
   const navigate = useNavigate();
+  const location = useLocation();
   const { t } = useTranslation();
 
-  const { login, isLoading } = useAuth();
+  const { login } = useAuth();
+
+  const stateFrom = location.state?.from;
+
+  const from =
+    typeof stateFrom === "string" &&
+    stateFrom.startsWith("/") &&
+    !stateFrom.startsWith("//")
+      ? stateFrom
+      : "/";
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -35,21 +38,21 @@ export default function Login() {
 
   const [apiError, setApiError] = useState("");
 
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
   const validateForm = () => {
     const newErrors = {};
 
     // Email validation
-    if (!email.trim()) {
-      newErrors.email = t("validation.emailRequired");
-    } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
-      newErrors.email = t("validation.emailInvalid");
+    const emailError = validateEmail(email, t);
+    if (emailError) {
+      newErrors.email = emailError;
     }
 
     // Password validation
-    if (!password) {
-      newErrors.password = t("validation.passwordRequired");
-    } else if (password.length < 6) {
-      newErrors.password = t("validation.passwordMin", { count: 6 });
+    const passwordError = validatePassword(password, t);
+    if (passwordError) {
+      newErrors.password = passwordError;
     }
 
     setErrors(newErrors);
@@ -74,19 +77,16 @@ export default function Login() {
     }
 
     try {
+      setIsSubmitting(true);
+
       await login(email, password);
 
       // Login successful
-      navigate("/admin");
+      navigate(from === "/" ? "/admin" : from);
     } catch (error) {
-      console.error("Login error:", error);
-
-      const message =
-        error?.response?.data?.message ||
-        error?.response?.data?.error ||
-        t("auth.errors.invalidCredentials");
-
-      setApiError(message);
+      setApiError(getApiErrorMessage(error, t("auth.errors.invalidCredentials")));
+    } finally {
+      setIsSubmitting(false);
     }
   };
 
@@ -112,10 +112,10 @@ export default function Login() {
       id: "login-password",
       name: "password",
       type: "password",
+      password: true,
       autoComplete: "current-password",
       labelKey: "auth.login.passwordLabel",
       placeholderKey: "auth.login.passwordPlaceholder",
-      icon: Lock,
       value: password,
       error: errors.password,
       onChange: (event) => {
@@ -130,46 +130,21 @@ export default function Login() {
       <div className="flex w-full max-w-6xl overflow-hidden rounded-2xl border border-(--color-border) bg-(--color-surface) shadow-xl">
         {/* LEFT SIDE */}
         <div className="hidden w-1/2 flex-col justify-between bg-primary p-12 text-primary-foreground lg:flex">
-          <div>
-            <div className="mb-10 flex items-center gap-3">
-              <Shield
-                className="size-14 rounded-lg border border-(--color-supporting) bg-primary-foreground/10 p-2"
-                aria-hidden="true"
-              />
+          <AuthHero
+            titleKey="auth.login.heroTitle"
+            subtitleKey="auth.login.heroSubtitle"
+            variant="primary"
+          />
 
-              <span className="font-display text-4xl font-bold">
-                {t("brand.name")}
-              </span>
-            </div>
-
-            <h1 className="font-display text-4xl font-bold leading-tight text-balance">
-              {t("auth.login.heroTitle")}
-            </h1>
-
-            <p className="mt-4 text-lg text-primary-foreground/80">
-              {t("auth.login.heroSubtitle")}
-            </p>
-          </div>
-
-          <ul className="space-y-4">
-            {BENEFIT_KEYS.map((key) => (
-              <li
-                key={key}
-                className="flex items-center gap-3 rounded-xl bg-primary-foreground/10 p-4"
-              >
-                <span className="flex size-6 shrink-0 items-center justify-center rounded-full bg-(--color-success-bg) text-(--color-success)">
-                  <Check className="size-4" aria-hidden="true" />
-                </span>
-
-                <span className="text-base font-medium">{t(key)}</span>
-              </li>
-            ))}
-          </ul>
+          <AuthBenefits variant="success" />
         </div>
 
         {/* RIGHT SIDE */}
         <div className="flex w-full flex-col justify-center bg-(--color-surface) p-8 lg:w-1/2 lg:p-14">
           <div className="mx-auto w-full max-w-md space-y-6">
+            {/* BACK */}
+            <BackLink labelKey="auth.back.toPrevious" />
+
             {/* Logo */}
             <div className="space-y-2 text-center">
               <img
@@ -188,27 +163,13 @@ export default function Login() {
             </div>
 
             {/* API ERROR */}
-            {apiError && (
-              <div
-                role="alert"
-                className="flex items-start gap-3 rounded-lg border border-(--color-error) bg-(--color-error-bg) p-4"
-              >
-                <CircleX
-                  className="mt-0.5 size-5 shrink-0 text-(--color-error)"
-                  aria-hidden="true"
-                />
-
-                <p className="text-sm leading-5 font-medium text-(--color-error)">
-                  {apiError}
-                </p>
-              </div>
-            )}
+            {apiError && <ApiErrorBanner message={apiError} variant="default" icon />}
 
             {/* FORM */}
             <form
               onSubmit={handleSubmit}
               noValidate
-              aria-busy={isLoading}
+              aria-busy={isSubmitting}
               className="space-y-4"
             >
               {fields.map((field) => {
@@ -223,11 +184,10 @@ export default function Login() {
                       {t(field.labelKey)}
                     </label>
 
-                    <div className="relative">
-                      <Input
+                    {field.password ? (
+                      <PasswordInput
                         id={field.id}
                         name={field.name}
-                        type={field.type}
                         autoComplete={field.autoComplete}
                         value={field.value}
                         onChange={field.onChange}
@@ -236,14 +196,31 @@ export default function Login() {
                         aria-describedby={
                           field.error ? `${field.id}-error` : undefined
                         }
-                        className="h-11 rounded-lg border-(--color-border) bg-(--color-surface-secondary) pl-11 text-(--color-text-primary) placeholder:text-(--color-text-secondary) focus-visible:ring-(--color-focus-ring)"
+                        className="h-11"
                       />
+                    ) : (
+                      <div className="relative">
+                        <Input
+                          id={field.id}
+                          name={field.name}
+                          type={field.type}
+                          autoComplete={field.autoComplete}
+                          value={field.value}
+                          onChange={field.onChange}
+                          placeholder={t(field.placeholderKey)}
+                          aria-invalid={Boolean(field.error)}
+                          aria-describedby={
+                            field.error ? `${field.id}-error` : undefined
+                          }
+                          className="h-11 rounded-lg border-(--color-border) bg-(--color-surface-secondary) pl-11 text-(--color-text-primary) placeholder:text-(--color-text-secondary) focus-visible:ring-(--color-focus-ring)"
+                        />
 
-                      <Icon
-                        className="pointer-events-none absolute top-1/2 left-4 size-5 -translate-y-1/2 text-(--color-text-secondary)"
-                        aria-hidden="true"
-                      />
-                    </div>
+                        <Icon
+                          className="pointer-events-none absolute top-1/2 left-4 size-5 -translate-y-1/2 text-(--color-text-secondary)"
+                          aria-hidden="true"
+                        />
+                      </div>
+                    )}
 
                     {field.error && (
                       <p
@@ -261,6 +238,7 @@ export default function Login() {
               <div className="flex justify-end">
                 <Link
                   to="/forgot-password"
+                  state={{ from }}
                   className="rounded-sm text-sm font-medium text-(--color-link) hover:text-(--color-link-hover) hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-(--color-focus-ring)"
                 >
                   {t("auth.login.forgotPassword")}
@@ -271,10 +249,10 @@ export default function Login() {
               <Button
                 type="submit"
                 size="lg"
-                disabled={isLoading}
+                disabled={isSubmitting}
                 className="w-full rounded-lg text-base font-semibold"
               >
-                {isLoading ? (
+                {isSubmitting ? (
                   <>
                     <Loader2 className="animate-spin" aria-hidden="true" />
                     {t("auth.login.submitting")}
@@ -284,6 +262,18 @@ export default function Login() {
                 )}
               </Button>
             </form>
+
+            {/* SIGN UP LINK */}
+            <p className="text-center text-sm text-(--color-text-secondary)">
+              {t("auth.login.noAccount")}{" "}
+              <Link
+                to="/register"
+                state={{ from }}
+                className="rounded-sm font-medium text-(--color-link) hover:text-(--color-link-hover) hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-(--color-focus-ring)"
+              >
+                {t("auth.login.signUp")}
+              </Link>
+            </p>
           </div>
         </div>
       </div>

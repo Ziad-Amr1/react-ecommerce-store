@@ -12,8 +12,7 @@
       "open": "Open navigation menu",
       "close": "Close navigation menu"
     },
-    "brandEyebrow": "ecommerce",
-    "adminPanel": "admin panel",
+    "adminPanel": "Admin Panel",
     "dashboardTitle": "Oversea Dashboard",
     "dashboardSubtitle": "E-Commerce Admin Panel",
     "dashboard": "Dashboard",
@@ -21,6 +20,7 @@
     "orders": "Orders",
     "users": "Users",
     "carts": "Carts",
+    "settings": "Settings",
     "notifications": "Notifications",
     "notificationsPanel": {
       "title": "Notifications",
@@ -37,13 +37,22 @@
     "account": "Account",
     "accountDropdown": "Account menu",
     "roleAdmin": "Admin",
-    "apiConnected": "API Connected",
+    "apiChecking": "Checking API…",
+    "apiOnline": "API Online",
+    "apiUnavailable": "API Unavailable",
     "apiLabel": "E-commerce API"
   },
   "auth": {
+    "password": {
+      "show": "Show password",
+      "hide": "Hide password"
+    },
+    "back": {
+      "toPrevious": "Back"
+    },
     "login": {
-      "heroTitle": "Manage Your Store Like a Pro",
-      "heroSubtitle": "Control products, orders, users, carts and analytics from a modern dashboard experience.",
+      "heroTitle": "A Better Shopping Experience Starts Here",
+      "heroSubtitle": "Shop, track your orders, and manage your account with ease.",
       "title": "Welcome Back",
       "subtitle": "Sign in to your admin dashboard",
       "emailLabel": "Email Address",
@@ -52,7 +61,9 @@
       "passwordPlaceholder": "••••••••",
       "submit": "Sign In",
       "submitting": "Signing in...",
-      "forgotPassword": "Forgot password?"
+      "forgotPassword": "Forgot password?",
+      "noAccount": "Don't have an account?",
+      "signUp": "Sign up"
     },
     "forgetPassword": {
       "title": "Forgot Password?",
@@ -79,10 +90,43 @@
       "successMessage": "Your password has been reset successfully. You can now sign in with your new password.",
       "goToLogin": "Go to Sign In"
     },
+    "register": {
+      "title": "Create Account",
+      "subtitle": "Sign up to get started",
+      "usernameLabel": "Username",
+      "usernamePlaceholder": "johndoe",
+      "emailLabel": "Email Address",
+      "emailPlaceholder": "you@example.com",
+      "phoneLabel": "Phone Number (optional)",
+      "phonePlaceholder": "+201234567890",
+      "passwordLabel": "Password",
+      "passwordPlaceholder": "••••••••",
+      "passwordHint": "Must be at least 6 characters.",
+      "confirmPasswordLabel": "Confirm Password",
+      "confirmPasswordPlaceholder": "••••••••",
+      "submit": "Create Account",
+      "submitting": "Creating account...",
+      "failed": "Registration failed. Please try again.",
+      "alreadyHaveAccount": "Already have an account?",
+      "signIn": "Sign in"
+    },
+    "registerVerifyOtp": {
+      "title": "Verify Your Email",
+      "subtitle": "Enter the 6-digit code sent to {{email}} to activate your account.",
+      "otpLabel": "Verification Code",
+      "otpPlaceholder": "123456",
+      "submit": "Verify & Create Account",
+      "submitting": "Verifying...",
+      "failed": "Verification failed. Please try again.",
+      "backToRegister": "Back to Sign Up",
+      "successTitle": "Account Created",
+      "successMessage": "Your account has been created successfully. You can now sign in.",
+      "goToLogin": "Go to Sign In"
+    },
     "benefits": {
-      "products": "Product Management",
+      "products": "Easy Shopping",
       "orders": "Order Tracking",
-      "customers": "Customer Insights"
+      "customers": "Secure Account"
     },
     "logout": {
       "label": "Logout",
@@ -99,17 +143,49 @@
     "emailInvalid": "Please enter a valid email address",
     "passwordRequired": "Password is required",
     "passwordMin": "Password must be at least {{count}} characters",
-    "otpRequired": "Please enter the 6-digit code"
+    "confirmPasswordRequired": "Please confirm your password",
+    "confirmPasswordMismatch": "Passwords do not match",
+    "otpRequired": "Please enter the 6-digit code",
+    "usernameRequired": "Username is required",
+    "usernameMin": "Username must be at least {{count}} characters",
+    "phoneInvalid": "Please enter a valid phone number"
   },
   "home": {
-    "title": "E-commerce Home page"
+    "title": "E-commerce Home page",
+    "description": "Welcome to the E-commerce platform. Explore our products and manage your orders.",
+    "login": "Login",
+    "designSystem": "Design System",
+    "comingSoon": "This feature isn't implemented yet. It is planned for an upcoming release."
   },
   "dashboard": {
     "title": "Dashboard Page",
     "loading": "Loading dashboard...",
     "loadError": "Failed to load dashboard data.",
+    "retry": "Retry",
     "noData": "No dashboard data available.",
     "noProducts": "No products",
+
+    "orderStatus": "Order Status",
+    "recentOrders": "Recent Orders",
+    "topProducts": "Top Products",
+    "totalSold": "{{count}} sold",
+    "noRecentOrders": "No recent orders yet",
+    "noStatusData": "No status data yet",
+    "orderId": "Order ID",
+    "customer": "Customer",
+    "total": "Total",
+    "status": "Status",
+    "date": "Date",
+    "unknownCustomer": "Unknown customer",
+    "statusLabels": {
+      "pending": "Pending",
+      "processing": "Processing",
+      "confirmed": "Confirmed",
+      "shipped": "Shipped",
+      "delivered": "Delivered",
+      "cancelled": "Cancelled",
+      "returned": "Returned"
+    },
 
     "adminOverview": "Admin Overview",
     "commerceHealth": "Commerce Health",
@@ -122,27 +198,32 @@
     "pendingOrderDescription": "Orders waiting to be processed",
 
     "totalRevenue": "Total Revenue",
-    "totalRevenueDescription": "Total gross revenue",
+    "totalRevenueDescription": "Overall gross revenue",
 
-    "thisMonth": "This Month",
-    "thisMonthDescription": "Monthly sales target",
+    "thisMonthRevenue": "This Month Revenue",
+    "thisMonthRevenueDescription": "Revenue generated in the current month",
 
-    "topProduct": "Top Product",
-    "topProductDescription": "{{count}} sold",
+    "revenueGrowth": "Revenue Growth",
+    "revenueGrowthDescription": "Rate of change in total revenue",
 
     "totalUsers": "Users",
     "totalUsersDescription": "Total registered customers"
   },
-  "products": {
-    "title": "Products Page"
+  "admin": {
+    "comingSoon": "This feature isn't implemented yet. It is planned for an upcoming release.",
+    "status": {
+      "planned": "Planned",
+      "inProgress": "In Progress",
+      "polishing": "Polishing",
+      "doneWaitingPR": "Done — Waiting for PR",
+      "done": "Done"
+    }
   },
-  "orders": {
-    "title": "Orders Page"
-  },
-  "users": {
-    "title": "Users Page"
-  },
-  "carts": {
-    "title": "Carts Page"
+  "notFound": {
+    "title": "Oops!",
+    "code": "Error 404",
+    "subtitle": "Page Not Found",
+    "description": "The page you're looking for doesn't exist or has been moved.",
+    "home": "Back to Home"
   }
 }

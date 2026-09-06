@@ -15,51 +15,61 @@ keeping reusable infrastructure and UI components centralized.
 ```bash
 src/
 │
-├── assets/
+├── api/
+│   └── axios.js
 │
 ├── components/
 │   ├── layout/
 │   └── ui/
 │
-├── features/
-│   ├── auth/
-│   ├── products/
-│   ├── cart/
-│   ├── wishlist/
-│   ├── checkout/
-│   ├── orders/
-│   ├── profile/
-│   └── admin/
+├── config/
+│   └── navigation.js
 │
 ├── contexts/
+│   ├── AuthContext.jsx
+│   └── AuthProvider.jsx
+│
+├── features/
+│   ├── admin/
+│   │   └── dashboard/
+│   └── auth/
 │
 ├── hooks/
+│   ├── useAuth.js
+│   └── useTheme.js
 │
-├── services/
+├── i18n/
+│   ├── index.js
+│   └── locales/
+│
+├── lib/
+│   └── utils.js
 │
 ├── pages/
-│
-├── routes/
+│   ├── admin/
+│   └── auth/
 │
 ├── utils/
+│   ├── formatCurrency.js
+│   └── formatNumber.js
 │
-├── styles/
-│
-└── App.jsx
+├── App.jsx
+├── index.css
+├── main.jsx
+└── ProtectedRoute.jsx
 ```
 
 ## Directory Responsibilities
 
-### `assets/`
+### `api/`
 
-Static assets used by the application.
+The centralized shared HTTP client.
 
-Examples:
+Contains a single Axios instance configured from the environment
+(`VITE_API_URL`) and used for all API communication.
 
-- Images
-- Icons
-- Fonts
-- Other static resources
+Feature code should not create its own Axios instances or scatter
+requests across components.
 
 ---
 
@@ -79,10 +89,9 @@ Application-level layout components.
 
 Examples:
 
-- Header
-- Footer
+- AdminLayout
 - Sidebar
-- Page layout
+- AdminHeader
 
 ---
 
@@ -93,44 +102,24 @@ Reusable generic UI components.
 Examples:
 
 - Button
-- Input
-- Modal
-- Badge
-- Spinner
 - Card
+- Input
+- Badge
+- Skeleton
+- Dialog
 
 Feature-specific components should not be placed here
 unless they are genuinely reusable across features.
 
 ---
 
-### `features/`
+### `config/`
 
-Feature-specific code.
+App-level configuration consumed by components.
 
-Each feature should contain code that primarily belongs
-to that feature.
+Example:
 
-Examples:
-
-```text
-features/
-├── auth/
-├── products/
-├── cart/
-└── checkout/
-```
-
-A feature may contain:
-
-- Components
-- API-related logic
-- Hooks
-- Helpers
-- Types/models if needed
-
-Do not move code into components/ just because it is a component.
-Move it there only when it is shared or reusable.
+- `navigation.js` — admin navigation items used by the sidebar.
 
 ---
 
@@ -138,40 +127,81 @@ Move it there only when it is shared or reusable.
 
 Global application state using React Context API.
 
-Examples:
+Currently contains the Auth context used across the application:
 
+- AuthProvider
 - AuthContext
-- CartContext
-- WishlistContext
+- `useAuth()` lives in `hooks/`
 
 Avoid putting local component state into Context unnecessarily.
+Use Context only for state genuinely shared across the tree.
 
-### `hooks/`
+---
 
-Reusable custom React hooks.
+### `features/`
 
-Examples:
+Feature-specific code.
 
-- useAuth()
-- useCart()
-- useDebounce()
+Each feature contains code that primarily belongs to that feature,
+including components, hooks, utils, and feature-local services.
 
-A hook that is only relevant to one feature should preferably
-remain inside that feature.
-
-### `services/`
-
-Communication with external systems.
-
-Examples:
+Currently implemented features:
 
 ```text
-services/
-├── api/
+features/
+├── admin/
+│   └── dashboard/
 └── auth/
 ```
 
-API requests should not be scattered randomly across UI components.
+A feature may contain:
+
+- Components
+- Feature-local services (e.g., `auth.service.js`)
+- Hooks (feature-scoped hooks stay here, e.g., `useDashboard`)
+- Constants
+- Utils
+
+Do not move code into components/ just because it is a component.
+Move it there only when it is shared or reusable.
+
+---
+
+### `hooks/`
+
+Reusable custom React hooks shared across the application.
+
+Currently:
+
+- `useAuth()` — auth state from the Auth context
+- `useTheme()` — theme handling
+
+A hook that is only relevant to one feature should preferably
+remain inside that feature (e.g., `useDashboard` lives in
+`features/admin/dashboard/`).
+
+---
+
+### `i18n/`
+
+Internationalization setup (i18next).
+
+Contains:
+
+- `index.js` — i18next configuration
+- `locales/` — translation files
+
+---
+
+### `lib/`
+
+Small shared helpers.
+
+Currently:
+
+- `utils.js` — `cn()` class-name merge helper for UI components.
+
+---
 
 ### `pages/`
 
@@ -179,53 +209,55 @@ Route-level components.
 
 A page represents a screen that can be reached through routing.
 
-Examples:
+Currently:
 
 ```text
 pages/
-├── auth/
-├── products/
-├── cart/
-├── checkout/
-├── orders/
-├── profile/
-└── admin/
+├── admin/       # Dashboard, Products, Orders, Users, Carts
+├── auth/        # Login, Registration, ForgetPassword, VerifyOtp
+├── DesignSystem.jsx
+└── Home.jsx
 ```
 
 Pages should compose features and shared components rather than
 contain large amounts of reusable business logic.
 
-### `routes/`
-
-Application routing and route protection.
-
-Responsibilities include:
-
-- Route definitions
-- Protected routes
-- Admin-only routes
-- Authentication-based redirects
+---
 
 ### `utils/`
 
 Pure reusable helper functions.
 
-Examples:
+Currently:
 
-- Formatting
-- Validation helpers
-- Data transformation
-- Small utility functions
+- `formatCurrency.js`
+- `formatNumber.js`
 
 Avoid putting API calls or React components here.
 
-### `styles/`
-
-Global styling and design-system-related styles when needed.
-
-Tailwind CSS remains the primary styling approach.
-
 ---
+
+## Application root and routing
+
+Routing is defined in `src/App.jsx` using React Router v7, with a
+top-level `Routes` tree that includes the `/design-system` route and
+the protected `/admin/*` section.
+
+Route-level lazy loading is used for the Design System page
+(`React.lazy` + `Suspense`) so it is fetched only when navigating to
+`/design-system`.
+
+`src/ProtectedRoute.jsx` guards the `/admin/*` section:
+
+- Redirects unauthenticated visitors to the login page.
+- Blocks non-admin users from admin routes.
+
+`src/main.jsx` is the application entry point: it mounts the auth
+provider and the router.
+
+`src/index.css` holds the global styles (Tailwind CSS v4) and the
+project's design tokens. Tailwind CSS remains the primary styling
+approach.
 
 ## Application Flow
 
@@ -264,13 +296,15 @@ Authenticated?
 ```text
 Component / Feature
         ↓
-Service / Axios
+Feature service (feature-local)
+        ↓
+Shared api client (src/api/axios)
         ↓
 REST API
         ↓
 Response
         ↓
-Feature / Context
+Feature / Hook (local state) or Context (auth)
         ↓
 UI
 ```
@@ -298,29 +332,26 @@ Dashboard
 
 ## Store Features
 
-The Online Store includes:
+### Currently implemented
 
 - Home
-- Authentication
-- Products
-- Product Details
-- Reviews
+- Authentication (login, registration, forgot-password, OTP verification)
+- Design System reference page (`/design-system`)
+- Admin section
+  - Dashboard with real statistics (revenue, orders, customers, top products)
+  - Products / Orders / Users / Carts admin routes exist but currently
+    show placeholder content pending their real features
+
+### Planned / not yet implemented
+
+- Storefront catalog (Products, Product Details, Reviews)
 - Cart
 - Wishlist
-- Checkout
-- Stripe
-- Orders
-- Profile
-- Admin Features
+- Checkout & Stripe payments
+- Orders & Profile (customer-facing)
+- Admin: full Products CRUD, product images, order/users management, charts
 
-The Admin Dashboard includes:
-
-- Dashboard
-- Products CRUD
-- Product Images
-- Orders
-- Users
-- Charts
+Do not document features above as implemented until they exist.
 
 ## Architecture Rules
 

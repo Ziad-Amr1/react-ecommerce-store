@@ -22,7 +22,14 @@ export default function Login() {
 
   const { login } = useAuth();
 
-  const from = location.state?.from || "/";
+  const stateFrom = location.state?.from;
+
+  const from =
+    typeof stateFrom === "string" &&
+    stateFrom.startsWith("/") &&
+    !stateFrom.startsWith("//")
+      ? stateFrom
+      : "/";
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -75,10 +82,8 @@ export default function Login() {
       await login(email, password);
 
       // Login successful
-      navigate("/admin");
+      navigate(from === "/" ? "/admin" : from);
     } catch (error) {
-      console.error("Login error:", error);
-
       setApiError(getApiErrorMessage(error, t("auth.errors.invalidCredentials")));
     } finally {
       setIsSubmitting(false);

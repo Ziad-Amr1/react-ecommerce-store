@@ -69,7 +69,7 @@ export default function Dashboard() {
           </CardHeader>
         </Card>
 
-        <div className="grid grid-cols-2 gap-6 sm:grid-cols-3 xl:grid-cols-6">
+        <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 xl:grid-cols-4">
           {Array.from({ length: 6 }).map((_, index) => (
             <Card
               key={index}
@@ -269,7 +269,7 @@ export default function Dashboard() {
         </CardHeader>
       </Card>
 
-      <div className="grid grid-cols-2 gap-6 sm:grid-cols-3 xl:grid-cols-6">
+      <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 xl:grid-cols-4">
         {cardList.map((card) => (
           <StatCard
             key={card.id}
@@ -285,7 +285,10 @@ export default function Dashboard() {
 
       <div className="grid grid-cols-1 gap-6 lg:grid-cols-12">
         <div className="lg:col-span-5">
-          <OrderStatus ordersByStatus={dashboard.ordersByStatus} />
+          <OrderStatus
+            ordersByStatus={dashboard.ordersByStatus}
+            totalOrders={dashboard.orders.total}
+          />
         </div>
 
         <div className="lg:col-span-7">

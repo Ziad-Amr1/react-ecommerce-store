@@ -220,8 +220,8 @@ export default function Dashboard() {
         i18n.language,
       ),
       cardIcon: CalendarDays,
-      borderClass: "border-t-(--color-supporting)",
-      iconClass: "bg-(--color-supporting) text-(--color-text-primary)",
+      borderClass: "border-t-(--color-text-secondary)",
+      iconClass: "bg-(--color-surface-secondary) text-(--color-text-secondary)",
     },
     {
       id: 5,

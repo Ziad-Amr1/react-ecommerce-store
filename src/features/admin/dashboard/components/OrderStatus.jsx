@@ -59,7 +59,7 @@ export default function OrderStatus({ ordersByStatus = [], totalOrders = 0 }) {
             <OrderStatusDonut items={items} />
           </Suspense>
 
-          <div className="pointer-events-none absolute inset-0 flex flex-col items-center justify-center gap-0.5">
+          <div className="pointer-events-none absolute inset-0 flex flex-col items-center justify-center gap-1">
             <span className="font-display text-2xl font-bold tabular-nums">
               {formatNumber(totalOrders, i18n.language)}
             </span>

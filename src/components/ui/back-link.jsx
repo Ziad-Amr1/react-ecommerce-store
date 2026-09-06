@@ -23,7 +23,7 @@ export default function BackLink({ labelKey, className }) {
         className
       )}
     >
-      <ArrowLeft className="size-4 shrink-0" aria-hidden="true" />
+      <ArrowLeft className="size-4 shrink-0 rtl:rotate-180" aria-hidden="true" />
       {t(labelKey)}
     </button>
   );

@@ -1,3 +1,4 @@
+import { forwardRef, useEffect } from "react";
 import { NavLink } from "react-router";
 import { useTranslation } from "react-i18next";
 import { Button } from "@/components/ui/button";
@@ -11,12 +12,92 @@ import {
   Radio,
   X,
   PanelLeftClose,
-  PanelRightClose,
+  PanelLeftOpen,
 } from "lucide-react";
 import { adminNavigation } from "@/config/navigation";
 
+// NavLink with a functional className is incompatible with Radix Slot / asChild:
+// Slot's mergeProps stringifies function-valued className props onto the child
+// element, turning the callback into a literal class string. This wrapper never
+// forwards that merged className (spreading it first, then always overriding it
+// with a real function) so NavLink computes the state-dependent classes itself.
+const NavItem = forwardRef(function NavItem(
+  {
+    to,
+    end,
+    onClick,
+    label,
+    icon: Icon,
+    collapsed,
+    "aria-label": ariaLabel,
+    ...rest
+  },
+  ref
+) {
+  return (
+    <NavLink
+      {...rest}
+      ref={ref}
+      to={to}
+      end={end}
+      onClick={onClick}
+      aria-label={ariaLabel}
+      className={({ isActive }) =>
+        `group relative flex h-11 items-center rounded-xl transition-all duration-200 ${
+          collapsed ? "justify-center" : "gap-3 px-4"
+        } ${
+          isActive
+            ? "bg-primary text-primary-foreground shadow-sm"
+            : "text-(--color-text-secondary) hover:bg-(--color-surface-secondary) hover:text-(--color-text-primary)"
+        }`
+      }
+    >
+      {({ isActive }) => (
+        <>
+          <span
+            className={`absolute left-0 top-1/2 h-6 w-1 -translate-y-1/2 rounded-r-full bg-primary-foreground transition-opacity duration-200 ${
+              isActive ? "opacity-100" : "opacity-0"
+            }`}
+          />
+          <Icon
+            aria-hidden="true"
+            className={`shrink-0 transition-colors duration-200 ${
+              isActive
+                ? "text-primary-foreground"
+                : "text-(--color-text-secondary) group-hover:text-(--color-text-primary)"
+            }`}
+          />
+          <span
+            className={`overflow-hidden text-sm whitespace-nowrap transition-all duration-300 ${
+              collapsed ? "invisible w-0 opacity-0" : "visible w-auto opacity-100"
+            }`}
+          >
+            {label}
+          </span>
+        </>
+      )}
+    </NavLink>
+  );
+});
+NavItem.displayName = "NavItem";
+
 export default function Sidebar({ id, isOpen, isCollapsed, onClose, onToggleCollapse }) {
   const { t } = useTranslation();
+
+  // Escape dismisses the mobile drawer, matching the overlay's click-to-close.
+  useEffect(() => {
+    if (!isOpen) return;
+
+    const handleKeyDown = (event) => {
+      if (event.key === "Escape") {
+        onClose();
+      }
+    };
+
+    document.addEventListener("keydown", handleKeyDown);
+
+    return () => document.removeEventListener("keydown", handleKeyDown);
+  }, [isOpen, onClose]);
 
   return (
     <>
@@ -31,6 +112,7 @@ export default function Sidebar({ id, isOpen, isCollapsed, onClose, onToggleColl
 
       <aside
         id={id}
+        aria-label={t("navigation.adminPanel")}
         className={`fixed left-0 top-0 z-(--z-modal) flex h-screen flex-col border-r border-(--color-border) bg-(--color-surface) text-(--color-text-primary) transition-all duration-300 ease-out ${
           isOpen ? "translate-x-0" : "-translate-x-full lg:translate-x-0"
         } ${isCollapsed ? "w-20" : "w-72"}`}
@@ -61,8 +143,9 @@ export default function Sidebar({ id, isOpen, isCollapsed, onClose, onToggleColl
                 size="icon"
                 className="rounded-full lg:hidden hover:bg-(--color-surface-secondary)"
                 onClick={onClose}
+                aria-label={t("navigation.menu.close")}
               >
-                <X size={20} className="size-5" aria-label={t("navigation.menu.close")} />
+                <X className="size-5" aria-hidden="true" />
               </Button>
             </div>
           )}
@@ -71,64 +154,31 @@ export default function Sidebar({ id, isOpen, isCollapsed, onClose, onToggleColl
           <nav className="min-h-0 flex-1 overflow-y-auto px-3 py-4">
             <ul className="space-y-1">
               {adminNavigation.map((link) => {
-                const Icon = link.icon;
                 const label = t(link.labelKey);
 
-                const linkElement = (
-                  <NavLink
+                const item = (
+                  <NavItem
                     to={link.path}
                     end={link.path === "/admin"}
                     onClick={onClose}
+                    label={label}
+                    icon={link.icon}
+                    collapsed={isCollapsed}
                     aria-label={isCollapsed ? label : undefined}
-                    className={({ isActive }) =>
-                      `group relative flex h-11 items-center rounded-xl transition-all duration-200 ${
-                        isCollapsed ? "justify-center" : "gap-3 px-4"
-                      } ${
-                        isActive
-                          ? "bg-(--color-primary) text-(--color-on-primary) shadow-(--shadow-sm)"
-                          : "text-(--color-text-secondary) hover:bg-(--color-surface-secondary) hover:text-(--color-text-primary)"
-                      }`
-                    }
-                  >
-                    {({ isActive }) => (
-                      <>
-                        <span
-                          className={`absolute left-0 top-1/2 h-6 w-1 -translate-y-1/2 rounded-r-full bg-(--color-on-primary) transition-opacity duration-200 ${
-                            isActive ? "opacity-100" : "opacity-0"
-                          }`}
-                        />
-                        <Icon
-                          size={20}
-                          aria-hidden="true"
-                          className={`shrink-0 transition-colors duration-200 ${
-                            isActive
-                              ? "text-(--color-on-primary)"
-                              : "text-(--color-text-secondary) group-hover:text-(--color-text-primary)"
-                          }`}
-                        />
-                        <span
-                          className={`whitespace-nowrap overflow-hidden text-sm transition-all duration-300 ${
-                            isCollapsed ? "w-0 opacity-0" : "w-auto opacity-100"
-                          }`}
-                        >
-                          {label}
-                        </span>
-                      </>
-                    )}
-                  </NavLink>
+                  />
                 );
 
                 return (
                   <li key={link.path}>
                     {isCollapsed ? (
                       <Tooltip>
-                        <TooltipTrigger asChild>{linkElement}</TooltipTrigger>
+                        <TooltipTrigger asChild>{item}</TooltipTrigger>
                         <TooltipContent side="right" sideOffset={8}>
                           {label}
                         </TooltipContent>
                       </Tooltip>
                     ) : (
-                      linkElement
+                      item
                     )}
                   </li>
                 );
@@ -139,16 +189,23 @@ export default function Sidebar({ id, isOpen, isCollapsed, onClose, onToggleColl
           {/* Footer */}
           <div
             className={`shrink-0 border-t border-(--color-border) bg-(--color-surface) p-3 ${
-              isCollapsed ? "flex justify-center" : "flex items-center justify-between gap-3"
+              isCollapsed
+                ? "flex justify-center"
+                : "flex items-center justify-between gap-3"
             }`}
           >
             <div
               className={`flex items-center gap-3 overflow-hidden whitespace-nowrap transition-all duration-300 ${
-                isCollapsed ? "w-0 opacity-0" : "w-auto opacity-100"
+                isCollapsed
+                  ? "invisible w-0 opacity-0"
+                  : "visible w-auto opacity-100"
               }`}
             >
               <div className="flex size-9 shrink-0 items-center justify-center rounded-full bg-(--color-success-bg)">
-                <Radio className="size-5 text-(--color-success)" aria-hidden="true" />
+                <Radio
+                  className="size-5 text-(--color-success)"
+                  aria-hidden="true"
+                />
               </div>
               <div className="min-w-0">
                 <p className="truncate text-sm font-medium text-(--color-text-primary)">
@@ -177,9 +234,9 @@ export default function Sidebar({ id, isOpen, isCollapsed, onClose, onToggleColl
               }
             >
               {isCollapsed ? (
-                <PanelRightClose size={20} className="size-5" aria-hidden="true" />
+                <PanelLeftOpen className="size-5" aria-hidden="true" />
               ) : (
-                <PanelLeftClose size={20} className="size-5" aria-hidden="true" />
+                <PanelLeftClose className="size-5" aria-hidden="true" />
               )}
             </Button>
           </div>

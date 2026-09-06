@@ -160,6 +160,7 @@
     "title": "Dashboard Page",
     "loading": "Loading dashboard...",
     "loadError": "Failed to load dashboard data.",
+    "retry": "Retry",
     "noData": "No dashboard data available.",
     "noProducts": "No products",
 
@@ -167,7 +168,6 @@
     "recentOrders": "Recent Orders",
     "topProducts": "Top Products",
     "totalSold": "{{count}} sold",
-    "ofOrders": "{{count}}% of orders",
     "noRecentOrders": "No recent orders yet",
     "noStatusData": "No status data yet",
     "orderId": "Order ID",
@@ -197,13 +197,13 @@
     "pendingOrderDescription": "Orders waiting to be processed",
 
     "totalRevenue": "Total Revenue",
-    "totalRevenueDescription": "Total gross revenue",
+    "totalRevenueDescription": "Overall gross revenue",
 
-    "thisMonth": "This Month",
-    "thisMonthDescription": "Monthly sales target",
+    "thisMonthRevenue": "This Month Revenue",
+    "thisMonthRevenueDescription": "Revenue generated in the current month",
 
-    "topProduct": "Top Product",
-    "topProductDescription": "{{count}} sold",
+    "revenueGrowth": "Revenue Growth",
+    "revenueGrowthDescription": "Rate of change in total revenue",
 
     "totalUsers": "Users",
     "totalUsersDescription": "Total registered customers"

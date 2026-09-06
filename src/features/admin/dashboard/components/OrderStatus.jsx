@@ -1,22 +1,20 @@
 import { useTranslation } from "react-i18next";
+import { lazy, Suspense } from "react";
+
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { STATUS_KEYS } from "@/features/admin/dashboard/constants";
+import { Progress } from "@/components/ui/progress";
+import { Skeleton } from "@/components/ui/skeleton";
+import {
+  STATUS_PRESENTATION,
+  STATUS_FILL_FALLBACK,
+  STATUS_BAR_CLASS_FALLBACK,
+} from "@/features/admin/dashboard/constants";
+import { formatNumber } from "@/utils/formatNumber";
 
-const statusStyles = {
-  pending: "bg-(--color-warning-bg) text-(--color-warning)",
-  processing: "bg-(--color-info-bg) text-(--color-info)",
-  confirmed: "bg-(--color-accent) text-(--color-on-accent)",
-  shipped: "bg-(--color-info-bg) text-(--color-info)",
-  delivered: "bg-(--color-success-bg) text-(--color-success)",
-  cancelled: "bg-(--color-error-bg) text-(--color-error)",
-  returned: "bg-(--color-surface-secondary) text-(--color-text-secondary)",
-};
-
-const FALLBACK_STATUS_STYLE =
-  "bg-(--color-surface-secondary) text-(--color-text-secondary)";
+const OrderStatusDonut = lazy(() => import("./OrderStatusDonut"));
 
 export default function OrderStatus({ ordersByStatus = [], totalOrders = 0 }) {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
 
   if (ordersByStatus.length === 0) {
     return (
@@ -34,48 +32,82 @@ export default function OrderStatus({ ordersByStatus = [], totalOrders = 0 }) {
     );
   }
 
+  const items = ordersByStatus
+    .map((item) => {
+      const presentation = STATUS_PRESENTATION[item._id];
+
+      return {
+        id: item._id,
+        label: presentation ? t(presentation.labelKey) : item._id,
+        count: item.count,
+        percent: totalOrders > 0 ? (item.count / totalOrders) * 100 : 0,
+        fill: presentation?.fill || STATUS_FILL_FALLBACK,
+        barClass: presentation?.barClass || STATUS_BAR_CLASS_FALLBACK,
+      };
+    })
+    .sort((a, b) => b.count - a.count);
+
   return (
     <Card className="h-full">
       <CardHeader>
         <CardTitle>{t("dashboard.orderStatus")}</CardTitle>
       </CardHeader>
 
-      <CardContent className="space-y-5">
-        {ordersByStatus.map((item) => {
-          const percentage =
-            totalOrders > 0 ? (item.count / totalOrders) * 100 : 0;
+      <CardContent className="flex flex-col gap-6">
+        <div className="relative h-52">
+          <Suspense fallback={<Skeleton className="size-full rounded-full" />}>
+            <OrderStatusDonut items={items} />
+          </Suspense>
 
-          const status = item._id;
+          <div className="pointer-events-none absolute inset-0 flex flex-col items-center justify-center gap-1">
+            <span className="font-display text-2xl font-bold tabular-nums">
+              {formatNumber(totalOrders, i18n.language)}
+            </span>
 
-          return (
-            <div key={status} className="space-y-2">
+            <span className="text-xs text-(--color-text-secondary)">
+              {t("dashboard.totalOrders")}
+            </span>
+          </div>
+        </div>
+
+        <ul className="space-y-4">
+          {items.map((item) => (
+            <li key={item.id} className="space-y-1.5">
               <div className="flex items-center justify-between gap-3">
-                <span
-                  className={`rounded-full px-3 py-1 text-xs font-semibold ${
-                    statusStyles[status] || FALLBACK_STATUS_STYLE
-                  }`}
-                >
-                  {STATUS_KEYS[status] ? t(STATUS_KEYS[status]) : status}
+                <span className="flex min-w-0 items-center gap-2">
+                  <span
+                    className="size-2.5 shrink-0 rounded-full"
+                    style={{ backgroundColor: item.fill }}
+                    aria-hidden="true"
+                  />
+
+                  <span className="truncate text-sm">{item.label}</span>
                 </span>
 
-                <span className="text-sm font-semibold tabular-nums">
-                  {item.count}
+                <span className="flex shrink-0 items-baseline gap-2">
+                  <span className="text-sm font-semibold tabular-nums">
+                    {formatNumber(item.count, i18n.language)}
+                  </span>
+
+                  <span className="text-xs tabular-nums text-(--color-text-secondary)">
+                    {formatNumber(Math.round(item.percent), i18n.language)}%
+                  </span>
                 </span>
               </div>
 
-              <div className="h-2 overflow-hidden rounded-full bg-muted">
-                <div
-                  className="h-full rounded-full bg-primary transition-all"
-                  style={{ width: `${percentage}%` }}
+              <div className="rtl:-scale-x-100">
+                <Progress
+                  value={item.percent}
+                  className={item.barClass}
+                  aria-label={`${item.label}: ${formatNumber(
+                    Math.round(item.percent),
+                    i18n.language,
+                  )}%`}
                 />
               </div>
-
-              <p className="text-xs text-muted-foreground">
-                {t("dashboard.ofOrders", { count: Math.round(percentage) })}
-              </p>
-            </div>
-          );
-        })}
+            </li>
+          ))}
+        </ul>
       </CardContent>
     </Card>
   );

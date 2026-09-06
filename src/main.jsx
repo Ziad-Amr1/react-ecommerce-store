@@ -5,12 +5,15 @@ import "./index.css";
 import "./i18n";
 import App from "./App.jsx";
 import AuthProvider from "./contexts/AuthProvider";
+import { DirectionProvider } from "./i18n/DirectionProvider";
 
 createRoot(document.getElementById("root")).render(
   <StrictMode>
       <AuthProvider>
         <BrowserRouter>
-          <App />
+          <DirectionProvider>
+            <App />
+          </DirectionProvider>
         </BrowserRouter>
       </AuthProvider>
   </StrictMode>,

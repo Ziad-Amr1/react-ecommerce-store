@@ -1,15 +1,8 @@
 import { useState } from "react";
-import { useNavigate, Link } from "react-router";
+import { useNavigate, Link, useLocation } from "react-router";
 import { useTranslation } from "react-i18next";
 
-import {
-  Check,
-  CircleX,
-  Loader2,
-  Lock,
-  Mail,
-  Shield,
-} from "lucide-react";
+import { Check, CircleX, Loader2, Lock, Mail, Shield } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -36,6 +29,9 @@ export default function Login() {
   const [apiError, setApiError] = useState("");
 
   const [isSubmitting, setIsSubmitting] = useState(false);
+
+  const location = useLocation();
+  const redirectPath = location.state?.redirectPath || "/admin";
 
   const validateForm = () => {
     const newErrors = {};
@@ -81,7 +77,7 @@ export default function Login() {
       await login(email, password);
 
       // Login successful
-      navigate("/admin");
+      navigate(redirectPath, { replace: true });
     } catch (error) {
       console.error("Login error:", error);
 
@@ -267,6 +263,7 @@ export default function Login() {
               <div className="flex justify-end">
                 <Link
                   to="/forgot-password"
+                  state={{ redirectPath }}
                   className="rounded-sm text-sm font-medium text-(--color-link) hover:text-(--color-link-hover) hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-(--color-focus-ring)"
                 >
                   {t("auth.login.forgotPassword")}
@@ -289,18 +286,21 @@ export default function Login() {
                   t("auth.login.submit")
                 )}
               </Button>
-            </form>
 
-            {/* SIGN UP LINK */}
-            <p className="text-center text-sm text-(--color-text-secondary)">
-              {t("auth.login.noAccount")}{" "}
-              <Link
-                to="/register"
-                className="rounded-sm font-medium text-(--color-link) hover:text-(--color-link-hover) hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-(--color-focus-ring)"
-              >
-                {t("auth.login.signUp")}
-              </Link>
-            </p>
+              {/* SIGN UP Link */}
+              <div className="flex justify-center gap-4">
+                <p className="text-base text-(--color-text-secondary)">
+                  {t("auth.login.needToSignUp")}{" "}
+                </p>
+                <Link
+                  to="/register"
+                  state={{ redirectPath }}
+                  className="rounded-sm text-sm font-medium text-(--color-link) hover:text-(--color-link-hover) hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-(--color-focus-ring)"
+                >
+                  {t("auth.login.signUp")}
+                </Link>
+              </div>
+            </form>
           </div>
         </div>
       </div>

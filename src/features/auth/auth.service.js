@@ -50,7 +50,7 @@ export const sendRegistrationOTP = async (username, email, password, phone) => {
   return response.data;
 };
 
-export const verifyRegistrationOTP = async (email, otp) => {
+export const verifyRegister = async (email, otp) => {
   const response = await api.post("/auth/register/verify-otp", {
     email,
     otp,

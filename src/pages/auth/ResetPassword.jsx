@@ -1,37 +1,51 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useLocation, useNavigate } from "react-router";
 import { useTranslation } from "react-i18next";
 
-import { KeyRound, Check, Shield, Loader2, ArrowLeft } from "lucide-react";
+import { KeyRound, Check, X, Shield, Loader2, ArrowLeft } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { verifyRegister } from "@/features/auth/auth.service";
+import {
+  verifyForgotPasswordOTP,
+  sendForgotPasswordOTP,
+} from "@/features/auth/auth.service";
 
-export default function VerifyOtp() {
+export default function ResetPassword() {
   const location = useLocation();
   const navigate = useNavigate();
   const { t } = useTranslation();
 
   const email = location.state?.email || "";
+  const otp = location.state?.otp || "";
   const flow = location.state?.flow || "";
   const redirectPath = location.state?.redirectPath || "";
 
-  const isForgetPassword = flow === "forget-password";
-  const isRegister = flow === "register";
-
-  const [otp, setOtp] = useState("");
-  // const [newPassword, setNewPassword] = useState("");
+  const [newPassword, setNewPassword] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isResending, setIsResending] = useState(false);
+  const [resendCooldown, setResendCooldown] = useState(0);
   const [errors, setErrors] = useState({});
   const [apiError, setApiError] = useState("");
   const [success, setSuccess] = useState(false);
 
+  useEffect(() => {
+    if (resendCooldown <= 0) {
+      return;
+    }
+    const timer = setInterval(() => {
+      setResendCooldown((prev) => prev - 1);
+    }, 1000);
+    return () => clearInterval(timer);
+  }, [resendCooldown]);
+
   const validateForm = () => {
     const newErrors = {};
 
-    if (!/^\d{6}$/.test(otp)) {
-      newErrors.otp = t("validation.otpRequired");
+    if (!newPassword) {
+      newErrors.newPassword = t("validation.passwordRequired");
+    } else if (newPassword.length < 6) {
+      newErrors.newPassword = t("validation.passwordMin", { count: 6 });
     }
 
     setErrors(newErrors);
@@ -55,41 +69,47 @@ export default function VerifyOtp() {
       return;
     }
 
-    console.log("Verify clicked");
-    console.log("otp:", otp);
-    console.log("flow:", flow);
-    console.log("isForgetPassword:", isForgetPassword);
-
     try {
       setIsSubmitting(true);
 
-      if (isForgetPassword) {
-        navigate("/reset-password", {
-          state: {
-            email,
-            otp,
-            flow,
-            redirectPath,
-          },
-          replace: true,
-        });
-      }
-
-      if (isRegister) {
-        await verifyRegister(email, otp);
-        setSuccess(true);
-      }
-
-      // setSuccess(true);
+      await verifyForgotPasswordOTP(email, otp, newPassword);
+      setSuccess(true);
     } catch (error) {
       const message =
         error?.response?.data?.message ||
         error?.response?.data?.error ||
-        t("auth.verifyOtp.failed");
+        t("auth.resetPassword.failed");
 
       setApiError(message);
     } finally {
       setIsSubmitting(false);
+    }
+  };
+
+  const handleResendOtp = async () => {
+    if (resendCooldown > 0 || isResending) {
+      return;
+    }
+    try {
+      setIsResending(true);
+      await sendForgotPasswordOTP(email);
+      setResendCooldown(60);
+      navigate("/forgot-password/verify-otp", {
+        state: {
+          email,
+          flow,
+          redirectPath,
+        },
+        replace: true,
+      });
+    } catch (error) {
+      const message =
+        error?.response?.data?.message ||
+        error?.response?.data?.error ||
+        t("auth.resetPassword.failed");
+      setApiError(message);
+    } finally {
+      setIsResending(false);
     }
   };
 
@@ -118,11 +138,60 @@ export default function VerifyOtp() {
             type="button"
             size="lg"
             onClick={() =>
-              navigate("/login", { state: { redirectPath }, replace: true })
+              navigate("/login", {
+                state: {
+                  redirectPath,
+                },
+                replace: true,
+              })
             }
             className="w-full rounded-[var(--radius-lg)] text-base font-semibold"
           >
-            {t("auth.verifyOtp.goToLogin")}
+            {t("auth.resetPassword.goToLogin")}
+          </Button>
+        </div>
+      </main>
+    );
+  }
+
+  if (apiError) {
+    return (
+      <main className="flex min-h-screen items-center justify-center bg-[var(--color-background)] p-4">
+        <div className="w-full max-w-md space-y-6 rounded-[var(--radius-2xl)] bg-[var(--color-surface)] p-8 text-center shadow-[var(--shadow-xl)] border border-[var(--color-border)]">
+          <div
+            role="alert"
+            className="mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-[var(--color-error)]/15 text-[var(--color-error)]"
+          >
+            <X className="h-8 w-8" aria-hidden="true" />
+          </div>
+
+          <div>
+            <h2 className="font-display text-2xl font-bold text-[var(--color-text-primary)]">
+              {t("auth.resetPassword.failedTitle")}
+            </h2>
+
+            <p className="mt-2 text-[var(--color-text-secondary)]">
+              {apiError}
+            </p>
+          </div>
+
+          <Button
+            type="button"
+            size="lg"
+            onClick={handleResendOtp}
+            disabled={isResending || resendCooldown > 0}
+            className="w-full rounded-[var(--radius-lg)] text-base font-semibold"
+          >
+            {isResending ? (
+              <>
+                <Loader2 className="animate-spin" aria-hidden="true" />
+                Sending...
+              </>
+            ) : resendCooldown > 0 ? (
+              t("auth.resetPassword.resendIn", { count: resendCooldown })
+            ) : (
+              t("auth.resetPassword.resend")
+            )}
           </Button>
         </div>
       </main>
@@ -167,11 +236,11 @@ export default function VerifyOtp() {
               />
 
               <h2 className="font-display text-3xl font-bold text-[var(--color-text-primary)]">
-                {t("auth.verifyOtp.title")}
+                {t("auth.resetPassword.title")}
               </h2>
 
               <p className="text-lg text-[var(--color-text-secondary)]">
-                {t("auth.verifyOtp.subtitle", { email })}
+                {t("auth.resetPassword.subtitle")}
               </p>
             </div>
 
@@ -190,32 +259,30 @@ export default function VerifyOtp() {
               aria-busy={isSubmitting}
               className="space-y-4"
             >
-              {/* OTP */}
+              {/* NEW PASSWORD */}
               <div>
                 <label
-                  htmlFor="verify-otp-code"
+                  htmlFor="reset-password"
                   className="mb-1 block text-sm font-bold text-[var(--color-text-primary)]"
                 >
-                  {t("auth.verifyOtp.otpLabel")}
+                  {t("auth.resetPassword.newPasswordLabel")}
                 </label>
 
                 <div className="relative">
                   <Input
-                    id="verify-otp-code"
-                    name="otp"
-                    type="text"
-                    inputMode="numeric"
-                    autoComplete="one-time-code"
-                    maxLength={6}
-                    value={otp}
+                    id="reset-password"
+                    name="newPassword"
+                    type="password"
+                    autoComplete="new-password"
+                    value={newPassword}
                     onChange={(event) => {
-                      setOtp(event.target.value);
-                      clearFieldError("otp");
+                      setNewPassword(event.target.value);
+                      clearFieldError("newPassword");
                     }}
-                    placeholder={t("auth.verifyOtp.otpPlaceholder")}
-                    aria-invalid={Boolean(errors.otp)}
+                    placeholder={t("auth.resetPassword.newPasswordPlaceholder")}
+                    aria-invalid={Boolean(errors.newPassword)}
                     aria-describedby={
-                      errors.otp ? "verify-otp-code-error" : undefined
+                      errors.newPassword ? "new-password-error" : undefined
                     }
                     className="bg-[var(--color-surface-secondary)] border-[var(--color-border)] rounded-[var(--radius-lg)] py-6 pl-11 text-[var(--color-text-primary)] placeholder:text-[var(--color-text-secondary)] focus-visible:ring-[var(--color-focus-ring)]"
                   />
@@ -226,12 +293,12 @@ export default function VerifyOtp() {
                   />
                 </div>
 
-                {errors.otp && (
+                {errors.newPassword && (
                   <p
-                    id="verify-otp-code-error"
+                    id="verify-otp-new-password-error"
                     className="mt-1 text-sm text-[var(--color-error)]"
                   >
-                    {errors.otp}
+                    {errors.newPassword}
                   </p>
                 )}
               </div>
@@ -245,10 +312,10 @@ export default function VerifyOtp() {
                 {isSubmitting ? (
                   <>
                     <Loader2 className="animate-spin" aria-hidden="true" />
-                    {t("auth.verifyOtp.submitting")}
+                    {t("auth.resetPassword.submitting")}
                   </>
                 ) : (
-                  t("auth.verifyOtp.submit")
+                  t("auth.resetPassword.submit")
                 )}
               </Button>
             </form>
@@ -257,14 +324,18 @@ export default function VerifyOtp() {
               type="button"
               variant="ghost"
               onClick={() =>
-                navigate("/forgot-password", {
-                  state: { flow, redirectPath },
+                navigate("/forgot-password/verify-otp", {
+                  state: {
+                    email,
+                    flow,
+                    redirectPath,
+                  },
                 })
               }
               className="w-full text-sm gap-2"
             >
               <ArrowLeft size={16} aria-hidden="true" />
-              {t("auth.verifyOtp.backToForgot")}
+              {t("auth.resetPassword.backToOtp")}
             </Button>
           </div>
         </div>

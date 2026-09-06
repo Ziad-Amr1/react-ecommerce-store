@@ -54,6 +54,7 @@
       "submitting": "Signing in...",
       "forgotPassword": "Forgot password?",
       "noAccount": "Don't have an account?",
+      "needToSignUp": "Don't have an account? ",
       "signUp": "Sign up"
     },
     "forgetPassword": {
@@ -73,13 +74,29 @@
       "otpPlaceholder": "123456",
       "newPasswordLabel": "New Password",
       "newPasswordPlaceholder": "••••••••",
+      "submit": "Verify OTP",
+      "submitting": "Verifying OTP...",
+      "failed": "Verifcation failed. Please try again.",
+      "backToForgot": "Back to Forgot Password",
+      "successTitle": "OTP Verified",
+      "successMessage": "Your password has been reset successfully. You can now sign in with your new password.",
+      "goToLogin": "Go to Sign In"
+    },
+    "resetPassword": {
+      "title": "Reset Password",
+      "subtitle": "Enter a new password. It must be at least 6 characters.",
+      "newPasswordLabel": "New Password",
+      "newPasswordPlaceholder": "••••••••",
       "submit": "Reset Password",
       "submitting": "Resetting password...",
       "failed": "Reset failed. Please try again.",
-      "backToForgot": "Back to Forgot Password",
+      "backToOtp": "Back to OTP page",
       "successTitle": "Password Updated",
       "successMessage": "Your password has been reset successfully. You can now sign in with your new password.",
-      "goToLogin": "Go to Sign In"
+      "goToLogin": "Go to Sign In",
+      "failedTitle":"Invalid or expired OTP.",
+      "resend":"Resend OTP",
+      "resendIn":"Resend code in {{count}} s"
     },
     "register": {
       "title": "Create Account",

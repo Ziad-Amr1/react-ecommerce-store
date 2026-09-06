@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useNavigate } from "react-router";
+import { useLocation, useNavigate } from "react-router";
 import { useTranslation } from "react-i18next";
 
 import { Mail, Check, Shield, Loader2, ArrowLeft } from "lucide-react";
@@ -11,6 +11,9 @@ import { sendForgotPasswordOTP } from "@/features/auth/auth.service";
 export default function ForgetPassword() {
   const navigate = useNavigate();
   const { t } = useTranslation();
+  const location = useLocation();
+
+  const redirectPath = location.state?.redirectPath || "/admin";
 
   const [email, setEmail] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -53,7 +56,7 @@ export default function ForgetPassword() {
       await sendForgotPasswordOTP(email);
 
       navigate("/forgot-password/verify-otp", {
-        state: { email },
+        state: { email, flow: "forget-password", redirectPath },
       });
     } catch (error) {
       const message =
@@ -230,7 +233,7 @@ export default function ForgetPassword() {
             <Button
               type="button"
               variant="ghost"
-              onClick={() => navigate("/login")}
+              onClick={() => navigate("/login", { state: { redirectPath } })}
               className="w-full text-sm gap-2"
             >
               <ArrowLeft size={16} aria-hidden="true" />

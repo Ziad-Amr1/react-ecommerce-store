@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useNavigate, Link } from "react-router";
+import { useNavigate, Link, useLocation } from "react-router";
 import { useTranslation } from "react-i18next";
 
 import {
@@ -36,6 +36,9 @@ export default function Registration() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [errors, setErrors] = useState({});
   const [apiError, setApiError] = useState("");
+
+  const location = useLocation();
+  const redirectPath = location.state?.redirectPath || "/admin";
 
   const validateForm = () => {
     const newErrors = {};
@@ -94,7 +97,7 @@ export default function Registration() {
 
       // OTP sent — move to verification step
       navigate("/register/verify-otp", {
-        state: { email },
+        state: { email, redirectPath },
       });
     } catch (error) {
       const message =
@@ -335,6 +338,7 @@ export default function Registration() {
               {t("auth.register.alreadyHaveAccount")}{" "}
               <Link
                 to="/login"
+                state={{ redirectPath }}
                 className="rounded-sm font-medium text-(--color-link) hover:text-(--color-link-hover) hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-(--color-focus-ring)"
               >
                 {t("auth.register.signIn")}

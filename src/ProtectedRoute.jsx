@@ -1,4 +1,4 @@
-import { Navigate, Outlet } from "react-router";
+import { Navigate, Outlet, useLocation } from "react-router";
 import { useTranslation } from "react-i18next";
 import { Loader2 } from "lucide-react";
 import useAuth from "./hooks/useAuth";
@@ -6,8 +6,9 @@ import useAuth from "./hooks/useAuth";
 const ProtectedRoute = () => {
   const { t } = useTranslation();
   const { isAuthenticated, user, isLoading } = useAuth();
+  const location = useLocation();
 
-  if(isLoading){
+  if (isLoading) {
     return (
       <main className="flex min-h-screen items-center justify-center bg-(--color-background) p-4">
         <div
@@ -28,11 +29,13 @@ const ProtectedRoute = () => {
     );
   }
 
-  if(!isAuthenticated){
-    return <Navigate replace to="/login" />;
+  if (!isAuthenticated) {
+    const from = location.pathname + location.search;
+
+    return <Navigate replace to="/login" state={{ from }} />;
   }
 
-  if(user?.role !== "admin"){
+  if (user?.role !== "admin") {
     return <Navigate replace to="/" />;
   }
 

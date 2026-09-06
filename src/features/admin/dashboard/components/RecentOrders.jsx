@@ -17,7 +17,7 @@ import { Badge } from "@/components/ui/badge";
 import { formatCurrency } from "@/utils/formatCurrency";
 import {
   STATUS_PRESENTATION,
-  STATUS_BADGE_FALLBACK,
+  STATUS_BADGE_CLASS_FALLBACK,
 } from "@/features/admin/dashboard/constants";
 
 export default function RecentOrders({ orders = [] }) {
@@ -68,9 +68,10 @@ export default function RecentOrders({ orders = [] }) {
 
                   <TableCell className="whitespace-nowrap">
                     <Badge
-                      variant={
-                        STATUS_PRESENTATION[order.status]?.badgeVariant ||
-                        STATUS_BADGE_FALLBACK
+                      variant="outline"
+                      className={
+                        STATUS_PRESENTATION[order.status]?.badgeClass ||
+                        STATUS_BADGE_CLASS_FALLBACK
                       }
                     >
                       {STATUS_PRESENTATION[order.status]

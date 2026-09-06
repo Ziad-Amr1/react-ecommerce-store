@@ -1,13 +1,18 @@
 import { useTranslation } from "react-i18next";
+import { lazy, Suspense } from "react";
+
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Progress } from "@/components/ui/progress";
+import { Skeleton } from "@/components/ui/skeleton";
 import {
   STATUS_PRESENTATION,
-  STATUS_PILL_FALLBACK,
+  STATUS_FILL_FALLBACK,
 } from "@/features/admin/dashboard/constants";
+import { formatNumber } from "@/utils/formatNumber";
 
-export default function OrderStatus({ ordersByStatus = [], totalOrders = 0 }) {
-  const { t } = useTranslation();
+const OrderStatusDonut = lazy(() => import("./OrderStatusDonut"));
+
+export default function OrderStatus({ ordersByStatus = [] }) {
+  const { t, i18n } = useTranslation();
 
   if (ordersByStatus.length === 0) {
     return (
@@ -25,46 +30,73 @@ export default function OrderStatus({ ordersByStatus = [], totalOrders = 0 }) {
     );
   }
 
+  const total = ordersByStatus.reduce((sum, item) => sum + item.count, 0);
+
+  const items = ordersByStatus
+    .map((item) => {
+      const presentation = STATUS_PRESENTATION[item._id];
+
+      return {
+        id: item._id,
+        label: presentation ? t(presentation.labelKey) : item._id,
+        count: item.count,
+        percent: total > 0 ? (item.count / total) * 100 : 0,
+        fill: presentation?.fill || STATUS_FILL_FALLBACK,
+      };
+    })
+    .sort((a, b) => b.count - a.count);
+
   return (
     <Card className="h-full">
       <CardHeader>
         <CardTitle>{t("dashboard.orderStatus")}</CardTitle>
       </CardHeader>
 
-      <CardContent className="space-y-5">
-        {ordersByStatus.map((item) => {
-          const percentage =
-            totalOrders > 0 ? (item.count / totalOrders) * 100 : 0;
+      <CardContent className="flex flex-col gap-6">
+        <div className="relative h-52">
+          <Suspense fallback={<Skeleton className="size-full rounded-full" />}>
+            <OrderStatusDonut items={items} />
+          </Suspense>
 
-          const status = item._id;
-          const presentation = STATUS_PRESENTATION[status];
+          <div className="pointer-events-none absolute inset-0 flex flex-col items-center justify-center gap-0.5">
+            <span className="font-display text-2xl font-bold tabular-nums">
+              {formatNumber(total, i18n.language)}
+            </span>
 
-          return (
-            <div key={status} className="space-y-2">
-              <div className="flex items-center justify-between gap-3">
+            <span className="text-xs text-(--color-text-secondary)">
+              {t("dashboard.totalOrders")}
+            </span>
+          </div>
+        </div>
+
+        <ul className="space-y-2">
+          {items.map((item) => (
+            <li
+              key={item.id}
+              className="flex items-center justify-between gap-3"
+            >
+              <span className="flex min-w-0 items-center gap-2">
                 <span
-                  className={`rounded-full px-3 py-1 text-xs font-semibold ${
-                    presentation?.pill || STATUS_PILL_FALLBACK
-                  }`}
-                >
-                  {presentation ? t(presentation.labelKey) : status}
-                </span>
+                  className="size-2.5 shrink-0 rounded-full"
+                  style={{ backgroundColor: item.fill }}
+                  aria-hidden="true"
+                />
 
+                <span className="truncate text-sm">{item.label}</span>
+              </span>
+
+              <span className="flex shrink-0 items-baseline gap-2">
                 <span className="text-sm font-semibold tabular-nums">
-                  {item.count}
+                  {formatNumber(item.count, i18n.language)}
                 </span>
-              </div>
 
-              <div className="rtl:-scale-x-100">
-                <Progress value={percentage} />
-              </div>
-
-              <p className="text-xs text-muted-foreground">
-                {t("dashboard.ofOrders", { count: Math.round(percentage) })}
-              </p>
-            </div>
-          );
-        })}
+                <span className="text-xs tabular-nums text-(--color-text-secondary)">
+                  {formatNumber(Math.round(item.percent), i18n.language)}%
+                </span>
+              </span>
+            </li>
+          ))}
+        </ul>
       </CardContent>
     </Card>
   );

@@ -2,16 +2,18 @@ import { useTranslation } from "react-i18next";
 import { lazy, Suspense } from "react";
 
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Progress } from "@/components/ui/progress";
 import { Skeleton } from "@/components/ui/skeleton";
 import {
   STATUS_PRESENTATION,
   STATUS_FILL_FALLBACK,
+  STATUS_BAR_CLASS_FALLBACK,
 } from "@/features/admin/dashboard/constants";
 import { formatNumber } from "@/utils/formatNumber";
 
 const OrderStatusDonut = lazy(() => import("./OrderStatusDonut"));
 
-export default function OrderStatus({ ordersByStatus = [] }) {
+export default function OrderStatus({ ordersByStatus = [], totalOrders = 0 }) {
   const { t, i18n } = useTranslation();
 
   if (ordersByStatus.length === 0) {
@@ -30,8 +32,6 @@ export default function OrderStatus({ ordersByStatus = [] }) {
     );
   }
 
-  const total = ordersByStatus.reduce((sum, item) => sum + item.count, 0);
-
   const items = ordersByStatus
     .map((item) => {
       const presentation = STATUS_PRESENTATION[item._id];
@@ -40,8 +40,9 @@ export default function OrderStatus({ ordersByStatus = [] }) {
         id: item._id,
         label: presentation ? t(presentation.labelKey) : item._id,
         count: item.count,
-        percent: total > 0 ? (item.count / total) * 100 : 0,
+        percent: totalOrders > 0 ? (item.count / totalOrders) * 100 : 0,
         fill: presentation?.fill || STATUS_FILL_FALLBACK,
+        barClass: presentation?.barClass || STATUS_BAR_CLASS_FALLBACK,
       };
     })
     .sort((a, b) => b.count - a.count);
@@ -60,7 +61,7 @@ export default function OrderStatus({ ordersByStatus = [] }) {
 
           <div className="pointer-events-none absolute inset-0 flex flex-col items-center justify-center gap-0.5">
             <span className="font-display text-2xl font-bold tabular-nums">
-              {formatNumber(total, i18n.language)}
+              {formatNumber(totalOrders, i18n.language)}
             </span>
 
             <span className="text-xs text-(--color-text-secondary)">
@@ -69,31 +70,41 @@ export default function OrderStatus({ ordersByStatus = [] }) {
           </div>
         </div>
 
-        <ul className="space-y-2">
+        <ul className="space-y-4">
           {items.map((item) => (
-            <li
-              key={item.id}
-              className="flex items-center justify-between gap-3"
-            >
-              <span className="flex min-w-0 items-center gap-2">
-                <span
-                  className="size-2.5 shrink-0 rounded-full"
-                  style={{ backgroundColor: item.fill }}
-                  aria-hidden="true"
+            <li key={item.id} className="space-y-1.5">
+              <div className="flex items-center justify-between gap-3">
+                <span className="flex min-w-0 items-center gap-2">
+                  <span
+                    className="size-2.5 shrink-0 rounded-full"
+                    style={{ backgroundColor: item.fill }}
+                    aria-hidden="true"
+                  />
+
+                  <span className="truncate text-sm">{item.label}</span>
+                </span>
+
+                <span className="flex shrink-0 items-baseline gap-2">
+                  <span className="text-sm font-semibold tabular-nums">
+                    {formatNumber(item.count, i18n.language)}
+                  </span>
+
+                  <span className="text-xs tabular-nums text-(--color-text-secondary)">
+                    {formatNumber(Math.round(item.percent), i18n.language)}%
+                  </span>
+                </span>
+              </div>
+
+              <div className="rtl:-scale-x-100">
+                <Progress
+                  value={item.percent}
+                  className={item.barClass}
+                  aria-label={`${item.label}: ${formatNumber(
+                    Math.round(item.percent),
+                    i18n.language,
+                  )}%`}
                 />
-
-                <span className="truncate text-sm">{item.label}</span>
-              </span>
-
-              <span className="flex shrink-0 items-baseline gap-2">
-                <span className="text-sm font-semibold tabular-nums">
-                  {formatNumber(item.count, i18n.language)}
-                </span>
-
-                <span className="text-xs tabular-nums text-(--color-text-secondary)">
-                  {formatNumber(Math.round(item.percent), i18n.language)}%
-                </span>
-              </span>
+              </div>
             </li>
           ))}
         </ul>

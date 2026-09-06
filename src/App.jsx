@@ -1,26 +1,26 @@
-import { lazy, Suspense } from "react";
-import Landing from "./pages/Landing.jsx";
-import Profile from "./pages/Profile.jsx";
-import AdminLayout from "./components/layout/AdminLayout";
-import StoreLayout from "./components/layout/StoreLayout";
-import { Routes, Route } from "react-router";
-import Dashboard from "./pages/admin/Dashboard";
-import Products from "./pages/admin/Products";
-import AddProduct from "./pages/admin/AddProduct";
-import EditProduct from "./pages/admin/EditProduct";
-import ProductDetails from "./pages/admin/ProductDetails";
-import Orders from "./pages/admin/Orders";
-import Users from "./pages/admin/Users";
-import Carts from "./pages/admin/Carts";
-import Settings from "./pages/admin/Settings";
-import Login from "./pages/auth/Login.jsx";
-import Registration from "./pages/auth/Registration.jsx";
-import ForgetPassword from "./pages/auth/ForgetPassword.jsx";
-import VerifyOtp from "./pages/auth/VerifyOtp.jsx";
-import NotFound from "./pages/NotFound.jsx";
-import ProtectedRoute from "./ProtectedRoute.jsx";
-
-const DesignSystem = lazy(() => import("./pages/DesignSystem"));
+import { lazy, Suspense } from "react"; 
+import Landing from "./pages/Landing.jsx"; 
+import Profile from "./pages/Profile.jsx"; 
+import AdminLayout from "./components/layout/AdminLayout"; 
+import StoreLayout from "./components/layout/StoreLayout"; 
+import { Routes, Route } from "react-router"; 
+import Dashboard from "./pages/admin/Dashboard"; 
+import Products from "./pages/admin/products/Products"; 
+import Orders from "./pages/admin/Orders"; 
+import Users from "./pages/admin/Users"; 
+import Carts from "./pages/admin/Carts"; 
+import Settings from "./pages/admin/Settings"; 
+import Login from "./pages/auth/Login.jsx"; 
+import Registration from "./pages/auth/Registration.jsx"; 
+import ForgetPassword from "./pages/auth/ForgetPassword.jsx"; 
+import VerifyOtp from "./pages/auth/VerifyOtp.jsx"; 
+import NotFound from "./pages/NotFound.jsx"; 
+import ProtectedRoute from "./ProtectedRoute.jsx"; 
+import AddProduct from "./pages/admin/AddProduct.jsx"; 
+import EditProduct from "./pages/admin/EditProduct.jsx"; 
+import ProductDetails from "./pages/admin/ProductDetails.jsx"; 
+ 
+const DesignSystem = lazy(() => import("./pages/DesignSystem")); 
 
 function App() {
   return (

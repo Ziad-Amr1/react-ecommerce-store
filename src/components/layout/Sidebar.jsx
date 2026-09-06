@@ -61,7 +61,7 @@ const NavItem = forwardRef(function NavItem(
           />
           <Icon
             aria-hidden="true"
-            className={`shrink-0 transition-colors duration-200 ${
+            className={`size-5 shrink-0 transition-colors duration-200 ${
               isActive
                 ? "text-primary-foreground"
                 : "text-(--color-text-secondary) group-hover:text-(--color-text-primary)"
@@ -118,37 +118,47 @@ export default function Sidebar({ id, isOpen, isCollapsed, onClose, onToggleColl
         } ${isCollapsed ? "w-20" : "w-72"}`}
       >
         <TooltipProvider delayDuration={0}>
-          {/* Header */}
-          {isCollapsed ? (
-            <div className="flex h-[72px] shrink-0 items-center justify-center border-b border-(--color-border)">
-              <img
-                src="/favicon.ico"
-                alt={t("brand.logoAlt")}
-                className="size-9 object-contain"
-              />
-            </div>
-          ) : (
-            <div className="flex h-[72px] shrink-0 items-center justify-between border-b border-(--color-border) px-7">
-              <div>
-                <p className="text-xs font-semibold uppercase tracking-[0.18em] text-(--color-text-secondary)">
-                  {t("brand.name")}
-                </p>
-                <h2 className="mt-0.5 font-display text-xl font-bold text-(--color-text-primary)">
-                  {t("navigation.adminPanel")}
-                </h2>
-              </div>
+          {/* Header — single mounted structure. The brand glyph crossfades in
+              place (absolutely centered) while the brand text and the mobile
+              close control collapse their width, so collapsing/expanding never
+              swaps layout trees or overflows the rail mid-transition. */}
+          <div
+            className={`relative flex h-[72px] shrink-0 items-center justify-between overflow-hidden border-b border-(--color-border) px-7 transition-all duration-300`}
+          >
+            <img
+              src="/favicon.ico"
+              alt={t("brand.logoAlt")}
+              aria-hidden={!isCollapsed}
+              className={`absolute left-1/2 top-1/2 size-9 -translate-x-1/2 -translate-y-1/2 object-contain transition-opacity duration-300 ${
+                isCollapsed ? "opacity-100" : "opacity-0"
+              }`}
+            />
 
-              <Button
-                variant="ghost"
-                size="icon"
-                className="rounded-full lg:hidden hover:bg-(--color-surface-secondary)"
-                onClick={onClose}
-                aria-label={t("navigation.menu.close")}
-              >
-                <X className="size-5" aria-hidden="true" />
-              </Button>
+            <div
+              className={`min-w-0 overflow-hidden whitespace-nowrap transition-all duration-300 ${
+                isCollapsed ? "invisible w-0 opacity-0" : "visible w-auto opacity-100"
+              }`}
+            >
+              <p className="text-xs font-semibold uppercase tracking-[0.18em] text-(--color-text-secondary)">
+                {t("brand.name")}
+              </p>
+              <h2 className="mt-0.5 font-display text-xl font-bold text-(--color-text-primary)">
+                {t("navigation.adminPanel")}
+              </h2>
             </div>
-          )}
+
+            <Button
+              variant="ghost"
+              size="icon"
+              className={`rounded-full lg:hidden transition-all duration-300 hover:bg-(--color-surface-secondary) ${
+                isCollapsed ? "invisible w-0 opacity-0" : "visible w-auto opacity-100"
+              }`}
+              onClick={onClose}
+              aria-label={t("navigation.menu.close")}
+            >
+              <X className="size-5" aria-hidden="true" />
+            </Button>
+          </div>
 
           {/* Navigation */}
           <nav className="min-h-0 flex-1 overflow-y-auto px-3 py-4">

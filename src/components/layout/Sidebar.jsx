@@ -3,16 +3,54 @@ import { NavLink } from "react-router";
 import { useTranslation } from "react-i18next";
 import { Button } from "@/components/ui/button";
 import {
-  Radio,
   X,
   PanelLeftClose,
   PanelRightClose,
+  CircleCheck,
+  CircleX,
+  LoaderCircle,
 } from "lucide-react";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
 import { adminNavigation } from "@/config/navigation";
+import useApiAvailability from "@/hooks/useApiAvailability";
 
 export default function Sidebar({ id, isOpen, isCollapsed, onClose, onToggleCollapse }) {
   const { t } = useTranslation();
   const [hoveredItem, setHoveredItem] = useState(null);
+  const { status, check } = useApiAvailability();
+
+  const apiStatusConfig = {
+    checking: {
+      labelKey: "navigation.apiChecking",
+      icon: LoaderCircle,
+      tileClass: "bg-(--color-surface-secondary)",
+      iconClass: "text-(--color-text-secondary)",
+      spin: true,
+    },
+    online: {
+      labelKey: "navigation.apiOnline",
+      icon: CircleCheck,
+      tileClass: "bg-(--color-success-bg)",
+      iconClass: "text-(--color-success)",
+      spin: false,
+    },
+    unavailable: {
+      labelKey: "navigation.apiUnavailable",
+      icon: CircleX,
+      tileClass: "bg-(--color-error-bg)",
+      iconClass: "text-(--color-error)",
+      spin: false,
+    },
+  };
+
+  const apiStatus = apiStatusConfig[status];
+  const ApiStatusIcon = apiStatus.icon;
+  const apiStatusLabel = t(apiStatus.labelKey);
 
   return (
     <>
@@ -110,52 +148,98 @@ export default function Sidebar({ id, isOpen, isCollapsed, onClose, onToggleColl
         </nav>
 
         {/* Footer */}
-        <div
-          className={`absolute bottom-0 left-0 right-0 border-t border-(--color-border) bg-(--color-surface) p-3 ${
-            isCollapsed ? "flex justify-center" : "flex items-center justify-between gap-3"
-          }`}
-        >
-          <div
-            className={`overflow-hidden whitespace-nowrap transition-all duration-300 ${
-              isCollapsed ? "w-0 opacity-0" : "flex w-auto items-center gap-3 opacity-100"
-            }`}
-          >
-            <div className="flex size-8 shrink-0 items-center justify-center rounded-full bg-(--color-success-bg)">
-              <Radio className="size-4 text-(--color-success)" aria-hidden="true" />
-            </div>
-            <div className="min-w-0">
-              <p className="truncate text-sm font-medium text-(--color-text-primary)">
-                {t("navigation.apiConnected")}
-              </p>
-              <p className="truncate text-xs text-(--color-text-secondary)">
-                {t("navigation.apiLabel")}
-              </p>
-            </div>
-          </div>
-
-          <Button
-            variant="ghost"
-            size="icon"
-            className="shrink-0 rounded-full hover:bg-(--color-surface-secondary)"
-            onClick={onToggleCollapse}
-            aria-label={
-              isCollapsed
-                ? t("navigation.expandSidebar")
-                : t("navigation.collapseSidebar")
-            }
-            title={
-              isCollapsed
-                ? t("navigation.expandSidebar")
-                : t("navigation.collapseSidebar")
-            }
-          >
+        <TooltipProvider delayDuration={0}>
+          <div className="absolute bottom-0 left-0 right-0 flex items-center justify-between gap-3 border-t border-(--color-border) bg-(--color-surface) p-3">
             {isCollapsed ? (
-              <PanelRightClose size={18} aria-hidden="true" />
+              <Tooltip>
+                <TooltipTrigger asChild>
+                  <Button
+                    variant="ghost"
+                    size="icon"
+                    className="shrink-0 rounded-full hover:bg-(--color-surface-secondary)"
+                    onClick={check}
+                    aria-label={apiStatusLabel}
+                  >
+                    <span
+                      className={`flex size-8 shrink-0 items-center justify-center rounded-full ${apiStatus.tileClass}`}
+                    >
+                      <ApiStatusIcon
+                        className={`size-4 ${apiStatus.iconClass} ${
+                          apiStatus.spin ? "animate-spin" : ""
+                        }`}
+                        aria-hidden="true"
+                      />
+                    </span>
+                  </Button>
+                </TooltipTrigger>
+
+                <TooltipContent side="right" sideOffset={8}>
+                  {apiStatusLabel}
+                </TooltipContent>
+              </Tooltip>
             ) : (
-              <PanelLeftClose size={18} aria-hidden="true" />
+              <div className="flex min-w-0 items-center gap-3">
+                <span
+                  className={`flex size-8 shrink-0 items-center justify-center rounded-full ${apiStatus.tileClass}`}
+                >
+                  <ApiStatusIcon
+                    className={`size-4 ${apiStatus.iconClass} ${
+                      apiStatus.spin ? "animate-spin" : ""
+                    }`}
+                    aria-hidden="true"
+                  />
+                </span>
+
+                <div className="min-w-0">
+                  <p className="truncate text-sm font-medium text-(--color-text-primary)">
+                    {apiStatusLabel}
+                  </p>
+                  <p className="truncate text-xs text-(--color-text-secondary)">
+                    {t("navigation.apiLabel")}
+                  </p>
+                </div>
+              </div>
             )}
-          </Button>
-        </div>
+
+            {isCollapsed ? (
+              <Tooltip>
+                <TooltipTrigger asChild>
+                  <Button
+                    variant="ghost"
+                    size="icon"
+                    className="shrink-0 rounded-full hover:bg-(--color-surface-secondary)"
+                    onClick={onToggleCollapse}
+                    aria-label={t("navigation.expandSidebar")}
+                  >
+                    <PanelRightClose
+                      size={18}
+                      className="rtl:rotate-180"
+                      aria-hidden="true"
+                    />
+                  </Button>
+                </TooltipTrigger>
+
+                <TooltipContent side="right" sideOffset={8}>
+                  {t("navigation.expandSidebar")}
+                </TooltipContent>
+              </Tooltip>
+            ) : (
+              <Button
+                variant="ghost"
+                size="icon"
+                className="shrink-0 rounded-full hover:bg-(--color-surface-secondary)"
+                onClick={onToggleCollapse}
+                aria-label={t("navigation.collapseSidebar")}
+              >
+                <PanelLeftClose
+                  size={18}
+                  className="rtl:rotate-180"
+                  aria-hidden="true"
+                />
+              </Button>
+            )}
+          </div>
+        </TooltipProvider>
       </aside>
     </>
   );

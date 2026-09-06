@@ -38,7 +38,9 @@
     "account": "Account",
     "accountDropdown": "Account menu",
     "roleAdmin": "Admin",
-    "apiConnected": "API Connected",
+    "apiChecking": "Checking API…",
+    "apiOnline": "API Online",
+    "apiUnavailable": "API Unavailable",
     "apiLabel": "E-commerce API"
   },
   "auth": {

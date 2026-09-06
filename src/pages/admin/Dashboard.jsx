@@ -24,11 +24,28 @@ import {
   Package,
   Users,
   DollarSign,
+  CalendarDays,
+  TrendingUp,
+  TrendingDown,
   TriangleAlert,
   Inbox,
 } from "lucide-react";
 
 const CURRENCY = "USD";
+
+function formatGrowthPercent(value, locale) {
+  if (typeof value !== "number" || !Number.isFinite(value)) {
+    return null;
+  }
+
+  const formatted = new Intl.NumberFormat(locale, {
+    maximumFractionDigits: 1,
+  }).format(Math.abs(value));
+
+  if (value > 0) return `+${formatted}%`;
+  if (value < 0) return `-${formatted}%`;
+  return "0%";
+}
 
 export default function Dashboard() {
   const { t, i18n } = useTranslation();
@@ -52,23 +69,59 @@ export default function Dashboard() {
           </CardHeader>
         </Card>
 
-        <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 xl:grid-cols-4">
-          {Array.from({ length: 4 }).map((_, index) => (
+        <div className="grid grid-cols-2 gap-6 sm:grid-cols-3 xl:grid-cols-6">
+          {Array.from({ length: 6 }).map((_, index) => (
             <Card
               key={index}
               className="overflow-hidden border-t-4 border-t-(--color-accent)"
             >
               <CardHeader className="space-y-3">
-                <Skeleton className="h-5 w-1/2" />
-                <Skeleton className="h-4 w-3/4" />
+                <Skeleton className="h-5 w-3/4" />
+                <Skeleton className="h-4 w-1/2" />
               </CardHeader>
 
-              <CardContent className="flex items-end justify-between gap-4">
-                <Skeleton className="h-8 w-16" />
-                <Skeleton className="size-14 shrink-0 rounded-xl" />
+              <CardContent className="flex items-end justify-between gap-3">
+                <Skeleton className="h-8 w-14" />
+                <Skeleton className="size-11 shrink-0 rounded-xl" />
               </CardContent>
             </Card>
           ))}
+        </div>
+
+        <div className="grid grid-cols-1 gap-6 lg:grid-cols-12">
+          <Card className="lg:col-span-5">
+            <CardHeader>
+              <Skeleton className="h-5 w-32" />
+            </CardHeader>
+
+            <CardContent>
+              <Skeleton className="h-48 rounded-full" />
+            </CardContent>
+          </Card>
+
+          <Card className="lg:col-span-7">
+            <CardHeader>
+              <Skeleton className="h-5 w-36" />
+            </CardHeader>
+
+            <CardContent className="space-y-4">
+              {Array.from({ length: 4 }).map((_, index) => (
+                <div
+                  key={index}
+                  className="flex items-center gap-3 rounded-lg border p-3"
+                >
+                  <Skeleton className="size-12 shrink-0 rounded-lg" />
+
+                  <div className="flex-1 space-y-2">
+                    <Skeleton className="h-4 w-2/3" />
+                    <Skeleton className="h-3 w-1/3" />
+                  </div>
+
+                  <Skeleton className="h-4 w-14" />
+                </div>
+              ))}
+            </CardContent>
+          </Card>
         </div>
       </div>
     );
@@ -118,6 +171,13 @@ export default function Dashboard() {
     );
   }
 
+  const growthValue = dashboard.revenue.growthPercent;
+  const growthLabel = formatGrowthPercent(growthValue, i18n.language) ?? "—";
+  const growthIsNumber =
+    typeof growthValue === "number" && Number.isFinite(growthValue);
+  const growthPositive = growthIsNumber && growthValue > 0;
+  const growthNegative = growthIsNumber && growthValue < 0;
+
   const cardList = [
     {
       id: 1,
@@ -146,25 +206,48 @@ export default function Dashboard() {
         CURRENCY,
         i18n.language,
       ),
-      cardSubline: t("dashboard.thisMonthRevenue", {
-        value: formatCurrency(
-          dashboard.revenue.thisMonth,
-          CURRENCY,
-          i18n.language,
-        ),
-      }),
       cardIcon: DollarSign,
       borderClass: "border-t-(--color-success)",
       iconClass: "bg-(--color-success-bg) text-(--color-success)",
     },
     {
       id: 4,
+      cardTitle: t("dashboard.thisMonthRevenue"),
+      cardDescription: t("dashboard.thisMonthRevenueDescription"),
+      cardNumber: formatCurrency(
+        dashboard.revenue.thisMonth,
+        CURRENCY,
+        i18n.language,
+      ),
+      cardIcon: CalendarDays,
+      borderClass: "border-t-(--color-supporting)",
+      iconClass: "bg-(--color-supporting) text-(--color-text-primary)",
+    },
+    {
+      id: 5,
       cardTitle: t("dashboard.totalUsers"),
       cardDescription: t("dashboard.totalUsersDescription"),
       cardNumber: formatNumber(dashboard.totalCustomers, i18n.language),
       cardIcon: Users,
       borderClass: "border-t-(--color-info)",
       iconClass: "bg-(--color-info-bg) text-(--color-info)",
+    },
+    {
+      id: 6,
+      cardTitle: t("dashboard.revenueGrowth"),
+      cardDescription: t("dashboard.revenueGrowthDescription"),
+      cardNumber: growthLabel,
+      cardIcon: growthNegative ? TrendingDown : TrendingUp,
+      borderClass: growthPositive
+        ? "border-t-(--color-success)"
+        : growthNegative
+          ? "border-t-(--color-error)"
+          : "border-t-(--color-text-secondary)",
+      iconClass: growthPositive
+        ? "bg-(--color-success-bg) text-(--color-success)"
+        : growthNegative
+          ? "bg-(--color-error-bg) text-(--color-error)"
+          : "bg-(--color-surface-secondary) text-(--color-text-secondary)",
     },
   ];
 
@@ -186,14 +269,13 @@ export default function Dashboard() {
         </CardHeader>
       </Card>
 
-      <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 xl:grid-cols-4">
+      <div className="grid grid-cols-2 gap-6 sm:grid-cols-3 xl:grid-cols-6">
         {cardList.map((card) => (
           <StatCard
             key={card.id}
             title={card.cardTitle}
             description={card.cardDescription}
             value={card.cardNumber}
-            subline={card.cardSubline}
             icon={card.cardIcon}
             borderClass={card.borderClass}
             iconClass={card.iconClass}
@@ -201,13 +283,14 @@ export default function Dashboard() {
         ))}
       </div>
 
-      <div className="grid grid-cols-1 gap-6 xl:grid-cols-2">
-        <OrderStatus
-          ordersByStatus={dashboard.ordersByStatus}
-          totalOrders={dashboard.orders.total}
-        />
+      <div className="grid grid-cols-1 gap-6 lg:grid-cols-12">
+        <div className="lg:col-span-5">
+          <OrderStatus ordersByStatus={dashboard.ordersByStatus} />
+        </div>
 
-        <TopProducts products={dashboard.topProducts} />
+        <div className="lg:col-span-7">
+          <TopProducts products={dashboard.topProducts} />
+        </div>
       </div>
 
       <RecentOrders orders={dashboard.recentOrders} />

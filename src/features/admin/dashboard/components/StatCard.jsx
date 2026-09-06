@@ -10,7 +10,6 @@ export default function StatCard({
   title,
   description,
   value,
-  subline,
   icon: Icon,
   borderClass,
   iconClass,
@@ -28,12 +27,6 @@ export default function StatCard({
           <h2 className="font-display wrap-break-word text-2xl font-bold tabular-nums">
             {value}
           </h2>
-
-          {subline && (
-            <p className="text-xs text-(--color-text-secondary)">
-              {subline}
-            </p>
-          )}
         </div>
 
         <div

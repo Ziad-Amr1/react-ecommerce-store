@@ -15,17 +15,11 @@ import {
 } from "@/components/ui/table";
 import { Badge } from "@/components/ui/badge";
 import { formatCurrency } from "@/utils/formatCurrency";
-import { STATUS_KEYS } from "@/features/admin/dashboard/constants";
+import {
+  STATUS_PRESENTATION,
+  STATUS_BADGE_FALLBACK,
+} from "@/features/admin/dashboard/constants";
 
-const statusVariants = {
-  pending: "secondary",
-  processing: "secondary",
-  confirmed: "default",
-  shipped: "secondary",
-  delivered: "default",
-  cancelled: "destructive",
-  returned: "secondary",
-};
 export default function RecentOrders({ orders = [] }) {
   const { t, i18n } = useTranslation();
 
@@ -75,11 +69,14 @@ export default function RecentOrders({ orders = [] }) {
                   <TableCell className="whitespace-nowrap">
                     <Badge
                       variant={
-                        statusVariants[order.status] || "secondary"
+                        STATUS_PRESENTATION[order.status]?.badgeVariant ||
+                        STATUS_BADGE_FALLBACK
                       }
                     >
-                      {STATUS_KEYS[order.status]
-                        ? t(STATUS_KEYS[order.status])
+                      {STATUS_PRESENTATION[order.status]
+                        ? t(
+                            STATUS_PRESENTATION[order.status].labelKey,
+                          )
                         : order.status}
                     </Badge>
                   </TableCell>

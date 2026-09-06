@@ -1,19 +1,10 @@
 import { useTranslation } from "react-i18next";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { STATUS_KEYS } from "@/features/admin/dashboard/constants";
-
-const statusStyles = {
-  pending: "bg-(--color-warning-bg) text-(--color-warning)",
-  processing: "bg-(--color-info-bg) text-(--color-info)",
-  confirmed: "bg-(--color-accent) text-(--color-on-accent)",
-  shipped: "bg-(--color-info-bg) text-(--color-info)",
-  delivered: "bg-(--color-success-bg) text-(--color-success)",
-  cancelled: "bg-(--color-error-bg) text-(--color-error)",
-  returned: "bg-(--color-surface-secondary) text-(--color-text-secondary)",
-};
-
-const FALLBACK_STATUS_STYLE =
-  "bg-(--color-surface-secondary) text-(--color-text-secondary)";
+import { Progress } from "@/components/ui/progress";
+import {
+  STATUS_PRESENTATION,
+  STATUS_PILL_FALLBACK,
+} from "@/features/admin/dashboard/constants";
 
 export default function OrderStatus({ ordersByStatus = [], totalOrders = 0 }) {
   const { t } = useTranslation();
@@ -46,16 +37,17 @@ export default function OrderStatus({ ordersByStatus = [], totalOrders = 0 }) {
             totalOrders > 0 ? (item.count / totalOrders) * 100 : 0;
 
           const status = item._id;
+          const presentation = STATUS_PRESENTATION[status];
 
           return (
             <div key={status} className="space-y-2">
               <div className="flex items-center justify-between gap-3">
                 <span
                   className={`rounded-full px-3 py-1 text-xs font-semibold ${
-                    statusStyles[status] || FALLBACK_STATUS_STYLE
+                    presentation?.pill || STATUS_PILL_FALLBACK
                   }`}
                 >
-                  {STATUS_KEYS[status] ? t(STATUS_KEYS[status]) : status}
+                  {presentation ? t(presentation.labelKey) : status}
                 </span>
 
                 <span className="text-sm font-semibold tabular-nums">
@@ -63,11 +55,8 @@ export default function OrderStatus({ ordersByStatus = [], totalOrders = 0 }) {
                 </span>
               </div>
 
-              <div className="h-2 overflow-hidden rounded-full bg-muted">
-                <div
-                  className="h-full rounded-full bg-primary transition-all"
-                  style={{ width: `${percentage}%` }}
-                />
+              <div className="rtl:-scale-x-100">
+                <Progress value={percentage} />
               </div>
 
               <p className="text-xs text-muted-foreground">

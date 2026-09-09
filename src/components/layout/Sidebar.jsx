@@ -231,90 +231,99 @@ export default function Sidebar({ id, isOpen, isCollapsed, onClose, onToggleColl
 
           {/* Footer */}
           <div
-            className={`shrink-0 border-t border-(--color-border) bg-(--color-surface) p-3 ${
+            className={`flex h-[60px] shrink-0 items-center border-t border-(--color-border) bg-(--color-surface) ${
               isCollapsed
-                ? "flex items-center justify-center gap-2"
-                : "flex items-center justify-between gap-3"
+                ? "flex-col justify-center gap-1 px-2"
+                : "justify-between gap-3 px-3"
             }`}
           >
-            <div
-              className={`flex items-center gap-3 overflow-hidden whitespace-nowrap transition-all duration-300 ${
-                isCollapsed
-                  ? "invisible w-0 opacity-0"
-                  : "visible w-auto opacity-100"
-              }`}
-            >
-              <div
-                className={`flex size-9 shrink-0 items-center justify-center rounded-full ${apiStatus.tileClass}`}
-              >
-                <ApiStatusIcon
-                  className={`size-5 ${apiStatus.iconClass} ${
-                    apiStatus.spin ? "animate-spin" : ""
-                  }`}
-                  aria-hidden="true"
-                />
-              </div>
-              <div className="min-w-0">
-                <p className="truncate text-sm font-medium text-(--color-text-primary)">
-                  {apiStatusLabel}
-                </p>
-                <p className="truncate text-xs text-(--color-text-secondary)">
-                  {t("navigation.apiLabel")}
-                </p>
-              </div>
-            </div>
-
-            {isCollapsed && (
-              <Tooltip>
-                <TooltipTrigger asChild>
-                  <Button
-                    variant="ghost"
-                    size="icon"
-                    className="shrink-0 rounded-full hover:bg-(--color-surface-secondary)"
-                    onClick={check}
-                    aria-label={apiStatusLabel}
-                  >
-                    <span
-                      className={`flex size-9 shrink-0 items-center justify-center rounded-full ${apiStatus.tileClass}`}
+            {isCollapsed ? (
+              <>
+                <Tooltip>
+                  <TooltipTrigger asChild>
+                    <Button
+                      variant="ghost"
+                      size="icon-xs"
+                      className="rounded-full hover:bg-(--color-surface-secondary)"
+                      onClick={check}
+                      aria-label={apiStatusLabel}
                     >
-                      <ApiStatusIcon
-                        className={`size-5 ${apiStatus.iconClass} ${
-                          apiStatus.spin ? "animate-spin" : ""
-                        }`}
+                      <span
+                        className={`flex size-6 items-center justify-center rounded-full ${apiStatus.tileClass}`}
+                      >
+                        <ApiStatusIcon
+                          className={`size-4 ${apiStatus.iconClass} ${
+                            apiStatus.spin ? "animate-spin" : ""
+                          }`}
+                          aria-hidden="true"
+                        />
+                      </span>
+                    </Button>
+                  </TooltipTrigger>
+                  <TooltipContent side="right" sideOffset={8}>
+                    {apiStatusLabel}
+                  </TooltipContent>
+                </Tooltip>
+
+                <Tooltip>
+                  <TooltipTrigger asChild>
+                    <Button
+                      variant="ghost"
+                      size="icon-xs"
+                      className="rounded-full hover:bg-(--color-surface-secondary)"
+                      onClick={onToggleCollapse}
+                      aria-label={t("navigation.expandSidebar")}
+                      title={t("navigation.expandSidebar")}
+                    >
+                      <PanelLeftOpen
+                        className="size-4 rtl:rotate-180"
                         aria-hidden="true"
                       />
+                    </Button>
+                  </TooltipTrigger>
+                  <TooltipContent side="right" sideOffset={8}>
+                    {t("navigation.expandSidebar")}
+                  </TooltipContent>
+                </Tooltip>
+              </>
+            ) : (
+              <>
+                <div className="flex min-w-0 items-center gap-3">
+                  <span
+                    className={`flex size-9 shrink-0 items-center justify-center rounded-full ${apiStatus.tileClass}`}
+                  >
+                    <ApiStatusIcon
+                      className={`size-5 ${apiStatus.iconClass} ${
+                        apiStatus.spin ? "animate-spin" : ""
+                      }`}
+                      aria-hidden="true"
+                    />
+                  </span>
+                  <span className="min-w-0">
+                    <span className="block truncate text-sm font-medium text-(--color-text-primary)">
+                      {apiStatusLabel}
                     </span>
-                  </Button>
-                </TooltipTrigger>
+                    <span className="block truncate text-xs text-(--color-text-secondary)">
+                      {t("navigation.apiLabel")}
+                    </span>
+                  </span>
+                </div>
 
-                <TooltipContent side="right" sideOffset={8}>
-                  {apiStatusLabel}
-                </TooltipContent>
-              </Tooltip>
+                <Button
+                  variant="ghost"
+                  size="icon"
+                  className="shrink-0 rounded-full hover:bg-(--color-surface-secondary)"
+                  onClick={onToggleCollapse}
+                  aria-label={t("navigation.collapseSidebar")}
+                  title={t("navigation.collapseSidebar")}
+                >
+                  <PanelLeftClose
+                    className="size-5 rtl:rotate-180"
+                    aria-hidden="true"
+                  />
+                </Button>
+              </>
             )}
-
-            <Button
-              variant="ghost"
-              size="icon"
-              className="shrink-0 rounded-full hover:bg-(--color-surface-secondary)"
-              onClick={onToggleCollapse}
-              aria-label={
-                isCollapsed
-                  ? t("navigation.expandSidebar")
-                  : t("navigation.collapseSidebar")
-              }
-              title={
-                isCollapsed
-                  ? t("navigation.expandSidebar")
-                  : t("navigation.collapseSidebar")
-              }
-            >
-              {isCollapsed ? (
-                <PanelLeftOpen className="size-5 rtl:rotate-180" aria-hidden="true" />
-              ) : (
-                <PanelLeftClose className="size-5 rtl:rotate-180" aria-hidden="true" />
-              )}
-            </Button>
           </div>
         </TooltipProvider>
       </aside>

@@ -14,7 +14,14 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { Badge } from "@/components/ui/badge";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
 import { formatCurrency } from "@/utils/formatCurrency";
+import { formatDisplayDate } from "@/utils/formatDate";
 import {
   STATUS_PRESENTATION,
   STATUS_BADGE_CLASS_FALLBACK,
@@ -35,62 +42,82 @@ export default function RecentOrders({ orders = [] }) {
             {t("dashboard.noRecentOrders")}
           </p>
         ) : (
-          <Table>
-            <TableHeader>
-              <TableRow>
-                <TableHead>{t("dashboard.orderId")}</TableHead>
-                <TableHead>{t("dashboard.customer")}</TableHead>
-                <TableHead>{t("dashboard.total")}</TableHead>
-                <TableHead>{t("dashboard.status")}</TableHead>
-                <TableHead>{t("dashboard.date")}</TableHead>
-              </TableRow>
-            </TableHeader>
-
-            <TableBody>
-              {orders.map((order) => (
-                <TableRow key={order._id}>
-                  <TableCell className="font-medium whitespace-nowrap">
-                    #{order._id.slice(-6)}
-                  </TableCell>
-
-                  <TableCell className="whitespace-nowrap">
-                    {order.shippingAddress?.fullName ||
-                      t("dashboard.unknownCustomer")}
-                  </TableCell>
-
-                  <TableCell className="whitespace-nowrap tabular-nums">
-                    {formatCurrency(
-                      order.totalPrice || 0,
-                      "USD",
-                      i18n.language,
-                    )}
-                  </TableCell>
-
-                  <TableCell className="whitespace-nowrap">
-                    <Badge
-                      variant="outline"
-                      className={
-                        STATUS_PRESENTATION[order.status]?.badgeClass ||
-                        STATUS_BADGE_CLASS_FALLBACK
-                      }
-                    >
-                      {STATUS_PRESENTATION[order.status]
-                        ? t(
-                            STATUS_PRESENTATION[order.status].labelKey,
-                          )
-                        : order.status}
-                    </Badge>
-                  </TableCell>
-
-                  <TableCell className="whitespace-nowrap text-muted-foreground">
-                    {new Date(order.createdAt).toLocaleDateString(
-                      i18n.language,
-                    )}
-                  </TableCell>
+          <TooltipProvider delayDuration={0}>
+            <Table density="default">
+              <TableHeader>
+                <TableRow>
+                  <TableHead>{t("dashboard.orderId")}</TableHead>
+                  <TableHead>{t("dashboard.customer")}</TableHead>
+                  <TableHead className="text-end">
+                    {t("dashboard.total")}
+                  </TableHead>
+                  <TableHead>{t("dashboard.status")}</TableHead>
+                  <TableHead>{t("dashboard.date")}</TableHead>
                 </TableRow>
-              ))}
-            </TableBody>
-          </Table>
+              </TableHeader>
+
+              <TableBody>
+                {orders.map((order) => (
+                  <TableRow key={order._id}>
+                    <TableCell className="font-medium whitespace-nowrap font-display">
+                      #{order._id.slice(-6)}
+                    </TableCell>
+
+                    <TableCell className="whitespace-nowrap">
+                      {order.shippingAddress?.fullName ? (
+                        <Tooltip>
+                          <TooltipTrigger asChild>
+                            <span
+                              tabIndex={0}
+                              className="block max-w-56 truncate rounded-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-(--color-focus-ring)"
+                            >
+                              {order.shippingAddress.fullName}
+                            </span>
+                          </TooltipTrigger>
+
+                          <TooltipContent side="top" align="start">
+                            {order.shippingAddress.fullName}
+                          </TooltipContent>
+                        </Tooltip>
+                      ) : (
+                        "—"
+                      )}
+                    </TableCell>
+
+                    <TableCell className="whitespace-nowrap text-end tabular-nums font-display">
+                      {order.totalPrice == null
+                        ? "—"
+                        : formatCurrency(
+                            order.totalPrice,
+                            "USD",
+                            i18n.language,
+                          )}
+                    </TableCell>
+
+                    <TableCell className="whitespace-nowrap">
+                      <Badge
+                        variant="outline"
+                        className={
+                          STATUS_PRESENTATION[order.status]?.badgeClass ||
+                          STATUS_BADGE_CLASS_FALLBACK
+                        }
+                      >
+                        {STATUS_PRESENTATION[order.status]
+                          ? t(
+                              STATUS_PRESENTATION[order.status].labelKey,
+                            )
+                          : order.status}
+                      </Badge>
+                    </TableCell>
+
+                    <TableCell className="whitespace-nowrap text-muted-foreground font-display">
+                      {formatDisplayDate(order.createdAt) ?? "—"}
+                    </TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+          </TooltipProvider>
         )}
       </CardContent>
     </Card>

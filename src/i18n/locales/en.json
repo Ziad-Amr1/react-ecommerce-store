@@ -152,13 +152,6 @@
     "usernameMin": "Username must be at least {{count}} characters",
     "phoneInvalid": "Please enter a valid phone number"
   },
-  "home": {
-    "title": "E-commerce Home page",
-    "description": "Welcome to the E-commerce platform. Explore our products and manage your orders.",
-    "login": "Login",
-    "designSystem": "Design System",
-    "comingSoon": "This feature isn't implemented yet. It is planned for an upcoming release."
-  },
   "dashboard": {
     "title": "Dashboard Page",
     "loading": "Loading dashboard...",
@@ -414,6 +407,36 @@
       "emailLabel": "Email address",
       "emailPlaceholder": "name@example.com",
       "subscribe": "Subscribe"
+    }
+  },
+  "store": {
+    "header": {
+      "navLabel": "Store navigation",
+      "nav": {
+        "home": "Home",
+        "shop": "Shop",
+        "about": "About"
+      },
+      "account": "Account",
+      "cart": "Cart",
+      "adminLink": "Admin Panel"
+    },
+    "footer": {
+      "tagline": "Thoughtfully curated products for a better everyday.",
+      "rights": "All rights reserved.",
+      "groups": {
+        "shop": "Shop",
+        "support": "Support"
+      },
+      "links": {
+        "home": "Home",
+        "catalog": "Catalog",
+        "newArrivals": "New Arrivals",
+        "sale": "Sale",
+        "helpCenter": "Help Center",
+        "shippingReturns": "Shipping & Returns",
+        "contact": "Contact Us"
+      }
     }
   },
   "admin": {

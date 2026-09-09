@@ -1,6 +1,7 @@
 import { lazy, Suspense } from "react";
 import Landing from "./pages/landing/Landing.jsx";
 import AdminLayout from "./components/layout/AdminLayout";
+import StoreLayout from "./components/layout/StoreLayout";
 import { Routes, Route } from "react-router";
 import Dashboard from "./pages/admin/Dashboard";
 import Products from "./pages/admin/Products";
@@ -24,7 +25,9 @@ function App() {
   return (
     <>
       <Routes>
-        <Route path="/" element={<Landing />} />
+        <Route element={<StoreLayout />}>
+          <Route path="/" element={<Landing />} />
+        </Route>
         <Route
           path="/design-system"
           element={

@@ -455,5 +455,60 @@
     "subtitle": "Page Not Found",
     "description": "The page you're looking for doesn't exist or has been moved.",
     "home": "Back to Home"
+  },
+
+  
+  "orders": {
+    "title": "Orders",
+    "subtitle": "Admin • Management",
+    "totalOrders": "Total Orders",
+    "loadError": "Failed to load orders.",
+    "noOrdersFound": "No orders found.",
+    "currency": "EGP",
+    "notAvailable": "N/A",
+    "searchPlaceholder": "Search ID, customer...",
+    "filters": {
+      "status": {
+        "placeholder": "All statuses",
+        "all": "All statuses",
+        "delivered": "Delivered",
+        "shipped": "Shipped",
+        "confirmed": "Confirmed",
+        "processing": "Processing",
+        "cancelled": "Cancelled",
+        "pending": "Pending"
+      },
+      "payment": {
+        "placeholder": "All payments",
+        "all": "All payments",
+        "pending": "Pending",
+        "paid": "Paid"
+      },
+      "method": {
+        "placeholder": "All methods",
+        "all": "All methods",
+        "cash": "Cash",
+        "card": "Card"
+      }
+    },
+    "columns": {
+      "order": "Order",
+      "customer": "Customer",
+      "date": "Date",
+      "status": "Status",
+      "paymentStatus": "Payment Status",
+      "paymentMethod": "Payment Method",
+      "total": "Total"
+    },
+    "status": {
+      "delivered": "Delivered",
+      "shipped": "Shipped",
+      "confirmed": "Confirmed",
+      "processing": "Processing",
+      "pending": "Pending",
+      "cancelled": "Cancelled",
+      "unknown": "Unknown"
+    }
   }
 }
+

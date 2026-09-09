@@ -15,6 +15,7 @@ import {
 } from "@/components/ui/table";
 import { Badge } from "@/components/ui/badge";
 import { formatCurrency } from "@/utils/formatCurrency";
+import { formatDisplayDate } from "@/utils/formatDate";
 import {
   STATUS_PRESENTATION,
   STATUS_BADGE_CLASS_FALLBACK,
@@ -49,7 +50,7 @@ export default function RecentOrders({ orders = [] }) {
             <TableBody>
               {orders.map((order) => (
                 <TableRow key={order._id}>
-                  <TableCell className="font-medium whitespace-nowrap">
+                  <TableCell className="font-medium whitespace-nowrap font-display">
                     #{order._id.slice(-6)}
                   </TableCell>
 
@@ -58,7 +59,7 @@ export default function RecentOrders({ orders = [] }) {
                       t("dashboard.unknownCustomer")}
                   </TableCell>
 
-                  <TableCell className="whitespace-nowrap tabular-nums">
+                  <TableCell className="whitespace-nowrap tabular-nums font-display">
                     {formatCurrency(
                       order.totalPrice || 0,
                       "USD",
@@ -82,10 +83,8 @@ export default function RecentOrders({ orders = [] }) {
                     </Badge>
                   </TableCell>
 
-                  <TableCell className="whitespace-nowrap text-muted-foreground">
-                    {new Date(order.createdAt).toLocaleDateString(
-                      i18n.language,
-                    )}
+                  <TableCell className="whitespace-nowrap text-muted-foreground font-display">
+                    {formatDisplayDate(order.createdAt) ?? "—"}
                   </TableCell>
                 </TableRow>
               ))}

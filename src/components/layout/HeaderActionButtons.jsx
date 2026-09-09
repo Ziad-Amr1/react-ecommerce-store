@@ -20,15 +20,22 @@ import {
 } from "@/components/ui/dropdown-menu";
 import useAuth from "@/hooks/useAuth";
 import useTheme from "@/hooks/useTheme";
+import { getUserIdentity } from "@/features/auth/utils/userIdentity";
 
 export default function HeaderActionButtons() {
   const { t } = useTranslation();
-  const { logout } = useAuth();
+  const { user, logout } = useAuth();
   const { theme, toggleTheme } = useTheme();
   const navigate = useNavigate();
   const [isLoggingOut, setIsLoggingOut] = useState(false);
   const [logoutError, setLogoutError] = useState("");
 
+  const identity = getUserIdentity(user);
+  const identityInitial = identity ? identity.charAt(0).toUpperCase() : "A";
+  const avatar =
+    typeof user?.avatar === "string" && user.avatar.trim()
+      ? user.avatar.trim()
+      : null;
   const isDark = theme === "dark";
 
   async function handleLogout() {
@@ -103,10 +110,23 @@ export default function HeaderActionButtons() {
             className="hidden md:flex items-center gap-2 px-3 py-2 rounded-full bg-(--color-link) text-(--color-on-link) text-sm select-none cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-(--color-focus-ring) focus-visible:ring-offset-2"
             aria-label={t("navigation.accountDropdown")}
           >
-            <span className="size-6 rounded-full bg-(--color-on-link)/20 flex items-center justify-center text-xs font-bold">
-              A
+            <span className="size-6 shrink-0 overflow-hidden rounded-full bg-(--color-on-link)/20 flex items-center justify-center text-xs font-bold">
+              {avatar ? (
+                <img
+                  src={avatar}
+                  alt=""
+                  className="size-full object-cover"
+                />
+              ) : (
+                identityInitial
+              )}
             </span>
-            <span>{t("navigation.roleAdmin")}</span>
+            <span
+              className="max-w-36 truncate text-sm font-semibold"
+              title={identity ?? undefined}
+            >
+              {identity ?? t("navigation.roleAdmin")}
+            </span>
             <ChevronDown size={14} aria-hidden="true" />
           </button>
         </DropdownMenuTrigger>
@@ -115,10 +135,20 @@ export default function HeaderActionButtons() {
           <DropdownMenuLabel>{t("navigation.account")}</DropdownMenuLabel>
           <DropdownMenuGroup>
             <DropdownMenuItem className="cursor-default gap-2">
-              <span className="flex size-6 items-center justify-center rounded-full bg-(--color-surface-secondary) text-xs font-bold">
-                A
+              <span className="flex size-6 shrink-0 items-center justify-center overflow-hidden rounded-full bg-(--color-surface-secondary) text-xs font-bold">
+                {avatar ? (
+                  <img
+                    src={avatar}
+                    alt=""
+                    className="size-full object-cover"
+                  />
+                ) : (
+                  identityInitial
+                )}
               </span>
-              <span>{t("navigation.roleAdmin")}</span>
+              <span className="max-w-40 truncate text-sm font-medium">
+                {identity ?? t("navigation.roleAdmin")}
+              </span>
             </DropdownMenuItem>
           </DropdownMenuGroup>
         </DropdownMenuContent>

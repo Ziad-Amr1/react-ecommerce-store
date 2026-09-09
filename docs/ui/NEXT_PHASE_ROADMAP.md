@@ -30,7 +30,7 @@ They are **not** to be committed, pushed, or merged with any roadmap branch.
 | Area | State |
 |---|---|
 | Routing | `src/App.jsx` — `/` (Landing), `/design-system` (lazy), auth pages, `/admin/*` behind `ProtectedRoute` + `AdminLayout`, `*` NotFound. Components/layout: `AdminLayout`, `Sidebar`, `AdminHeader`, `HeaderActionButtons`. |
-| Storefront | Single page: `src/pages/landing/` (Landing, hook, service, 11 components, 10 webp assets). **No store header/footer exists anywhere (not even in other branches).** |
+| Storefront | Landing page: `src/pages/landing/` (Landing, hook, service, 11 components, 10 webp assets). Storefront chrome exists since P1: storefront routes share `StoreLayout` — sticky `StoreHeader` (brand, placeholder nav, theme toggle via `useTheme`, role-gated Admin link, inert account/cart placeholders with coming-soon tooltips) + `StoreFooter` (blurb, placeholder link groups, copyright). Auth & admin layouts untouched. |
 | i18n | `i18next` registers **only `en`** (`fallbackLng: en`). `DirectionProvider` sets `documentElement.dir/lang` from `i18n.language`. No switch UI, no persistence, no `changeLanguage` wiring. `ar.json` is a 295-byte local stub (dashboard-only) and untracked. |
 | Theme | `useTheme()` hook, per-instance state, `localStorage.theme`, `data-theme=dark`. No global provider. `index.css` maps all tokens + shadcn aliases, both light/dark. RTL custom variant `rtl` defined. |
 | Auth | `AuthContext/AuthProvider`: `{ user, isAuthenticated, isLoading, login, logout }`. `user` carries identity (`fullName`/`name`, `email`, `avatar`, `role`) — see `getUserIdentity`. `ProtectedRoute` gates admin by `role === "admin"`. |
@@ -116,9 +116,10 @@ P7 CatalogSeed (independent — schedule last)
 P1.5 (Admin header cleanup) has no hard dependencies — schedule it right after P1
 (so `/` is the established storefront root) and before/parallel to P2.
 
-### P1 — Storefront shell (header + footer)
+### P1 — Storefront shell (header + footer) — **DONE**
+- **Status**: **DONE — PR #47 `feat/store-shell`** (base main `dca2d30`; head `43b6982`). Lint/build/diff-check clean; browser smoke suite green (40/40: LTR/RTL, light/dark, desktop/mobile, keyboard focus, admin-gated link, auth/admin/design-system untouched). Merge + roadmap update recorded here.
 - **Goal**: temporary store layout giving the storefront consistent chrome; replaces nothing; removable later with zero fallout.
-- **Current state**: `/` renders a bare `<main>`; no store header/footer in any branch; `/admin/*` already owns its own `AdminLayout` (untouched).
+- **Pre-P1 state**: `/` rendered a bare `<main>`; no store header/footer in any branch; `/admin/*` already owns its own `AdminLayout` (untouched).
 - **Missing**: a layout for storefront routes.
 - **Dependencies**: none.
 - **Affected**: `src/App.jsx` (wrap storefront routes in `StoreLayout`); new `src/components/layout/StoreLayout.jsx` (+ `StoreHeader`, `StoreFooter`); `en.json` (`store.*`/`footer.*` keys); remove now-dead `src/pages/Home.jsx` + `home.*` i18n block (no imports remain); update `docs/WorkCheck.md`/`docs/Architecture.md` store-feature lines if trivially stale.
@@ -236,4 +237,4 @@ P1.5 (Admin header cleanup) has no hard dependencies — schedule it right after
 
 ## 8. Execution order (recommended)
 
-1. `feat/store-shell` (P1) → **P1.5 `feat/admin-header-nav` (no deps — right after P1)** → 2. `feat/language-switcher` (P2) → 3. `refactor/numeric-typography` (P3) → 4. `refactor/data-table-compliance` (P4) → 5. `feat/profile-overview` (P5) → 6. `feat/landing-polish` (P6) → 7. `docs/catalog-seed-data` (P7).
+1. ✅ `feat/store-shell` (P1) — **DONE (PR #47)** → **P1.5 `feat/admin-header-nav` (no deps — right after P1)** → 2. `feat/language-switcher` (P2) → 3. `refactor/numeric-typography` (P3) → 4. `refactor/data-table-compliance` (P4) → 5. `feat/profile-overview` (P5) → 6. `feat/landing-polish` (P6) → 7. `docs/catalog-seed-data` (P7).

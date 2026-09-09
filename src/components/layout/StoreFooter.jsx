@@ -34,7 +34,7 @@ export default function StoreFooter() {
             <img
               src="/favicon.ico"
               alt={t("brand.logoAlt")}
-              className="h-8 object-contain"
+              className="size-8 shrink-0 object-contain"
             />
             <span className="font-(--font-display) text-base font-bold text-(--color-text-primary)">
               {t("brand.name")}

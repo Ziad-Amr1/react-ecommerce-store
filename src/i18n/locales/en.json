@@ -208,6 +208,76 @@
     "totalUsers": "Users",
     "totalUsersDescription": "Total registered customers"
   },
+  "landing": {
+    "comingSoon": "Coming soon in an upcoming release.",
+    "hero": {
+      "title": "Elevate Your Lifestyle",
+      "subPre": "with",
+      "subHighlight": "Premium Products",
+      "description": "Discover carefully curated products designed for quality, style, and everyday comfort.",
+      "shopNow": "Shop Now",
+      "explore": "Explore Collection",
+      "imageAlt": "Hero section showing premium lifestyle products",
+      "pros": {
+        "variety": {
+          "title": "Product Variety",
+          "desc": "Meet all your needs"
+        },
+        "returns": {
+          "title": "Easy Returns",
+          "desc": "30-day return policy"
+        },
+        "secure": {
+          "title": "Secure Payments",
+          "desc": "100% secure checkout"
+        },
+        "support": {
+          "title": "24/7 Support",
+          "desc": "We're here to help"
+        }
+      }
+    },
+    "featured": {
+      "title": "Featured Products",
+      "viewAll": "View All Products",
+      "loading": "Loading featured products...",
+      "emptyTitle": "No featured products yet",
+      "emptyHint": "Check back soon for hand-picked favorites.",
+      "errorTitle": "Couldn't load featured products",
+      "errorHint": "Something went wrong while loading featured products.",
+      "retry": "Retry",
+      "imageAlt": "{{name}} product image",
+      "untitled": "Untitled Product",
+      "discountOff": "-{{percent}}%"
+    },
+    "categories": {
+      "title": "Categories",
+      "viewAll": "View All Categories",
+      "shopNow": "Shop Now",
+      "names": {
+        "electronics": "Electronics",
+        "homeLiving": "Home & Living",
+        "accessories": "Accessories",
+        "sunglasses": "Sunglasses",
+        "beauty": "Beauty",
+        "fashion": "Fashion"
+      }
+    },
+    "banner": {
+      "label": "Summer Sale",
+      "headline": "Up to 30% OFF",
+      "description": "On selected items. Limited time only!",
+      "cta": "Shop the Sale",
+      "imageAlt": "Promotional summer sale banner"
+    },
+    "newsletter": {
+      "title": "Subscribe to our newsletter",
+      "description": "Get the latest updates on new arrivals and exclusive offers",
+      "emailLabel": "Email address",
+      "emailPlaceholder": "name@example.com",
+      "subscribe": "Subscribe"
+    }
+  },
   "admin": {
     "comingSoon": "This feature isn't implemented yet. It is planned for an upcoming release.",
     "status": {

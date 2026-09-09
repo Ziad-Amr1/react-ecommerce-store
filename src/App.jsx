@@ -14,6 +14,7 @@ import ForgetPassword from "./pages/auth/ForgetPassword.jsx";
 import VerifyOtp from "./pages/auth/VerifyOtp.jsx";
 import NotFound from "./pages/NotFound.jsx";
 import ProtectedRoute from "./ProtectedRoute.jsx";
+import Cart from "./pages/Cart.jsx";
 
 const DesignSystem = lazy(() => import("./pages/DesignSystem"));
 
@@ -61,7 +62,9 @@ function App() {
           </Route>
         </Route>
         {/* End of Protected Admin Routes  */}
-        <Route path="*" element={<NotFound />} />
+        <Route path="/" element={<Home />} />
+        <Route path="/Cart" element={<Cart />} />
+         <Route path="*" element={<NotFound />} />
       </Routes>
     </>
   );

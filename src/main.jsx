@@ -8,6 +8,7 @@ import "./i18n";
 import App from "./App.jsx";
 import AuthProvider from "./contexts/AuthProvider";
 import { DirectionProvider } from "./i18n/DirectionProvider";
+import { Toaster } from "sonner";
 
 createRoot(document.getElementById("root")).render(
   <StrictMode>

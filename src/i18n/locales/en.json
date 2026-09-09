@@ -176,7 +176,6 @@
     "total": "Total",
     "status": "Status",
     "date": "Date",
-    "unknownCustomer": "Unknown customer",
     "statusLabels": {
       "pending": "Pending",
       "processing": "Processing",

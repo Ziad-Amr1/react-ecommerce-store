@@ -4,6 +4,9 @@ import AdminLayout from "./components/layout/AdminLayout";
 import { Routes, Route } from "react-router";
 import Dashboard from "./pages/admin/Dashboard";
 import Products from "./pages/admin/Products";
+import AddProduct from "./pages/admin/AddProduct";
+import EditProduct from "./pages/admin/EditProduct";
+import ProductDetails from "./pages/admin/ProductDetails";
 import Orders from "./pages/admin/Orders";
 import Users from "./pages/admin/Users";
 import Carts from "./pages/admin/Carts";
@@ -54,6 +57,9 @@ function App() {
               element={<Dashboard />}
             />
             <Route path="products" element={<Products />} />
+            <Route path="products/add" element={<AddProduct />} />
+            <Route path="products/:id/edit" element={<EditProduct />} />
+            <Route path="products/:id" element={<ProductDetails />} />
             <Route path="orders" element={<Orders />} />
             <Route path="users" element={<Users />} />
             <Route path="carts" element={<Carts />} />

@@ -1,11 +1,12 @@
 import { useEffect } from "react";
 import { useTranslation } from "react-i18next";
-import { SlidersHorizontal, ShoppingBag, Loader2 } from "lucide-react";
+import { SlidersHorizontal, ShoppingBag } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import useProducts from "@/features/products/useProducts";
 import useShopFilters from "@/features/products/useShopFilters";
 import ProductCard from "@/features/products/components/ProductCard";
+import ProductPagination from "@/features/products/components/ProductPagination";
 
 import ShopSearchBar from "@/features/products/components/ShopSearchBar";
 import ShopSidebar from "@/features/products/components/ShopSidebar";
@@ -14,7 +15,16 @@ import ProductSkeleton from "@/features/products/components/ProductCardSkeleton"
 
 export default function Shop() {
   const { t } = useTranslation();
-  const { products, isLoading, apiError, fetchProducts } = useProducts();
+  const {
+    products,
+    currentPage,
+    totalPages,
+    totalProducts,
+    isLoading,
+    isPaginationLoading,
+    apiError,
+    fetchProducts,
+  } = useProducts();
 
   // استدعاء Hook الفلاتر والمنطق
   const filters = useShopFilters(products);
@@ -22,6 +32,10 @@ export default function Shop() {
   useEffect(() => {
     fetchProducts(1);
   }, [fetchProducts]);
+
+  const handlePageChange = (page) => {
+    fetchProducts(page);
+  };
 
   return (
     <div className="min-h-screen bg-[var(--color-surface-secondary)] text-[var(--color-text-primary)] font-body transition-colors duration-300">
@@ -154,6 +168,12 @@ export default function Shop() {
                 ))}
               </div>
             )}
+            <ProductPagination
+              currentPage={currentPage}
+              totalPages={totalPages}
+              isLoading={isPaginationLoading}
+              onPageChange={handlePageChange}
+            />
           </main>
         </div>
       </div>

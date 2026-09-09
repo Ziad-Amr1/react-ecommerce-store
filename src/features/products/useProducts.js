@@ -23,7 +23,7 @@ const useProducts = () => {
 
       const data = await getAllProducts({
         page,
-        limit: 10,
+        limit: 12,
       });
 
       setProducts(data.products);

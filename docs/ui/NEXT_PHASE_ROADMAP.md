@@ -1,7 +1,7 @@
 # Next Phase Roadmap — UI Polish, Store Shell, Tables, Typography, Catalog Data
 
 > Source of truth for the post-foundation phase.
-> Baseline: main `dca2d302e97a5625c2d723aec3c555261e69cdd7` (PRs #38–#46 merged; main is authoritative).
+> Baseline: main `3161e8ed2e6ef710f5545fd52ff8b1222f864125` (PRs #38–#47 merged; main is authoritative).
 > Companion doc: [`DATA_TABLE_GUIDELINES.md`](DATA_TABLE_GUIDELINES.md).
 
 ---
@@ -117,7 +117,7 @@ P1.5 (Admin header cleanup) has no hard dependencies — schedule it right after
 (so `/` is the established storefront root) and before/parallel to P2.
 
 ### P1 — Storefront shell (header + footer) — **DONE**
-- **Status**: **DONE — PR #47 `feat/store-shell`** (base main `dca2d30`; head `43b6982`). Lint/build/diff-check clean; browser smoke suite green (40/40: LTR/RTL, light/dark, desktop/mobile, keyboard focus, admin-gated link, auth/admin/design-system untouched). Merge + roadmap update recorded here.
+- **Status**: **DONE — PR #47 `feat/store-shell`** (base main `dca2d30`; head `43b6982`). Lint/build/diff-check clean; browser smoke suite green (40/40: LTR/RTL, light/dark, desktop/mobile, keyboard focus, admin-gated link, auth/admin/design-system untouched). **Merged to `main` as `3161e8e` (normal merge commit, 2026-09-09).**
 - **Goal**: temporary store layout giving the storefront consistent chrome; replaces nothing; removable later with zero fallout.
 - **Pre-P1 state**: `/` rendered a bare `<main>`; no store header/footer in any branch; `/admin/*` already owns its own `AdminLayout` (untouched).
 - **Missing**: a layout for storefront routes.
@@ -237,4 +237,9 @@ P1.5 (Admin header cleanup) has no hard dependencies — schedule it right after
 
 ## 8. Execution order (recommended)
 
-1. ✅ `feat/store-shell` (P1) — **DONE (PR #47)** → **P1.5 `feat/admin-header-nav` (no deps — right after P1)** → 2. `feat/language-switcher` (P2) → 3. `refactor/numeric-typography` (P3) → 4. `refactor/data-table-compliance` (P4) → 5. `feat/profile-overview` (P5) → 6. `feat/landing-polish` (P6) → 7. `docs/catalog-seed-data` (P7).
+1. ✅ `feat/store-shell` (P1) — **DONE (PR #47, merged as `3161e8e`)** → **P1.5 `feat/admin-header-nav` (no deps — right after P1)** → 2. `feat/language-switcher` (P2) → 3. `refactor/numeric-typography` (P3) → 4. `refactor/data-table-compliance` (P4) → 5. `feat/profile-overview` (P5) → 6. `feat/landing-polish` (P6) → 7. `docs/catalog-seed-data` (P7).
+
+Recorded follow-up items (do not disturb the P1–P7 order above; schedule where they best fit, likely folded into a nearby PR or as tiny isolated PRs):
+
+- **Scrollbar colors (CSS)**: add themed scrollbar colors to `src/index.css` — `scrollbar-color`/`scrollbar-width` (plus `::-webkit-scrollbar*` if needed) so track/thumb respect both light and dark themes. CSS-only, no new dependencies, no `DesignSystem.jsx` changes.
+- **ProtectedRoute loader dark-theme**: investigate why the loader shown by `ProtectedRoute` still looks light-themed in dark mode (check for hard-coded light colors, styles outside theme tokens, or the element rendering before `data-theme`/tokens apply). Fix it to follow the active theme.

@@ -210,6 +210,7 @@
   },
   "products": {
     "title": "Products",
+    "description": "Manage your catalog — search, filter, and keep an eye on stock levels.",
     "loadErrorTitle": "Something went wrong",
     "loadErrorHint": "We couldn't load the products. Please try again.",
     "loadProductFailed": "We couldn't load this product. Please try again.",
@@ -226,6 +227,8 @@
     "editTitle": "Edit Product",
     "editDescription": "Update the product details and images.",
     "editProduct": "Edit Product",
+    "viewProduct": "View Product",
+    "deleteProduct": "Delete Product",
     "detailsTitle": "Product Details",
     "backToList": "Back to Products",
     "created": "Product created successfully",

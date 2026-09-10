@@ -22,7 +22,15 @@
     "orders": "Orders",
     "users": "Users",
     "carts": "Carts",
+    "home": "Home",
+    "categories": "Categories",
+    "locations": "Locations",
+    "profile": "Profile",
     "settings": "Settings",
+    "login": "Login",
+    "logout": "Logout",
+    "register": "Register",
+    "search": "Search...",
     "notifications": "Notifications",
     "notificationsPanel": {
       "title": "Notifications",
@@ -43,6 +51,30 @@
     "apiOnline": "API Online",
     "apiUnavailable": "API Unavailable",
     "apiLabel": "E-commerce API"
+  },
+  "drawer": {
+    "saleTitle": "Flash Sale",
+    "saleDetails": "Up to 30% OFF"
+  },
+  "footer": {
+    "city": "Cairo",
+    "country": "Egypt",
+    "shop": "Shop",
+    "newArrivals": "New Arrivals",
+    "bestSellers": "Best Sellers",
+    "categories": "Categories",
+    "promoCodes": "Promo Codes",
+    "services": "Services",
+    "faq": "FAQ",
+    "shippingReturns": "Shipping & Returns",
+    "trackOrder": "Track Order",
+    "contactUs": "Contact Us",
+    "company": "Company",
+    "aboutUs": "About Us",
+    "career": "Career",
+    "press": "Press",
+    "privacyPolicy": "Privacy Policy",
+    "copyrightText": "© 2026 Oversea Store Express. All rights reserved."
   },
   "auth": {
     "password": {

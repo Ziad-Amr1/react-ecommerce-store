@@ -1,5 +1,5 @@
 import { lazy, Suspense } from "react";
-import Landing from "./pages/landing/Landing.jsx";
+import Landing from "./pages/Landing.jsx";
 import Profile from "./pages/Profile.jsx";
 import AdminLayout from "./components/layout/AdminLayout";
 import StoreLayout from "./components/layout/StoreLayout";

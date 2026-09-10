@@ -40,13 +40,13 @@ export default function Categories() {
   const { t } = useTranslation();
 
   return (
-    <section className="py-16">
+    <section className="mt-16" aria-labelledby="categories-title">
       <div className="mb-4 flex items-center justify-between gap-3">
-        <h2 className="font-bold text-foreground capitalize">
+        <h2 id="categories-title" className="font-bold text-foreground">
           {t("landing.categories.title")}
         </h2>
 
-        <ComingSoonButton className="capitalize">
+        <ComingSoonButton>
           {t("landing.categories.viewAll")}
           <ArrowRight className="size-4 rtl:-scale-x-100" aria-hidden="true" />
         </ComingSoonButton>

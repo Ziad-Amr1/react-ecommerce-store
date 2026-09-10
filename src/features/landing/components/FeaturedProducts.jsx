@@ -42,13 +42,13 @@ export default function FeaturedProducts() {
   }
 
   return (
-    <section className="mt-16">
+    <section className="mt-16" aria-labelledby="featured-products-title">
       <div className="mb-4 flex items-center justify-between gap-3">
-        <h2 className="font-bold text-foreground capitalize">
+        <h2 id="featured-products-title" className="font-bold text-foreground">
           {t("landing.featured.title")}
         </h2>
 
-        <ComingSoonButton className="capitalize">
+        <ComingSoonButton>
           {t("landing.featured.viewAll")}
           <ArrowRight className="size-4 rtl:-scale-x-100" aria-hidden="true" />
         </ComingSoonButton>

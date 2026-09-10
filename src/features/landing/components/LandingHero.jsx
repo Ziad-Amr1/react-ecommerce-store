@@ -32,13 +32,16 @@ export default function LandingHero() {
   const { t } = useTranslation();
 
   return (
-    <section>
-      <div className="flex flex-col items-center gap-8 py-10 md:flex-row md:items-center md:gap-6">
+    <section aria-labelledby="landing-hero-title">
+      <div className="flex flex-col items-center gap-8 pt-10 md:flex-row md:items-center md:gap-6">
         <div className="w-full md:w-1/2">
-          <h1 className="text-2xl font-bold text-foreground font-display capitalize lg:text-4xl">
+          <h1
+            id="landing-hero-title"
+            className="font-display text-2xl font-bold text-foreground lg:text-4xl"
+          >
             {t("landing.hero.title")}
           </h1>
-          <h2 className="mt-1 text-2xl font-bold text-foreground font-display capitalize lg:text-4xl">
+          <h2 className="mt-2 font-display text-lg font-semibold text-foreground lg:text-xl">
             {t("landing.hero.subPre")}{" "}
             <span className="text-primary">{t("landing.hero.subHighlight")}</span>
           </h2>
@@ -48,10 +51,10 @@ export default function LandingHero() {
           </p>
 
           <div className="mt-6 flex flex-col gap-3 sm:flex-row">
-            <ComingSoonButton className="px-8 capitalize">
+            <ComingSoonButton className="px-8">
               {t("landing.hero.shopNow")}
             </ComingSoonButton>
-            <ComingSoonButton className="px-6 capitalize">
+            <ComingSoonButton className="px-6">
               {t("landing.hero.explore")}
             </ComingSoonButton>
           </div>
@@ -66,7 +69,7 @@ export default function LandingHero() {
         </div>
       </div>
 
-      <div className="mt-8 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
+      <div className="mt-10 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
         {prosItems.map((item) => (
           <ProsCard
             key={item.key}

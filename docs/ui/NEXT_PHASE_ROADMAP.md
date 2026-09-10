@@ -1,7 +1,7 @@
 # Next Phase Roadmap — UI Polish, Store Shell, Tables, Typography, Catalog Data
 
 > Source of truth for the post-foundation phase.
-> Baseline: main `d68ca69980c9e34f224834141c13aefcbaced921` (PRs #38–#52 merged; main is authoritative).
+> Baseline: main `c39489c` (PRs #38–#53 merged; main is authoritative).
 > Companion doc: [`DATA_TABLE_GUIDELINES.md`](DATA_TABLE_GUIDELINES.md).
 
 ---
@@ -153,7 +153,7 @@ P1.5 (Admin header cleanup) has no hard dependencies — schedule it right after
 - **Expected outcome**: plumbing + persistence land and stay inert today. The control renders nothing (or a single locked label) until a real `ar` (or other) resource is committed — only then does visible switching become meaningful, using the same shipping code. Optionally surface the control in the admin header later (out of scope here unless trivial).
 
 ### P3 — Numeric typography
-- **Status**: **DONE-implemented — PR #53 `refactor/numeric-typography`** (base main `3d82ff6`; commits: `2d65b15` implementation, `3017259` convention doc). Lint/build/diff-check clean; browser smoke green (25/25, light + dark across landing/dashboard/products/details: computed `font-family`/`font-variant-numeric` — Space Grotesk on large emphasis prices/stat values, IBM Plex Mono on order ids + SKU, `tabular-nums` on all currency/count/percent cells, no display font on dates/small cells; `dir=ltr` unchanged). Convention documented in `docs/ui/NUMERIC_TYPOGRAPHY.md`. **Pending merge.**
+- **Status**: **DONE — PR #53 `refactor/numeric-typography`** (base main `3d82ff6`; commits: `2d65b15` implementation, `3017259` convention doc). Lint/build/diff-check clean; browser smoke green (25/25, light + dark across landing/dashboard/products/details: computed `font-family`/`font-variant-numeric` — Space Grotesk on large emphasis prices/stat values, IBM Plex Mono on order ids + SKU, `tabular-nums` on all currency/count/percent cells, no display font on dates/small cells; `dir=ltr` unchanged). Convention documented in `docs/ui/NUMERIC_TYPOGRAPHY.md`. **Merged to `main` as `c39489c` (normal merge commit, 2026-09-10).** Deferred: small-cell `font-display` inside user-WIP `OrderStatus.jsx`/`TopProducts.jsx` remain with their authors (see §5).
 - **Goal**: one numeric convention across surfaces.
 - **Current state**: `tabular-nums` used ad hoc; font choice for numbers varies (font-display vs font-mono).
 - **Missing**: consistent convention + application.
@@ -243,7 +243,7 @@ P1.5 (Admin header cleanup) has no hard dependencies — schedule it right after
 
 ## 8. Execution order (recommended)
 
-1. ✅ `feat/store-shell` (P1) — **DONE (PR #47, merged as `3161e8e`)** → 2. ✅ P1.5 `feat/toast-sonner-admin-header` (no deps — PR #50, includes Sonner toast migration + theme bootstrap; merged as `b0713d6`) → 3. ✅ `feat/language-switcher` (P2 — PR #52, merged as `d68ca69`) → 4. `refactor/numeric-typography` (P3 — PR #53, implementation complete, pending merge) → 5. `refactor/data-table-compliance` (P4) → 6. `feat/profile-overview` (P5) → 7. `feat/landing-polish` (P6) → 8. `docs/catalog-seed-data` (P7).
+1. ✅ `feat/store-shell` (P1) — **DONE (PR #47, merged as `3161e8e`)** → 2. ✅ P1.5 `feat/toast-sonner-admin-header` (no deps — PR #50, includes Sonner toast migration + theme bootstrap; merged as `b0713d6`) → 3. ✅ `feat/language-switcher` (P2 — PR #52, merged as `d68ca69`) → 4. ✅ `refactor/numeric-typography` (P3 — PR #53, merged as `c39489c`) → 5. `refactor/data-table-compliance` (P4) → 6. `feat/profile-overview` (P5) → 7. `feat/landing-polish` (P6) → 8. `docs/catalog-seed-data` (P7).
 
 Recorded follow-up items (do not disturb the P1–P7 order above; schedule where they best fit, likely folded into a nearby PR or as tiny isolated PRs):
 

@@ -30,7 +30,7 @@ export default function Users(){
       const response = await api.get("/users/all");
       setUsers(response.data?.users || []);
       setCurrentPage(1);
-    } catch(error){
+    } catch (error){
       setUsers([]);
       setError(error.response?.data?.message || "Failed to load users. Please try again.");
     } finally{
@@ -38,8 +38,34 @@ export default function Users(){
     }
   };
 
-  useEffect(() => {fetchUsers()}, []);
+  useEffect(() => {
+    let ignore = false;
+    const loadUsers = async () => {
+      try {
+        const response = await api.get("/users/all");
 
+        if(!ignore){
+          setUsers(response.data?.users || []);
+          setCurrentPage(1);
+          setError(null);
+        }
+      } catch (error){
+        if(!ignore){
+          setUsers([]);
+          setError(error.response?.data?.message || "Failed to load users. Please try again.");
+        }
+      } finally {
+        if(!ignore){
+          setIsLoading(false);
+        }
+      }
+    };
+
+    loadUsers();
+
+    return () => { ignore = true; };
+  }, []);
+  
   // Pagination Calculations
   const totalPages = Math.ceil(users.length / usersPerPage);
   const startIndex = (currentPage - 1) * usersPerPage;

@@ -1,5 +1,5 @@
 import React from "react";
-import { useForm } from "react-hook-form";
+import { useForm, useWatch} from "react-hook-form";
 import { toast } from "sonner";
 import { ShieldPlus, Trash2, User, Mail, Lock, IdCard, X, Check } from "lucide-react";
 import api from "@/api/axios";
@@ -38,10 +38,10 @@ const showErrorToast = (message) => {
 
 /* Add Admin Dialog */
 export function AddAdminDialog({ isOpen, onClose, onSuccess }) {
-  const { register, handleSubmit, watch, formState: { errors, isSubmitting }, reset } = useForm({ mode: "onChange" });
-  const usernameValue = watch("username");
-  const emailValue = watch("email");
-  const passwordValue = watch("password");
+  const { register, handleSubmit, control, formState: { errors, isSubmitting }, reset } = useForm({ mode: "onChange" });
+  const usernameValue = useWatch({ control, name: "username",});
+  const emailValue = useWatch({ control, name: "email",});
+  const passwordValue = useWatch({ control, name:"password",});
   const isUsernameValid = Boolean(usernameValue?.trim()) && !errors.username;
   const isEmailValid = Boolean(emailValue) && /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(emailValue) && !errors.email;
   const isPasswordValid = Boolean(passwordValue) && passwordValue.length >= 6 && !errors.password;

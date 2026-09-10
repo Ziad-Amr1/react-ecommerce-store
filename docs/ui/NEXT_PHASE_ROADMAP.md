@@ -141,9 +141,10 @@ P1.5 (Admin header cleanup) has no hard dependencies — schedule it right after
 - **Expected outcome**: header actions read as notifications → theme toggle → Account (identity, with Logout inside). No duplicate logout, no duplicate navigation responsibility: "Back to Store" is the only storefront-nav action, logout exists only in the Account menu.
 
 ### P2 — Language switcher
+- **Status**: **DONE — PR #52 `feat/language-switcher`** (base main `9dfe6b9`; commits: `5cbc298` i18n plumbing, `e5f1468` switcher control, docs commit). Lint/build/diff-check clean; browser smoke green — shipped state 7/7 (absent/invalid/stored language → `en`/`ltr`, switcher hidden on storefront + admin, `dir`/`lang` stable) and a second-locale roundtrip 11/11 (temporary committed-style `de` fixture, fully reverted before commit: stored choice cold-loads, menu lists only committed locales, switch updates `dir`/`lang` + persists across reload). Nothing fake ships — the shipped bundle contains only `en`. Pending merge.
 - **Goal**: prepare the language plumbing — a persisted user preference, i18n bootstrap, and a `changeLanguage` path — so visible switching is trivial once a **real** second locale exists. Never invent, present, or select a locale that has no committed resource.
-- **Current state**: only `en` registered; no UI, no persistence, no `changeLanguage` path; `DirectionProvider` already applies `dir`/`lang`.
-- **Missing**: i18n bootstrap from a stored preference + persistence + `changeLanguage` wiring. The control enumerates **only committed locales** and renders nothing when only one is available (no fake second language, no dead dropdown).
+- **Current state**: plumbing shipped — `src/i18n/index.js` derives `supportedLanguages` from committed resources only, bootstraps the stored preference (missing/invalid → `en`), and `setLanguage()` switches + persists. `LanguageSwitcher` renders in the store header and stays inert (renders nothing) while only one real locale exists; it activates automatically as soon as a real resource is committed. `DirectionProvider` behavior unchanged.
+- **Missing**: a real committed locale resource (e.g. full `ar` — approval needed; the local stub stays untracked). That is the only thing keeping visible switching from being actionable.
 - **Dependencies**: P1 (header host).
 - **Affected**: `src/i18n/index.js` (read stored lng, expose switch), new `src/components/i18n/LanguageSwitcher.jsx` (or under `components/layout/`), `StoreHeader`, `en.json` (`languages.*`), `docs` note.
 - **Separate PR**: yes.
@@ -211,7 +212,7 @@ P1.5 (Admin header cleanup) has no hard dependencies — schedule it right after
 ## 5. Decisions already made
 
 - Store shell **is needed now**, as a single dumb temporary `StoreLayout` (storefront routes only). Auth and admin layouts remain untouched.
-- Language switch — **CONFIRMED**: prepare the i18n **plumbing/persistence architecture now**; **never invent or ship a fake second locale**; only **committed/real locale resources** may become selectable; **do not expose a misleading language choice when only `en` exists** — the visible control stays inert (renders nothing / single locked label); a real second-language switch becomes active only once a real locale resource (e.g. full `ar.json`) is committed.
+- Language switch — **CONFIRMED**: prepare the i18n **plumbing/persistence architecture now**; **never invent or ship a fake second locale**; only **committed/real locale resources** may become selectable; **do not expose a misleading language choice when only `en` exists** — the visible control stays inert (renders nothing / single locked label); a real second-language switch becomes active only once a real locale resource (e.g. full `ar.json`) is committed. **Landed in PR #52.**
 - Admin header (P1.5) — **CONFIRMED**: **"Back to Store" replaces the standalone Logout** and navigates to the storefront `/`; **Logout moves into the Account dropdown**; account-level actions (Logout) live only inside the Account dropdown, never as primary navigation; preserve theme toggle + other header actions; use i18n keys (en.json only) and logical direction-aware utilities; no duplication of account/navigation responsibilities (Sidebar stays the sole admin nav). **Landed in PR #50.**
 - Toast system — **CONFIRMED**: standardize on **Sonner** as the single toast system; **react-toastify removed** (PR #50). `Toaster` mounts in `src/components/ui/toaster.jsx`, theme-synced via `useTheme`, appearance mapped to semantic design tokens in `src/index.css` (`.app-sonner[data-sonner-toaster][data-sonner-theme]` — outranks sonner's runtime CSS, follows app `data-theme`). No dual-toast stack: new code must `import { toast } from "sonner"` only.
 - Theme bootstrap — **CONFIRMED/DONE**: `data-theme` is applied pre-React by an inline `<head>` script in `index.html` (reads `localStorage.theme`; `"dark"` → attribute set during HTML parse; light default for missing/invalid; no system-preference). `useTheme` is a single module-scoped reactive store via `useSyncExternalStore` — unchanged public API `{ theme, toggleTheme }`, same storage key/values, **no ThemeProvider**. All consumers (headers + Sonner toaster) subscribe to the one store, so toasts re-theme on toggle. Resolves the "ProtectedRoute loader dark-theme" follow-up (PR #50, merged as `b0713d6`).
@@ -223,7 +224,7 @@ P1.5 (Admin header cleanup) has no hard dependencies — schedule it right after
 
 ## 6. Open questions (require approval before the related PR)
 
-1. **Arabic resource**: commit a full `ar.json` resource (the current local stub is dashboard-only and untracked, so it cannot ship)? Until then the switcher plumbing ships but stays inert. Decide before visible switching is a goal. (P2)
+1. **Arabic resource**: commit a full `ar.json` resource (the current local stub is dashboard-only and untracked, so it cannot ship)? Until then the switcher plumbing ships but stays inert — with P2, the plumbing now ships (PR #52); this decision alone gates visible switching. Decide before visible switching is a goal. (P2)
 2. **`/profile` auth model**: open with a login-prompt card for anonymous visitors, or gate behind storefront authentication once customers can log in? (P5)
 3. **Seed images**: bundle canonical webp assets and upload them through the dev script, or reference stable existing image URLs, or defer images in the first seed drop? (P7)
 4. **Theme sharing**: keep `useTheme` per-instance (recommended) vs promote to a `ThemeProvider` context later — flag before any PR touches `index.css`.
@@ -240,7 +241,7 @@ P1.5 (Admin header cleanup) has no hard dependencies — schedule it right after
 
 ## 8. Execution order (recommended)
 
-1. ✅ `feat/store-shell` (P1) — **DONE (PR #47, merged as `3161e8e`)** → 2. ✅ P1.5 `feat/toast-sonner-admin-header` (no deps — PR #50, includes Sonner toast migration + theme bootstrap; merged as `b0713d6`) → 3. `feat/language-switcher` (P2) → 4. `refactor/numeric-typography` (P3) → 5. `refactor/data-table-compliance` (P4) → 6. `feat/profile-overview` (P5) → 7. `feat/landing-polish` (P6) → 8. `docs/catalog-seed-data` (P7).
+1. ✅ `feat/store-shell` (P1) — **DONE (PR #47, merged as `3161e8e`)** → 2. ✅ P1.5 `feat/toast-sonner-admin-header` (no deps — PR #50, includes Sonner toast migration + theme bootstrap; merged as `b0713d6`) → 3. ✅ `feat/language-switcher` (P2 — PR #52; pending merge) → 4. `refactor/numeric-typography` (P3) → 5. `refactor/data-table-compliance` (P4) → 6. `feat/profile-overview` (P5) → 7. `feat/landing-polish` (P6) → 8. `docs/catalog-seed-data` (P7).
 
 Recorded follow-up items (do not disturb the P1–P7 order above; schedule where they best fit, likely folded into a nearby PR or as tiny isolated PRs):
 

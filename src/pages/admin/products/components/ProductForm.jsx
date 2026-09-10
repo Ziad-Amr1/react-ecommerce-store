@@ -1,82 +1,72 @@
-import { Package2 } from "lucide-react";
-import { Input } from "../../../../components/ui/input";
-import { Label } from "../../../../components/ui/label";
-import { Textarea } from "../../../../components/ui/textarea";
-// import ProductTagsInput from "./ProductTagsInput";
+import { Upload, X } from "lucide-react";
+import ProductImagePreview from "./ProductImagePreview";
 
-function ProductForm({ formData, errors, onChange }) {
+function ProductGallery({
+    images,
+    newImages,
+    productName,
+    isSubmitting,
+    onImageChange,
+    onDeleteExistingImage,
+    onRemoveNewImage,
+}) {
+    const totalImages = images.length + newImages.length;
+
     return (
-        <div className="w-full flex-1 rounded-xl border border-border bg-card p-4 shadow-sm md:p-5">
-            <div className="mb-5 flex items-center gap-3">
-                <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-muted text-foreground">
-                    <Package2 className="h-5 w-5" />
-                </div>
-                <div>
-                    <h2 className="font-display font-semibold text-card-foreground">Basic Information</h2>
-                    <p className="text-sm text-muted-foreground">Update the main product details</p>
-                </div>
-            </div>
+        <div className="w-full rounded-xl border border-border bg-card p-6 shadow-sm md:w-80 md:shrink-0">
+            <h2 className="mb-4 font-display text-lg font-semibold text-card-foreground">Product Gallery</h2>
 
-            <div className="grid gap-5 md:grid-cols-2">
-                <div className="space-y-2 md:col-span-2">
-                    <Label htmlFor="name">Product Name</Label>
-                    <Input id="name" value={formData.name} onChange={onChange} placeholder="Enter product name" aria-invalid={!!errors.name} />
-                    {errors.name && <p className="text-sm text-destructive">{errors.name}</p>}
-                </div>
+            <div className="space-y-4">
+                <label
+                    className={`flex min-h-45 flex-col items-center justify-center rounded-lg border border-dashed border-border 
+                        text-center transition ${totalImages >= 5 || isSubmitting ? "cursor-not-allowed opacity-50" : "cursor-pointer hover:bg-muted"
+                        }`}
+                >
+                    <Upload className="mb-3 h-8 w-8 text-muted-foreground" />
+                    <span className="text-sm font-medium text-foreground">Upload Product Images</span>
+                    <span className="mt-1 text-xs text-muted-foreground">PNG, JPG or WEBP • Maximum 5 images</span>
 
-                <div className="space-y-2 md:col-span-2">
-                    <Label htmlFor="shortDescription">Short Description</Label>
-                    <Textarea id="shortDescription" value={formData.shortDescription} onChange={onChange} placeholder="Enter a short description" rows={3} aria-invalid={!!errors.shortDescription} />
-                    {errors.shortDescription && <p className="text-sm text-destructive">{errors.shortDescription}</p>}
-                </div>
+                    <input type="file" accept="image/png,image/jpeg,image/webp" multiple
+                        className="hidden" disabled={totalImages >= 5 || isSubmitting} onChange={onImageChange}
+                    />
+                </label>
 
-                <div className="space-y-2 md:col-span-2">
-                    <Label htmlFor="description">Description</Label>
-                    <Textarea id="description" value={formData.description} onChange={onChange} placeholder="Enter product description" rows={6} aria-invalid={!!errors.description} />
-                    {errors.description && <p className="text-sm text-destructive">{errors.description}</p>}
-                </div>
+                <p className="font-mono text-xs text-muted-foreground">{totalImages}/5 images</p>
 
-                <div className="space-y-2">
-                    <Label htmlFor="price">Price</Label>
-                    <Input id="price" type="number" min="0" step="0.01" value={formData.price} onChange={onChange} placeholder="0.00" aria-invalid={!!errors.price} className="font-mono" />
-                    {errors.price && <p className="text-sm text-destructive">{errors.price}</p>}
-                </div>
+                {totalImages > 0 && (
+                    <div className="grid grid-cols-2 gap-3">
+                        {images.map((image) => (
+                            <div key={image.public_id} className="relative aspect-square overflow-hidden rounded-lg border border-border bg-background shadow-sm">
+                                <img src={image.url} alt={productName} className="h-full w-full object-cover" />
 
-                <div className="space-y-2">
-                    <Label htmlFor="discountPrice">Discount Price</Label>
-                    <Input id="discountPrice" type="number" min="0" step="0.01" value={formData.discountPrice} onChange={onChange} placeholder="0.00" aria-invalid={!!errors.discountPrice} className="font-mono" />
-                    {errors.discountPrice && <p className="text-sm text-destructive">{errors.discountPrice}</p>}
-                </div>
+                                <button type="button" disabled={isSubmitting} aria-label="Delete image"
+                                    className="absolute right-2 top-2 flex h-7 w-7 cursor-pointer items-center justify-center rounded-full border border-border
+                                     bg-background text-foreground shadow-sm transition-colors hover:bg-muted"
+                                    onClick={() => onDeleteExistingImage(image)}
+                                >
+                                    <X className="h-4 w-4" />
+                                </button>
+                            </div>
+                        ))}
 
-                <div className="space-y-2">
-                    <Label htmlFor="stock">Stock</Label>
-                    <Input id="stock" type="number" min="0" value={formData.stock} onChange={onChange} placeholder="0" aria-invalid={!!errors.stock} className="font-mono" />
-                    {errors.stock && <p className="text-sm text-destructive">{errors.stock}</p>}
-                </div>
+                        {newImages.map((file, index) => (
+                            <div key={`${file.name}-${index}`} className="relative aspect-square overflow-hidden rounded-lg border border-border bg-background shadow-sm">
+                                <ProductImagePreview file={file} alt={`New product image ${index + 1}`} />
 
-                <div className="space-y-2">
-                    <Label htmlFor="sku">SKU</Label>
-                    <Input id="sku" value={formData.sku} onChange={onChange} placeholder="e.g. PROD-12345" aria-invalid={!!errors.sku} className="font-mono" />
-                    {errors.sku && <p className="text-sm text-destructive">{errors.sku}</p>}
-                </div>
-
-                <div className="space-y-2">
-                    <Label htmlFor="category">Category</Label>
-                    <Input id="category" value={formData.category} onChange={onChange} placeholder="Enter category" aria-invalid={!!errors.category} />
-                    {errors.category && <p className="text-sm text-destructive">{errors.category}</p>}
-                </div>
-
-                <div className="space-y-2">
-                    <Label htmlFor="brand">Brand</Label>
-                    <Input id="brand" value={formData.brand} onChange={onChange} placeholder="Enter brand" aria-invalid={!!errors.brand} />
-                    {errors.brand && <p className="text-sm text-destructive">{errors.brand}</p>}
-                </div>
-
-        
-                {/* <ProductTagsInput tags={formData.tags} onChange={onTagsChange} /> */}
+                                <button type="button" disabled={isSubmitting} aria-label="Delete image"
+                                    className="absolute right-2 top-2 flex h-7 w-7 cursor-pointer items-center justify-center rounded-full border border-border
+                                     bg-background text-foreground shadow-sm transition-colors hover:bg-muted"
+                                    onClick={() => onRemoveNewImage(index)}
+                                >
+                                    <X className="h-4 w-4" />
+                                </button>
+                            </div>
+                        ))}
+                    </div>
+                )}
             </div>
         </div>
     );
 }
 
-export default ProductForm;
+export default ProductGallery;

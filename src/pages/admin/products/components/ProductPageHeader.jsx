@@ -1,11 +1,15 @@
+import { useTranslation } from "react-i18next";
 import { ArrowLeft } from "lucide-react";
 import { Button } from "../../../../components/ui/button";
 
 function ProductPageHeader({ title, description, onBack }) {
+    const { t } = useTranslation();
+
     return (
         <div className="mb-6">
-            <Button variant="outline" className="mb-4 cursor-pointer border-border bg-background text-foreground hover:bg-muted" onClick={onBack}>
-                <ArrowLeft className="mr-2 h-4 w-4" />Back to Products
+            <Button variant="outline" className="mb-4 cursor-pointer border-border 
+                bg-background text-foreground hover:bg-muted" onClick={onBack}>
+                <ArrowLeft className="mr-2 h-4 w-4" />{t("products.backToProducts")}
             </Button>
 
             <div>

@@ -1,8 +1,10 @@
+import { useTranslation } from "react-i18next";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router";
 import api from "../../../../api/axios";
 
 function useProduct() {
+    const { t } = useTranslation();
     const { id } = useParams();
 
     const [product, setProduct] = useState(null);
@@ -19,14 +21,14 @@ function useProduct() {
                 setProduct(response.data.product);
             } catch (error) {
                 console.error("Failed to load product:", error);
-                setError("Failed to load product. Please try again.");
+                setError(t("products.loadProductError"));
             } finally {
                 setIsLoading(false);
             }
         };
 
         fetchProduct();
-    }, [id]);
+    }, [id, t]);
 
     return { id, product, isLoading, error };
 }

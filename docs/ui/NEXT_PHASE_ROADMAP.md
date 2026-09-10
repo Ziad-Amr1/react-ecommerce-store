@@ -1,7 +1,7 @@
 # Next Phase Roadmap — UI Polish, Store Shell, Tables, Typography, Catalog Data
 
 > Source of truth for the post-foundation phase.
-> Baseline: main `2536382` (PRs #38–#56 merged; main is authoritative).
+> Baseline: main `8d675bb` (PRs #38–#57 merged; main is authoritative).
 > Companion doc: [`DATA_TABLE_GUIDELINES.md`](DATA_TABLE_GUIDELINES.md).
 
 ---
@@ -189,7 +189,7 @@ P1.5 (Admin header cleanup) has no hard dependencies — schedule it right after
 
 ### P6 — Landing polish pass
 - **Goal**: unify rhythm, RTL/typo cleanups; no new sections.
-- **Current state**: **IN PROGRESS — PR (branch `feat/landing-polish`)**. All §3/A findings addressed: (1) vertical rhythm unified onto a single `mt-16` convention for the body sections, hero leads with `pt-10` under the sticky header — spacing-only separation, no body separators added; (2) Newsletter `select-none` removed so the email Input is selectable/copyable (browser-verified); (3) `capitalize` removed from all authored headings/CTAs (strings stay ready-cased in en.json); (4) hero sub-line resized (`text-lg lg:text-xl`) so the h1 clearly leads; (5) banner overlay mirrors in RTL (`bg-linear-to-r rtl:bg-linear-to-l`) — text sits on the dark side in both scripts; (6) micro-a11y: `aria-labelledby` wired from the hero/featured/categories/newsletter sections to real heading ids. **Also: landing slice relocated** so `src/pages/` holds only pages — changed `src/pages/landing/...` → `src/features/landing/` (components+, assets, landing.service, useFeaturedProducts) and `src/pages/landing/Landing.jsx` → `src/pages/Landing.jsx` (imports updated in App.jsx + StoreHeader.jsx).
+- **Current state**: **DONE — PR #57, merged as `8d675bb`** (`feat/landing-polish`, normal merge commit, 2026-09-10). All §3/A findings addressed: (1) vertical rhythm unified onto a single `mt-16` convention for the body sections, hero leads with `pt-10` under the sticky header — spacing-only separation, no body separators added; (2) Newsletter `select-none` removed so the email Input is selectable/copyable (browser-verified); (3) `capitalize` removed from all authored headings/CTAs (strings stay ready-cased in en.json); (4) hero sub-line resized (`text-lg lg:text-xl`) so the h1 clearly leads; (5) banner overlay mirrors in RTL (`bg-linear-to-r rtl:bg-linear-to-l`) — text sits on the dark side in both scripts; (6) micro-a11y: `aria-labelledby` wired from the hero/featured/categories/newsletter sections to real heading ids. **Also: landing slice relocated** so `src/pages/` holds only pages — changed `src/pages/landing/...` → `src/features/landing/` (components+, assets, landing.service, useFeaturedProducts) and `src/pages/landing/Landing.jsx` → `src/pages/Landing.jsx` (imports updated in App.jsx + StoreHeader.jsx). Browser validation `smoke-p6.mjs` 42/42.
 - **Missing**: nothing for this phase; RTL is LTR-only until a real `ar.json` ships (the `rtl:` gradient variant is latent, ready-cased).
 - **Dependencies**: P1 (frame), P3 (numeric).
 - **Affected**: `src/features/landing/` (LandingHero, Newsletter, PromotionalBanner, FeaturedProducts, Categories), `src/pages/Landing.jsx`, `src/App.jsx`, `src/components/layout/StoreHeader.jsx` (import paths only).
@@ -245,9 +245,10 @@ P1.5 (Admin header cleanup) has no hard dependencies — schedule it right after
 
 ## 8. Execution order (recommended)
 
-1. ✅ `feat/store-shell` (P1) — **DONE (PR #47, merged as `3161e8e`)** → 2. ✅ P1.5 `feat/toast-sonner-admin-header` (no deps — PR #50, includes Sonner toast migration + theme bootstrap; merged as `b0713d6`) → 3. ✅ `feat/language-switcher` (P2 — PR #52, merged as `d68ca69`) → 4. ✅ `refactor/numeric-typography` (P3 — PR #53, merged as `c39489c`) → 5. ✅ `refactor/data-table-compliance` (P4 — PR #54, merged as `fde1bde`) → 6. ✅ `feat/profile-overview` (P5 — PR #56, merged as `2536382`) → 7. `feat/landing-polish` (P6) → 8. `docs/catalog-seed-data` (P7).
+1. ✅ `feat/store-shell` (P1) — **DONE (PR #47, merged as `3161e8e`)** → 2. ✅ P1.5 `feat/toast-sonner-admin-header` (no deps — PR #50, includes Sonner toast migration + theme bootstrap; merged as `b0713d6`) → 3. ✅ `feat/language-switcher` (P2 — PR #52, merged as `d68ca69`) → 4. ✅ `refactor/numeric-typography` (P3 — PR #53, merged as `c39489c`) → 5. ✅ `refactor/data-table-compliance` (P4 — PR #54, merged as `fde1bde`) → 6. ✅ `feat/profile-overview` (P5 — PR #56, merged as `2536382`) → 7. ✅ `feat/landing-polish` (P6 — PR #57, merged as `8d675bb`) → 8. `feat/catalog-seed-data` (P7).
 
 Recorded follow-up items (do not disturb the P1–P7 order above; schedule where they best fit, likely folded into a nearby PR or as tiny isolated PRs):
 
 - **Scrollbar colors (CSS)**: add themed scrollbar colors to `src/index.css` — `scrollbar-color`/`scrollbar-width` (plus `::-webkit-scrollbar*` if needed) so track/thumb respect both light and dark themes. CSS-only, no new dependencies, no `DesignSystem.jsx` changes.
+- **StoreFooter copyright character** (pre-existing, PR #57): the footer renders the copyright symbol as a literal `c` (`c 2026 Oversea Store.`) in `src/components/layout/StoreFooter.jsx`. Fix is a one-character change to `©`. Noted during P6 (presentation-only); deferred out of that PR's scope.
 - **ProtectedRoute loader dark-theme** — **DONE (resolved in PR #50, merged as `b0713d6`)**: the loader only appeared light because `data-theme` wasn't applied until the first `useTheme` consumer mounted (ProtectedRoute's async loader renders before any consumer). Fixed by the pre-React `<head>` bootstrap in `index.html` (accepted values: `"light"`/`"dark"` only; light default; no system-preference) plus the shared reactive `useTheme` store. Verified dark on cold load while `/auth/me` is pending (34/34 theme smoke, re-run on merged main).

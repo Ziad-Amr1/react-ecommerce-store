@@ -1,19 +1,22 @@
+import { useTranslation } from "react-i18next";
 import { Eye, Pencil, Trash2, PackageOpen } from "lucide-react";
 import { Button } from "../../../../components/ui/button";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "../../../../components/ui/table";
 
 export default function ProductsTable({ products, isFetching, deletingProductId, navigate, setProductToDelete }) {
+    const { t } = useTranslation();
+
     return (
         <div className="relative overflow-x-auto rounded-lg border border-border bg-card shadow-sm">
             <Table>
                 <TableHeader>
                     <TableRow>
-                        <TableHead>Product</TableHead>
-                        <TableHead className="text-center">Category</TableHead>
-                        <TableHead className="text-center">Brand</TableHead>
-                        <TableHead className="text-center">Price</TableHead>
-                        <TableHead className="text-center">Stock</TableHead>
-                        <TableHead className="text-center">Actions</TableHead>
+                        <TableHead>{t("products.product")}</TableHead>
+                        <TableHead className="text-center">{t("products.category")}</TableHead>
+                        <TableHead className="text-center">{t("products.brand")}</TableHead>
+                        <TableHead className="text-center">{t("products.price")}</TableHead>
+                        <TableHead className="text-center">{t("products.stock")}</TableHead>
+                        <TableHead className="text-center">{t("products.actions")}</TableHead>
                     </TableRow>
                 </TableHeader>
 
@@ -53,7 +56,7 @@ export default function ProductsTable({ products, isFetching, deletingProductId,
                                             {product.images?.length > 0 ? (
                                                 <img src={product.images[0].url} alt={product.name} className="h-full w-full object-cover" />
                                             ) : (
-                                                <div className="flex h-full items-center justify-center text-xs text-muted-foreground">No Image</div>
+                                                <div className="flex h-full items-center justify-center text-xs text-muted-foreground">{t("products.noImage")}</div>
                                             )}
                                         </div>
 
@@ -64,8 +67,8 @@ export default function ProductsTable({ products, isFetching, deletingProductId,
                                     </div>
                                 </TableCell>
 
-                                <TableCell className="text-center text-muted-foreground">{product.category || "No Category"}</TableCell>
-                                <TableCell className="text-center text-muted-foreground">{product.brand || "No Brand"}</TableCell>
+                                <TableCell className="text-center text-muted-foreground">{product.category || t("products.noCategory")}</TableCell>
+                                <TableCell className="text-center text-muted-foreground">{product.brand || t("products.noBrand")}</TableCell>
                                 <TableCell className="text-center font-mono font-medium text-foreground">${product.price}</TableCell>
 
                                 <TableCell className="text-center">
@@ -78,20 +81,20 @@ export default function ProductsTable({ products, isFetching, deletingProductId,
                                     <div className="flex justify-center gap-4">
                                         <Button variant="outline" size="icon" className="cursor-pointer border-border bg-background text-foreground hover:bg-muted"
                                             onClick={() => navigate(`/admin/products/${product._id}`)}
-                                            disabled={isFetching} aria-label="View product"
+                                            disabled={isFetching} aria-label={t("products.viewProduct")}
                                         >
                                             <Eye className="h-4 w-4" />
                                         </Button>
 
                                         <Button variant="outline" size="icon" className="cursor-pointer border-border bg-background text-foreground hover:bg-muted" disabled={isFetching}
-                                            onClick={() => navigate(`/admin/products/${product._id}/edit`)} aria-label="Edit product"
+                                            onClick={() => navigate(`/admin/products/${product._id}/edit`)} aria-label={t("products.editProduct")}
                                         >
                                             <Pencil className="h-4 w-4" />
                                         </Button>
 
                                         <Button variant="destructive" size="icon"
                                             className="cursor-pointer" onClick={() => setProductToDelete(product)}
-                                            disabled={deletingProductId === product._id || isFetching} aria-label="Delete product"
+                                            disabled={deletingProductId === product._id || isFetching} aria-label={t("products.deleteProduct")}
                                         >
                                             <Trash2 className="h-4 w-4" />
                                         </Button>
@@ -108,8 +111,8 @@ export default function ProductsTable({ products, isFetching, deletingProductId,
                                     </div>
 
                                     <div className="text-center">
-                                        <p className="font-medium text-foreground">No products found</p>
-                                        <p className="mt-1 text-sm text-muted-foreground">Try changing your search or filters.</p>
+                                        <p className="font-medium text-foreground">{t("products.noProducts")}</p>
+                                        <p className="mt-1 text-sm text-muted-foreground">{t("products.noProductsDescription")}</p>
                                     </div>
                                 </div>
                             </TableCell>

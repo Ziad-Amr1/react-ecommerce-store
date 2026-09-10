@@ -1,5 +1,5 @@
 import { useTranslation } from "react-i18next";
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router";
 import { toast } from "react-toastify";
 import { SlidersHorizontal } from "lucide-react";
@@ -23,9 +23,6 @@ export default function Products() {
   const [productToDelete, setProductToDelete] = useState(null);
 
   const [search, setSearch] = useState("");
-  const [searchResults, setSearchResults] = useState([]);
-  const [showSearchResults, setShowSearchResults] = useState(false);
-  const skipSearchEffect = useRef(false);
 
   const [showFilters, setShowFilters] = useState(false);
   const [filters, setFilters] = useState({
@@ -41,43 +38,16 @@ export default function Products() {
   const [appliedFilters, setAppliedFilters] = useState(filters);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
+  const [refreshKey, setRefreshKey] = useState(0);
 
-  const fetchProducts = async (showLoading = false) => {
-    if (showLoading) setIsLoading(true);
-    else setIsFetching(true);
-
-    setError(null);
-
-    try {
-      const response = await api.get("/products", {
-        params: {
-          search: appliedSearch,
-          category: appliedFilters.category,
-          subcategory: appliedFilters.subcategory,
-          brand: appliedFilters.brand,
-          minPrice: appliedFilters.minPrice,
-          maxPrice: appliedFilters.maxPrice,
-          sort: appliedFilters.sort,
-          page: currentPage,
-          limit: 5,
-        },
-      });
-
-      setProducts(response.data.products || []);
-      setTotalPages(response.data.totalPages || 1);
-    } catch (error) {
-      console.error("Failed to fetch products:", error);
-      setError(error.response?.data?.message || "Failed to load products. Please try again.");
-    } finally {
-      setIsLoading(false);
-      setIsFetching(false);
-    }
-  };
 
   useEffect(() => {
     let ignore = false;
 
     const loadProducts = async () => {
+      setIsFetching(true);
+      setError(null);
+
       try {
         const response = await api.get("/products", {
           params: {
@@ -97,12 +67,14 @@ export default function Products() {
 
         setProducts(response.data.products || []);
         setTotalPages(response.data.totalPages || 1);
-        setError(null);
       } catch (error) {
         if (ignore) return;
 
         console.error("Failed to fetch products:", error);
-        setError(error.response?.data?.message || "Failed to load products. Please try again.");
+        setError(
+          error.response?.data?.message ||
+          "Failed to load products. Please try again."
+        );
       } finally {
         if (!ignore) {
           setIsLoading(false);
@@ -116,65 +88,24 @@ export default function Products() {
     return () => {
       ignore = true;
     };
-  }, [currentPage, appliedSearch, appliedFilters]);
+  }, [currentPage, appliedSearch, appliedFilters, refreshKey]);
+
 
   // search
-  useEffect(() => {
-    if (skipSearchEffect.current) {
-      skipSearchEffect.current = false;
-      return;
-    }
-
-    if (search.length < 3) {
-      return;
-    }
-
-    const getSearchResults = async () => {
-      try {
-        const response = await api.get("/products", {
-          params: { search, page: 1, limit: 5 },
-        });
-
-        const results = response.data.products || [];
-        setSearchResults(results);
-        setShowSearchResults(results.length > 0);
-      } catch (error) {
-        console.error("Failed to search products:", error);
-        setSearchResults([]);
-        setShowSearchResults(false);
-      }
-    };
-
-    const timer = setTimeout(getSearchResults, 300);
-    return () => clearTimeout(timer);
-  }, [search]);
 
   const handleSearchChange = (event) => {
     const value = event.target.value;
-    skipSearchEffect.current = false;
     setSearch(value);
 
     if (value === "") {
-      setSearchResults([]);
       setAppliedSearch("");
       setCurrentPage(1);
-      setShowSearchResults(false);
     }
   };
 
   const handleSearch = () => {
-    setShowSearchResults(false);
     setCurrentPage(1);
     setAppliedSearch(search);
-  };
-
-  const handleSelectSearchResult = (product) => {
-    skipSearchEffect.current = true;
-    setSearch(product.name);
-    setAppliedSearch(product.name);
-    setCurrentPage(1);
-    setSearchResults([]);
-    setShowSearchResults(false);
   };
 
   const handleApplyFilters = () => {
@@ -202,18 +133,18 @@ export default function Products() {
 
     try {
       await api.delete(`/products/${productId}`);
-      toast.success("Product deleted successfully");
+      toast.success(t("products.deleteSuccess"));
 
       if (products.length === 1 && currentPage > 1) {
         setCurrentPage((prev) => prev - 1);
       } else {
-        await fetchProducts();
+        setRefreshKey((current) => current + 1)
       }
     } catch (error) {
       console.error("Failed to delete product:", error);
 
       const apiMessage = error.response?.data?.message || "";
-      toast.error(apiMessage || "Failed to delete product. Please try again.");
+      toast.error(apiMessage || t("products.deleteError"));
     } finally {
       setDeletingProductId(null);
       setProductToDelete(null);
@@ -260,9 +191,10 @@ export default function Products() {
             <span className="text-2xl text-error">!</span>
           </div>
 
-          <h2 className="font-display text-lg font-semibold text-foreground">Failed to load products</h2>
-          <p className="mt-1 text-sm text-muted-foreground">Something went wrong while loading the products.</p>
-          <Button className="mt-4 cursor-pointer bg-primary text-primary-foreground hover:bg-primary-hover" onClick={() => fetchProducts(true)}>Try Again</Button>
+          <h2 className="font-display text-lg font-semibold text-foreground">{t("products.loadingError")}</h2>
+          <p className="mt-1 text-sm text-muted-foreground">{t("products.loadingErrorDescription")}</p>
+          <Button className="mt-4 cursor-pointer bg-primary text-primary-foreground hover:bg-primary-hover"
+            onClick={() => setRefreshKey((current) => current + 1)}>{t("products.tryAgain")}</Button>
         </div>
       </div>
     );
@@ -271,21 +203,19 @@ export default function Products() {
   return (
     <div className="p-4">
       <div className="mb-4 flex items-center justify-between">
-        <h1 className="font-display text-2xl font-bold text-foreground">{t("Products")}</h1>
-        <Button className="cursor-pointer bg-primary text-primary-foreground hover:bg-primary-hover" onClick={() => navigate("/admin/products/add")}>Add Product</Button>
+        <h1 className="font-display text-2xl font-bold text-foreground">{t("products.title")}</h1>
+        <Button className="cursor-pointer bg-primary text-primary-foreground hover:bg-primary-hover" onClick={() => navigate("/admin/products/add")}>{t("products.addProduct")}</Button>
       </div>
 
       <div className="mb-6 space-y-4">
         <div className="flex w-full flex-col gap-3 md:flex-row">
-          <ProductSearch search={search} searchResults={searchResults}
-            showSearchResults={showSearchResults} setShowSearchResults={setShowSearchResults}
-            handleSearchChange={handleSearchChange} handleSearch={handleSearch}
-            handleSelectSearchResult={handleSelectSearchResult} isFetching={isFetching}
+          <ProductSearch search={search} handleSearchChange={handleSearchChange}
+            handleSearch={handleSearch} isFetching={isFetching}
           />
 
           <Button variant="outline" className="cursor-pointer border-border bg-background text-foreground hover:bg-muted"
             onClick={() => setShowFilters((current) => !current)} disabled={isFetching}>
-            <SlidersHorizontal className="mr-2 h-4 w-4" />Filters
+            <SlidersHorizontal className="mr-2 h-4 w-4" />{t("products.filters")}
           </Button>
         </div>
 

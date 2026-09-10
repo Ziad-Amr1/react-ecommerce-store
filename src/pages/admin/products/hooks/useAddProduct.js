@@ -1,3 +1,4 @@
+import { useTranslation } from "react-i18next";
 import { useState } from "react";
 import { useNavigate } from "react-router";
 import { toast } from "react-toastify";
@@ -6,6 +7,7 @@ import { validateProduct } from "../utils/productValidation";
 import { createProductFormData } from "../utils/productFormData";
 
 function useAddProduct() {
+    const { t } = useTranslation();
     const navigate = useNavigate();
     const [errors, setErrors] = useState({});
     const [images, setImages] = useState([]);
@@ -43,7 +45,7 @@ function useAddProduct() {
         const remainingSlots = 5 - images.length;
 
         if (remainingSlots <= 0) {
-            toast.error("You can upload a maximum of 5 images.");
+            toast.error(t("products.maxImagesError"));
             event.target.value = "";
             return;
         }
@@ -53,7 +55,11 @@ function useAddProduct() {
         setImages((currentImages) => [...currentImages, ...filesToAdd]);
 
         if (selectedFiles.length > remainingSlots) {
-            toast.info(`Only ${remainingSlots} image${remainingSlots > 1 ? "s" : ""} can be added.`);
+            toast.info(
+                t("products.imagesAddedInfo", {
+                    count: remainingSlots,
+                }),
+            );
         }
 
         setErrors((currentErrors) => ({ ...currentErrors, images: "" }));
@@ -75,7 +81,7 @@ function useAddProduct() {
 
         if (Object.keys(validationErrors).length > 0) {
             setErrors(validationErrors);
-            toast.error("Please fix the required fields");
+            toast.error(t("products.requiredFieldsError"));
             return;
         }
 
@@ -90,7 +96,7 @@ function useAddProduct() {
             });
 
             localStorage.removeItem("addProductForm");
-            toast.success("Product created successfully");
+            toast.success(t("products.createSuccess"));
             navigate("/admin/products");
         } catch (error) {
             console.error("Failed to create product:", error);
@@ -98,11 +104,11 @@ function useAddProduct() {
             const apiMessage = error.response?.data?.message || "";
 
             if (apiMessage.includes("sku_1")) {
-                toast.error("This SKU already exists. Please enter a different SKU.");
+                toast.error(t("products.duplicateSku"));
             } else if (apiMessage.includes("name_1")) {
-                toast.error("This product name already exists. Please enter a different name.");
+                toast.error(t("products.duplicateName"));
             } else {
-                toast.error("Failed to create product. Please check your data and try again.");
+                toast.error(t("products.createError"));
             }
         } finally {
             setIsSubmitting(false);

@@ -4,7 +4,7 @@ import { Moon, Sun, ShoppingCart, UserRound } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import useAuth from "@/hooks/useAuth";
 import useTheme from "@/hooks/useTheme";
-import ComingSoonButton from "@/pages/landing/components/ComingSoonButton";
+import ComingSoonButton from "@/features/landing/components/ComingSoonButton";
 import LanguageSwitcher from "./LanguageSwitcher";
 
 export default function StoreHeader() {

@@ -1,9 +1,9 @@
 import { TooltipProvider } from "@/components/ui/tooltip";
-import LandingHero from "./components/LandingHero";
-import FeaturedProducts from "./components/FeaturedProducts";
-import Categories from "./components/Categories";
-import PromotionalBanner from "./components/PromotionalBanner";
-import Newsletter from "./components/Newsletter";
+import LandingHero from "@/features/landing/components/LandingHero";
+import FeaturedProducts from "@/features/landing/components/FeaturedProducts";
+import Categories from "@/features/landing/components/Categories";
+import PromotionalBanner from "@/features/landing/components/PromotionalBanner";
+import Newsletter from "@/features/landing/components/Newsletter";
 
 export default function Landing() {
   return (

@@ -4,7 +4,7 @@ import { Moon, Sun, ShoppingCart, UserRound } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import useAuth from "@/hooks/useAuth";
 import useTheme from "@/hooks/useTheme";
-import ComingSoonButton from "@/pages/landing/components/ComingSoonButton";
+import ComingSoonButton from "@/features/landing/components/ComingSoonButton";
 import LanguageSwitcher from "./LanguageSwitcher";
 
 export default function StoreHeader() {
@@ -84,10 +84,11 @@ export default function StoreHeader() {
             <span className="sr-only">{t("store.header.cart")}</span>
           </ComingSoonButton>
 
-          <ComingSoonButton variant="outline" size="icon" className="rounded-full">
-            <UserRound size={20} aria-hidden="true" />
-            <span className="sr-only">{t("store.header.account")}</span>
-          </ComingSoonButton>
+          <Button asChild variant="outline" size="icon" className="rounded-full cursor-pointer">
+            <Link to="/profile" aria-label={t("store.header.account")} title={t("store.header.account")}>
+              <UserRound size={20} aria-hidden="true" />
+            </Link>
+          </Button>
         </div>
       </div>
     </header>

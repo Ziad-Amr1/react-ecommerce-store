@@ -1,7 +1,7 @@
 # Next Phase Roadmap — UI Polish, Store Shell, Tables, Typography, Catalog Data
 
 > Source of truth for the post-foundation phase.
-> Baseline: main `fde1bde` (PRs #38–#54 merged; main is authoritative).
+> Baseline: main `8d675bb` (PRs #38–#57 merged; main is authoritative).
 > Companion doc: [`DATA_TABLE_GUIDELINES.md`](DATA_TABLE_GUIDELINES.md).
 
 ---
@@ -178,25 +178,25 @@ P1.5 (Admin header cleanup) has no hard dependencies — schedule it right after
 
 ### P5 — Profile overview (selective rebuild)
 - **Goal**: reusable, presentation-only `/profile` (storefront) using only real auth data.
-- **Current state**: no profile page on main; old branch is unusable (see §3/D).
-- **Missing**: a rebuilt page adopting the old branch's layout patterns with current conventions.
+- **Current state**: **DONE — PR #56, merged as `2536382`** (`feat/profile-overview`). Real data only: identity (`getUserIdentity`), avatar, email, username, phone, role; no invented/fake counts. Anonymous visitors see a login-prompt card; missing fields render `Not provided`. Unavailable sections (orders, wishlist, addresses, payments) are honest disabled tiles marked "Not available yet". Store-shell Account button is now a live link to `/profile` (Cart stays ComingSoon). Loading shows a skeleton while the session restores.
+- **Missing**: nothing for this phase; storefront customer auth + real data endpoints are upstream requirements (see §6/#2).
 - **Dependencies**: P1 (storefront route). P2/P3 optional but nice (control reuse, numeric counts).
-- **Affected**: new `src/pages/ProfileOverview.jsx` (or `features/profile/` slice), `src/App.jsx` (route under `StoreLayout`), `en.json` (`profile.*`), reuse `Avatar`/`Card`/`Badge`.
+- **Affected**: new `src/pages/Profile.jsx` + `src/features/profile/` slice (ProfileHeader, PersonalInformation, AccountActivity, AnonymousPrompt, ProfileSkeleton), `src/App.jsx` (route under `StoreLayout`), `src/components/layout/StoreHeader.jsx` (Account link), `en.json` (`profile.*`); reuse `Avatar`/`Card`/`Badge`/`Skeleton`.
 - **Separate PR**: yes.
-- **Risk**: medium — decide and document the anonymous-visitor behavior (login prompt card vs ProtectedRoute) and that all fake-metric/order sections render as honest empty/disabled placeholders until APIs exist.
-- **Validation**: lint/build/diff-check; LTR/RTL, light/dark, mobile (sidebar becomes horizontal scroll), authenticated + anonymous states.
-- **Expected outcome**: profile overview showing identity/avatar/email from `useAuth`, with account-stats and orders sections as empty states, and vertical tabs/sidebar as disabled placeholders.
+- **Risk**: medium — decided: anonymous visitors get a login-prompt card (no gate on navigation, since only admin login exists); all fake-metric/order sections render as honest empty/disabled placeholders until APIs exist.
+- **Validation**: lint/build/diff-check; LTR-only (en), light/dark, mobile (touch viewport, no horizontal overflow), authenticated/sparse/anonymous/loading states via mocked `**/api/auth/*` — smoke `smoke-p5.mjs` 48/48 PASS.
+- **Expected outcome**: profile overview showing identity/avatar/email/role from `useAuth` (real fields only), account sections as honest "Not available yet" placeholders, anonymous prompt for signed-out visitors.
 
 ### P6 — Landing polish pass
 - **Goal**: unify rhythm, RTL/typo cleanups; no new sections.
-- **Current state**: see §3/A.
-- **Missing**: spacing consistency, `select-none` scope fix, no `capitalize` on authored strings, hero sub-line size, RT-friendly banner gradient confirmation, micro a11y (section labels).
+- **Current state**: **DONE — PR #57, merged as `8d675bb`** (`feat/landing-polish`, normal merge commit, 2026-09-10). All §3/A findings addressed: (1) vertical rhythm unified onto a single `mt-16` convention for the body sections, hero leads with `pt-10` under the sticky header — spacing-only separation, no body separators added; (2) Newsletter `select-none` removed so the email Input is selectable/copyable (browser-verified); (3) `capitalize` removed from all authored headings/CTAs (strings stay ready-cased in en.json); (4) hero sub-line resized (`text-lg lg:text-xl`) so the h1 clearly leads; (5) banner overlay mirrors in RTL (`bg-linear-to-r rtl:bg-linear-to-l`) — text sits on the dark side in both scripts; (6) micro-a11y: `aria-labelledby` wired from the hero/featured/categories/newsletter sections to real heading ids. **Also: landing slice relocated** so `src/pages/` holds only pages — changed `src/pages/landing/...` → `src/features/landing/` (components+, assets, landing.service, useFeaturedProducts) and `src/pages/landing/Landing.jsx` → `src/pages/Landing.jsx` (imports updated in App.jsx + StoreHeader.jsx). Browser validation `smoke-p6.mjs` 42/42.
+- **Missing**: nothing for this phase; RTL is LTR-only until a real `ar.json` ships (the `rtl:` gradient variant is latent, ready-cased).
 - **Dependencies**: P1 (frame), P3 (numeric).
-- **Affected**: `src/pages/landing/` (Landing.jsx + LandingHero, Newsletter, PromotionalBanner, FeaturedProducts/Categories headers value), `en.json` (string casing edits).
+- **Affected**: `src/features/landing/` (LandingHero, Newsletter, PromotionalBanner, FeaturedProducts, Categories), `src/pages/Landing.jsx`, `src/App.jsx`, `src/components/layout/StoreHeader.jsx` (import paths only).
 - **Separate PR**: yes.
 - **Risk**: low.
-- **Validation**: lint/build/diff-check; before/after screenshot review in both themes and directions; verify newsletter input remains selectable.
-- **Expected outcome**: landing with one consistent vertical rhythm that keeps the store shell chrome balanced; no dead controls introduced.
+- **Validation**: lint/build/diff-check clean; browser smoke `smoke-p6.mjs` 42/42 (light/dark desktop, hero hierarchy h1>h2, spacing 64px convention, newsletter input selectable + real text selection, LTR/RTL banner gradient legibility, aria-labelledby wiring, header/footer interaction, mobile 390px no overflow, `ltr/en` unchanged).
+- **Expected outcome**: landing with one consistent vertical rhythm that keeps the store shell chrome balanced; no dead controls introduced; selectable newsletter input; heading hierarchy leads clearly; RTL-safe banner.
 
 ### P7 — Catalog seed dataset (documentation + dev-only seeding)
 - **Goal**: a realistic multi-category dataset for dev/demo/testing.
@@ -229,7 +229,7 @@ P1.5 (Admin header cleanup) has no hard dependencies — schedule it right after
 ## 6. Open questions (require approval before the related PR)
 
 1. **Arabic resource**: commit a full `ar.json` resource (the current local stub is dashboard-only and untracked, so it cannot ship)? Until then the switcher plumbing ships but stays inert — with P2, the plumbing now ships (PR #52); this decision alone gates visible switching. Decide before visible switching is a goal. (P2)
-2. **`/profile` auth model**: open with a login-prompt card for anonymous visitors, or gate behind storefront authentication once customers can log in? (P5)
+2. **`/profile` auth model**: open with a login-prompt card for anonymous visitors, or gate behind storefront authentication once customers can log in? (P5) — **DECIDED (PR #56)**: `/profile` is always reachable; anonymous visitors get a login-prompt card (Sign In → `/login`); there is no gate because no customer login exists yet — revisit when storefront auth ships. Signed-out-from-storefront navigates back to `/` (not `/login`). Follow-ups preserved: when customer auth lands, expose real order/wishlist/address/payment data in the activity tiles and add a real role→label mapping for `user.role`.
 3. **Seed images**: bundle canonical webp assets and upload them through the dev script, or reference stable existing image URLs, or defer images in the first seed drop? (P7)
 4. **Theme sharing**: keep `useTheme` per-instance (recommended) vs promote to a `ThemeProvider` context later — flag before any PR touches `index.css`.
 5. ~~Dead-code removal~~ (`Home.jsx` + `home.*` keys): **Resolved** — folding into P1.
@@ -245,9 +245,10 @@ P1.5 (Admin header cleanup) has no hard dependencies — schedule it right after
 
 ## 8. Execution order (recommended)
 
-1. ✅ `feat/store-shell` (P1) — **DONE (PR #47, merged as `3161e8e`)** → 2. ✅ P1.5 `feat/toast-sonner-admin-header` (no deps — PR #50, includes Sonner toast migration + theme bootstrap; merged as `b0713d6`) → 3. ✅ `feat/language-switcher` (P2 — PR #52, merged as `d68ca69`) → 4. ✅ `refactor/numeric-typography` (P3 — PR #53, merged as `c39489c`) → 5. ✅ `refactor/data-table-compliance` (P4 — PR #54, merged as `fde1bde`) → 6. `feat/profile-overview` (P5) → 7. `feat/landing-polish` (P6) → 8. `docs/catalog-seed-data` (P7).
+1. ✅ `feat/store-shell` (P1) — **DONE (PR #47, merged as `3161e8e`)** → 2. ✅ P1.5 `feat/toast-sonner-admin-header` (no deps — PR #50, includes Sonner toast migration + theme bootstrap; merged as `b0713d6`) → 3. ✅ `feat/language-switcher` (P2 — PR #52, merged as `d68ca69`) → 4. ✅ `refactor/numeric-typography` (P3 — PR #53, merged as `c39489c`) → 5. ✅ `refactor/data-table-compliance` (P4 — PR #54, merged as `fde1bde`) → 6. ✅ `feat/profile-overview` (P5 — PR #56, merged as `2536382`) → 7. ✅ `feat/landing-polish` (P6 — PR #57, merged as `8d675bb`) → 8. `feat/catalog-seed-data` (P7).
 
 Recorded follow-up items (do not disturb the P1–P7 order above; schedule where they best fit, likely folded into a nearby PR or as tiny isolated PRs):
 
 - **Scrollbar colors (CSS)**: add themed scrollbar colors to `src/index.css` — `scrollbar-color`/`scrollbar-width` (plus `::-webkit-scrollbar*` if needed) so track/thumb respect both light and dark themes. CSS-only, no new dependencies, no `DesignSystem.jsx` changes.
+- **StoreFooter copyright character** (pre-existing, PR #57): the footer renders the copyright symbol as a literal `c` (`c 2026 Oversea Store.`) in `src/components/layout/StoreFooter.jsx`. Fix is a one-character change to `©`. Noted during P6 (presentation-only); deferred out of that PR's scope.
 - **ProtectedRoute loader dark-theme** — **DONE (resolved in PR #50, merged as `b0713d6`)**: the loader only appeared light because `data-theme` wasn't applied until the first `useTheme` consumer mounted (ProtectedRoute's async loader renders before any consumer). Fixed by the pre-React `<head>` bootstrap in `index.html` (accepted values: `"light"`/`"dark"` only; light default; no system-preference) plus the shared reactive `useTheme` store. Verified dark on cold load while `/auth/me` is pending (34/34 theme smoke, re-run on merged main).

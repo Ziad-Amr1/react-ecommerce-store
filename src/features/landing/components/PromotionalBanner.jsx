@@ -9,10 +9,10 @@ export default function PromotionalBanner() {
   return (
     <section
       aria-label={t("landing.banner.imageAlt")}
-      className="relative my-10 h-52 select-none overflow-hidden rounded-xl bg-cover bg-center md:h-64 lg:h-72"
+      className="relative mt-16 h-52 select-none overflow-hidden rounded-xl bg-cover bg-center md:h-64 lg:h-72"
       style={{ backgroundImage: `url(${bannerImage})` }}
     >
-      <div className="absolute inset-0 bg-linear-to-r from-black/55 to-transparent" />
+      <div className="absolute inset-0 bg-linear-to-r rtl:bg-linear-to-l from-black/55 to-transparent" />
 
       <div className="relative flex h-full flex-col justify-center p-6 text-white md:p-8">
         <span className="font-semibold uppercase tracking-wide">
@@ -27,7 +27,7 @@ export default function PromotionalBanner() {
 
         <ComingSoonButton
           variant="outline"
-          className="mt-5 w-fit border-white/60 bg-transparent text-white capitalize hover:bg-white/10"
+          className="mt-5 w-fit border-white/60 bg-transparent text-white hover:bg-white/10"
         >
           {t("landing.banner.cta")}
           <ArrowRight className="size-4 rtl:-scale-x-100" aria-hidden="true" />

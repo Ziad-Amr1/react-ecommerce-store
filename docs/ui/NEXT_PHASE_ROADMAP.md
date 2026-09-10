@@ -1,7 +1,7 @@
 # Next Phase Roadmap — UI Polish, Store Shell, Tables, Typography, Catalog Data
 
 > Source of truth for the post-foundation phase.
-> Baseline: main `3161e8ed2e6ef710f5545fd52ff8b1222f864125` (PRs #38–#47 merged; main is authoritative).
+> Baseline: main `b0713d645efbff157f8d57e17e675ec875b298fa` (PRs #38–#50 merged; main is authoritative).
 > Companion doc: [`DATA_TABLE_GUIDELINES.md`](DATA_TABLE_GUIDELINES.md).
 
 ---
@@ -129,7 +129,7 @@ P1.5 (Admin header cleanup) has no hard dependencies — schedule it right after
 - **Expected outcome**: landing + future storefront routes share a sticky header (brand via `brand.*`, placeholder nav, theme toggle reusing `useTheme`, inert account/cart placeholders with coming-soon tooltips) and a footer (blurb, placeholder link groups in `start-*` RTL-safe layout, copyright year). No business logic, no new global state.
 
 ### P1.5 — Admin header navigation cleanup (Logout → "Back to Store" + Account dropdown) — **DONE**
-- **Status**: **DONE — PR #50 `feat/toast-sonner-admin-header`** (base main `0f05ce2`; commits: `0d0f7c8` Sonner migration, `a457581` header cleanup, docs commit). Lint/build/diff-check clean; browser smoke green (18/18: Back to Store, Account identity/role/Logout, no duplicate nav, keyboard flow, theme toggle, error + success toasts, dark theme, mobile). Bundles the approved **Sonner toast migration** — react-toastify fully removed (decision in §5). Pending merge.
+- **Status**: **DONE — PR #50 `feat/toast-sonner-admin-header`** (base main `0f05ce2`; commits: `0d0f7c8` Sonner migration, `a457581` header cleanup, `5897ce7` docs, `5740ee5` theme fix). Lint/build/diff-check clean; browser smoke green (18/18: Back to Store, Account identity/role/Logout, no duplicate nav, keyboard flow, theme toggle, error + success toasts, dark theme, mobile) plus theme smoke green (34/34, re-run on merged main). Bundles the approved **Sonner toast migration** — react-toastify fully removed (decision in §5) — and the **dark-theme bootstrap + shared reactive `useTheme` store** (resolves the ProtectedRoute loader follow-up). **Merged to `main` as `b0713d6` (normal merge commit, 2026-09-10).**
 - **Goal**: rebalance admin header actions — a single **"Back to Store"** action replaces the standalone Logout as primary navigation, and **Logout moves into the Account dropdown** as a secondary account-level action. Preserve the theme toggle and all other existing header actions.
 - **Current state (post PR #50)**: `HeaderActionButtons` renders notifications → theme toggle → Account dropdown (identity + role + separator + Logout) plus an outline "Back to Store" button navigating to `/`. Account trigger is always visible so Logout stays reachable on mobile. Sidebar remains the sole admin nav; no duplicate logout or navigation responsibility.
 - **Missing**: a storefront-root link; logout is promoted as primary-visibility instead of account-scoped.
@@ -214,8 +214,9 @@ P1.5 (Admin header cleanup) has no hard dependencies — schedule it right after
 - Language switch — **CONFIRMED**: prepare the i18n **plumbing/persistence architecture now**; **never invent or ship a fake second locale**; only **committed/real locale resources** may become selectable; **do not expose a misleading language choice when only `en` exists** — the visible control stays inert (renders nothing / single locked label); a real second-language switch becomes active only once a real locale resource (e.g. full `ar.json`) is committed.
 - Admin header (P1.5) — **CONFIRMED**: **"Back to Store" replaces the standalone Logout** and navigates to the storefront `/`; **Logout moves into the Account dropdown**; account-level actions (Logout) live only inside the Account dropdown, never as primary navigation; preserve theme toggle + other header actions; use i18n keys (en.json only) and logical direction-aware utilities; no duplication of account/navigation responsibilities (Sidebar stays the sole admin nav). **Landed in PR #50.**
 - Toast system — **CONFIRMED**: standardize on **Sonner** as the single toast system; **react-toastify removed** (PR #50). `Toaster` mounts in `src/components/ui/toaster.jsx`, theme-synced via `useTheme`, appearance mapped to semantic design tokens in `src/index.css` (`.app-sonner[data-sonner-toaster][data-sonner-theme]` — outranks sonner's runtime CSS, follows app `data-theme`). No dual-toast stack: new code must `import { toast } from "sonner"` only.
+- Theme bootstrap — **CONFIRMED/DONE**: `data-theme` is applied pre-React by an inline `<head>` script in `index.html` (reads `localStorage.theme`; `"dark"` → attribute set during HTML parse; light default for missing/invalid; no system-preference). `useTheme` is a single module-scoped reactive store via `useSyncExternalStore` — unchanged public API `{ theme, toggleTheme }`, same storage key/values, **no ThemeProvider**. All consumers (headers + Sonner toaster) subscribe to the one store, so toasts re-theme on toggle. Resolves the "ProtectedRoute loader dark-theme" follow-up (PR #50, merged as `b0713d6`).
 - Profile branch: **TAKE UI SELECTIVELY** — never merge `origin/feature/profile-page` as-is.
-- No new dependencies for P1–P7; no changes to `DesignSystem.jsx`; no `cn`/utility duplication; no new global state (theme stays per-instance via `useTheme`).
+- No new dependencies for P1–P7; no changes to `DesignSystem.jsx`; no `cn`/utility duplication; no new global state (theme via `useTheme` — no context, no `ThemeProvider`; the single shared store is internal to the hook, public API stays `{ theme, toggleTheme }`).
 - Landing needs **no body separators**; hairline chrome belongs to the shell.
 - Seed data is evt-based/docs + dev-only script; never touches production.
 - **Resolved**: dead-code removal (`src/pages/Home.jsx` + `home.*` i18n keys) folds into P1.
@@ -239,9 +240,9 @@ P1.5 (Admin header cleanup) has no hard dependencies — schedule it right after
 
 ## 8. Execution order (recommended)
 
-1. ✅ `feat/store-shell` (P1) — **DONE (PR #47, merged as `3161e8e`)** → 2. ✅ P1.5 `feat/toast-sonner-admin-header` (no deps — PR #50, includes Sonner toast migration; pending merge) → 3. `feat/language-switcher` (P2) → 4. `refactor/numeric-typography` (P3) → 5. `refactor/data-table-compliance` (P4) → 6. `feat/profile-overview` (P5) → 7. `feat/landing-polish` (P6) → 8. `docs/catalog-seed-data` (P7).
+1. ✅ `feat/store-shell` (P1) — **DONE (PR #47, merged as `3161e8e`)** → 2. ✅ P1.5 `feat/toast-sonner-admin-header` (no deps — PR #50, includes Sonner toast migration + theme bootstrap; merged as `b0713d6`) → 3. `feat/language-switcher` (P2) → 4. `refactor/numeric-typography` (P3) → 5. `refactor/data-table-compliance` (P4) → 6. `feat/profile-overview` (P5) → 7. `feat/landing-polish` (P6) → 8. `docs/catalog-seed-data` (P7).
 
 Recorded follow-up items (do not disturb the P1–P7 order above; schedule where they best fit, likely folded into a nearby PR or as tiny isolated PRs):
 
 - **Scrollbar colors (CSS)**: add themed scrollbar colors to `src/index.css` — `scrollbar-color`/`scrollbar-width` (plus `::-webkit-scrollbar*` if needed) so track/thumb respect both light and dark themes. CSS-only, no new dependencies, no `DesignSystem.jsx` changes.
-- **ProtectedRoute loader dark-theme**: investigate why the loader shown by `ProtectedRoute` still looks light-themed in dark mode (check for hard-coded light colors, styles outside theme tokens, or the element rendering before `data-theme`/tokens apply). Fix it to follow the active theme.
+- **ProtectedRoute loader dark-theme** — **DONE (resolved in PR #50, merged as `b0713d6`)**: the loader only appeared light because `data-theme` wasn't applied until the first `useTheme` consumer mounted (ProtectedRoute's async loader renders before any consumer). Fixed by the pre-React `<head>` bootstrap in `index.html` (accepted values: `"light"`/`"dark"` only; light default; no system-preference) plus the shared reactive `useTheme` store. Verified dark on cold load while `/auth/me` is pending (34/34 theme smoke, re-run on merged main).

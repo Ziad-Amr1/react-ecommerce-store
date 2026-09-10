@@ -1,7 +1,7 @@
 # Next Phase Roadmap — UI Polish, Store Shell, Tables, Typography, Catalog Data
 
 > Source of truth for the post-foundation phase.
-> Baseline: main `8d675bb` (PRs #38–#57 merged; main is authoritative).
+> Baseline: main `ae7aec6` (PRs #38–#58 merged; main is authoritative).
 > Companion doc: [`DATA_TABLE_GUIDELINES.md`](DATA_TABLE_GUIDELINES.md).
 
 ---
@@ -200,8 +200,8 @@ P1.5 (Admin header cleanup) has no hard dependencies — schedule it right after
 
 ### P7 — Catalog seed dataset (documentation + dev-only seeding)
 - **Goal**: a realistic multi-category dataset for dev/demo/testing.
-- **Current state**: BRANCH `feat/catalog-seed-data` READY — dataset, validator, and read-only local server authored; smoke **45/45** (dataset + API contract + landing/admin browser checks, `remoteHits=0`); awaiting PR approval merge to `main`.
-- **Missing**: nothing for v1. Remaining decisions recorded (§6): rating field deferred (app has no rating render path; server keeps `sort=rating` stable); local placeholder images chosen; one demo admin identity.
+- **Current state**: **DONE — PR #58, merged as `ae7aec6`** (`feat/catalog-seed-data`, normal merge commit, 2026-09-10). Dataset, validator, and read-only local server on `main`; demo smoke **45/45** on the branch (dataset + API contract + landing/admin browser checks, `remoteHits=0`), re-run on merged main: `demo:validate` PASSED (60 products — furniture, lighting, home decor, kitchen, office, accessories, electronics, beauty, fashion, sunglasses; 6 per category; featured=12, discounted=20, inactive=5, out-of-stock=6, low-stock=8, price `19.99..1249.99`, stock `0..320`); live server checks on main: health `{status:ok,count:60}`, page 1 = 10 rows/`totalPages=6`, `GET /products/lig-004` → `{product}`, category filter, `maxPrice=30` filter, `POST /products` → 405.
+- **Missing**: ~~nothing for v1~~ — **complete**. Remaining decisions recorded (§6): rating field deferred (app has no rating render path; server keeps `sort=rating` stable); local placeholder images chosen; one demo admin identity.
 - **Dependencies**: none (scheduled last to reference the final category conventions from P1–P6).
 - **Affected**: new `docs/catalog/SEED_DATA.md` + `data/demo/products.json` (60 items — furniture, lighting, home decor, kitchen, office, accessories, electronics, beauty, fashion, sunglasses; 6 per category; `featured=12`, discounted=20, inactive=5, out-of-stock=6, low-stock=8, price `19.99..1249.99`, stock `0..320`); new `scripts/validate-dataset.mjs` + `scripts/serve-demo.mjs` (loopback `127.0.0.1`, read-only `/products*` → 405, in-memory demo auth, CORS local Vite ports only); `package.json` `demo:validate` / `demo:serve` aliases.
 - **Separate PR**: yes.
@@ -245,7 +245,7 @@ P1.5 (Admin header cleanup) has no hard dependencies — schedule it right after
 
 ## 8. Execution order (recommended)
 
-1. ✅ `feat/store-shell` (P1) — **DONE (PR #47, merged as `3161e8e`)** → 2. ✅ P1.5 `feat/toast-sonner-admin-header` (no deps — PR #50, includes Sonner toast migration + theme bootstrap; merged as `b0713d6`) → 3. ✅ `feat/language-switcher` (P2 — PR #52, merged as `d68ca69`) → 4. ✅ `refactor/numeric-typography` (P3 — PR #53, merged as `c39489c`) → 5. ✅ `refactor/data-table-compliance` (P4 — PR #54, merged as `fde1bde`) → 6. ✅ `feat/profile-overview` (P5 — PR #56, merged as `2536382`) → 7. ✅ `feat/landing-polish` (P6 — PR #57, merged as `8d675bb`) → 8. `feat/catalog-seed-data` (P7) — **under review (PR pending approval, NOT merged).**
+1. ✅ `feat/store-shell` (P1) — **DONE (PR #47, merged as `3161e8e`)** → 2. ✅ P1.5 `feat/toast-sonner-admin-header` (no deps — PR #50, includes Sonner toast migration + theme bootstrap; merged as `b0713d6`) → 3. ✅ `feat/language-switcher` (P2 — PR #52, merged as `d68ca69`) → 4. ✅ `refactor/numeric-typography` (P3 — PR #53, merged as `c39489c`) → 5. ✅ `refactor/data-table-compliance` (P4 — PR #54, merged as `fde1bde`) → 6. ✅ `feat/profile-overview` (P5 — PR #56, merged as `2536382`) → 7. ✅ `feat/landing-polish` (P6 — PR #57, merged as `8d675bb`) → 8. ✅ `feat/catalog-seed-data` (P7) — **DONE (PR #58, merged as `ae7aec6`).**
 
 Recorded follow-up items (do not disturb the P1–P7 order above; schedule where they best fit, likely folded into a nearby PR or as tiny isolated PRs):
 

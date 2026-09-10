@@ -1,5 +1,6 @@
 import { lazy, Suspense } from "react";
 import Landing from "./pages/landing/Landing.jsx";
+import Profile from "./pages/Profile.jsx";
 import AdminLayout from "./components/layout/AdminLayout";
 import StoreLayout from "./components/layout/StoreLayout";
 import { Routes, Route } from "react-router";
@@ -27,6 +28,7 @@ function App() {
       <Routes>
         <Route element={<StoreLayout />}>
           <Route path="/" element={<Landing />} />
+          <Route path="/profile" element={<Profile />} />
         </Route>
         <Route
           path="/design-system"

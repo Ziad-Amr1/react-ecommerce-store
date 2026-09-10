@@ -447,6 +447,39 @@
       }
     }
   },
+  "profile": {
+    "title": "Profile Overview",
+    "description": "Your account information at a glance.",
+    "anonymous": {
+      "title": "You're not signed in",
+      "description": "Sign in to view your profile and account details.",
+      "signIn": "Sign In"
+    },
+    "header": {
+      "signedIn": "Signed in",
+      "signOut": "Sign Out",
+      "signingOut": "Signing out...",
+      "roleLabel": "Role"
+    },
+    "personal": {
+      "title": "Personal Information",
+      "description": "The details currently on file for your account.",
+      "fullName": "Full Name",
+      "email": "Email Address",
+      "username": "Username",
+      "phone": "Phone Number",
+      "missing": "Not provided"
+    },
+    "activity": {
+      "title": "Account Activity",
+      "description": "Order tracking, wishlist, saved addresses and payment methods are not available yet.",
+      "orders": "My Orders",
+      "wishlist": "Wishlist",
+      "addresses": "Saved Addresses",
+      "payments": "Payment Methods",
+      "comingSoon": "Not available yet"
+    }
+  },
   "admin": {
     "comingSoon": "This feature isn't implemented yet. It is planned for an upcoming release.",
     "status": {

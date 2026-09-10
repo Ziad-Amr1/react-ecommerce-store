@@ -39,7 +39,7 @@ export default function FeaturedProductCard({ product }) {
         )}
 
         {discount !== null && (
-          <Badge className="absolute end-2 top-2 bg-error font-mono text-on-error">
+          <Badge className="absolute end-2 top-2 bg-error tabular-nums text-on-error">
             {t("landing.featured.discountOff", { percent: discount })}
           </Badge>
         )}
@@ -51,12 +51,12 @@ export default function FeaturedProductCard({ product }) {
         </h3>
 
         <div className="flex flex-wrap items-baseline justify-between gap-x-3 gap-y-1">
-          <span className="font-mono text-xl font-bold text-foreground">
+          <span className="font-display text-xl font-bold tabular-nums text-foreground">
             {formatCurrency(currentPrice, CURRENCY, i18n.language)}
           </span>
 
           {discount !== null && (
-            <span className="font-mono text-sm text-muted-foreground line-through">
+            <span className="text-sm tabular-nums text-muted-foreground line-through">
               {formatCurrency(price, CURRENCY, i18n.language)}
             </span>
           )}

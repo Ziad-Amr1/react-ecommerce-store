@@ -69,6 +69,28 @@ Do not change row height per-cell or arbitrarily. Document the chosen density fo
 | Table | Density | Sticky | Zebra | Actions | Sorting |
 | --- | --- | --- | --- | --- | --- |
 | Dashboard `RecentOrders` | `default` (48px) | no (not warranted) | no | none | none |
+| Admin `ProductsTable` | `compact` (40px, ops) | no (not warranted) | no | kebab revealed on row hover/focus (+ always visible on touch via `@media (pointer: coarse)`); items: View, Edit, Delete | none (backend doesn't expose sorting) |
 
 `RecentOrders` columns: Order ID (text, start), Customer (text, start, truncates with tooltip),
 Total (currency, end), Status (text, start), Date (text, start).
+
+`ProductsTable` columns: Product (text, start; name truncates with tooltip), Category (text, start, truncates
+with tooltip), Brand (text, start, truncates with tooltip), Price (currency, end, `whitespace-nowrap tabular-nums`),
+Stock (count, end, `whitespace-nowrap tabular-nums`), Actions (end; single kebab `DropdownMenu`).
+
+### Actions pattern (desktop + touch)
+
+- One kebab trigger (`DropdownMenuTrigger`) per row keeps the action column visually quiet.
+- Desktop: the trigger is `opacity-0` and reveals on `group-hover` / `group-focus-within` — keyboard users
+  tabbing into the row make it visible the moment the trigger receives focus and the open menu keeps it visible.
+- Touch: no hover exists, so the trigger is forced visible via the `[@media(pointer:coarse)]:opacity-100`
+  variant. The menu is the touch affordance.
+- Row actions map 1:1 to the previous three icon buttons (View / Edit / Delete — Delete is a destructive item).
+
+### Pagination
+
+- Pagination renders as a footer inside the table's card (hairline `border-t`), so it reads as part of the table.
+- Built on the shared `PaginationContent`/`PaginationItem` primitive (`src/components/ui/pagination.jsx`) with
+  the existing i18n-labeled prev/next `Button`s (the primitive's `PaginationPrevious`/`PaginationNext` hardcode
+  English labels and physical chevrons, so they are not used verbatim; chevrons flip via `rtl:rotate-180`).
+- Page indicator keeps `tabular-nums` so it never shifts width.

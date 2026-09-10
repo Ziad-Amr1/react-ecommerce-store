@@ -6,7 +6,6 @@ import useProducts from "@/features/admin/products/useProducts";
 import ProductSearch from "@/features/admin/products/components/ProductSearch";
 import ProductFilters from "@/features/admin/products/components/ProductFilters";
 import ProductsTable from "@/features/admin/products/components/ProductsTable";
-import ProductPagination from "@/features/admin/products/components/ProductPagination";
 import DeleteProductDialog from "@/features/admin/products/components/DeleteProductDialog";
 import { TriangleAlert } from "lucide-react";
 
@@ -66,10 +65,15 @@ export default function Products() {
 
   return (
     <div>
-      <div className="mb-4 flex flex-wrap items-center justify-between gap-3">
-        <h1 className="font-display text-2xl font-bold text-foreground">
-          {t("products.title")}
-        </h1>
+      <div className="mb-4 flex flex-wrap items-start justify-between gap-3">
+        <div>
+          <h1 className="font-display text-2xl font-bold text-foreground">
+            {t("products.title")}
+          </h1>
+          <p className="mt-1 text-sm text-muted-foreground">
+            {t("products.description")}
+          </p>
+        </div>
 
         <Button onClick={() => navigate("/admin/products/add")}>
           {t("products.addProduct")}
@@ -113,17 +117,13 @@ export default function Products() {
         isFetching={isFetching}
         deletingProductId={deletingProductId}
         hasActiveQuery={hasActiveQuery}
+        currentPage={currentPage}
+        totalPages={totalPages}
+        onPageChange={handlePageChange}
         onView={(id) => navigate(`/admin/products/${id}`)}
         onEdit={(id) => navigate(`/admin/products/${id}/edit`)}
         onDelete={setProductToDelete}
         onClearQuery={clearQuery}
-      />
-
-      <ProductPagination
-        currentPage={currentPage}
-        totalPages={totalPages}
-        isFetching={isFetching}
-        onPageChange={handlePageChange}
       />
 
       <DeleteProductDialog

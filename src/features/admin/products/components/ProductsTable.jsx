@@ -1,6 +1,14 @@
-import { Eye, Pencil, Trash2, PackageOpen } from "lucide-react";
+import { Eye, Pencil, Trash2, PackageOpen, MoreHorizontal } from "lucide-react";
 import { useTranslation } from "react-i18next";
+import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 import {
   Table,
   TableBody,
@@ -17,6 +25,7 @@ import {
 } from "@/components/ui/tooltip";
 import { formatCurrency } from "@/utils/formatCurrency";
 import ProductThumb from "./ProductThumb";
+import ProductPagination from "./ProductPagination";
 import { STOCK_OK_THRESHOLD, STOCK_WARNING_THRESHOLD } from "../constants";
 
 const CURRENCY = "USD";
@@ -29,6 +38,27 @@ function stockClass(stock) {
     return "text-warning";
   }
   return "text-error";
+}
+
+function TruncateWithTooltip({ value, className }) {
+  return (
+    <Tooltip>
+      <TooltipTrigger asChild>
+        <span
+          tabIndex={0}
+          className={cn(
+            "block truncate rounded-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-(--color-focus-ring)",
+            className,
+          )}
+        >
+          {value}
+        </span>
+      </TooltipTrigger>
+      <TooltipContent side="top" align="start">
+        {value}
+      </TooltipContent>
+    </Tooltip>
+  );
 }
 
 function SkeletonRows({ columns }) {
@@ -49,6 +79,9 @@ export default function ProductsTable({
   isFetching,
   deletingProductId,
   hasActiveQuery,
+  currentPage,
+  totalPages,
+  onPageChange,
   onView,
   onEdit,
   onDelete,
@@ -127,7 +160,7 @@ export default function ProductsTable({
                 const isDeleting = deletingProductId === product._id;
 
                 return (
-                  <TableRow key={product._id}>
+                  <TableRow key={product._id} className="group">
                     <TableCell>
                       <div className="flex max-w-72 items-center gap-3">
                         <ProductThumb
@@ -136,19 +169,10 @@ export default function ProductsTable({
                         />
 
                         <div className="min-w-0">
-                          <Tooltip>
-                            <TooltipTrigger asChild>
-                              <span
-                                tabIndex={0}
-                                className="block max-w-40 truncate rounded-sm font-medium text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-(--color-focus-ring)"
-                              >
-                                {product.name}
-                              </span>
-                            </TooltipTrigger>
-                            <TooltipContent side="top" align="start">
-                              {product.name}
-                            </TooltipContent>
-                          </Tooltip>
+                          <TruncateWithTooltip
+                            value={product.name}
+                            className="max-w-40 font-medium text-foreground"
+                          />
 
                           {product.tags?.[0] && (
                             <p className="truncate text-xs text-muted-foreground">
@@ -160,58 +184,70 @@ export default function ProductsTable({
                     </TableCell>
 
                     <TableCell className="text-muted-foreground">
-                      {product.category || "—"}
+                      <TruncateWithTooltip
+                        value={product.category || "—"}
+                        className="max-w-36"
+                      />
                     </TableCell>
 
                     <TableCell className="text-muted-foreground">
-                      {product.brand || "—"}
+                      <TruncateWithTooltip
+                        value={product.brand || "—"}
+                        className="max-w-36"
+                      />
                     </TableCell>
 
-                    <TableCell className="whitespace-nowrap text-end tabular-nums font-display">
+                    <TableCell className="whitespace-nowrap text-end tabular-nums">
                       {product.price == null
                         ? "—"
                         : formatCurrency(product.price, CURRENCY, i18n.language)}
                     </TableCell>
 
-                    <TableCell className="text-end">
+                    <TableCell className="whitespace-nowrap text-end">
                       <span
-                        className={`font-mono font-medium ${stockClass(product.stock)}`}
+                        className={`tabular-nums font-medium ${stockClass(product.stock)}`}
                       >
                         {product.stock == null ? "—" : product.stock}
                       </span>
                     </TableCell>
 
-                    <TableCell className="text-end">
-                      <div className="flex justify-end gap-2">
-                        <Button
-                          variant="outline"
-                          size="icon"
-                          onClick={() => onView(product._id)}
-                          disabled={isFetching}
-                          aria-label={t("products.viewProduct")}
-                        >
-                          <Eye className="size-4" aria-hidden="true" />
-                        </Button>
+                    <TableCell className="whitespace-nowrap text-end">
+                      <div className="flex justify-end">
+                        <div className="flex items-center gap-1 opacity-0 transition-opacity group-hover:opacity-100 group-focus-within:opacity-100 focus-within:opacity-100 [@media(pointer:coarse)]:opacity-100">
+                          <DropdownMenu>
+                            <DropdownMenuTrigger asChild>
+                              <Button
+                                variant="outline"
+                                size="icon"
+                                disabled={isFetching || isDeleting}
+                                aria-label={t("products.columns.actions")}
+                              >
+                                <MoreHorizontal className="size-4" aria-hidden="true" />
+                              </Button>
+                            </DropdownMenuTrigger>
+                            <DropdownMenuContent align="end">
+                              <DropdownMenuItem onClick={() => onView(product._id)}>
+                                <Eye className="size-4" aria-hidden="true" />
+                                {t("products.viewProduct")}
+                              </DropdownMenuItem>
 
-                        <Button
-                          variant="outline"
-                          size="icon"
-                          onClick={() => onEdit(product._id)}
-                          disabled={isFetching}
-                          aria-label={t("products.editProduct")}
-                        >
-                          <Pencil className="size-4" aria-hidden="true" />
-                        </Button>
+                              <DropdownMenuItem onClick={() => onEdit(product._id)}>
+                                <Pencil className="size-4" aria-hidden="true" />
+                                {t("products.editProduct")}
+                              </DropdownMenuItem>
 
-                        <Button
-                          variant="destructive"
-                          size="icon"
-                          onClick={() => onDelete(product)}
-                          disabled={isFetching || isDeleting}
-                          aria-label={t("products.deleteProduct")}
-                        >
-                          <Trash2 className="size-4" aria-hidden="true" />
-                        </Button>
+                              <DropdownMenuSeparator />
+
+                              <DropdownMenuItem
+                                variant="destructive"
+                                onClick={() => onDelete(product)}
+                              >
+                                <Trash2 className="size-4" aria-hidden="true" />
+                                {t("products.deleteProduct")}
+                              </DropdownMenuItem>
+                            </DropdownMenuContent>
+                          </DropdownMenu>
+                        </div>
                       </div>
                     </TableCell>
                   </TableRow>
@@ -221,6 +257,17 @@ export default function ProductsTable({
           </TableBody>
         </Table>
       </TooltipProvider>
+
+      {totalPages > 1 && (
+        <footer className="border-t border-(--color-border) px-3 py-3">
+          <ProductPagination
+            currentPage={currentPage}
+            totalPages={totalPages}
+            isFetching={isFetching}
+            onPageChange={onPageChange}
+          />
+        </footer>
+      )}
     </div>
   );
 }

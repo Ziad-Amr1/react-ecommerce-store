@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { toast } from "react-toastify";
+import { toast } from "sonner";
 import { PAGE_SIZE } from "./constants";
 import { deleteProduct, getProducts } from "./product.service";
 

@@ -150,8 +150,11 @@ Currently implemented features:
 ```text
 features/
 ├── admin/
-│   └── dashboard/
-└── auth/
+│   ├── dashboard/
+│   └── products/
+├── auth/
+├── landing/
+└── profile/
 ```
 
 A feature may contain:
@@ -213,10 +216,12 @@ Currently:
 
 ```text
 pages/
-├── admin/       # Dashboard, Products, Orders, Users, Carts
-├── auth/        # Login, Registration, ForgetPassword, VerifyOtp
+├── admin/        # Dashboard, Products (+Add/Edit/Details), Orders, Users, Carts, Settings
+├── auth/         # Login, Registration, ForgetPassword, VerifyOtp
 ├── DesignSystem.jsx
-└── Home.jsx
+├── Landing.jsx
+├── NotFound.jsx
+└── Profile.jsx
 ```
 
 Pages should compose features and shared components rather than
@@ -334,13 +339,14 @@ Dashboard
 
 ### Currently implemented
 
-- Home
+- Storefront landing (`/` — hero, featured rail, categories, newsletter)
+- Profile overview (`/profile` — landing/hero section shows profile header + activity; anonymous visitors get a login-prompt card)
 - Authentication (login, registration, forgot-password, OTP verification)
 - Design System reference page (`/design-system`)
 - Admin section
   - Dashboard with real statistics (revenue, orders, customers, top products)
-  - Products / Orders / Users / Carts admin routes exist but currently
-    show placeholder content pending their real features
+  - Products with real CRUD + details; Orders / Users / Carts admin routes
+    currently show placeholder content pending their real features
 
 ### Planned / not yet implemented
 
@@ -348,8 +354,8 @@ Dashboard
 - Cart
 - Wishlist
 - Checkout & Stripe payments
-- Orders & Profile (customer-facing)
-- Admin: full Products CRUD, product images, order/users management, charts
+- Customer-facing Orders
+- Admin: order/users/carts management, charts
 
 Do not document features above as implemented until they exist.
 

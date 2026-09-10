@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button";
 import useAuth from "@/hooks/useAuth";
 import useTheme from "@/hooks/useTheme";
 import ComingSoonButton from "@/pages/landing/components/ComingSoonButton";
+import LanguageSwitcher from "./LanguageSwitcher";
 
 export default function StoreHeader() {
   const { t } = useTranslation();
@@ -53,6 +54,8 @@ export default function StoreHeader() {
               <Link to="/admin">{t("store.header.adminLink")}</Link>
             </Button>
           )}
+
+          <LanguageSwitcher />
 
           <Button
             variant="outline"

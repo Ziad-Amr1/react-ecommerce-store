@@ -45,6 +45,10 @@
     "apiUnavailable": "API Unavailable",
     "apiLabel": "E-commerce API"
   },
+  "languages": {
+    "switcherLabel": "Select language",
+    "en": "English"
+  },
   "auth": {
     "password": {
       "show": "Show password",

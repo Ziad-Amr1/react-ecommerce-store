@@ -70,7 +70,7 @@ export default function ProductDetailsInfo({ product }) {
           <p className="text-sm text-muted-foreground">{t("products.fields.price")}</p>
 
           <div className="mt-1 flex flex-wrap items-center gap-3">
-            <span className="font-mono text-3xl font-bold text-foreground">
+            <span className="font-display text-3xl font-bold tabular-nums text-foreground">
               {formatCurrency(
                 product.discountPrice || product.price,
                 CURRENCY,
@@ -80,10 +80,10 @@ export default function ProductDetailsInfo({ product }) {
 
             {discount !== null && (
               <>
-                <span className="font-mono text-base text-muted-foreground line-through">
+                <span className="text-base tabular-nums text-muted-foreground line-through">
                   {formatCurrency(product.price, CURRENCY, i18n.language)}
                 </span>
-                <span className="rounded-md bg-success-bg px-2 py-1 font-mono text-xs font-semibold text-success">
+                <span className="rounded-md bg-success-bg px-2 py-1 text-xs font-semibold tabular-nums text-success">
                   {t("products.discountOff", { percent: discount })}
                 </span>
               </>
@@ -95,7 +95,7 @@ export default function ProductDetailsInfo({ product }) {
           <div>
             <p className="text-sm text-muted-foreground">{t("products.fields.stock")}</p>
             <p
-              className={`mt-1 font-mono text-lg font-semibold ${stockClass(product.stock)}`}
+              className={`mt-1 text-lg font-semibold tabular-nums ${stockClass(product.stock)}`}
             >
               {product.stock == null
                 ? "—"

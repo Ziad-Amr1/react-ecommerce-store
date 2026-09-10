@@ -178,14 +178,14 @@ P1.5 (Admin header cleanup) has no hard dependencies — schedule it right after
 
 ### P5 — Profile overview (selective rebuild)
 - **Goal**: reusable, presentation-only `/profile` (storefront) using only real auth data.
-- **Current state**: no profile page on main; old branch is unusable (see §3/D).
-- **Missing**: a rebuilt page adopting the old branch's layout patterns with current conventions.
+- **Current state**: **IN PROGRESS — PR #55** (`feat/profile-overview`); rebuilt page live on the branch. Real data only: identity (`getUserIdentity`), avatar, email, username, phone, role; no invented/fake counts. Anonymous visitors see a login-prompt card; missing fields render `Not provided`. Unavailable sections (orders, wishlist, addresses, payments) are honest disabled tiles marked "Not available yet". Store-shell Account button is now a live link to `/profile` (Cart stays ComingSoon). Loading shows a skeleton while the session restores.
+- **Missing**: nothing for this phase; storefront customer auth + real data endpoints are upstream requirements (see §6/#2).
 - **Dependencies**: P1 (storefront route). P2/P3 optional but nice (control reuse, numeric counts).
-- **Affected**: new `src/pages/ProfileOverview.jsx` (or `features/profile/` slice), `src/App.jsx` (route under `StoreLayout`), `en.json` (`profile.*`), reuse `Avatar`/`Card`/`Badge`.
+- **Affected**: new `src/pages/Profile.jsx` + `src/features/profile/` slice (ProfileHeader, PersonalInformation, AccountActivity, AnonymousPrompt, ProfileSkeleton), `src/App.jsx` (route under `StoreLayout`), `src/components/layout/StoreHeader.jsx` (Account link), `en.json` (`profile.*`); reuse `Avatar`/`Card`/`Badge`/`Skeleton`.
 - **Separate PR**: yes.
-- **Risk**: medium — decide and document the anonymous-visitor behavior (login prompt card vs ProtectedRoute) and that all fake-metric/order sections render as honest empty/disabled placeholders until APIs exist.
-- **Validation**: lint/build/diff-check; LTR/RTL, light/dark, mobile (sidebar becomes horizontal scroll), authenticated + anonymous states.
-- **Expected outcome**: profile overview showing identity/avatar/email from `useAuth`, with account-stats and orders sections as empty states, and vertical tabs/sidebar as disabled placeholders.
+- **Risk**: medium — decided: anonymous visitors get a login-prompt card (no gate on navigation, since only admin login exists); all fake-metric/order sections render as honest empty/disabled placeholders until APIs exist.
+- **Validation**: lint/build/diff-check; LTR-only (en), light/dark, mobile (touch viewport, no horizontal overflow), authenticated/sparse/anonymous/loading states via mocked `**/api/auth/*` — smoke `smoke-p5.mjs` 48/48 PASS.
+- **Expected outcome**: profile overview showing identity/avatar/email/role from `useAuth` (real fields only), account sections as honest "Not available yet" placeholders, anonymous prompt for signed-out visitors.
 
 ### P6 — Landing polish pass
 - **Goal**: unify rhythm, RTL/typo cleanups; no new sections.
@@ -229,7 +229,7 @@ P1.5 (Admin header cleanup) has no hard dependencies — schedule it right after
 ## 6. Open questions (require approval before the related PR)
 
 1. **Arabic resource**: commit a full `ar.json` resource (the current local stub is dashboard-only and untracked, so it cannot ship)? Until then the switcher plumbing ships but stays inert — with P2, the plumbing now ships (PR #52); this decision alone gates visible switching. Decide before visible switching is a goal. (P2)
-2. **`/profile` auth model**: open with a login-prompt card for anonymous visitors, or gate behind storefront authentication once customers can log in? (P5)
+2. **`/profile` auth model**: open with a login-prompt card for anonymous visitors, or gate behind storefront authentication once customers can log in? (P5) — **DECIDED (PR #55)**: `/profile` is always reachable; anonymous visitors get a login-prompt card (Sign In → `/login`); there is no gate because no customer login exists yet — revisit when storefront auth ships. Signed-out-from-storefront navigates back to `/` (not `/login`).
 3. **Seed images**: bundle canonical webp assets and upload them through the dev script, or reference stable existing image URLs, or defer images in the first seed drop? (P7)
 4. **Theme sharing**: keep `useTheme` per-instance (recommended) vs promote to a `ThemeProvider` context later — flag before any PR touches `index.css`.
 5. ~~Dead-code removal~~ (`Home.jsx` + `home.*` keys): **Resolved** — folding into P1.

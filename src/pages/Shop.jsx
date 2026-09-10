@@ -19,7 +19,6 @@ export default function Shop() {
     products,
     currentPage,
     totalPages,
-    totalProducts,
     isLoading,
     isPaginationLoading,
     apiError,

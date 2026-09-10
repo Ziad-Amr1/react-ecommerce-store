@@ -189,14 +189,14 @@ P1.5 (Admin header cleanup) has no hard dependencies — schedule it right after
 
 ### P6 — Landing polish pass
 - **Goal**: unify rhythm, RTL/typo cleanups; no new sections.
-- **Current state**: see §3/A.
-- **Missing**: spacing consistency, `select-none` scope fix, no `capitalize` on authored strings, hero sub-line size, RT-friendly banner gradient confirmation, micro a11y (section labels).
+- **Current state**: **IN PROGRESS — PR (branch `feat/landing-polish`)**. All §3/A findings addressed: (1) vertical rhythm unified onto a single `mt-16` convention for the body sections, hero leads with `pt-10` under the sticky header — spacing-only separation, no body separators added; (2) Newsletter `select-none` removed so the email Input is selectable/copyable (browser-verified); (3) `capitalize` removed from all authored headings/CTAs (strings stay ready-cased in en.json); (4) hero sub-line resized (`text-lg lg:text-xl`) so the h1 clearly leads; (5) banner overlay mirrors in RTL (`bg-linear-to-r rtl:bg-linear-to-l`) — text sits on the dark side in both scripts; (6) micro-a11y: `aria-labelledby` wired from the hero/featured/categories/newsletter sections to real heading ids. **Also: landing slice relocated** so `src/pages/` holds only pages — changed `src/pages/landing/...` → `src/features/landing/` (components+, assets, landing.service, useFeaturedProducts) and `src/pages/landing/Landing.jsx` → `src/pages/Landing.jsx` (imports updated in App.jsx + StoreHeader.jsx).
+- **Missing**: nothing for this phase; RTL is LTR-only until a real `ar.json` ships (the `rtl:` gradient variant is latent, ready-cased).
 - **Dependencies**: P1 (frame), P3 (numeric).
-- **Affected**: `src/pages/landing/` (Landing.jsx + LandingHero, Newsletter, PromotionalBanner, FeaturedProducts/Categories headers value), `en.json` (string casing edits).
+- **Affected**: `src/features/landing/` (LandingHero, Newsletter, PromotionalBanner, FeaturedProducts, Categories), `src/pages/Landing.jsx`, `src/App.jsx`, `src/components/layout/StoreHeader.jsx` (import paths only).
 - **Separate PR**: yes.
 - **Risk**: low.
-- **Validation**: lint/build/diff-check; before/after screenshot review in both themes and directions; verify newsletter input remains selectable.
-- **Expected outcome**: landing with one consistent vertical rhythm that keeps the store shell chrome balanced; no dead controls introduced.
+- **Validation**: lint/build/diff-check clean; browser smoke `smoke-p6.mjs` 42/42 (light/dark desktop, hero hierarchy h1>h2, spacing 64px convention, newsletter input selectable + real text selection, LTR/RTL banner gradient legibility, aria-labelledby wiring, header/footer interaction, mobile 390px no overflow, `ltr/en` unchanged).
+- **Expected outcome**: landing with one consistent vertical rhythm that keeps the store shell chrome balanced; no dead controls introduced; selectable newsletter input; heading hierarchy leads clearly; RTL-safe banner.
 
 ### P7 — Catalog seed dataset (documentation + dev-only seeding)
 - **Goal**: a realistic multi-category dataset for dev/demo/testing.

@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router";
 import { useTranslation } from "react-i18next";
-import { toast } from "react-toastify";
+import { toast } from "sonner";
 import { MAX_IMAGES } from "./constants";
 import { createProduct } from "./product.service";
 import { createProductFormData } from "./utils/productFormData";

@@ -128,9 +128,10 @@ P1.5 (Admin header cleanup) has no hard dependencies — schedule it right after
 - **Validation**: lint + build + diff-check; manual LTR/RTL, light/dark, mobile (collapsible nav vs horizontal scroll); confirm admin/auth pages unchanged; a11y (header landmarks, nav semantics, focus).
 - **Expected outcome**: landing + future storefront routes share a sticky header (brand via `brand.*`, placeholder nav, theme toggle reusing `useTheme`, inert account/cart placeholders with coming-soon tooltips) and a footer (blurb, placeholder link groups in `start-*` RTL-safe layout, copyright year). No business logic, no new global state.
 
-### P1.5 — Admin header navigation cleanup (Logout → "Back to Store" + Account dropdown)
+### P1.5 — Admin header navigation cleanup (Logout → "Back to Store" + Account dropdown) — **DONE**
+- **Status**: **DONE — PR #50 `feat/toast-sonner-admin-header`** (base main `0f05ce2`; commits: `0d0f7c8` Sonner migration, `a457581` header cleanup, docs commit). Lint/build/diff-check clean; browser smoke green (18/18: Back to Store, Account identity/role/Logout, no duplicate nav, keyboard flow, theme toggle, error + success toasts, dark theme, mobile). Bundles the approved **Sonner toast migration** — react-toastify fully removed (decision in §5). Pending merge.
 - **Goal**: rebalance admin header actions — a single **"Back to Store"** action replaces the standalone Logout as primary navigation, and **Logout moves into the Account dropdown** as a secondary account-level action. Preserve the theme toggle and all other existing header actions.
-- **Current state**: `HeaderActionButtons` renders notifications dropdown, theme toggle, account dropdown (identity row only), and a standalone destructive **Logout** button beside them (`src/components/layout/HeaderActionButtons.jsx:157`).
+- **Current state (post PR #50)**: `HeaderActionButtons` renders notifications → theme toggle → Account dropdown (identity + role + separator + Logout) plus an outline "Back to Store" button navigating to `/`. Account trigger is always visible so Logout stays reachable on mobile. Sidebar remains the sole admin nav; no duplicate logout or navigation responsibility.
 - **Missing**: a storefront-root link; logout is promoted as primary-visibility instead of account-scoped.
 - **Dependencies**: none hard (→ `/` is already the landing route). Recommended right after P1 so `/` is the established storefront root; can run before/parallel to P2.
 - **Affected**: `src/components/layout/HeaderActionButtons.jsx`; `en.json` (`navigation.backToStore`; reuse `auth.logout.*` for the menu item); target `/`. Account dropdown uses existing `DropdownMenuSeparator` + `DropdownMenuItem` (primitive confirmed).
@@ -211,7 +212,8 @@ P1.5 (Admin header cleanup) has no hard dependencies — schedule it right after
 
 - Store shell **is needed now**, as a single dumb temporary `StoreLayout` (storefront routes only). Auth and admin layouts remain untouched.
 - Language switch — **CONFIRMED**: prepare the i18n **plumbing/persistence architecture now**; **never invent or ship a fake second locale**; only **committed/real locale resources** may become selectable; **do not expose a misleading language choice when only `en` exists** — the visible control stays inert (renders nothing / single locked label); a real second-language switch becomes active only once a real locale resource (e.g. full `ar.json`) is committed.
-- Admin header (P1.5) — **CONFIRMED**: **"Back to Store" replaces the standalone Logout** and navigates to the storefront `/`; **Logout moves into the Account dropdown**; account-level actions (Logout) live only inside the Account dropdown, never as primary navigation; preserve theme toggle + other header actions; use i18n keys (en.json only) and logical direction-aware utilities; no duplication of account/navigation responsibilities (Sidebar stays the sole admin nav).
+- Admin header (P1.5) — **CONFIRMED**: **"Back to Store" replaces the standalone Logout** and navigates to the storefront `/`; **Logout moves into the Account dropdown**; account-level actions (Logout) live only inside the Account dropdown, never as primary navigation; preserve theme toggle + other header actions; use i18n keys (en.json only) and logical direction-aware utilities; no duplication of account/navigation responsibilities (Sidebar stays the sole admin nav). **Landed in PR #50.**
+- Toast system — **CONFIRMED**: standardize on **Sonner** as the single toast system; **react-toastify removed** (PR #50). `Toaster` mounts in `src/components/ui/toaster.jsx`, theme-synced via `useTheme`, appearance mapped to semantic design tokens in `src/index.css` (`.app-sonner[data-sonner-toaster][data-sonner-theme]` — outranks sonner's runtime CSS, follows app `data-theme`). No dual-toast stack: new code must `import { toast } from "sonner"` only.
 - Profile branch: **TAKE UI SELECTIVELY** — never merge `origin/feature/profile-page` as-is.
 - No new dependencies for P1–P7; no changes to `DesignSystem.jsx`; no `cn`/utility duplication; no new global state (theme stays per-instance via `useTheme`).
 - Landing needs **no body separators**; hairline chrome belongs to the shell.
@@ -231,13 +233,13 @@ P1.5 (Admin header cleanup) has no hard dependencies — schedule it right after
 - `npm run lint`, `npm run build`, `git diff --check` — all clean.
 - Feature-scoped diff; only `en.json` is edited (never `ar.json`); no `DesignSystem.jsx` changes; `AGENT.md`/`docs/personal/*` untouched.
 - LTR + RTL, light + dark, and mobile verified for every touched surface.
-- No new dependencies, no banned image sources, no fake contracts, no dead-but-clickable controls.
+- No new dependencies, no banned image sources, no fake contracts, no dead-but-clickable controls. (Toast exception — the Sonner swap for react-toastify in PR #50 is the approved single exception; new toast code must use `sonner` only.)
 - Locale list derives from **committed resources only**; no uncommitted/fake locale is ever presented or selectable.
 - Each PR documented (title/why/files) and merged to `main` with a normal merge commit; roadmap's "Current state" updated as PRs land.
 
 ## 8. Execution order (recommended)
 
-1. ✅ `feat/store-shell` (P1) — **DONE (PR #47, merged as `3161e8e`)** → **P1.5 `feat/admin-header-nav` (no deps — right after P1)** → 2. `feat/language-switcher` (P2) → 3. `refactor/numeric-typography` (P3) → 4. `refactor/data-table-compliance` (P4) → 5. `feat/profile-overview` (P5) → 6. `feat/landing-polish` (P6) → 7. `docs/catalog-seed-data` (P7).
+1. ✅ `feat/store-shell` (P1) — **DONE (PR #47, merged as `3161e8e`)** → 2. ✅ P1.5 `feat/toast-sonner-admin-header` (no deps — PR #50, includes Sonner toast migration; pending merge) → 3. `feat/language-switcher` (P2) → 4. `refactor/numeric-typography` (P3) → 5. `refactor/data-table-compliance` (P4) → 6. `feat/profile-overview` (P5) → 7. `feat/landing-polish` (P6) → 8. `docs/catalog-seed-data` (P7).
 
 Recorded follow-up items (do not disturb the P1–P7 order above; schedule where they best fit, likely folded into a nearby PR or as tiny isolated PRs):
 

@@ -7,7 +7,9 @@
     "dev": "vite",
     "build": "vite build",
     "lint": "eslint .",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "demo:validate": "node scripts/validate-dataset.mjs",
+    "demo:serve": "node scripts/serve-demo.mjs"
   },
   "dependencies": {
     "@tailwindcss/vite": "^4.3.3",

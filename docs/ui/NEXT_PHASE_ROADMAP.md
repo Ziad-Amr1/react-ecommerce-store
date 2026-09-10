@@ -200,14 +200,14 @@ P1.5 (Admin header cleanup) has no hard dependencies — schedule it right after
 
 ### P7 — Catalog seed dataset (documentation + dev-only seeding)
 - **Goal**: a realistic multi-category dataset for dev/demo/testing.
-- **Current state**: no seed mechanism in repo; dev DB is electronics-heavy; categories are raw strings (no endpoint).
-- **Missing**: authored dataset + safe dev-seeding path.
-- **Dependencies**: none (schedule last so it can reference the final category conventions from P1–P6).
-- **Affected**: new `docs/catalog/SEED_DATA.md` + `data/demo-products.json` (~48–60 items, documented variance across price/stock thresholds/discount/featured/rating/names/descriptions, covering furniture, lighting, home decor, kitchen, office, accessories, electronics, beauty, fashion, sunglasses); optional `scripts/seed-dev.mjs` that targets **local/dev only** and documents the procedure.
+- **Current state**: BRANCH `feat/catalog-seed-data` READY — dataset, validator, and read-only local server authored; smoke **45/45** (dataset + API contract + landing/admin browser checks, `remoteHits=0`); awaiting PR approval merge to `main`.
+- **Missing**: nothing for v1. Remaining decisions recorded (§6): rating field deferred (app has no rating render path; server keeps `sort=rating` stable); local placeholder images chosen; one demo admin identity.
+- **Dependencies**: none (scheduled last to reference the final category conventions from P1–P6).
+- **Affected**: new `docs/catalog/SEED_DATA.md` + `data/demo/products.json` (60 items — furniture, lighting, home decor, kitchen, office, accessories, electronics, beauty, fashion, sunglasses; 6 per category; `featured=12`, discounted=20, inactive=5, out-of-stock=6, low-stock=8, price `19.99..1249.99`, stock `0..320`); new `scripts/validate-dataset.mjs` + `scripts/serve-demo.mjs` (loopback `127.0.0.1`, read-only `/products*` → 405, in-memory demo auth, CORS local Vite ports only); `package.json` `demo:validate` / `demo:serve` aliases.
 - **Separate PR**: yes.
-- **Risk**: low (code-less except an opt-in dev script); medium ownership/safety if the script exists — no prod credentials, no schema changes, dry-run flag.
-- **Validation**: dataset lint (schema/fields allow-listed), dry-run + local-only run; nothing writes to production.
-- **Expected outcome**: one command/guide to load a varied demo catalog locally; landing featured rail and admin tables look real.
+- **Risk**: low (zero dependencies; the server is loopback-only, read-only, credential-free). No schema/API-contract changes; matching the app's real contract (`GET /products` → `{products,totalPages}`; `GET /products/:id` → `{product}`; `/auth/*` → `{user}`).
+- **Validation**: `npm run demo:validate` (schema/types/variance/safety scans) + orchestrated smoke (45/45) + `npm run lint`/`build`/`git diff --check`.
+- **Expected outcome**: one command/guide to run a varied demo catalog locally; landing featured rail and admin tables look real.
 
 ---
 
@@ -230,7 +230,7 @@ P1.5 (Admin header cleanup) has no hard dependencies — schedule it right after
 
 1. **Arabic resource**: commit a full `ar.json` resource (the current local stub is dashboard-only and untracked, so it cannot ship)? Until then the switcher plumbing ships but stays inert — with P2, the plumbing now ships (PR #52); this decision alone gates visible switching. Decide before visible switching is a goal. (P2)
 2. **`/profile` auth model**: open with a login-prompt card for anonymous visitors, or gate behind storefront authentication once customers can log in? (P5) — **DECIDED (PR #56)**: `/profile` is always reachable; anonymous visitors get a login-prompt card (Sign In → `/login`); there is no gate because no customer login exists yet — revisit when storefront auth ships. Signed-out-from-storefront navigates back to `/` (not `/login`). Follow-ups preserved: when customer auth lands, expose real order/wishlist/address/payment data in the activity tiles and add a real role→label mapping for `user.role`.
-3. **Seed images**: bundle canonical webp assets and upload them through the dev script, or reference stable existing image URLs, or defer images in the first seed drop? (P7)
+3. **Seed images**: bundle canonical webp assets and upload them through the dev script, or reference stable existing image URLs, or defer images in the first seed drop? (P7) — **DECIDED (P7)**: local root-relative placeholder `/product-placeholder.png`; keeps the dataset dependency-free and blocks any image-host calls. Bundle real assets later if visuals require them.
 4. **Theme sharing**: keep `useTheme` per-instance (recommended) vs promote to a `ThemeProvider` context later — flag before any PR touches `index.css`.
 5. ~~Dead-code removal~~ (`Home.jsx` + `home.*` keys): **Resolved** — folding into P1.
 
@@ -245,7 +245,7 @@ P1.5 (Admin header cleanup) has no hard dependencies — schedule it right after
 
 ## 8. Execution order (recommended)
 
-1. ✅ `feat/store-shell` (P1) — **DONE (PR #47, merged as `3161e8e`)** → 2. ✅ P1.5 `feat/toast-sonner-admin-header` (no deps — PR #50, includes Sonner toast migration + theme bootstrap; merged as `b0713d6`) → 3. ✅ `feat/language-switcher` (P2 — PR #52, merged as `d68ca69`) → 4. ✅ `refactor/numeric-typography` (P3 — PR #53, merged as `c39489c`) → 5. ✅ `refactor/data-table-compliance` (P4 — PR #54, merged as `fde1bde`) → 6. ✅ `feat/profile-overview` (P5 — PR #56, merged as `2536382`) → 7. ✅ `feat/landing-polish` (P6 — PR #57, merged as `8d675bb`) → 8. `feat/catalog-seed-data` (P7).
+1. ✅ `feat/store-shell` (P1) — **DONE (PR #47, merged as `3161e8e`)** → 2. ✅ P1.5 `feat/toast-sonner-admin-header` (no deps — PR #50, includes Sonner toast migration + theme bootstrap; merged as `b0713d6`) → 3. ✅ `feat/language-switcher` (P2 — PR #52, merged as `d68ca69`) → 4. ✅ `refactor/numeric-typography` (P3 — PR #53, merged as `c39489c`) → 5. ✅ `refactor/data-table-compliance` (P4 — PR #54, merged as `fde1bde`) → 6. ✅ `feat/profile-overview` (P5 — PR #56, merged as `2536382`) → 7. ✅ `feat/landing-polish` (P6 — PR #57, merged as `8d675bb`) → 8. `feat/catalog-seed-data` (P7) — **under review (PR pending approval, NOT merged).**
 
 Recorded follow-up items (do not disturb the P1–P7 order above; schedule where they best fit, likely folded into a nearby PR or as tiny isolated PRs):
 

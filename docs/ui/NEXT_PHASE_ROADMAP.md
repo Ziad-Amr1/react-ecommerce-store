@@ -1,7 +1,7 @@
 # Next Phase Roadmap — UI Polish, Store Shell, Tables, Typography, Catalog Data
 
 > Source of truth for the post-foundation phase.
-> Baseline: main `c39489c` (PRs #38–#53 merged; main is authoritative).
+> Baseline: main `fde1bde` (PRs #38–#54 merged; main is authoritative).
 > Companion doc: [`DATA_TABLE_GUIDELINES.md`](DATA_TABLE_GUIDELINES.md).
 
 ---
@@ -165,7 +165,7 @@ P1.5 (Admin header cleanup) has no hard dependencies — schedule it right after
 - **Expected outcome**: numbers never shift width while updating; one written convention future code follows. No new font dependency.
 
 ### P4 — Data-table compliance (Products table)
-- **Status**: **DONE-implemented — PR #54 `refactor/data-table-compliance`** (base main `a0b02d8`; commits: `6b817ab` implementation, `49bc83e` guidelines audit). Lint/build/diff-check clean; browser smoke green (37/37: composed page title/description/controls/table/footer; price/stock `text-end tabular-nums + nowrap` per P3; kebab actions hidden → revealed on hover / keyboard focus / touch via `[@media(pointer:coarse)]`; menu items incl. destructive Delete; footer-inside-card pagination with Next/Prev preserved; empty, error + Retry, delete-dialog preserved; `dir=ltr` unchanged). Guidelines audit + actions/pagination patterns documented in `docs/ui/DATA_TABLE_GUIDELINES.md`. Uses the shared `PaginationContent`/`PaginationItem` primitive (prev/next stay i18n `Button`s; the primitive's `PaginationPrevious/Next` hardcode English + physical chevrons so they are not used verbatim). No fabricated sorting; no new dependencies. **Pending merge.**
+- **Status**: **DONE — PR #54 `refactor/data-table-compliance`** (base main `a0b02d8`; commits: `6b817ab` implementation, `49bc83e` guidelines audit). Lint/build/diff-check clean; browser smoke green (37/37: composed page title/description/controls/table/footer; price/stock `text-end tabular-nums + nowrap` per P3; kebab actions hidden → revealed on hover / keyboard focus / touch via `[@media(pointer:coarse)]`; menu items incl. destructive Delete; footer-inside-card pagination with Next/Prev preserved; empty, error + Retry, delete-dialog preserved; `dir=ltr` unchanged). Guidelines audit + actions/pagination patterns documented in `docs/ui/DATA_TABLE_GUIDELINES.md`. Uses the shared `PaginationContent`/`PaginationItem` primitive (prev/next stay i18n `Button`s; the primitive's `PaginationPrevious/Next` hardcode English + physical chevrons so they are not used verbatim). No fabricated sorting; no new dependencies. **Merged to `main` as `fde1bde` (normal merge commit, 2026-09-10).**
 - **Goal**: bring `ProductsTable` into full compliance + update the guidelines audit row.
 - **Current state**: gaps per §6/E (actions visibility, pagination, page description, stock cell nowrap).
 - **Missing**: hover/focus action reveal + touch kebab (`DropdownMenu`), pagination integrated as table-footer UI (consider the existing `components/ui/pagination.jsx` primitive), page description under title, `whitespace-nowrap` on numeric cells, numeric class convention from P3.
@@ -245,7 +245,7 @@ P1.5 (Admin header cleanup) has no hard dependencies — schedule it right after
 
 ## 8. Execution order (recommended)
 
-1. ✅ `feat/store-shell` (P1) — **DONE (PR #47, merged as `3161e8e`)** → 2. ✅ P1.5 `feat/toast-sonner-admin-header` (no deps — PR #50, includes Sonner toast migration + theme bootstrap; merged as `b0713d6`) → 3. ✅ `feat/language-switcher` (P2 — PR #52, merged as `d68ca69`) → 4. ✅ `refactor/numeric-typography` (P3 — PR #53, merged as `c39489c`) → 5. `refactor/data-table-compliance` (P4 — PR #54, implementation complete, pending merge) → 6. `feat/profile-overview` (P5) → 7. `feat/landing-polish` (P6) → 8. `docs/catalog-seed-data` (P7).
+1. ✅ `feat/store-shell` (P1) — **DONE (PR #47, merged as `3161e8e`)** → 2. ✅ P1.5 `feat/toast-sonner-admin-header` (no deps — PR #50, includes Sonner toast migration + theme bootstrap; merged as `b0713d6`) → 3. ✅ `feat/language-switcher` (P2 — PR #52, merged as `d68ca69`) → 4. ✅ `refactor/numeric-typography` (P3 — PR #53, merged as `c39489c`) → 5. ✅ `refactor/data-table-compliance` (P4 — PR #54, merged as `fde1bde`) → 6. `feat/profile-overview` (P5) → 7. `feat/landing-polish` (P6) → 8. `docs/catalog-seed-data` (P7).
 
 Recorded follow-up items (do not disturb the P1–P7 order above; schedule where they best fit, likely folded into a nearby PR or as tiny isolated PRs):
 

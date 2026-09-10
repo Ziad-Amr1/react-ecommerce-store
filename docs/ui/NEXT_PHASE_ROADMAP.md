@@ -1,7 +1,7 @@
 # Next Phase Roadmap — UI Polish, Store Shell, Tables, Typography, Catalog Data
 
 > Source of truth for the post-foundation phase.
-> Baseline: main `b0713d645efbff157f8d57e17e675ec875b298fa` (PRs #38–#50 merged; main is authoritative).
+> Baseline: main `d68ca69980c9e34f224834141c13aefcbaced921` (PRs #38–#52 merged; main is authoritative).
 > Companion doc: [`DATA_TABLE_GUIDELINES.md`](DATA_TABLE_GUIDELINES.md).
 
 ---
@@ -141,7 +141,7 @@ P1.5 (Admin header cleanup) has no hard dependencies — schedule it right after
 - **Expected outcome**: header actions read as notifications → theme toggle → Account (identity, with Logout inside). No duplicate logout, no duplicate navigation responsibility: "Back to Store" is the only storefront-nav action, logout exists only in the Account menu.
 
 ### P2 — Language switcher
-- **Status**: **DONE — PR #52 `feat/language-switcher`** (base main `9dfe6b9`; commits: `5cbc298` i18n plumbing, `e5f1468` switcher control, docs commit). Lint/build/diff-check clean; browser smoke green — shipped state 7/7 (absent/invalid/stored language → `en`/`ltr`, switcher hidden on storefront + admin, `dir`/`lang` stable) and a second-locale roundtrip 11/11 (temporary committed-style `de` fixture, fully reverted before commit: stored choice cold-loads, menu lists only committed locales, switch updates `dir`/`lang` + persists across reload). Nothing fake ships — the shipped bundle contains only `en`. Pending merge.
+- **Status**: **DONE — PR #52 `feat/language-switcher`** (base main `9dfe6b9`; commits: `5cbc298` i18n plumbing, `e5f1468` switcher control, docs commit). Lint/build/diff-check clean; browser smoke green — shipped state 7/7 (absent/invalid/stored language → `en`/`ltr`, switcher hidden on storefront + admin, `dir`/`lang` stable) and a second-locale roundtrip 11/11 (temporary committed-style `de` fixture, fully reverted before commit: stored choice cold-loads, menu lists only committed locales, switch updates `dir`/`lang` + persists across reload). Nothing fake ships — the shipped bundle contains only `en`. **Merged to `main` as `d68ca69` (normal merge commit, 2026-09-10).**
 - **Goal**: prepare the language plumbing — a persisted user preference, i18n bootstrap, and a `changeLanguage` path — so visible switching is trivial once a **real** second locale exists. Never invent, present, or select a locale that has no committed resource.
 - **Current state**: plumbing shipped — `src/i18n/index.js` derives `supportedLanguages` from committed resources only, bootstraps the stored preference (missing/invalid → `en`), and `setLanguage()` switches + persists. `LanguageSwitcher` renders in the store header and stays inert (renders nothing) while only one real locale exists; it activates automatically as soon as a real resource is committed. `DirectionProvider` behavior unchanged.
 - **Missing**: a real committed locale resource (e.g. full `ar` — approval needed; the local stub stays untracked). That is the only thing keeping visible switching from being actionable.
@@ -241,7 +241,7 @@ P1.5 (Admin header cleanup) has no hard dependencies — schedule it right after
 
 ## 8. Execution order (recommended)
 
-1. ✅ `feat/store-shell` (P1) — **DONE (PR #47, merged as `3161e8e`)** → 2. ✅ P1.5 `feat/toast-sonner-admin-header` (no deps — PR #50, includes Sonner toast migration + theme bootstrap; merged as `b0713d6`) → 3. ✅ `feat/language-switcher` (P2 — PR #52; pending merge) → 4. `refactor/numeric-typography` (P3) → 5. `refactor/data-table-compliance` (P4) → 6. `feat/profile-overview` (P5) → 7. `feat/landing-polish` (P6) → 8. `docs/catalog-seed-data` (P7).
+1. ✅ `feat/store-shell` (P1) — **DONE (PR #47, merged as `3161e8e`)** → 2. ✅ P1.5 `feat/toast-sonner-admin-header` (no deps — PR #50, includes Sonner toast migration + theme bootstrap; merged as `b0713d6`) → 3. ✅ `feat/language-switcher` (P2 — PR #52, merged as `d68ca69`) → 4. `refactor/numeric-typography` (P3) → 5. `refactor/data-table-compliance` (P4) → 6. `feat/profile-overview` (P5) → 7. `feat/landing-polish` (P6) → 8. `docs/catalog-seed-data` (P7).
 
 Recorded follow-up items (do not disturb the P1–P7 order above; schedule where they best fit, likely folded into a nearby PR or as tiny isolated PRs):
 

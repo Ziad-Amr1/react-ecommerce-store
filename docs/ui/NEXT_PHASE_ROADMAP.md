@@ -153,6 +153,7 @@ P1.5 (Admin header cleanup) has no hard dependencies — schedule it right after
 - **Expected outcome**: plumbing + persistence land and stay inert today. The control renders nothing (or a single locked label) until a real `ar` (or other) resource is committed — only then does visible switching become meaningful, using the same shipping code. Optionally surface the control in the admin header later (out of scope here unless trivial).
 
 ### P3 — Numeric typography
+- **Status**: **DONE-implemented — PR #53 `refactor/numeric-typography`** (base main `3d82ff6`; commits: `2d65b15` implementation, `3017259` convention doc). Lint/build/diff-check clean; browser smoke green (25/25, light + dark across landing/dashboard/products/details: computed `font-family`/`font-variant-numeric` — Space Grotesk on large emphasis prices/stat values, IBM Plex Mono on order ids + SKU, `tabular-nums` on all currency/count/percent cells, no display font on dates/small cells; `dir=ltr` unchanged). Convention documented in `docs/ui/NUMERIC_TYPOGRAPHY.md`. **Pending merge.**
 - **Goal**: one numeric convention across surfaces.
 - **Current state**: `tabular-nums` used ad hoc; font choice for numbers varies (font-display vs font-mono).
 - **Missing**: consistent convention + application.
@@ -219,6 +220,7 @@ P1.5 (Admin header cleanup) has no hard dependencies — schedule it right after
 - Profile branch: **TAKE UI SELECTIVELY** — never merge `origin/feature/profile-page` as-is.
 - No new dependencies for P1–P7; no changes to `DesignSystem.jsx`; no `cn`/utility duplication; no new global state (theme via `useTheme` — no context, no `ThemeProvider`; the single shared store is internal to the hook, public API stays `{ theme, toggleTheme }`).
 - Landing needs **no body separators**; hairline chrome belongs to the shell.
+- Numeric typography (P3) — **CONFIRMED**: currency/counts/percentages use **`tabular-nums`**; large emphasis numbers (stat values, page-level prices, featured-card price) add **`font-display`**; identifiers/codes (order ids, SKU) use **`font-mono`**; dates and small cells stay default sans — documented class combos only, **no new CSS utility or font dependency** (decision in `docs/ui/NUMERIC_TYPOGRAPHY.md`). Remaining small-cell `font-display` inside user-WIP `OrderStatus.jsx`/`TopProducts.jsx` are deferred to their authors. **Landed in PR #53.**
 - Seed data is evt-based/docs + dev-only script; never touches production.
 - **Resolved**: dead-code removal (`src/pages/Home.jsx` + `home.*` i18n keys) folds into P1.
 
@@ -241,7 +243,7 @@ P1.5 (Admin header cleanup) has no hard dependencies — schedule it right after
 
 ## 8. Execution order (recommended)
 
-1. ✅ `feat/store-shell` (P1) — **DONE (PR #47, merged as `3161e8e`)** → 2. ✅ P1.5 `feat/toast-sonner-admin-header` (no deps — PR #50, includes Sonner toast migration + theme bootstrap; merged as `b0713d6`) → 3. ✅ `feat/language-switcher` (P2 — PR #52, merged as `d68ca69`) → 4. `refactor/numeric-typography` (P3) → 5. `refactor/data-table-compliance` (P4) → 6. `feat/profile-overview` (P5) → 7. `feat/landing-polish` (P6) → 8. `docs/catalog-seed-data` (P7).
+1. ✅ `feat/store-shell` (P1) — **DONE (PR #47, merged as `3161e8e`)** → 2. ✅ P1.5 `feat/toast-sonner-admin-header` (no deps — PR #50, includes Sonner toast migration + theme bootstrap; merged as `b0713d6`) → 3. ✅ `feat/language-switcher` (P2 — PR #52, merged as `d68ca69`) → 4. `refactor/numeric-typography` (P3 — PR #53, implementation complete, pending merge) → 5. `refactor/data-table-compliance` (P4) → 6. `feat/profile-overview` (P5) → 7. `feat/landing-polish` (P6) → 8. `docs/catalog-seed-data` (P7).
 
 Recorded follow-up items (do not disturb the P1–P7 order above; schedule where they best fit, likely folded into a nearby PR or as tiny isolated PRs):
 

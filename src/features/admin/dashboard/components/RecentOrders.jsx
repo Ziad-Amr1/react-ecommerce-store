@@ -59,7 +59,7 @@ export default function RecentOrders({ orders = [] }) {
               <TableBody>
                 {orders.map((order) => (
                   <TableRow key={order._id}>
-                    <TableCell className="font-medium whitespace-nowrap font-display">
+                    <TableCell className="font-mono font-medium whitespace-nowrap">
                       #{order._id.slice(-6)}
                     </TableCell>
 
@@ -84,7 +84,7 @@ export default function RecentOrders({ orders = [] }) {
                       )}
                     </TableCell>
 
-                    <TableCell className="whitespace-nowrap text-end tabular-nums font-display">
+                    <TableCell className="whitespace-nowrap text-end tabular-nums">
                       {order.totalPrice == null
                         ? "—"
                         : formatCurrency(
@@ -110,7 +110,7 @@ export default function RecentOrders({ orders = [] }) {
                       </Badge>
                     </TableCell>
 
-                    <TableCell className="whitespace-nowrap text-muted-foreground font-display">
+                    <TableCell className="whitespace-nowrap text-muted-foreground">
                       {formatDisplayDate(order.createdAt) ?? "—"}
                     </TableCell>
                   </TableRow>

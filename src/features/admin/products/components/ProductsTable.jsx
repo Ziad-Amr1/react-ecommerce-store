@@ -167,7 +167,7 @@ export default function ProductsTable({
                       {product.brand || "—"}
                     </TableCell>
 
-                    <TableCell className="whitespace-nowrap text-end tabular-nums font-display">
+                    <TableCell className="whitespace-nowrap text-end tabular-nums">
                       {product.price == null
                         ? "—"
                         : formatCurrency(product.price, CURRENCY, i18n.language)}
@@ -175,7 +175,7 @@ export default function ProductsTable({
 
                     <TableCell className="text-end">
                       <span
-                        className={`font-mono font-medium ${stockClass(product.stock)}`}
+                        className={`tabular-nums font-medium ${stockClass(product.stock)}`}
                       >
                         {product.stock == null ? "—" : product.stock}
                       </span>

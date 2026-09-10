@@ -19,7 +19,7 @@ export default function ProductPagination({ currentPage, totalPages, isFetching,
         {t("products.pagination.previous")}
       </Button>
 
-      <span className="rounded-md border bg-card px-4 py-2 font-mono text-sm text-foreground">
+      <span className="rounded-md border bg-card px-4 py-2 tabular-nums text-sm text-foreground">
         {currentPage} / {totalPages}
       </span>
 

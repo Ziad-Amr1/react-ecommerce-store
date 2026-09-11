@@ -1,4 +1,4 @@
-import React from "react";
+
 import { Skeleton } from "@/components/ui/skeleton";
 import { TableBody, TableCell, TableRow } from "@/components/ui/table";
 

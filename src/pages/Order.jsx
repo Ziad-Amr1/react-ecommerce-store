@@ -1,5 +1,5 @@
 
-import React, { useEffect, useState } from "react";
+import  { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import OrdersFilters from '@/features/orders/components/OrdersFilters'
 import OrdersHeader from '@/features/orders/components/OrdersHeader'
@@ -41,7 +41,7 @@ const LIMIT = 15;
 const DEBOUNCE_DELAY = 500;
 
 export default function OrdersTable() {
-  const { t, i18n } = useTranslation();
+  const { t } = useTranslation();
 
   // Orders
   const [orders, setOrders] = useState([]);

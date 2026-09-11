@@ -24,9 +24,9 @@ export default function StatCard({
 
       <CardContent className="flex items-end justify-between gap-4">
         <div className="flex flex-col gap-1">
-          <h2 className="font-display wrap-break-word text-2xl font-bold tabular-nums">
+          <p className="font-display wrap-break-word text-2xl font-bold tabular-nums">
             {value}
-          </h2>
+          </p>
         </div>
 
         <div

@@ -1,6 +1,11 @@
 import { PieChart, Pie, Cell, ResponsiveContainer } from "recharts";
 
-export default function OrderStatusDonut({ items }) {
+export default function OrderStatusDonut({
+  items,
+  activeIndex = null,
+  onSliceEnter,
+  onSliceLeave,
+}) {
   if (items.length === 0) {
     return null;
   }
@@ -17,9 +22,15 @@ export default function OrderStatusDonut({ items }) {
           paddingAngle={2}
           stroke="var(--color-surface)"
           strokeWidth={2}
+          onMouseEnter={(_, index, event) => onSliceEnter?.(index, event)}
+          onMouseLeave={onSliceLeave}
         >
-          {items.map((item) => (
-            <Cell key={item.id} fill={item.fill} />
+          {items.map((item, index) => (
+            <Cell
+              key={item.id}
+              fill={item.fill}
+              opacity={activeIndex === null || index === activeIndex ? 1 : 0.22}
+            />
           ))}
         </Pie>
       </PieChart>

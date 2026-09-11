@@ -357,6 +357,7 @@
       "shopNow": "Shop Now",
       "explore": "Explore Collection",
       "imageAlt": "Hero section showing premium lifestyle products",
+      "badge": "Sale",
       "pros": {
         "variety": {
           "title": "Product Variety",
@@ -387,7 +388,11 @@
       "retry": "Retry",
       "imageAlt": "{{name}} product image",
       "untitled": "Untitled Product",
-      "discountOff": "-{{percent}}%"
+      "discountOff": "-{{percent}}%",
+      "eyebrow": "Picked from the store",
+      "cardAriaLabel": "View {{name}}",
+      "toggleWishlist": "Add {{name}} to wishlist",
+      "ratingAria": "Rated {{rating}} out of 5, {{count}} reviews"
     },
     "categories": {
       "title": "Categories",

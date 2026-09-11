@@ -136,7 +136,7 @@ export default function Sidebar({ id, isOpen, isCollapsed, onClose, onToggleColl
     <>
       {/* Mobile overlay */}
       <div
-        className={`fixed inset-0 z-(--z-modal) bg-(--color-overlay) backdrop-blur-sm transition-opacity duration-300 lg:hidden ${
+        className={`fixed inset-0  z-(--z-nav) bg-(--color-overlay) backdrop-blur-sm transition-opacity duration-300 lg:hidden ${
           isOpen ? "opacity-100" : "pointer-events-none opacity-0"
         }`}
         onClick={onClose}
@@ -146,7 +146,7 @@ export default function Sidebar({ id, isOpen, isCollapsed, onClose, onToggleColl
       <aside
         id={id}
         aria-label={t("navigation.adminPanel")}
-        className={`fixed left-0 top-0 z-(--z-modal) flex h-screen flex-col border-r border-(--color-border) bg-(--color-surface) text-(--color-text-primary) transition-all duration-300 ease-out ${
+        className={`fixed left-0 top-0  z-(--z-nav) flex h-screen flex-col border-r border-(--color-border) bg-(--color-surface) text-(--color-text-primary) transition-all duration-300 ease-out ${
           isOpen ? "translate-x-0" : "-translate-x-full lg:translate-x-0"
         } ${isCollapsed ? "w-20" : "w-72"}`}
       >
@@ -169,7 +169,9 @@ export default function Sidebar({ id, isOpen, isCollapsed, onClose, onToggleColl
 
             <div
               className={`min-w-0 overflow-hidden whitespace-nowrap transition-all duration-300 ${
-                isCollapsed ? "invisible w-0 opacity-0" : "visible w-auto opacity-100"
+                isCollapsed
+                  ? "invisible w-0 opacity-0"
+                  : "visible w-auto opacity-100"
               }`}
             >
               <p className="text-xs font-semibold uppercase tracking-[0.18em] text-(--color-text-secondary)">
@@ -184,7 +186,9 @@ export default function Sidebar({ id, isOpen, isCollapsed, onClose, onToggleColl
               variant="ghost"
               size="icon"
               className={`rounded-full lg:hidden transition-all duration-300 hover:bg-(--color-surface-secondary) ${
-                isCollapsed ? "invisible w-0 opacity-0" : "visible w-auto opacity-100"
+                isCollapsed
+                  ? "invisible w-0 opacity-0"
+                  : "visible w-auto opacity-100"
               }`}
               onClick={onClose}
               aria-label={t("navigation.menu.close")}

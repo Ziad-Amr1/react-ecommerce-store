@@ -528,5 +528,62 @@
     "subtitle": "الصفحة غير موجودة",
     "description": "الصفحة التي تبحث عنها غير موجودة أو تم نقلها.",
     "home": "العودة إلى الرئيسية"
+  },
+  "orders": {
+    "title": "الطلبات",
+    "subtitle": "الإدارة • إدارة الطلبات",
+    "totalOrders": "إجمالي الطلبات",
+    "loadError": "فشل تحميل الطلبات.",
+    "noOrdersFound": "لم يتم العثور على طلبات.",
+    "currency": "دولار",
+    "notAvailable": "غير متاح",
+    "searchPlaceholder": "ابحث برقم الطلب أو اسم العميل...",
+
+    "filters": {
+      "status": {
+        "placeholder": "كل الحالات",
+        "all": "كل الحالات",
+        "delivered": "تم التوصيل",
+        "shipped": "تم الشحن",
+        "confirmed": "مؤكد",
+        "processing": "قيد المعالجة",
+        "cancelled": "ملغي",
+        "pending": "قيد الانتظار"
+      },
+
+      "payment": {
+        "placeholder": "كل حالات الدفع",
+        "all": "كل حالات الدفع",
+        "pending": "قيد الانتظار",
+        "paid": "مدفوع"
+      },
+
+      "method": {
+        "placeholder": "كل طرق الدفع",
+        "all": "كل طرق الدفع",
+        "cash": "دفع نقدي",
+        "card": "بطاقة"
+      }
+    },
+
+    "columns": {
+      "order": "الطلب",
+      "customer": "العميل",
+      "date": "التاريخ",
+      "status": "الحالة",
+      "paymentStatus": "حالة الدفع",
+      "paymentMethod": "طريقة الدفع",
+      "total": "الإجمالي"
+    },
+
+    "status": {
+      "delivered": "تم التوصيل",
+      "shipped": "تم الشحن",
+      "confirmed": "مؤكد",
+      "processing": "قيد المعالجة",
+      "pending": "قيد الانتظار",
+      "cancelled": "ملغي",
+      "unknown": "غير معروف"
+    }
   }
 }

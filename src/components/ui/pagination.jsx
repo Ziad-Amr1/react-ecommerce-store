@@ -1,9 +1,17 @@
-import { ChevronLeft, ChevronRight, MoreHorizontal } from "lucide-react"
 
-import { buttonVariants } from "@/components/ui/button"
+import {
+  ChevronLeftIcon,
+  ChevronRightIcon,
+  MoreHorizontalIcon,
+} from "lucide-react"
+
 import { cn } from "@/lib/utils"
+import { buttonVariants } from "@/components/ui/button";
 
-function Pagination({ className, ...props }) {
+function Pagination({
+  className,
+  ...props
+}) {
   return (
     <nav
       role="navigation"
@@ -12,7 +20,7 @@ function Pagination({ className, ...props }) {
       className={cn("mx-auto flex w-full justify-center", className)}
       {...props}
     />
-  );
+  )
 }
 
 function PaginationContent({
@@ -23,14 +31,15 @@ function PaginationContent({
     <ul
       data-slot="pagination-content"
       className={cn("flex flex-row items-center gap-1", className)}
-      {...props} />
-  );
+      {...props}
+    />
+  )
 }
 
-function PaginationItem({ className, ...props }) {
-  return (
-    <li data-slot="pagination-item" className={cn("grow basis-0", className)} {...props} />
-  );
+function PaginationItem({
+  ...props
+}) {
+  return <li data-slot="pagination-item" {...props} />
 }
 
 function PaginationLink({
@@ -51,8 +60,9 @@ function PaginationLink({
         }),
         className
       )}
-      {...props} />
-  );
+      {...props}
+    />
+  )
 }
 
 function PaginationPrevious({
@@ -66,10 +76,10 @@ function PaginationPrevious({
       className={cn("gap-1 px-2.5 sm:pl-2.5", className)}
       {...props}
     >
-      <ChevronLeft aria-hidden="true" />
+      <ChevronLeftIcon />
       <span className="hidden sm:block">Previous</span>
     </PaginationLink>
-  );
+  )
 }
 
 function PaginationNext({
@@ -84,9 +94,9 @@ function PaginationNext({
       {...props}
     >
       <span className="hidden sm:block">Next</span>
-      <ChevronRight aria-hidden="true" />
+      <ChevronRightIcon />
     </PaginationLink>
-  );
+  )
 }
 
 function PaginationEllipsis({
@@ -100,10 +110,10 @@ function PaginationEllipsis({
       className={cn("flex size-9 items-center justify-center", className)}
       {...props}
     >
-      <MoreHorizontal aria-hidden="true" className="size-4" />
+      <MoreHorizontalIcon className="size-4" />
       <span className="sr-only">More pages</span>
     </span>
-  );
+  )
 }
 
 export {

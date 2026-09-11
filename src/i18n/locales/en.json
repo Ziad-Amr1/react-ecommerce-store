@@ -490,7 +490,9 @@
       "signedIn": "Signed in",
       "signOut": "Sign Out",
       "signingOut": "Signing out...",
-      "roleLabel": "Role"
+      "roleLabel": "Role",
+      "verified": "Verified",
+      "memberSince": "Member since {{date}}"
     },
     "personal": {
       "title": "Personal Information",
@@ -499,7 +501,10 @@
       "email": "Email Address",
       "username": "Username",
       "phone": "Phone Number",
-      "missing": "Not provided"
+      "missing": "Not provided",
+      "copied": "Copied {{field}} to clipboard",
+      "copyFailed": "Couldn't copy to clipboard",
+      "copyValue": "Copy {{value}}"
     },
     "activity": {
       "title": "Account Activity",
@@ -509,6 +514,11 @@
       "addresses": "Saved Addresses",
       "payments": "Payment Methods",
       "comingSoon": "Not available yet"
+    },
+    "error": {
+      "title": "Something went wrong",
+      "description": "We couldn't load your profile. Please try again.",
+      "retry": "Try Again"
     }
   },
   "admin": {

@@ -47,7 +47,8 @@
   },
   "languages": {
     "switcherLabel": "Select language",
-    "en": "English"
+    "en": "English",
+    "ar": "Arabic"
   },
   "auth": {
     "password": {

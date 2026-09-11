@@ -157,6 +157,31 @@
     "usernameMin": "Username must be at least {{count}} characters",
     "phoneInvalid": "Please enter a valid phone number"
   },
+
+  "home": {
+    "title": "E-commerce Home page",
+    "description": "Welcome to the E-commerce platform. Explore our products and manage your orders.",
+    "login": "Login",
+    "designSystem": "Design System",
+    "comingSoon": "This feature isn't implemented yet. It is planned for an upcoming release."
+  },
+  "shop": {
+    "off": "% off",
+    "separator": "·",
+    "productRatingLabel": "{{rating}} out of 5 stars, {{reviewsCount}} reviews",
+    "inStock": "In Stock",
+    "runningLow": "only {{count}} left",
+    "outOfStock": "Out of Stock",
+    "addToCart": "Add to cart",
+    "details": "Details",
+    "results": "Results ({{count}})",
+    "showing": "Showing {{count}} products",
+    "untitledProduct": "Untitled product",
+    "image": "image",
+    "addToWishlist": "Add to wishlist",
+    "removeFromWishlist": "Remove from wishlist"
+  },
+
   "dashboard": {
     "title": "Dashboard Page",
     "loading": "Loading dashboard...",

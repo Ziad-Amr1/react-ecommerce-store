@@ -8,7 +8,8 @@ import Dashboard from "./pages/admin/Dashboard";
 import Products from "./pages/admin/Products";
 import AddProduct from "./pages/admin/AddProduct";
 import EditProduct from "./pages/admin/EditProduct";
-import ProductDetails from "./pages/admin/ProductDetails";
+import AdminProductDetails from "./pages/admin/ProductDetails";
+import StoreProductDetails from "./pages/ProductDetails.jsx";
 import Orders from "./pages/admin/Orders";
 import Users from "./pages/admin/Users";
 import Carts from "./pages/admin/Carts";
@@ -19,6 +20,7 @@ import ForgetPassword from "./pages/auth/ForgetPassword.jsx";
 import VerifyOtp from "./pages/auth/VerifyOtp.jsx";
 import NotFound from "./pages/NotFound.jsx";
 import ProtectedRoute from "./ProtectedRoute.jsx";
+import Shop from "./pages/Shop.jsx";
 
 const DesignSystem = lazy(() => import("./pages/DesignSystem"));
 
@@ -28,6 +30,8 @@ function App() {
       <Routes>
         <Route element={<StoreLayout />}>
           <Route path="/" element={<Landing />} />
+          <Route path="/products" element={<Shop />} />
+          <Route path="/products/:id" element={<StoreProductDetails />} />
           <Route path="/profile" element={<Profile />} />
         </Route>
         <Route
@@ -54,17 +58,15 @@ function App() {
         <Route path="/register" element={<Registration />} />
         <Route path="/forgot-password" element={<ForgetPassword />} />
         <Route path="/:flow/verify-otp" element={<VerifyOtp />} />
+
         {/* Start of Protected Admin Routes  */}
         <Route path="/admin/*" element={<ProtectedRoute />}>
           <Route element={<AdminLayout />}>
-            <Route
-              index
-              element={<Dashboard />}
-            />
+            <Route index element={<Dashboard />} />
             <Route path="products" element={<Products />} />
             <Route path="products/add" element={<AddProduct />} />
             <Route path="products/:id/edit" element={<EditProduct />} />
-            <Route path="products/:id" element={<ProductDetails />} />
+            <Route path="products/:id" element={<AdminProductDetails />} />
             <Route path="orders" element={<Orders />} />
             <Route path="users" element={<Users />} />
             <Route path="carts" element={<Carts />} />

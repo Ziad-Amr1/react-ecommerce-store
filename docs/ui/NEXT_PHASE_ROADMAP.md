@@ -36,7 +36,7 @@ They are **not** to be committed, pushed, or merged with any roadmap branch.
 | Auth | `AuthContext/AuthProvider`: `{ user, isAuthenticated, isLoading, login, logout }`. `user` carries identity (`fullName`/`name`, `email`, `avatar`, `role`) — see `getUserIdentity`. `ProtectedRoute` gates admin by `role === "admin"`. |
 | Data tables | `Table` primitive supports `density` (40/48/56px). `RecentOrders` is the compliant reference. `ProductsTable` exists (compact) but has gaps (see §6). Orders/Users/Carts/Settings pages are `FeatureStatusCard` placeholders. |
 | Typography | Google Fonts: Space Grotesk (display), Inter (body), IBM Plex Mono (mono). `tabular-nums` is a Tailwind utility used ad hoc. |
-| Products/API | `GET /products` (page, limit 10, search, category, brand, min/maxPrice, sort price_asc/price_desc/rating; active only). CRUD via `features/admin/products/product.service.js`. Product fields: name, shortDescription, description, price, discountPrice, stock, category, subcategory, brand, sku, tags, featured, isActive, images(1–5). Stock thresholds 20 ok / 5 warning. |
+| Products/API | `GET /products` (page, limit 10, search, category, brand, min/maxPrice, sort price_asc/price_desc/rating; active only). CRUD via `services/product.service.js`. Product fields: name, shortDescription, description, price, discountPrice, stock, category, subcategory, brand, sku, tags, featured, isActive, images(1–5). Stock thresholds 20 ok / 5 warning. |
 
 ---
 

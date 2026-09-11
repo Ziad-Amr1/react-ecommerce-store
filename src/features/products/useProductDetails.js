@@ -1,24 +1,21 @@
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
+import { useParams } from "react-router";
 import { getProduct } from "@/services/product.service";
 
-export default function useProduct(productId) {
+export default function useProductDetails() {
+  const { id } = useParams();
   const [product, setProduct] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
   const [reloadKey, setReloadKey] = useState(0);
-
   const controllerRef = useRef(null);
 
-  const fetchProduct = useCallback(() => {
-    if (!productId) {
-      return;
-    }
-
+  useEffect(() => {
     const controller = new AbortController();
     controllerRef.current?.abort();
     controllerRef.current = controller;
 
-    getProduct(productId, controller.signal)
+    getProduct(id, controller.signal)
       .then((data) => {
         if (!controller.signal.aborted) {
           setProduct(data.product);
@@ -34,13 +31,9 @@ export default function useProduct(productId) {
           setIsLoading(false);
         }
       });
-  }, [productId]);
-
-  useEffect(() => {
-    fetchProduct();
 
     return () => controllerRef.current?.abort();
-  }, [fetchProduct, reloadKey]);
+  }, [id, reloadKey]);
 
   const retry = () => {
     setError(null);

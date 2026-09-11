@@ -17,6 +17,11 @@ import { formatNumber } from "@/utils/formatNumber";
 import useProductDetails from "@/features/products/useProductDetails";
 import Stars from "@/features/products/components/ProductRating";
 import ProductSkeleton from "@/features/products/components/ProductCardSkeleton";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
 
 export default function ProductDetails() {
   const navigate = useNavigate();
@@ -24,7 +29,6 @@ export default function ProductDetails() {
   const { id } = useParams();
   const { product, isLoading, error, retry } = useProductDetails(id);
   const [selectedImage, setSelectedImage] = useState(0);
-  const [wishlisted, setWishlisted] = useState(false);
 
   if (isLoading) {
     return (
@@ -103,8 +107,12 @@ export default function ProductDetails() {
   const salePercentage = hasDiscount
     ? Math.round(((product.price - product.discountPrice) / product.price) * 100)
     : null;
-  const rating = product.averageRating ?? 0;
-  const reviewsCount = product.numReviews ?? 0;
+
+  // The catalog API exposes no rating fields yet; only render the row when
+  // the product actually carries a rating.
+  const rating = Number(product.averageRating) || 0;
+  const reviewsCount = Number(product.numReviews) || 0;
+  const hasRating = rating > 0;
 
   const stockStatusClass =
     product.stock === 0
@@ -191,18 +199,21 @@ export default function ProductDetails() {
                     {product.shortDescription}
                   </p>
                 )}
-                <div className="flex items-center gap-2">
-                  <Stars
-                    value={rating}
-                    label={t("shop.productRatingLabel", { rating, reviewsCount })}
-                  />
-                  <span className="text-sm text-[var(--color-text-secondary)]">
-                    {rating.toFixed(1)}{" "}
-                    <span className="text-[var(--color-text-disabled)]">
-                      ({formatNumber(reviewsCount)})
+
+                {hasRating && (
+                  <div className="flex items-center gap-2">
+                    <Stars
+                      value={rating}
+                      label={t("shop.productRatingLabel", { rating, reviewsCount })}
+                    />
+                    <span className="text-sm text-[var(--color-text-secondary)]">
+                      {rating.toFixed(1)}{" "}
+                      <span className="text-[var(--color-text-disabled)]">
+                        ({formatNumber(reviewsCount)})
+                      </span>
                     </span>
-                  </span>
-                </div>
+                  </div>
+                )}
               </div>
 
               <div className="border-t border-[var(--color-border)] pt-5">
@@ -293,28 +304,27 @@ export default function ProductDetails() {
                   <ShoppingCart aria-hidden="true" />
                   {t("shop.addToCart")}
                 </Button>
-                <Button
-                  type="button"
-                  variant="outline"
-                  size="icon"
-                  aria-label={
-                    wishlisted
-                      ? t("shop.removeFromWishlist", "Remove from wishlist")
-                      : t("shop.addToWishlist", "Add to wishlist")
-                  }
-                  aria-pressed={wishlisted}
-                  onClick={() => setWishlisted((value) => !value)}
-                  className="rounded-xl border-[var(--color-border)] bg-[var(--color-surface)] text-[var(--color-text-primary)] hover:bg-[var(--color-surface-secondary)]"
-                >
-                  <Heart
-                    aria-hidden="true"
-                    className={
-                      wishlisted
-                        ? "fill-[var(--color-error)] text-[var(--color-error)]"
-                        : undefined
-                    }
-                  />
-                </Button>
+
+                <Tooltip>
+                  <TooltipTrigger asChild>
+                    <span>
+                      <Button
+                        type="button"
+                        variant="outline"
+                        size="icon"
+                        disabled
+                        aria-label={t("shop.addToWishlist")}
+                        className="cursor-not-allowed rounded-xl border-[var(--color-border)] bg-[var(--color-surface)] text-[var(--color-text-primary)] opacity-60 hover:bg-[var(--color-surface-secondary)]"
+                      >
+                        <Heart aria-hidden="true" />
+                      </Button>
+                    </span>
+                  </TooltipTrigger>
+
+                  <TooltipContent side="top">
+                    <p className="text-xs">{t("shop.comingSoon")}</p>
+                  </TooltipContent>
+                </Tooltip>
               </div>
             </CardContent>
           </Card>

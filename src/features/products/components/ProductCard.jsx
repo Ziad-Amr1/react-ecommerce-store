@@ -14,11 +14,15 @@ import { formatCurrency } from "@/utils/formatCurrency";
 import { formatNumber } from "@/utils/formatNumber";
 import { useTranslation } from "react-i18next";
 import Stars from "@/features/products/components/ProductRating";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
 
 export default function ProductCard({ product }) {
   const { t } = useTranslation();
   const navigate = useNavigate();
-  const [wishlisted, setWishlisted] = useState(false);
   const images = product.images?.filter((image) => image?.url) ?? [];
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const image = images[currentImageIndex]?.url;
@@ -38,28 +42,11 @@ export default function ProductCard({ product }) {
     ? Math.round(((product.price - product.discountPrice) / product.price) * 100)
     : null;
 
-  //Comment should be removed after creating addToWishlist ,removeFromWishlist functions
-
-  // const handleWishlist = async () => {
-  //   try {
-  //     if (wishlisted) {
-  //       await removeFromWishlist(product._id);
-  //       setWishlisted(false);
-  //     } else {
-  //       await addToWishlist(product._id);
-  //       setWishlisted(true);
-  //     }
-  //   } catch (error) {
-  //     console.error(error);
-  //   }
-  // };
-
-  //Comment should be removed after creating useCart ,cart context
-
-  // const { addToCart } = useCart();
-
-  const rating = product.averageRating ?? 0;
-  const reviewsCount = product.numReviews ?? 0;
+  // The catalog API exposes no rating fields yet, so only surface a rating
+  // row when the product actually carries one — never a fabricated "0.0 (0)".
+  const rating = Number(product.averageRating) || 0;
+  const reviewsCount = Number(product.numReviews) || 0;
+  const hasRating = rating > 0;
 
   const stockStatusClass =
     product.stock === 0
@@ -98,25 +85,28 @@ export default function ProductCard({ product }) {
           </Badge>
         )}
 
-        <Button
-          type="button"
-          variant="ghost"
-          size="icon-sm"
-          aria-label={wishlisted ? "Remove from wishlist" : "Add to wishlist"}
-          aria-pressed={wishlisted}
-          onClick={() => setWishlisted((value) => !value)}
-          // onClick={handleWishlist}
-          className="absolute top-3 right-3 z-40 bg-[var(--color-surface)]/80 hover:bg-[var(--color-surface)]"
-        >
-          <Heart
-            aria-hidden="true"
-            className={
-              wishlisted
-                ? "fill-[var(--color-error)] text-[var(--color-error)]"
-                : undefined
-            }
-          />
-        </Button>
+        {/* Wishlist — disabled until the real wishlist API exists. A heart
+            that toggles locally but never persists would mislead users. */}
+        <Tooltip>
+          <TooltipTrigger asChild>
+            <span className="absolute top-3 right-3 z-40">
+              <Button
+                type="button"
+                variant="ghost"
+                size="icon-sm"
+                disabled
+                aria-label={t("shop.addToWishlist")}
+                className="cursor-not-allowed bg-[var(--color-surface)]/80 opacity-60 hover:bg-[var(--color-surface)]"
+              >
+                <Heart aria-hidden="true" />
+              </Button>
+            </span>
+          </TooltipTrigger>
+
+          <TooltipContent side="top">
+            <p className="text-xs">{t("shop.comingSoon")}</p>
+          </TooltipContent>
+        </Tooltip>
 
         {images.length > 1 && (
           <div className="absolute bottom-3 left-1/2 z-30 flex -translate-x-1/2 gap-1.5">
@@ -146,18 +136,21 @@ export default function ProductCard({ product }) {
           >
             {productName}
           </h3>
-          <div className="mt-1.5 flex items-center gap-2">
-            <Stars
-              value={rating}
-              label={t("shop.productRatingLabel", { rating, reviewsCount })}
-            />
-            <span className="text-sm text-[var(--color-text-secondary)]">
-              {rating.toFixed(1)}{" "}
-              <span className="text-[var(--color-text-disabled)]">
-                ({formatNumber(reviewsCount)})
+
+          {hasRating && (
+            <div className="mt-1.5 flex items-center gap-2">
+              <Stars
+                value={rating}
+                label={t("shop.productRatingLabel", { rating, reviewsCount })}
+              />
+              <span className="text-sm text-[var(--color-text-secondary)]">
+                {rating.toFixed(1)}{" "}
+                <span className="text-[var(--color-text-disabled)]">
+                  ({formatNumber(reviewsCount)})
+                </span>
               </span>
-            </span>
-          </div>
+            </div>
+          )}
         </div>
         <div className="flex flex-wrap items-baseline gap-2">
           <p className="font-display text-2xl font-bold text-[var(--color-text-primary)]">

@@ -18,7 +18,7 @@ export default function useShopFilters(products) {
   const [searchQuery, setSearchQuery] = useState("");
   const [minPrice, setMinPrice] = useState("");
   const [maxPrice, setMaxPrice] = useState("");
-  const [, setSortBy] = useState("Default");
+  const [sortBy, setSortBy] = useState("Default");
   const [viewMode, setViewMode] = useState("grid");
   const [isMobileFilterOpen, setIsMobileFilterOpen] = useState(false);
 
@@ -101,6 +101,7 @@ export default function useShopFilters(products) {
     setMinPrice,
     maxPrice,
     setMaxPrice,
+    sortBy,
     changeSort,
     applied,
     selectCategory,

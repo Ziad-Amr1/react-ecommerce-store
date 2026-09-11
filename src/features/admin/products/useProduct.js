@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useRef, useState } from "react";
-import { getProduct } from "./product.service";
+import { getProduct } from "@/services/product.service";
 
 export default function useProduct(productId) {
   const [product, setProduct] = useState(null);

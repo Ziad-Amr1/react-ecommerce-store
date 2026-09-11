@@ -29,6 +29,8 @@ function App() {
       <Routes>
         <Route element={<StoreLayout />}>
           <Route path="/" element={<Landing />} />
+          <Route path="/products" element={<Shop />} />
+          <Route path="/products/:id" element={<ProductDetails />} />
           <Route path="/profile" element={<Profile />} />
         </Route>
         <Route
@@ -55,7 +57,6 @@ function App() {
         <Route path="/register" element={<Registration />} />
         <Route path="/forgot-password" element={<ForgetPassword />} />
         <Route path="/:flow/verify-otp" element={<VerifyOtp />} />
-        <Route path="/products" element={<Shop />} />
 
         {/* Start of Protected Admin Routes  */}
         <Route path="/admin/*" element={<ProtectedRoute />}>

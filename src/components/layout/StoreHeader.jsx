@@ -32,7 +32,11 @@ export default function StoreHeader() {
           aria-label={t("store.header.navLabel")}
           className="hidden items-center gap-1 md:flex"
         >
-          <Button asChild variant="ghost" className="rounded-full cursor-pointer">
+          <Button
+            asChild
+            variant="ghost"
+            className="rounded-full cursor-pointer"
+          >
             <Link to="/">{t("store.header.nav.home")}</Link>
           </Button>
           <ComingSoonButton variant="ghost">
@@ -79,13 +83,26 @@ export default function StoreHeader() {
             )}
           </Button>
 
-          <ComingSoonButton variant="outline" size="icon" className="rounded-full">
+          <ComingSoonButton
+            variant="outline"
+            size="icon"
+            className="rounded-full"
+          >
             <ShoppingCart size={20} aria-hidden="true" />
             <span className="sr-only">{t("store.header.cart")}</span>
           </ComingSoonButton>
 
-          <Button asChild variant="outline" size="icon" className="rounded-full cursor-pointer">
-            <Link to="/profile" aria-label={t("store.header.account")} title={t("store.header.account")}>
+          <Button
+            asChild
+            variant="outline"
+            size="icon"
+            className="rounded-full cursor-pointer"
+          >
+            <Link
+              to="/profile"
+              aria-label={t("store.header.account")}
+              title={t("store.header.account")}
+            >
               <UserRound size={20} aria-hidden="true" />
             </Link>
           </Button>

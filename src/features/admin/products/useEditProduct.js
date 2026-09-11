@@ -3,7 +3,7 @@ import { useNavigate, useParams } from "react-router";
 import { useTranslation } from "react-i18next";
 import { toast } from "sonner";
 import { MAX_IMAGES } from "./constants";
-import { getProduct, updateProduct } from "./product.service";
+import { getProduct, updateProduct } from "@/services/product.service";
 import { createProductFormData } from "./utils/productFormData";
 import { validateProduct } from "./utils/productValidation";
 
@@ -139,7 +139,9 @@ export default function useEditProduct() {
   const handleDeleteExistingImage = (image) => {
     setDeletedImages((current) => [...current, image.public_id]);
     setImages((current) =>
-      current.filter((currentImage) => currentImage.public_id !== image.public_id),
+      current.filter(
+        (currentImage) => currentImage.public_id !== image.public_id,
+      ),
     );
   };
 

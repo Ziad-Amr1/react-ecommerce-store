@@ -3,7 +3,7 @@ import { useNavigate } from "react-router";
 import { useTranslation } from "react-i18next";
 import { toast } from "sonner";
 import { MAX_IMAGES } from "./constants";
-import { createProduct } from "./product.service";
+import { createProduct } from "@/services/product.service";
 import { createProductFormData } from "./utils/productFormData";
 import { validateProduct } from "./utils/productValidation";
 
@@ -60,7 +60,9 @@ export default function useAddProduct() {
   };
 
   const removeImage = (index) => {
-    setImages((current) => current.filter((_, imageIndex) => imageIndex !== index));
+    setImages((current) =>
+      current.filter((_, imageIndex) => imageIndex !== index),
+    );
   };
 
   const handleSubmit = async (event) => {

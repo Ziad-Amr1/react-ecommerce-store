@@ -1,4 +1,5 @@
 import { useEffect } from "react";
+import { useSearchParams } from "react-router";
 import { useTranslation } from "react-i18next";
 import { SlidersHorizontal, ShoppingBag } from "lucide-react";
 
@@ -25,15 +26,19 @@ export default function Shop() {
     fetchProducts,
   } = useProducts();
 
+  const [searchParams, setSearchParams] = useSearchParams();
+
   // استدعاء Hook الفلاتر والمنطق
   const filters = useShopFilters(products);
 
   useEffect(() => {
-    fetchProducts(1);
-  }, [fetchProducts]);
+    const pageFromUrl = Number(searchParams.get("page")) || 1;
+
+    fetchProducts(pageFromUrl);
+  }, [searchParams, fetchProducts]);
 
   const handlePageChange = (page) => {
-    fetchProducts(page);
+    setSearchParams({ page: String(page) });
   };
 
   return (
@@ -130,7 +135,7 @@ export default function Shop() {
                   Failed to load products
                 </h3>
                 <Button
-                  onClick={() => fetchProducts(1)}
+                  onClick={() => fetchProducts(currentPage)}
                   className="mt-4"
                   variant="outline"
                   size="sm"

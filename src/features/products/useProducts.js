@@ -1,5 +1,5 @@
 import { useState, useCallback } from "react";
-import { getAllProducts } from "./products.service";
+import { getProducts } from "@/services/product.service";
 
 const useProducts = () => {
   const [products, setProducts] = useState([]);
@@ -21,7 +21,7 @@ const useProducts = () => {
         setIsPaginationLoading(true);
       }
 
-      const data = await getAllProducts({
+      const data = await getProducts({
         page,
         limit: 12,
       });

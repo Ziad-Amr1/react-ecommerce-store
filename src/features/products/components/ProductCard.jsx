@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { useNavigate } from "react-router";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import {
@@ -46,6 +47,7 @@ function Stars({ value, label }) {
 
 export default function ProductCard({ product }) {
   const { t } = useTranslation();
+  const navigate = useNavigate();
   const [wishlisted, setWishlisted] = useState(false);
   const images = product.images?.filter((image) => image?.url) ?? [];
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
@@ -61,6 +63,27 @@ export default function ProductCard({ product }) {
   const salePercentage = Math.round(
     ((product.price - product.discountPrice) / product.price) * 100,
   );
+
+  //Comment should be removed after creating addToWishlist ,removeFromWishlist functions
+
+  // const handleWishlist = async () => {
+  //   try {
+  //     if (wishlisted) {
+  //       await removeFromWishlist(product._id);
+  //       setWishlisted(false);
+  //     } else {
+  //       await addToWishlist(product._id);
+  //       setWishlisted(true);
+  //     }
+  //   } catch (error) {
+  //     console.error(error);
+  //   }
+  // };
+
+  //Comment should be removed after creating useCart ,cart context
+
+  // const { addToCart } = useCart();
+
   const rating = product.averageRating ?? 0;
   const reviewsCount = product.numReviews ?? 0;
 
@@ -87,6 +110,7 @@ export default function ProductCard({ product }) {
         <img
           src={image}
           alt={product.name}
+          loading="lazy"
           className="h-full w-full object-cover"
         />
 
@@ -100,14 +124,14 @@ export default function ProductCard({ product }) {
           </Badge>
         )}
 
-        {/* Wishlist */}
         <Button
           type="button"
           variant="ghost"
           size="icon-sm"
-          aria-label="Add to wishlist"
+          aria-label={wishlisted ? "Remove from wishlist" : "Add to wishlist"}
           aria-pressed={wishlisted}
           onClick={() => setWishlisted((value) => !value)}
+          // onClick={handleWishlist}
           className="absolute top-3 right-3 z-40 bg-[var(--color-surface)]/80 hover:bg-[var(--color-surface)]"
         >
           <Heart
@@ -151,10 +175,10 @@ export default function ProductCard({ product }) {
           <div className="mt-1.5 flex items-center gap-2">
             <Stars
               value={rating}
-              label={t("shop.productRatingLabel", rating, reviewsCount)}
+              label={t("shop.productRatingLabel", { rating, reviewsCount })}
             />
             <span className="text-sm text-[var(--color-text-secondary)]">
-              {rating}{" "}
+              {rating.toFixed(1)}{" "}
               <span className="text-[var(--color-text-disabled)]">
                 ({formatNumber(reviewsCount)})
               </span>
@@ -201,11 +225,18 @@ export default function ProductCard({ product }) {
         </p>
 
         <div className="flex gap-2 pt-1">
-          <Button className="flex-1 bg-[var(--color-primary)] text-primary-foreground hover:bg-[var(--color-secondary)]">
+          <Button
+            className="flex-1 bg-[var(--color-primary)] text-primary-foreground hover:bg-[var(--color-secondary)]"
+            // onClick={() => addToCart(product)}
+          >
             <ShoppingCart aria-hidden="true" />
             {t("shop.addToCart")}
           </Button>
-          <Button variant="outline" aria-label="View product details">
+          <Button
+            variant="outline"
+            aria-label={`View details for ${product.name}`}
+            onClick={() => navigate(`/products/${product._id}`)}
+          >
             {t("shop.details")}
           </Button>
         </div>

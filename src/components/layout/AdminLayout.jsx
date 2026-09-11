@@ -43,9 +43,10 @@ export default function AdminLayout() {
   }, []);
 
   useEffect(() => {
+    const originalOverflow = document.body.style.overflow;
     document.body.style.overflow = isSidebarOpen ? "hidden" : "";
     return () => {
-      document.body.style.overflow = "";
+      document.body.style.overflow = originalOverflow;
     };
   }, [isSidebarOpen]);
 

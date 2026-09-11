@@ -1,3 +1,4 @@
+import { Link } from "react-router";
 import {
   PackageSearch,
   BanknoteArrowDown,
@@ -8,8 +9,8 @@ import {
 import { useTranslation } from "react-i18next";
 import heroImage from "../assets/hero.webp";
 import ProsCard from "./ProsCard";
-import ComingSoonButton from "./ComingSoonButton";
 import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
 
 const prosItems = [
   { key: "variety", icon: PackageSearch },
@@ -60,22 +61,22 @@ export default function LandingHero() {
               </p>
             </div>
 
-            {/* Dual CTAs: primary filled, secondary outline */}
+            {/* Dual CTAs: primary filled, secondary outline — both lead to the
+              real storefront catalog (/products, shipped with the shop PR). */}
             <div className="flex flex-col gap-3 sm:flex-row">
-              <ComingSoonButton className="px-8">
-                {t("landing.hero.shopNow")}
-              </ComingSoonButton>
+              <Button asChild className="px-8">
+                <Link to="/products">{t("landing.hero.shopNow")}</Link>
+              </Button>
 
-              <ComingSoonButton
-                variant="outline"
-                className="px-6"
-              >
-                {t("landing.hero.explore")}
-                <ArrowRight
-                  className="size-4 rtl:-scale-x-100"
-                  aria-hidden="true"
-                />
-              </ComingSoonButton>
+              <Button asChild variant="outline" className="px-6">
+                <Link to="/products">
+                  {t("landing.hero.explore")}
+                  <ArrowRight
+                    className="size-4 rtl:-scale-x-100"
+                    aria-hidden="true"
+                  />
+                </Link>
+              </Button>
             </div>
           </header>
 

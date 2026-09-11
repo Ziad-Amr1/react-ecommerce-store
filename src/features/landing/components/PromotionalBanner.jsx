@@ -1,7 +1,8 @@
+import { Link } from "react-router";
 import { ArrowRight } from "lucide-react";
 import { useTranslation } from "react-i18next";
+import { Button } from "@/components/ui/button";
 import bannerImage from "../assets/banner2.webp";
-import ComingSoonButton from "./ComingSoonButton";
 
 export default function PromotionalBanner() {
   const { t } = useTranslation();
@@ -46,13 +47,16 @@ export default function PromotionalBanner() {
           {t("landing.banner.description")}
         </p>
 
-        <ComingSoonButton
+        <Button
+          asChild
           variant="outline"
           className="mt-5 w-fit border-white/60 bg-white/0 text-white hover:bg-white/10 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
         >
-          {t("landing.banner.cta")}
-          <ArrowRight className="size-4 rtl:-scale-x-100" aria-hidden="true" />
-        </ComingSoonButton>
+          <Link to="/products">
+            {t("landing.banner.cta")}
+            <ArrowRight className="size-4 rtl:-scale-x-100" aria-hidden="true" />
+          </Link>
+        </Button>
       </div>
     </section>
   );

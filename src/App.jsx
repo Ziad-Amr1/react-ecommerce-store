@@ -73,7 +73,6 @@ function App() {
           </Route>
         </Route>
         {/* End of Protected Admin Routes  */}
-        <Route path="/" element={<Home />} />
         <Route path="/Cart" element={<Cart />} />
          <Route path="*" element={<NotFound />} />
       </Routes>

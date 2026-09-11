@@ -1,57 +1,39 @@
 import { useTranslation } from "react-i18next";
 import useDashboard from "@/features/admin/dashboard/useDashboard";
 
-import {
-  Card,
-  CardHeader,
-  CardDescription,
-} from "@/components/ui/card";
-
+import { Card, CardHeader, CardDescription } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import StatCard from "@/features/admin/dashboard/components/StatCard";
+import RevenueOverview from "@/features/admin/dashboard/components/RevenueOverview";
 import OrderStatus from "@/features/admin/dashboard/components/OrderStatus";
 import TopProducts from "@/features/admin/dashboard/components/TopProducts";
 import RecentOrders from "@/features/admin/dashboard/components/RecentOrders";
 import DashboardSkeleton from "@/features/admin/dashboard/components/DashboardSkeleton";
-import { formatCurrency } from "@/utils/formatCurrency";
 import { formatNumber } from "@/utils/formatNumber";
 
-import {
-  ShoppingBag,
-  Package,
-  Users,
-  DollarSign,
-  CalendarDays,
-  TrendingUp,
-  TrendingDown,
-  TriangleAlert,
-  Inbox,
-} from "lucide-react";
+import { ShoppingBag, Package, Users, TriangleAlert, Inbox } from "lucide-react";
 
-const CURRENCY = "USD";
-
-function formatGrowthPercent(value, locale) {
-  if (typeof value !== "number" || !Number.isFinite(value)) {
-    return null;
+function resolveErrorMessage(error, t) {
+  if (typeof error === "string" && error.length > 0) {
+    return error;
   }
 
-  const formatted = new Intl.NumberFormat(locale, {
-    maximumFractionDigits: 1,
-  }).format(Math.abs(value));
+  if (error && typeof error.key === "string") {
+    return t(error.key);
+  }
 
-  if (value > 0) return `+${formatted}%`;
-  if (value < 0) return `-${formatted}%`;
-  return "0%";
+  return t("dashboard.loadError");
 }
 
 export default function Dashboard() {
   const { t, i18n } = useTranslation();
-
   const { dashboard, loading, error, fetchDashboard } = useDashboard();
 
   if (loading && !dashboard) return <DashboardSkeleton />;
 
   if (error) {
+    const message = resolveErrorMessage(error, t);
+
     return (
       <div
         role="alert"
@@ -64,7 +46,7 @@ export default function Dashboard() {
           />
 
           <p className="text-sm font-medium leading-5 text-(--color-error)">
-            {error}
+            {message}
           </p>
         </div>
 
@@ -95,83 +77,27 @@ export default function Dashboard() {
     );
   }
 
-  const growthValue = dashboard.revenue.growthPercent;
-  const growthLabel = formatGrowthPercent(growthValue, i18n.language) ?? "—";
-  const growthIsNumber =
-    typeof growthValue === "number" && Number.isFinite(growthValue);
-  const growthPositive = growthIsNumber && growthValue > 0;
-  const growthNegative = growthIsNumber && growthValue < 0;
-
-  const cardList = [
+  const kpis = [
     {
-      id: 1,
-      cardTitle: t("dashboard.totalOrders"),
-      cardDescription: t("dashboard.totalOrdersDescription"),
-      cardNumber: formatNumber(dashboard.orders.total, i18n.language),
-      cardIcon: ShoppingBag,
-      borderClass: "border-t-(--color-primary)",
-      iconClass: "bg-(--color-primary) text-(--color-on-primary)",
+      id: "orders",
+      title: t("dashboard.totalOrders"),
+      description: t("dashboard.totalOrdersDescription"),
+      value: formatNumber(dashboard.orders.total, i18n.language),
+      icon: ShoppingBag,
     },
     {
-      id: 2,
-      cardTitle: t("dashboard.pendingOrders"),
-      cardDescription: t("dashboard.pendingOrderDescription"),
-      cardNumber: formatNumber(dashboard.orders.pending, i18n.language),
-      cardIcon: Package,
-      borderClass: "border-t-(--color-warning)",
-      iconClass: "bg-(--color-warning-bg) text-(--color-warning)",
+      id: "pending",
+      title: t("dashboard.pendingOrders"),
+      description: t("dashboard.pendingOrderDescription"),
+      value: formatNumber(dashboard.orders.pending, i18n.language),
+      icon: Package,
     },
     {
-      id: 3,
-      cardTitle: t("dashboard.totalRevenue"),
-      cardDescription: t("dashboard.totalRevenueDescription"),
-      cardNumber: formatCurrency(
-        dashboard.revenue.total,
-        CURRENCY,
-        i18n.language,
-      ),
-      cardIcon: DollarSign,
-      borderClass: "border-t-(--color-success)",
-      iconClass: "bg-(--color-success-bg) text-(--color-success)",
-    },
-    {
-      id: 4,
-      cardTitle: t("dashboard.thisMonthRevenue"),
-      cardDescription: t("dashboard.thisMonthRevenueDescription"),
-      cardNumber: formatCurrency(
-        dashboard.revenue.thisMonth,
-        CURRENCY,
-        i18n.language,
-      ),
-      cardIcon: CalendarDays,
-      borderClass: "border-t-(--color-text-secondary)",
-      iconClass: "bg-(--color-surface-secondary) text-(--color-text-secondary)",
-    },
-    {
-      id: 5,
-      cardTitle: t("dashboard.totalUsers"),
-      cardDescription: t("dashboard.totalUsersDescription"),
-      cardNumber: formatNumber(dashboard.totalCustomers, i18n.language),
-      cardIcon: Users,
-      borderClass: "border-t-(--color-info)",
-      iconClass: "bg-(--color-info-bg) text-(--color-info)",
-    },
-    {
-      id: 6,
-      cardTitle: t("dashboard.revenueGrowth"),
-      cardDescription: t("dashboard.revenueGrowthDescription"),
-      cardNumber: growthLabel,
-      cardIcon: growthNegative ? TrendingDown : TrendingUp,
-      borderClass: growthPositive
-        ? "border-t-(--color-success)"
-        : growthNegative
-          ? "border-t-(--color-error)"
-          : "border-t-(--color-text-secondary)",
-      iconClass: growthPositive
-        ? "bg-(--color-success-bg) text-(--color-success)"
-        : growthNegative
-          ? "bg-(--color-error-bg) text-(--color-error)"
-          : "bg-(--color-surface-secondary) text-(--color-text-secondary)",
+      id: "users",
+      title: t("dashboard.totalUsers"),
+      description: t("dashboard.totalUsersDescription"),
+      value: formatNumber(dashboard.totalCustomers, i18n.language),
+      icon: Users,
     },
   ];
 
@@ -193,18 +119,35 @@ export default function Dashboard() {
         </CardHeader>
       </Card>
 
-      <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 xl:grid-cols-4">
-        {cardList.map((card) => (
-          <StatCard
-            key={card.id}
-            title={card.cardTitle}
-            description={card.cardDescription}
-            value={card.cardNumber}
-            icon={card.cardIcon}
-            borderClass={card.borderClass}
-            iconClass={card.iconClass}
+      <div className="grid grid-cols-1 gap-6 lg:grid-cols-12">
+        <div className="lg:col-span-8">
+          <RevenueOverview
+            revenue={dashboard.revenue}
+            dailyRevenue={dashboard.dailyRevenue}
           />
-        ))}
+        </div>
+
+        <section
+          className="lg:col-span-4"
+          aria-labelledby="operational-heading"
+        >
+          <h2 id="operational-heading" className="sr-only">
+            {t("dashboard.adminOverview")}
+          </h2>
+
+          <ul className="flex flex-col gap-4 lg:h-full lg:justify-between">
+            {kpis.map((kpi) => (
+              <li key={kpi.id}>
+                <StatCard
+                  title={kpi.title}
+                  description={kpi.description}
+                  value={kpi.value}
+                  icon={kpi.icon}
+                />
+              </li>
+            ))}
+          </ul>
+        </section>
       </div>
 
       <div className="grid grid-cols-1 gap-6 lg:grid-cols-12">

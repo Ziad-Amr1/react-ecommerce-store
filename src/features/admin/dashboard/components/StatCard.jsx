@@ -1,39 +1,33 @@
 import {
   Card,
   CardContent,
-  CardDescription,
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
 
-export default function StatCard({
-  title,
-  description,
-  value,
-  icon: Icon,
-  borderClass,
-  iconClass,
-}) {
+export default function StatCard({ title, description, value, icon: Icon }) {
   return (
-    <Card className={`overflow-hidden border-t-4 shadow-sm ${borderClass}`}>
+    <Card className="h-full">
       <CardHeader>
-        <CardTitle className="font-display">{title}</CardTitle>
+        <div className="flex items-start justify-between gap-3">
+          <CardTitle className="font-display text-xs font-semibold uppercase tracking-[0.14em] text-(--color-text-secondary)">
+            {title}
+          </CardTitle>
 
-        <CardDescription>{description}</CardDescription>
+          <div className="flex size-9 shrink-0 items-center justify-center rounded-lg bg-(--color-surface-secondary) text-(--color-text-secondary)">
+            <Icon className="size-4" aria-hidden="true" />
+          </div>
+        </div>
       </CardHeader>
 
-      <CardContent className="flex items-end justify-between gap-4">
-        <div className="flex flex-col gap-1">
-          <p className="font-display wrap-break-word text-2xl font-bold tabular-nums">
-            {value}
-          </p>
-        </div>
+      <CardContent className="space-y-1.5">
+        <p className="font-display text-2xl font-bold tabular-nums wrap-break-word text-(--color-text-primary)">
+          {value}
+        </p>
 
-        <div
-          className={`flex size-14 shrink-0 items-center justify-center rounded-xl ${iconClass}`}
-        >
-          <Icon className="size-8" aria-hidden="true" />
-        </div>
+        <p className="text-xs leading-5 text-(--color-text-secondary)">
+          {description}
+        </p>
       </CardContent>
     </Card>
   );

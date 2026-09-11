@@ -1,10 +1,7 @@
 import { useCallback, useEffect, useRef, useState } from "react";
-import { useTranslation } from "react-i18next";
 import { getDashboard } from "./dashboard.service";
 
 const useDashboard = () => {
-  const { t } = useTranslation();
-
   const [dashboard, setDashboard] = useState(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
@@ -21,29 +18,23 @@ const useDashboard = () => {
       setError(null);
 
       const data = await getDashboard(controller.signal);
-
-      if (controller.signal.aborted) {
-        return;
-      }
+      if (controller.signal.aborted) return;
 
       setDashboard(data.dashboard);
     } catch (err) {
-      if (!controller.signal.aborted) {
-        setError(err?.response?.data?.message || t("dashboard.loadError"));
-      }
+      if (controller.signal.aborted) return;
+
+      // Store a structured error: either a server message (already a string)
+      // or a translation key the caller resolves.
+      const serverMessage = err?.response?.data?.message;
+      setError(serverMessage ?? { key: "dashboard.loadError" });
     } finally {
-      if (!controller.signal.aborted) {
-        setLoading(false);
-      }
+      if (!controller.signal.aborted) setLoading(false);
     }
-  }, [t]);
+  }, []);
 
   useEffect(() => {
-    // Defer the initial fetch out of the synchronous effect body so the
-    // fetch's setState calls run after the first render (react-hooks v7).
-    const timer = setTimeout(() => {
-      void fetchDashboard();
-    }, 0);
+    const timer = setTimeout(() => void fetchDashboard(), 0);
 
     return () => {
       clearTimeout(timer);

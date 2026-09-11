@@ -1,6 +1,7 @@
 import { useTranslation } from "react-i18next";
 import {
   Card,
+  CardAction,
   CardContent,
   CardHeader,
   CardTitle,
@@ -20,6 +21,8 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
+import { Link } from "react-router";
+import { ArrowRight } from "lucide-react";
 import { formatCurrency } from "@/utils/formatCurrency";
 import { formatDisplayDate } from "@/utils/formatDate";
 import {
@@ -33,16 +36,28 @@ export default function RecentOrders({ orders = [] }) {
   return (
     <Card>
       <CardHeader>
-        <CardTitle>{t("dashboard.recentOrders")}</CardTitle>
+        <CardTitle className="font-display text-base">
+          {t("dashboard.recentOrders")}
+        </CardTitle>
+
+        <CardAction>
+          <Link
+            to="/admin/orders"
+            className="inline-flex items-center gap-1 rounded-sm text-sm font-medium text-(--color-link) transition-colors hover:text-(--color-link-hover) focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-(--color-focus-ring)"
+          >
+            {t("navigation.orders")}
+            <ArrowRight className="size-3.5 rtl:rotate-180" aria-hidden="true" />
+          </Link>
+        </CardAction>
       </CardHeader>
 
       <CardContent>
         {orders.length === 0 ? (
-          <p className="py-4 text-sm text-muted-foreground">
+          <p className="py-8 text-center text-sm text-muted-foreground">
             {t("dashboard.noRecentOrders")}
           </p>
         ) : (
-          <TooltipProvider delayDuration={0}>
+          <TooltipProvider delayDuration={300}>
             <Table density="default">
               <TableHeader>
                 <TableRow>
@@ -103,9 +118,7 @@ export default function RecentOrders({ orders = [] }) {
                         }
                       >
                         {STATUS_PRESENTATION[order.status]
-                          ? t(
-                              STATUS_PRESENTATION[order.status].labelKey,
-                            )
+                          ? t(STATUS_PRESENTATION[order.status].labelKey)
                           : order.status}
                       </Badge>
                     </TableCell>

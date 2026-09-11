@@ -5,25 +5,24 @@ export function getProducts(params = {}, signal) {
 }
 
 export function getProduct(id, signal) {
+  if (!id) {
+    return Promise.reject(new Error("getProduct: missing product id"));
+  }
   return api.get(`/products/${id}`, { signal }).then((response) => response.data);
 }
 
-export function createProduct(formData) {
+export function createProduct(formData, signal) {
   return api
-    .post("/products", formData, {
-      headers: { "Content-Type": "multipart/form-data" },
-    })
+    .post("/products", formData, { signal })
     .then((response) => response.data);
 }
 
-export function updateProduct(id, formData) {
+export function updateProduct(id, formData, signal) {
   return api
-    .patch(`/products/update/${id}`, formData, {
-      headers: { "Content-Type": "multipart/form-data" },
-    })
+    .patch(`/products/update/${id}`, formData, { signal })
     .then((response) => response.data);
 }
 
-export function deleteProduct(id) {
-  return api.delete(`/products/${id}`).then((response) => response.data);
+export function deleteProduct(id, signal) {
+  return api.delete(`/products/${id}`, { signal }).then((response) => response.data);
 }

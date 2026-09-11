@@ -1,7 +1,12 @@
 import { useTranslation } from "react-i18next";
 import { lazy, Suspense, useRef, useState } from "react";
 
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import {
+  Card,
+  CardContent,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
 import { Skeleton } from "@/components/ui/skeleton";
 import {
@@ -21,7 +26,6 @@ export default function OrderStatus({ ordersByStatus = [], totalOrders = 0 }) {
 
   const handleSliceEnter = (index, event) => {
     setActiveIndex(index);
-
     const rect = chartRef.current?.getBoundingClientRect();
     if (rect) {
       setTooltipPos({
@@ -36,8 +40,6 @@ export default function OrderStatus({ ordersByStatus = [], totalOrders = 0 }) {
     setTooltipPos(null);
   };
 
-  // Fall back to the sum of counts so bars/percent stay proportional
-  // even if the total prop is missing or zero.
   const total =
     totalOrders > 0
       ? totalOrders
@@ -50,7 +52,6 @@ export default function OrderStatus({ ordersByStatus = [], totalOrders = 0 }) {
 
   const items = ordersByStatus
     .map((item) => {
-      // hasOwn avoids prototype-chain hits ("__proto__", "constructor")
       const presentation = Object.hasOwn(STATUS_PRESENTATION, item._id)
         ? STATUS_PRESENTATION[item._id]
         : undefined;
@@ -72,21 +73,19 @@ export default function OrderStatus({ ordersByStatus = [], totalOrders = 0 }) {
   return (
     <Card className="h-full">
       <CardHeader>
-        <CardTitle>{t("dashboard.orderStatus")}</CardTitle>
+        <CardTitle className="font-display text-base">
+          {t("dashboard.orderStatus")}
+        </CardTitle>
       </CardHeader>
 
       <CardContent>
         {items.length === 0 ? (
-          <p className="text-sm text-(--color-text-secondary)">
+          <p className="py-8 text-center text-sm text-(--color-text-secondary)">
             {t("dashboard.noStatusData")}
           </p>
         ) : (
           <div className="flex flex-col gap-6">
-            <div ref={chartRef} className="relative h-52">
-              {/* The list below is the accessible representation of this
-                  chart, so the chart itself is decorative.
-                  NB: size-full is required — Suspense renders no DOM node,
-                  and ResponsiveContainer needs a sized parent. */}
+            <div ref={chartRef} className="relative mx-auto h-48 w-48">
               <div aria-hidden="true" className="size-full">
                 <Suspense
                   fallback={<Skeleton className="size-full rounded-full" />}
@@ -100,11 +99,10 @@ export default function OrderStatus({ ordersByStatus = [], totalOrders = 0 }) {
                 </Suspense>
               </div>
 
-              <div className="pointer-events-none absolute inset-0 flex flex-col items-center justify-center gap-1">
+              <div className="pointer-events-none absolute inset-0 flex flex-col items-center justify-center gap-0.5">
                 <span className="font-display text-2xl font-bold tabular-nums">
                   {formatNumber(total, i18n.language)}
                 </span>
-
                 <span className="text-xs text-(--color-text-secondary)">
                   {t("dashboard.totalOrders")}
                 </span>
@@ -112,7 +110,7 @@ export default function OrderStatus({ ordersByStatus = [], totalOrders = 0 }) {
 
               {activeIndex !== null && tooltipPos !== null && (
                 <div
-                  className="pointer-events-none absolute z-30 rounded-lg border border-(--color-border) bg-(--color-surface-secondary) px-3 py-2 text-xs shadow-(--shadow-md)"
+                  className="pointer-events-none absolute z-30 rounded-lg border border-(--color-border) bg-(--color-surface) px-3 py-2 text-xs shadow-(--shadow-md)"
                   style={{
                     left: tooltipPos.x,
                     top: tooltipPos.y,
@@ -122,8 +120,7 @@ export default function OrderStatus({ ordersByStatus = [], totalOrders = 0 }) {
                   <p className="font-semibold text-(--color-text-primary)">
                     {items[activeIndex].label}
                   </p>
-
-                  <p className="mt-0.5 text-(--color-text-secondary)">
+                  <p className="mt-0.5 tabular-nums text-(--color-text-secondary)">
                     {formatNumber(items[activeIndex].count, i18n.language)} ·{" "}
                     {formatNumber(
                       Math.round(items[activeIndex].percent),
@@ -135,11 +132,11 @@ export default function OrderStatus({ ordersByStatus = [], totalOrders = 0 }) {
               )}
             </div>
 
-            <ul className="space-y-4">
+            <ul className="space-y-3">
               {items.map((item, index) => (
                 <li
                   key={item.id}
-                  className={`space-y-1.5 transition-opacity ${
+                  className={`space-y-1.5 rounded-md px-1 py-0.5 transition-opacity ${
                     activeIndex === null || index === activeIndex
                       ? "opacity-100"
                       : "opacity-45"
@@ -154,24 +151,19 @@ export default function OrderStatus({ ordersByStatus = [], totalOrders = 0 }) {
                         style={{ backgroundColor: item.fill }}
                         aria-hidden="true"
                       />
-
                       <span className="truncate text-sm">{item.label}</span>
                     </span>
 
                     <span className="flex shrink-0 items-baseline gap-2">
-                      <span className="text-sm font-semibold tabular-nums font-display">
+                      <span className="text-sm font-semibold tabular-nums">
                         {formatNumber(item.count, i18n.language)}
                       </span>
-
-                      <span className="text-xs tabular-nums text-(--color-text-secondary) font-display">
+                      <span className="text-xs tabular-nums text-(--color-text-secondary)">
                         {item.percentLabel}
                       </span>
                     </span>
                   </div>
 
-                  {/* TODO: move this rule into the Progress component so
-                      RTL support isn't every caller's job. Verify it matches
-                      how your Progress positions its indicator. */}
                   <div className="rtl:-scale-x-100">
                     <Progress
                       value={item.percent}

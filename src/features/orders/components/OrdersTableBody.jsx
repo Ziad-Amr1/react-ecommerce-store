@@ -1,15 +1,14 @@
 
-import React from 'react'
+
 import { useTranslation } from "react-i18next";
 import { formatDisplayDate } from "@/utils/formatDate";
 import {Badge} from '@/components/ui/badge'
 import { formatCurrency } from "@/utils/formatCurrency";
 import {
-  Table,
-  TableHeader,
+ 
   TableBody,
   TableRow,
-  TableHead,
+  
   TableCell,
 } from "@/components/ui/table";
 
@@ -17,7 +16,7 @@ import {
   Tooltip,
   TooltipTrigger,
   TooltipContent,
-  TooltipProvider,
+ 
 } from "@/components/ui/tooltip";
 
 const OrdersTableBody = ({ orders, onRowClick, renderStatusBadge }) => {

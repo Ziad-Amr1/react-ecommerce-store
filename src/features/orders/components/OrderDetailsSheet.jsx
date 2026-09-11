@@ -1,5 +1,7 @@
-import { toast } from "react-toastify";
-import React, { useEffect, useState } from "react";
+
+
+import { useState } from "react";
+import { toast } from "sonner";
 import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
 import {
@@ -26,17 +28,18 @@ const OrderDetailsSheet = ({
   setOrders,
   renderStatusBadge,
 }) => {
-  const [updatedStatus, setUpdatedStatus] = useState("");
-  const [note, setNote] = useState("");
+  const [prevOrderId, setPrevOrderId] = useState(selectedOrder?._id);
+  const [updatedStatus, setUpdatedStatus] = useState(
+    selectedOrder?.status || "processing",
+  );
+  const [note, setNote] = useState(selectedOrder?.adminNote || "");
   const [isSaving, setIsSaving] = useState(false);
 
-  // Update the local fields whenever another order is selected
-  useEffect(() => {
-    if (selectedOrder) {
-      setUpdatedStatus(selectedOrder.status || "processing");
-      setNote(selectedOrder.adminNote || "");
-    }
-  }, [selectedOrder]);
+  if (selectedOrder && selectedOrder._id !== prevOrderId) {
+    setPrevOrderId(selectedOrder._id);
+    setUpdatedStatus(selectedOrder.status || "processing");
+    setNote(selectedOrder.adminNote || "");
+  }
 
   // Save order changes
   const handleSaveChanges = async () => {

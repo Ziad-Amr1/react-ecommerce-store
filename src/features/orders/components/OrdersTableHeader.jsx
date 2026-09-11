@@ -1,4 +1,4 @@
-import React from 'react'
+
 import { useTranslation } from "react-i18next";
 
 import { TableHeader, TableRow, TableHead } from "@/components/ui/table";

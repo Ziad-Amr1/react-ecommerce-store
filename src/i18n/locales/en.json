@@ -166,6 +166,7 @@
     "comingSoon": "This feature isn't implemented yet. It is planned for an upcoming release."
   },
   "shop": {
+    "title": "Shop",
     "off": "% off",
     "separator": "·",
     "productRatingLabel": "{{rating}} out of 5 stars, {{reviewsCount}} reviews",

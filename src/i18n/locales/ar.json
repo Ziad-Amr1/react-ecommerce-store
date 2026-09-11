@@ -1,0 +1,517 @@
+{
+  "common": {
+    "loading": "جارٍ التحميل...",
+    "checkingSession": "جارٍ التحقق من الجلسة...",
+    "yes": "نعم",
+    "no": "لا"
+  },
+  "brand": {
+    "logoAlt": "شعار متجر Oversea Store",
+    "name": "Oversea Store"
+  },
+  "navigation": {
+    "menu": {
+      "open": "فتح قائمة التنقل",
+      "close": "إغلاق قائمة التنقل"
+    },
+    "adminPanel": "لوحة التحكم",
+    "backToStore": "العودة إلى المتجر",
+    "dashboardTitle": "لوحة تحكم Oversea",
+    "dashboardSubtitle": "لوحة إدارة التجارة الإلكترونية",
+    "dashboard": "لوحة التحكم",
+    "products": "المنتجات",
+    "orders": "الطلبات",
+    "users": "المستخدمون",
+    "carts": "السلال",
+    "settings": "الإعدادات",
+    "notifications": "الإشعارات",
+    "notificationsPanel": {
+      "title": "الإشعارات",
+      "emptyTitle": "لا توجد إشعارات بعد",
+      "emptyMessage": "عندما تصل إليك إشعارات، ستظهر هنا."
+    },
+    "toggleTheme": "تبديل المظهر",
+    "theme": {
+      "switchToDark": "التبديل إلى الوضع الداكن",
+      "switchToLight": "التبديل إلى الوضع الفاتح"
+    },
+    "collapseSidebar": "طي الشريط الجانبي",
+    "expandSidebar": "توسيع الشريط الجانبي",
+    "account": "الحساب",
+    "accountDropdown": "قائمة الحساب",
+    "roleAdmin": "مدير",
+    "apiChecking": "جارٍ التحقق من الـ API…",
+    "apiOnline": "الـ API متاح",
+    "apiUnavailable": "الـ API غير متاح",
+    "apiLabel": "واجهة API للتجارة الإلكترونية"
+  },
+  "languages": {
+    "switcherLabel": "اختر اللغة",
+    "en": "الإنجليزية"
+  },
+  "auth": {
+    "password": {
+      "show": "إظهار كلمة المرور",
+      "hide": "إخفاء كلمة المرور"
+    },
+    "back": {
+      "toPrevious": "رجوع"
+    },
+    "login": {
+      "heroTitle": "تجربة تسوق أفضل تبدأ من هنا",
+      "heroSubtitle": "تسوق، وتابع طلباتك، وأدر حسابك بسهولة تامة.",
+      "title": "مرحبًا بعودتك",
+      "subtitle": "سجّل الدخول إلى لوحة تحكم المدير",
+      "emailLabel": "البريد الإلكتروني",
+      "emailPlaceholder": "admin@gmail.com",
+      "passwordLabel": "كلمة المرور",
+      "passwordPlaceholder": "••••••••",
+      "submit": "تسجيل الدخول",
+      "submitting": "جارٍ تسجيل الدخول...",
+      "forgotPassword": "هل نسيت كلمة المرور؟",
+      "noAccount": "ليس لديك حساب؟",
+      "signUp": "إنشاء حساب"
+    },
+    "forgetPassword": {
+      "title": "نسيت كلمة المرور؟",
+      "subtitle": "أدخل بريدك الإلكتروني وسنرسل لك رمز التحقق.",
+      "emailLabel": "البريد الإلكتروني",
+      "emailPlaceholder": "admin@gmail.com",
+      "submit": "إرسال رمز التحقق",
+      "submitting": "جارٍ إرسال رمز التحقق...",
+      "failed": "فشل إرسال رمز التحقق. حاول مرة أخرى.",
+      "backToLogin": "العودة إلى تسجيل الدخول"
+    },
+    "verifyOtp": {
+      "title": "التحقق من الرمز",
+      "subtitle": "أدخل الرمز المكوّن من 6 أرقام المُرسل إلى {{email}} وحدد كلمة مرور جديدة.",
+      "otpLabel": "رمز التحقق",
+      "otpPlaceholder": "123456",
+      "newPasswordLabel": "كلمة المرور الجديدة",
+      "newPasswordPlaceholder": "••••••••",
+      "submit": "إعادة تعيين كلمة المرور",
+      "submitting": "جارٍ إعادة تعيين كلمة المرور...",
+      "failed": "فشلت إعادة التعيين. حاول مرة أخرى.",
+      "backToForgot": "العودة إلى صفحة نسيت كلمة المرور",
+      "successTitle": "تم تحديث كلمة المرور",
+      "successMessage": "تمت إعادة تعيين كلمة المرور بنجاح. يمكنك الآن تسجيل الدخول بكلمة المرور الجديدة.",
+      "goToLogin": "الانتقال إلى تسجيل الدخول"
+    },
+    "register": {
+      "title": "إنشاء حساب",
+      "subtitle": "سجّل للبدء",
+      "usernameLabel": "اسم المستخدم",
+      "usernamePlaceholder": "johndoe",
+      "emailLabel": "البريد الإلكتروني",
+      "emailPlaceholder": "you@example.com",
+      "phoneLabel": "رقم الهاتف (اختياري)",
+      "phonePlaceholder": "+201234567890",
+      "passwordLabel": "كلمة المرور",
+      "passwordPlaceholder": "••••••••",
+      "passwordHint": "يجب ألا يقل عن 6 أحرف.",
+      "confirmPasswordLabel": "تأكيد كلمة المرور",
+      "confirmPasswordPlaceholder": "••••••••",
+      "submit": "إنشاء الحساب",
+      "submitting": "جارٍ إنشاء الحساب...",
+      "failed": "فشل التسجيل. حاول مرة أخرى.",
+      "alreadyHaveAccount": "لديك حساب بالفعل؟",
+      "signIn": "تسجيل الدخول"
+    },
+    "registerVerifyOtp": {
+      "title": "تحقق من بريدك الإلكتروني",
+      "subtitle": "أدخل الرمز المكوّن من 6 أرقام المُرسل إلى {{email}} لتفعيل حسابك.",
+      "otpLabel": "رمز التحقق",
+      "otpPlaceholder": "123456",
+      "submit": "التحقق وإنشاء الحساب",
+      "submitting": "جارٍ التحقق...",
+      "failed": "فشل التحقق. حاول مرة أخرى.",
+      "backToRegister": "العودة إلى إنشاء الحساب",
+      "successTitle": "تم إنشاء الحساب",
+      "successMessage": "تم إنشاء حسابك بنجاح. يمكنك الآن تسجيل الدخول.",
+      "goToLogin": "الانتقال إلى تسجيل الدخول"
+    },
+    "benefits": {
+      "products": "تسوق سهل",
+      "orders": "تتبع الطلبات",
+      "customers": "حساب آمن"
+    },
+    "logout": {
+      "label": "تسجيل الخروج",
+      "loading": "جارٍ تسجيل الخروج...",
+      "loadingLabel": "جارٍ تسجيل الخروج"
+    },
+    "errors": {
+      "invalidCredentials": "البريد الإلكتروني أو كلمة المرور غير صحيحة",
+      "logoutFailed": "فشل تسجيل الخروج. حاول مرة أخرى."
+    }
+  },
+  "validation": {
+    "emailRequired": "البريد الإلكتروني مطلوب",
+    "emailInvalid": "يرجى إدخال بريد إلكتروني صحيح",
+    "passwordRequired": "كلمة المرور مطلوبة",
+    "passwordMin": "يجب أن تتكون كلمة المرور من {{count}} أحرف على الأقل",
+    "confirmPasswordRequired": "يرجى تأكيد كلمة المرور",
+    "confirmPasswordMismatch": "كلمتا المرور غير متطابقتين",
+    "otpRequired": "يرجى إدخال الرمز المكوّن من 6 أرقام",
+    "usernameRequired": "اسم المستخدم مطلوب",
+    "usernameMin": "يجب ألا يقل اسم المستخدم عن {{count}} أحرف",
+    "phoneInvalid": "يرجى إدخال رقم هاتف صحيح"
+  },
+  "dashboard": {
+    "title": "صفحة لوحة التحكم",
+    "loading": "جارٍ تحميل لوحة التحكم...",
+    "loadError": "تعذر تحميل بيانات لوحة التحكم.",
+    "retry": "إعادة المحاولة",
+    "noData": "لا توجد بيانات للوحة التحكم.",
+    "noProducts": "لا توجد منتجات",
+
+    "orderStatus": "حالة الطلبات",
+    "recentOrders": "الطلبات الأخيرة",
+    "topProducts": "أفضل المنتجات",
+    "totalSold": "تم بيع {{count}}",
+    "noRecentOrders": "لا توجد طلبات حديثة بعد",
+    "noStatusData": "لا توجد بيانات حالة بعد",
+    "orderId": "رقم الطلب",
+    "customer": "العميل",
+    "total": "الإجمالي",
+    "status": "الحالة",
+    "date": "التاريخ",
+    "statusLabels": {
+      "pending": "قيد الانتظار",
+      "processing": "قيد المعالجة",
+      "confirmed": "مؤكَّد",
+      "shipped": "تم الشحن",
+      "delivered": "تم التسليم",
+      "cancelled": "ملغي",
+      "returned": "مُرجَع"
+    },
+
+    "adminOverview": "نظرة عامة للمدير",
+    "commerceHealth": "صحة التجارة",
+    "commerceHealthDescription": "راقب أداء متجرك وإحصاءاته الرئيسية.",
+
+    "totalOrders": "إجمالي الطلبات",
+    "totalOrdersDescription": "جميع الطلبات المستلمة",
+
+    "pendingOrders": "الطلبات قيد الانتظار",
+    "pendingOrderDescription": "طلبات بانتظار المعالجة",
+
+    "totalRevenue": "إجمالي الإيرادات",
+    "totalRevenueDescription": "إجمالي الإيرادات الكلية",
+
+    "thisMonthRevenue": "إيرادات هذا الشهر",
+    "thisMonthRevenueDescription": "الإيرادات المحققة في الشهر الحالي",
+
+    "revenueGrowth": "نمو الإيرادات",
+    "revenueGrowthDescription": "معدل التغير في إجمالي الإيرادات",
+
+    "totalUsers": "المستخدمون",
+    "totalUsersDescription": "إجمالي العملاء المسجلين"
+  },
+  "products": {
+    "title": "المنتجات",
+    "description": "أدر الكتالوج الخاص بك — ابحث، صفِّ، وراقب مستويات المخزون.",
+    "loadErrorTitle": "حدث خطأ ما",
+    "loadErrorHint": "تعذر تحميل المنتجات. حاول مرة أخرى.",
+    "loadProductFailed": "تعذر تحميل هذا المنتج. حاول مرة أخرى.",
+    "notFound": "المنتج غير موجود.",
+    "retry": "إعادة المحاولة",
+    "searchPlaceholder": "ابحث عن المنتجات بالاسم أو رمز SKU...",
+    "clearSearch": "مسح البحث",
+    "filtersButton": "التصفية",
+    "filtersTitle": "التصفية",
+    "filtersSubtitle": "حصر قائمة المنتجات.",
+    "addProduct": "إضافة منتج",
+    "addTitle": "إضافة منتج",
+    "addDescription": "أدخل تفاصيل المنتج وارفع حتى 5 صور.",
+    "editTitle": "تعديل المنتج",
+    "editDescription": "تحديث تفاصيل المنتج وصوره.",
+    "editProduct": "تعديل المنتج",
+    "viewProduct": "عرض المنتج",
+    "deleteProduct": "حذف المنتج",
+    "detailsTitle": "تفاصيل المنتج",
+    "backToList": "العودة إلى المنتجات",
+    "created": "تم إنشاء المنتج بنجاح",
+    "createFailed": "فشل إنشاء المنتج. حاول مرة أخرى.",
+    "updated": "تم تحديث المنتج بنجاح",
+    "updateFailed": "فشل تحديث المنتج. حاول مرة أخرى.",
+    "deleted": "تم حذف المنتج بنجاح",
+    "deleteFailed": "فشل حذف المنتج. حاول مرة أخرى.",
+    "createProduct": "إنشاء المنتج",
+    "creating": "جارٍ الإنشاء...",
+    "saveChanges": "حفظ التغييرات",
+    "saving": "جارٍ الحفظ...",
+    "cancel": "إلغاء",
+    "discard": "التخلي عن التغييرات",
+    "saveNow": "حفظ الآن",
+    "unsavedTitle": "تغييرات غير محفوظة",
+    "unsavedDescription": "لديك تغييرات غير محفوظة. هل تريد المغادرة دون حفظها؟",
+    "validationNotice": "يرجى تصحيح الحقول المظللة والمحاولة مرة أخرى.",
+    "maxImages": "يمكنك رفع حتى {{max}} صور كحد أقصى.",
+    "onlySomeImages": "تم تخطي بعض الملفات لأن نوعها ليس من أنواع الصور المدعومة.",
+    "nameExists": "يوجد منتج بهذا الاسم بالفعل. استخدم اسمًا مختلفًا.",
+    "skuExists": "رمز SKU هذا مستخدم بالفعل. استخدم رمزًا مختلفًا.",
+    "uploadImages": "رفع الصور",
+    "uploadImagesHint": "PNG أو JPG، حتى 5 ملفات",
+    "imageCount": "{{count}} / {{max}} صور",
+    "imagePreviewAlt": "معاينة الصورة {{index}}",
+    "newImagePreviewAlt": "معاينة الصورة الجديدة {{index}}",
+    "mainImage": "رئيسية",
+    "removeImage": "إزالة الصورة",
+    "selectImage": "عرض الصورة {{index}}",
+    "noImage": "لا توجد صورة",
+    "active": "نشط",
+    "inactive": "غير نشط",
+    "featured": "مميز",
+    "stockUnits": "{{count}} في المخزون",
+    "discountOff": "خصم {{percent}}%",
+    "deleteTitle": "حذف المنتج",
+    "deleteDescription": "سيؤدي هذا إلى حذف \"{{name}}\" نهائيًا. لا يمكن التراجع عن هذا الإجراء.",
+    "delete": "حذف",
+    "deleting": "جارٍ الحذف...",
+    "clearQuery": "مسح الاستعلام",
+    "noProductsFound": "لا توجد منتجات",
+    "noProductsHint": "جرّب تعديل البحث أو عوامل التصفية.",
+    "columns": {
+      "product": "المنتج",
+      "brand": "العلامة التجارية",
+      "category": "الفئة",
+      "price": "السعر",
+      "stock": "المخزون",
+      "actions": "إجراءات"
+    },
+    "pagination": {
+      "previous": "الصفحة السابقة",
+      "next": "الصفحة التالية"
+    },
+    "fields": {
+      "name": "الاسم",
+      "shortDescription": "وصف مختصر",
+      "description": "الوصف",
+      "price": "السعر",
+      "discountPrice": "سعر الخصم",
+      "stock": "المخزون",
+      "sku": "SKU",
+      "category": "الفئة",
+      "subcategory": "الفئة الفرعية",
+      "brand": "العلامة التجارية",
+      "tags": "الوسوم",
+      "minPrice": "الحد الأدنى للسعر",
+      "maxPrice": "الحد الأقصى للسعر",
+      "sort": "الترتيب حسب",
+      "featured": "مميز",
+      "status": "الحالة",
+      "slug": "Slug"
+    },
+    "placeholders": {
+      "name": "مثال: سماعات رأس لاسلكية",
+      "shortDescription": "ملخص قصير يظهر في القوائم",
+      "description": "التفاصيل الكاملة والميزات والمواصفات",
+      "sku": "مثال: SKU-001",
+      "category": "مثال: إلكترونيات",
+      "subcategory": "مثال: صوتيات",
+      "brand": "مثال: TechNova"
+    },
+    "sections": {
+      "productInformation": "معلومات المنتج",
+      "basicInformation": "المعلومات الأساسية",
+      "basicInformationHint": "تحديث الحقول الأساسية للمنتج",
+      "gallery": "معرض الصور",
+      "description": "الوصف",
+      "tags": "الوسوم"
+    },
+    "validation": {
+      "nameRequired": "اسم المنتج مطلوب",
+      "shortDescriptionRequired": "الوصف المختصر مطلوب",
+      "shortDescriptionMin": "يجب ألا يقل الوصف المختصر عن {{count}} أحرف",
+      "descriptionRequired": "الوصف مطلوب",
+      "descriptionMin": "يجب ألا يقل الوصف عن {{count}} أحرف",
+      "priceRequired": "السعر مطلوب",
+      "pricePositive": "يجب أن يكون السعر أكبر من صفر",
+      "discountPricePositive": "يجب أن يكون سعر الخصم أكبر من صفر",
+      "discountPriceLower": "يجب أن يكون سعر الخصم أقل من السعر العادي",
+      "stockRequired": "المخزون مطلوب",
+      "stockNonNegative": "لا يمكن أن يكون المخزون سالبًا",
+      "categoryRequired": "الفئة مطلوبة",
+      "imageRequired": "مطلوب صورة واحدة على الأقل"
+    },
+    "sort": {
+      "default": "الترتيب الافتراضي"
+    },
+    "filters": {
+      "categoryPlaceholder": "أي فئة",
+      "brandPlaceholder": "أي علامة تجارية",
+      "apply": "تطبيق التصفية",
+      "clear": "مسح"
+    },
+    "tagsPlaceholder": "اكتب وسمًا واضغط Enter",
+    "removeTag": "إزالة الوسم {{tag}}"
+  },
+  "landing": {
+    "comingSoon": "سيأتي قريبًا في إصدار قادم.",
+    "hero": {
+      "title": "ارتقِ بأسلوب حياتك",
+      "subPre": "مع",
+      "subHighlight": "منتجات فاخرة",
+      "description": "اكتشف منتجات مختارة بعناية، صُممت للجودة والأناقة والراحة اليومية.",
+      "shopNow": "تسوق الآن",
+      "explore": "استكشف المجموعة",
+      "imageAlt": "قسم رئيسي يعرض منتجات مميزة لتحسين نمط الحياة",
+      "badge": "تخفيضات",
+      "ratingAria": "التقييم {{rating}} من 5",
+      "trustedBy": "يثق بنا {{count}} من العملاء",
+      "pros": {
+        "variety": {
+          "title": "تنوع المنتجات",
+          "desc": "يلبي جميع احتياجاتك"
+        },
+        "returns": {
+          "title": "سهولة الإرجاع",
+          "desc": "سياسة إرجاع خلال 30 يومًا"
+        },
+        "secure": {
+          "title": "مدفوعات آمنة",
+          "desc": "إتمام شراء آمن 100%"
+        },
+        "support": {
+          "title": "دعم على مدار الساعة",
+          "desc": "نحن هنا لمساعدتك"
+        }
+      }
+    },
+    "featured": {
+      "title": "منتجات مميزة",
+      "viewAll": "عرض جميع المنتجات",
+      "loading": "جارٍ تحميل المنتجات المميزة...",
+      "emptyTitle": "لا توجد منتجات مميزة بعد",
+      "emptyHint": "عد لاحقًا للاطلاع على المنتجات المختارة بعناية.",
+      "errorTitle": "تعذر تحميل المنتجات المميزة",
+      "errorHint": "حدث خطأ ما أثناء تحميل المنتجات المميزة.",
+      "retry": "إعادة المحاولة",
+      "imageAlt": "صورة منتج {{name}}",
+      "untitled": "منتج بدون اسم",
+      "discountOff": "-{{percent}}%",
+      "eyebrow": "مختارة لك بعناية",
+      "cardAriaLabel": "عرض {{name}}",
+      "toggleWishlist": "أضف {{name}} إلى قائمة المفضلة",
+      "ratingAria": "التقييم {{rating}} من 5، {{count}} من التقييمات"
+    },
+    "categories": {
+      "title": "الفئات",
+      "viewAll": "عرض جميع الفئات",
+      "shopNow": "تسوق الآن",
+      "names": {
+        "electronics": "الإلكترونيات",
+        "homeLiving": "المنزل والمعيشة",
+        "accessories": "الإكسسوارات",
+        "sunglasses": "النظارات الشمسية",
+        "beauty": "الجمال",
+        "fashion": "الأزياء"
+      }
+    },
+    "banner": {
+      "label": "تخفيضات الصيف",
+      "headline": "خصم يصل إلى 30%",
+      "description": "على منتجات محددة. لفترة محدودة فقط!",
+      "cta": "تسوق التخفيضات",
+      "imageAlt": "لافتة ترويجية لتخفيضات الصيف"
+    },
+    "newsletter": {
+      "title": "اشترك في نشرتنا البريدية",
+      "description": "احصل على آخر التحديثات حول المنتجات الجديدة والعروض الحصرية",
+      "emailLabel": "البريد الإلكتروني",
+      "emailPlaceholder": "name@example.com",
+      "subscribe": "اشتراك"
+    }
+  },
+  "store": {
+    "header": {
+      "navLabel": "تنقل المتجر",
+      "nav": {
+        "home": "الرئيسية",
+        "shop": "المتجر",
+        "about": "حول المتجر"
+      },
+      "account": "الحساب",
+      "cart": "السلة",
+      "adminLink": "لوحة التحكم"
+    },
+    "footer": {
+      "tagline": "منتجات مختارة بعناية لحياة يومية أفضل.",
+      "rights": "جميع الحقوق محفوظة.",
+      "groups": {
+        "shop": "المتجر",
+        "support": "الدعم"
+      },
+      "links": {
+        "home": "الرئيسية",
+        "catalog": "الكتالوج",
+        "newArrivals": "وصل حديثًا",
+        "sale": "التخفيضات",
+        "helpCenter": "مركز المساعدة",
+        "shippingReturns": "الشحن والإرجاع",
+        "contact": "اتصل بنا"
+      }
+    }
+  },
+  "profile": {
+    "title": "نظرة عامة على الملف الشخصي",
+    "description": "معلومات حسابك في لمحة واحدة.",
+    "anonymous": {
+      "title": "أنت غير مسجل الدخول",
+      "description": "سجّل الدخول لعرض ملفك الشخصي وتفاصيل حسابك.",
+      "signIn": "تسجيل الدخول"
+    },
+    "header": {
+      "signedIn": "مسجل الدخول",
+      "signOut": "تسجيل الخروج",
+      "signingOut": "جارٍ تسجيل الخروج...",
+      "roleLabel": "الدور",
+      "verified": "موثّق",
+      "memberSince": "عضو منذ {{date}}"
+    },
+    "personal": {
+      "title": "المعلومات الشخصية",
+      "description": "التفاصيل المسجلة حاليًا في حسابك.",
+      "fullName": "الاسم الكامل",
+      "email": "البريد الإلكتروني",
+      "username": "اسم المستخدم",
+      "phone": "رقم الهاتف",
+      "missing": "غير متوفر",
+      "copied": "تم نسخ {{field}} إلى الحافظة",
+      "copyFailed": "تعذر النسخ إلى الحافظة",
+      "copyValue": "نسخ {{value}}"
+    },
+    "activity": {
+      "title": "نشاط الحساب",
+      "description": "تتبع الطلبات وقائمة المفضلة والعناوين المحفوظة وطرق الدفع غير متوفرة بعد.",
+      "orders": "طلباتي",
+      "wishlist": "قائمة المفضلة",
+      "addresses": "العناوين المحفوظة",
+      "payments": "طرق الدفع",
+      "comingSoon": "غير متوفرة بعد"
+    },
+    "error": {
+      "title": "تعذر تحميل ملفك الشخصي",
+      "description": "حدث خطأ ما أثناء جلب ملفك الشخصي. يرجى المحاولة مرة أخرى.",
+      "retry": "إعادة المحاولة"
+    }
+  },
+  "admin": {
+    "comingSoon": "هذه الميزة غير منفذة بعد، ومن المقرر إضافتها في إصدار قادم.",
+    "status": {
+      "planned": "مخطط له",
+      "inProgress": "قيد التنفيذ",
+      "polishing": "قيد التحسين",
+      "doneWaitingPR": "مكتمل — بانتظار طلب السحب",
+      "done": "مكتمل"
+    }
+  },
+  "notFound": {
+    "title": "عذرًا!",
+    "code": "خطأ 404",
+    "subtitle": "الصفحة غير موجودة",
+    "description": "الصفحة التي تبحث عنها غير موجودة أو تم نقلها.",
+    "home": "العودة إلى الرئيسية"
+  }
+}

@@ -26,13 +26,14 @@ export default function ActiveFiltersBar({
   return (
     <div className="flex flex-wrap items-center justify-between gap-3 bg-[var(--color-surface)] p-3.5 rounded-2xl border border-[var(--color-border)] shadow-xs">
       <div className="flex items-center gap-2 flex-wrap">
-        <span className="text-xs font-bold text-[var(--color-text-secondary)] uppercase tracking-wider pr-3 border-r border-[var(--color-border)]">
+        <span className="text-xs font-bold text-[var(--color-text-secondary)] uppercase tracking-wider pe-3 border-e border-[var(--color-border)]">
           {t(resultsLabelKey, { count: resultsCount })}
         </span>
 
         {applied.category !== "All" && (
           <Badge variant="secondary" className="gap-1.5 py-1 px-2.5 rounded-lg bg-[var(--color-surface-secondary)] text-[var(--color-text-primary)] border border-[var(--color-border)] font-normal text-xs">
-            Category: <span className="font-semibold">{applied.category}</span>
+            {t("shop.filterCategory")}{" "}
+            <span className="font-semibold">{applied.category}</span>
             <X
               className="size-3.5 text-[var(--color-text-secondary)] hover:text-[var(--color-error)] cursor-pointer"
               onClick={() => selectCategory("All")}
@@ -42,7 +43,7 @@ export default function ActiveFiltersBar({
 
         {(applied.minPrice !== "" || applied.maxPrice !== "") && (
           <Badge variant="secondary" className="gap-1.5 py-1 px-2.5 rounded-lg bg-[var(--color-surface-secondary)] text-[var(--color-text-primary)] border border-[var(--color-border)] font-normal text-xs">
-            Price:{" "}
+            {t("shop.filterPrice")}{" "}
             <span className="font-mono font-semibold">
               ${applied.minPrice || "0"} - ${applied.maxPrice || "∞"}
             </span>
@@ -55,7 +56,8 @@ export default function ActiveFiltersBar({
 
         {applied.sortBy !== "Default" && (
           <Badge variant="secondary" className="gap-1.5 py-1 px-2.5 rounded-lg bg-[var(--color-surface-secondary)] text-[var(--color-text-primary)] border border-[var(--color-border)] font-normal text-xs">
-            Sort: <span className="font-semibold">{getSortLabel(applied.sortBy)}</span>
+            {t("shop.filterSort")}{" "}
+            <span className="font-semibold">{getSortLabel(applied.sortBy)}</span>
             <X
               className="size-3.5 text-[var(--color-text-secondary)] hover:text-[var(--color-error)] cursor-pointer"
               onClick={() => changeSort("Default")}
@@ -65,7 +67,8 @@ export default function ActiveFiltersBar({
 
         {applied.search !== "" && (
           <Badge variant="secondary" className="gap-1.5 py-1 px-2.5 rounded-lg bg-[var(--color-surface-secondary)] text-[var(--color-text-primary)] border border-[var(--color-border)] font-normal text-xs">
-            Search: <span className="font-semibold">"{applied.search}"</span>
+            {t("shop.filterSearch")}{" "}
+            <span className="font-semibold">"{applied.search}"</span>
             <X
               className="size-3.5 text-[var(--color-text-secondary)] hover:text-[var(--color-error)] cursor-pointer"
               onClick={() => setSearchQuery("")}

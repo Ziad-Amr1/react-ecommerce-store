@@ -1,5 +1,6 @@
 import { ChevronLeft, ChevronRight, Loader2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { useTranslation } from "react-i18next";
 
 export default function ProductPagination({
   currentPage,
@@ -7,6 +8,8 @@ export default function ProductPagination({
   isLoading,
   onPageChange,
 }) {
+  const { t } = useTranslation();
+
   if (totalPages <= 1) {
     return null;
   }
@@ -30,14 +33,14 @@ export default function ProductPagination({
         size="sm"
         onClick={handlePrevious}
         disabled={currentPage === 1 || isLoading}
-        aria-label="Previous page"
+        aria-label={t("shop.pagePreviousAria")}
       >
-        <ChevronLeft className="size-4" />
-        Previous
+        <ChevronLeft className="size-4 rtl:rotate-180" />
+        {t("shop.pagePrevious")}
       </Button>
 
       <span className="text-sm text-[var(--color-text-secondary)]">
-        Page {currentPage} of {totalPages}
+        {t("shop.pageOf", { current: currentPage, total: totalPages })}
       </span>
 
       <Button
@@ -45,10 +48,10 @@ export default function ProductPagination({
         size="sm"
         onClick={handleNext}
         disabled={currentPage === totalPages || isLoading}
-        aria-label="Next page"
+        aria-label={t("shop.pageNextAria")}
       >
-        Next
-        <ChevronRight className="size-4" />
+        {t("shop.pageNext")}
+        <ChevronRight className="size-4 rtl:rotate-180" />
       </Button>
 
       {isLoading && (

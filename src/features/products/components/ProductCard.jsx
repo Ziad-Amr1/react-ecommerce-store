@@ -7,6 +7,7 @@ import {
   CircleX,
   TriangleAlert,
   Heart,
+  PackageOpen,
   ShoppingCart,
 } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
@@ -66,20 +67,29 @@ export default function ProductCard({ product }) {
   }, [images.length, currentImageIndex]);
 
   return (
-    <Card className="h-full gap-4 overflow-hidden border-[var(--color-border)] py-0 shadow-[var(--shadow-md)]">
+    <Card className="isolate h-full gap-4 overflow-hidden border-[var(--color-border)] py-0 shadow-[var(--shadow-md)]">
       <div className="relative m-4 aspect-[4/3] overflow-hidden rounded-xl bg-[var(--color-surface-secondary)]">
-        <img
-          src={image}
-          alt={productName}
-          loading="lazy"
-          className="h-full w-full object-cover"
-        />
+        {image ? (
+          <img
+            src={image}
+            alt={productName}
+            loading="lazy"
+            className="h-full w-full object-cover"
+          />
+        ) : (
+          <div className="flex h-full w-full items-center justify-center bg-[var(--color-surface-secondary)]">
+            <PackageOpen
+              className="size-10 text-[var(--color-text-disabled)]"
+              aria-hidden="true"
+            />
+          </div>
+        )}
 
         {/* Brand */}
         {hasBrand && (
           <Badge
             variant="outline"
-            className="absolute top-3 left-3 z-30 border-transparent bg-[var(--color-info)] px-2.5 text-[var(--color-on-error)]"
+            className="absolute start-3 top-3 z-30 border-transparent bg-[var(--color-info)] px-2.5 text-[var(--color-on-error)]"
           >
             {product.brand}
           </Badge>
@@ -89,7 +99,7 @@ export default function ProductCard({ product }) {
             that toggles locally but never persists would mislead users. */}
         <Tooltip>
           <TooltipTrigger asChild>
-            <span className="absolute top-3 right-3 z-40">
+            <span className="absolute end-3 top-3 z-40">
               <Button
                 type="button"
                 variant="ghost"
@@ -125,7 +135,7 @@ export default function ProductCard({ product }) {
         )}
       </div>
 
-      <CardContent className="space-y-1 px-5 pb-5">
+      <CardContent className="flex flex-1 flex-col gap-1.5 px-5 pb-5">
         <div>
           <p className="font-mono text-[11px] tracking-wide text-[var(--color-text-secondary)] uppercase">
             {product.category} {t("shop.separator")} {product.subcategory}
@@ -194,7 +204,7 @@ export default function ProductCard({ product }) {
           )}
         </p>
 
-        <div className="flex gap-2 pt-1">
+        <div className="mt-auto flex gap-2 pt-2">
           <Button
             className="flex-1 bg-[var(--color-primary)] text-primary-foreground hover:bg-[var(--color-secondary)]"
             // onClick={() => addToCart(product)}
@@ -204,7 +214,7 @@ export default function ProductCard({ product }) {
           </Button>
           <Button
             variant="outline"
-            aria-label={`View details for ${productName}`}
+            aria-label={t("shop.viewDetails", { name: productName })}
             onClick={() => navigate(`/products/${product._id}`)}
           >
             {t("shop.details")}

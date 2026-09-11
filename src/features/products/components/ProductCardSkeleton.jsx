@@ -3,7 +3,7 @@ import { Skeleton } from "@/components/ui/skeleton";
 
 export default function ProductCardSkeleton() {
   return (
-    <Card className="h-full gap-4 overflow-hidden border-[var(--color-border)] py-0 shadow-[var(--shadow-md)]">
+    <Card className="isolate h-full gap-4 overflow-hidden border-[var(--color-border)] py-0 shadow-[var(--shadow-md)]">
       {/* Image */}
       <div className="relative m-4 aspect-[4/3] overflow-hidden rounded-xl">
         <Skeleton className="h-full w-full" />
@@ -16,7 +16,7 @@ export default function ProductCardSkeleton() {
         </div>
       </div>
 
-      <CardContent className="space-y-1 px-5 pb-5">
+      <CardContent className="flex flex-1 flex-col gap-1.5 px-5 pb-5">
         {/* Category */}
         <div className="space-y-2">
           <Skeleton className="h-3 w-32" />
@@ -42,7 +42,7 @@ export default function ProductCardSkeleton() {
         <Skeleton className="mt-2 h-5 w-28" />
 
         {/* Buttons */}
-        <div className="flex gap-2 pt-2">
+        <div className="mt-auto flex gap-2 pt-2">
           <Skeleton className="h-9 flex-1 rounded-md" />
           <Skeleton className="h-9 w-20 rounded-md" />
         </div>

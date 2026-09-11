@@ -181,7 +181,21 @@
     "untitledProduct": "Untitled product",
     "image": "image",
     "addToWishlist": "Add to wishlist",
-    "comingSoon": "Coming soon in an upcoming release."
+    "comingSoon": "Coming soon in an upcoming release.",
+    "subtitle": "Explore our products and exclusive deals",
+    "pagePrevious": "Previous",
+    "pageNext": "Next",
+    "pagePreviousAria": "Previous page",
+    "pageNextAria": "Next page",
+    "pageOf": "Page {{current}} of {{total}}",
+    "viewGrid": "Grid view",
+    "viewList": "List view",
+    "clearSearch": "Clear search",
+    "viewDetails": "View details for {{name}}",
+    "filterCategory": "Category:",
+    "filterPrice": "Price:",
+    "filterSort": "Sort:",
+    "filterSearch": "Search:"
   },
 
   "dashboard": {

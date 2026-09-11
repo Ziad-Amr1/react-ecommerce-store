@@ -67,7 +67,7 @@ export default function Shop() {
               {t("shop.title", "Shop")}
             </h1>
             <p className="text-sm text-[var(--color-text-secondary)] mt-1">
-              Explore our products and exclusive deals
+              {t("shop.subtitle")}
             </p>
           </div>
 
@@ -92,7 +92,6 @@ export default function Shop() {
           setSearchQuery={filters.setSearchQuery}
           viewMode={filters.viewMode}
           setViewMode={filters.setViewMode}
-          t={t}
         />
 
         {/* Main Section */}

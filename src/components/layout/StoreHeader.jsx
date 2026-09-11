@@ -1,4 +1,4 @@
-import { Link } from "react-router";
+import { Link, useLocation } from "react-router";
 import { useTranslation } from "react-i18next";
 import { Moon, Sun, ShoppingCart, UserRound } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -11,8 +11,11 @@ export default function StoreHeader() {
   const { t } = useTranslation();
   const { theme, toggleTheme } = useTheme();
   const { user } = useAuth();
+  const { pathname } = useLocation();
   const isDark = theme === "dark";
   const isAdmin = user?.role === "admin";
+  const isHomeActive = pathname === "/";
+  const isProductsActive = pathname.startsWith("/products");
 
   return (
     <header className="sticky top-0 z-(--z-nav) border-b bg-(--color-surface)">
@@ -32,12 +35,34 @@ export default function StoreHeader() {
           aria-label={t("store.header.navLabel")}
           className="hidden items-center gap-1 md:flex"
         >
-          <Button asChild variant="ghost" className="rounded-full cursor-pointer">
-            <Link to="/">{t("store.header.nav.home")}</Link>
+          <Button
+            asChild
+            variant="ghost"
+            className="rounded-full cursor-pointer"
+            aria-current={isHomeActive ? "page" : undefined}
+          >
+            <Link
+              to="/"
+              className={isHomeActive ? "font-semibold text-(--color-primary)" : ""}
+            >
+              {t("store.header.nav.home")}
+            </Link>
           </Button>
-          <ComingSoonButton variant="ghost">
-            {t("store.header.nav.shop")}
-          </ComingSoonButton>
+          <Button
+            asChild
+            variant="ghost"
+            className="rounded-full cursor-pointer"
+            aria-current={isProductsActive ? "page" : undefined}
+          >
+            <Link
+              to="/products"
+              className={
+                isProductsActive ? "font-semibold text-(--color-primary)" : ""
+              }
+            >
+              {t("store.header.nav.shop")}
+            </Link>
+          </Button>
           <ComingSoonButton variant="ghost">
             {t("store.header.nav.about")}
           </ComingSoonButton>

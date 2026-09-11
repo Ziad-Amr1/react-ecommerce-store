@@ -67,7 +67,7 @@ export default function Shop() {
               {t("shop.title", "Shop")}
             </h1>
             <p className="text-sm text-[var(--color-text-secondary)] mt-1">
-              Explore our products and exclusive deals
+              {t("shop.subtitle")}
             </p>
           </div>
 
@@ -92,7 +92,6 @@ export default function Shop() {
           setSearchQuery={filters.setSearchQuery}
           viewMode={filters.viewMode}
           setViewMode={filters.setViewMode}
-          t={t}
         />
 
         {/* Main Section */}
@@ -132,9 +131,11 @@ export default function Shop() {
 
             {/* Product Feed */}
             {isLoading ? (
-              <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+              <div
+                className={`grid gap-6 ${filters.viewMode === "grid" ? "grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4" : "grid-cols-1"}`}
+              >
                 {Array.from({ length: 8 }).map((_, index) => (
-                  <ProductSkeleton key={index} />
+                  <ProductSkeleton key={index} viewMode={filters.viewMode} />
                 ))}
               </div>
             ) : apiError ? (
@@ -176,6 +177,7 @@ export default function Shop() {
                   <ProductCard
                     key={product._id || product.id}
                     product={product}
+                    viewMode={filters.viewMode}
                   />
                 ))}
               </div>

@@ -1,12 +1,13 @@
-import { useState, useEffect } from "react";
 import { useNavigate } from "react-router";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import {
+  ArrowUpRight,
   CircleCheck,
   CircleX,
   TriangleAlert,
   Heart,
+  PackageOpen,
   ShoppingCart,
 } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
@@ -20,12 +21,11 @@ import {
   TooltipTrigger,
 } from "@/components/ui/tooltip";
 
-export default function ProductCard({ product }) {
+export default function ProductCard({ product, viewMode = "grid" }) {
   const { t } = useTranslation();
   const navigate = useNavigate();
   const images = product.images?.filter((image) => image?.url) ?? [];
-  const [currentImageIndex, setCurrentImageIndex] = useState(0);
-  const image = images[currentImageIndex]?.url;
+  const mainImage = images[0]?.url;
 
   const productName = product.name || t("shop.untitledProduct");
 
@@ -55,31 +55,185 @@ export default function ProductCard({ product }) {
         ? "text-[var(--color-warning)]"
         : "text-[var(--color-success)]";
 
-  useEffect(() => {
-    if (images.length <= 1) return;
+  const renderWishlist = (className) => (
+    <Tooltip>
+      <TooltipTrigger asChild>
+        <span className={className}>
+          <Button
+            type="button"
+            variant="ghost"
+            size="icon-sm"
+            disabled
+            aria-label={t("shop.addToWishlist")}
+            className="cursor-not-allowed bg-[var(--color-surface)]/80 opacity-60 hover:bg-[var(--color-surface)]"
+          >
+            <Heart aria-hidden="true" />
+          </Button>
+        </span>
+      </TooltipTrigger>
 
-    const interval = setInterval(() => {
-      setCurrentImageIndex((prevIndex) => (prevIndex + 1) % images.length);
-    }, 1500);
+      <TooltipContent side="top">
+        <p className="text-xs">{t("shop.comingSoon")}</p>
+      </TooltipContent>
+    </Tooltip>
+  );
 
-    return () => clearInterval(interval);
-  }, [images.length, currentImageIndex]);
+  if (viewMode === "list") {
+    return (
+      <div className="isolate flex items-center gap-3 rounded-xl border border-[var(--color-border)] bg-card p-3 shadow-[var(--shadow-md)] sm:gap-5 sm:p-4">
+        {/* Small fixed-size thumbnail (not the 4:3 grid image) */}
+        <div className="relative shrink-0">
+          <div className="size-16 overflow-hidden rounded-lg bg-[var(--color-surface-secondary)] sm:size-20 sm:rounded-xl">
+            {mainImage ? (
+              <img
+                src={mainImage}
+                alt={productName}
+                loading="lazy"
+                className="h-full w-full object-cover"
+              />
+            ) : (
+              <div className="flex h-full w-full items-center justify-center bg-[var(--color-surface-secondary)]">
+                <PackageOpen
+                  className="size-5 text-[var(--color-text-disabled)]"
+                  aria-hidden="true"
+                />
+              </div>
+            )}
+          </div>
+
+          {hasBrand && (
+            <Badge
+              variant="outline"
+              className="absolute -bottom-2 start-1 z-30 border-transparent bg-[var(--color-info)] px-1.5 text-[10px] text-[var(--color-on-error)]"
+            >
+              {product.brand}
+            </Badge>
+          )}
+
+          {renderWishlist("absolute end-1 top-1 z-40")}
+        </div>
+
+        {/* Product information — main horizontal space */}
+        <div className="min-w-0 flex-1 space-y-0.5 sm:space-y-1">
+          <p className="hidden truncate font-mono text-[10px] tracking-wide text-[var(--color-text-secondary)] uppercase sm:block">
+            {product.category} {t("shop.separator")} {product.subcategory}
+          </p>
+          <h3
+            className="truncate font-display text-sm font-semibold text-[var(--color-text-primary)] sm:text-lg"
+            title={productName}
+          >
+            {productName}
+          </h3>
+
+          {hasRating && (
+            <div className="flex items-center gap-1.5">
+              <Stars
+                value={rating}
+                label={t("shop.productRatingLabel", { rating, reviewsCount })}
+              />
+              <span className="text-xs text-[var(--color-text-secondary)]">
+                {rating.toFixed(1)}
+                <span className="text-[var(--color-text-disabled)]">
+                  {" "}
+                  ({formatNumber(reviewsCount)})
+                </span>
+              </span>
+            </div>
+          )}
+
+          <p
+            className={`flex items-center gap-1 text-xs ${stockStatusClass}`}
+          >
+            {product.stock > 0 && product.stock < 5 ? (
+              <>
+                <TriangleAlert className="size-3.5" aria-hidden="true" />
+                {t("shop.runningLow", { count: product.stock })}
+              </>
+            ) : product.stock === 0 ? (
+              <>
+                <CircleX className="size-3.5" aria-hidden="true" />
+                {t("shop.outOfStock")}
+              </>
+            ) : (
+              <>
+                <CircleCheck className="size-3.5" aria-hidden="true" />
+                {t("shop.inStock")}
+              </>
+            )}
+          </p>
+        </div>
+
+        {/* Price / metadata + action — right side, mirrors left in RTL */}
+        <div className="flex shrink-0 flex-col items-end gap-1.5 sm:gap-2">
+          <div className="flex flex-wrap items-baseline justify-end gap-1.5 sm:gap-2">
+            <p className="font-display text-base font-bold text-[var(--color-text-primary)] sm:text-xl">
+              {formatCurrency(displayPrice)}
+            </p>
+
+            {hasDiscount && (
+              <p className="hidden text-xs text-[var(--color-text-secondary)] line-through sm:block">
+                {formatCurrency(product.price)}
+              </p>
+            )}
+
+            {hasDiscount && (
+              <Badge
+                variant="outline"
+                className="hidden border-transparent bg-[var(--color-error)] px-1.5 text-[10px] text-[var(--color-on-error)] sm:inline-flex"
+              >
+                {salePercentage} {t("shop.off")}
+              </Badge>
+            )}
+          </div>
+
+          <div className="flex gap-2">
+            <Button
+              size="sm"
+              className="bg-[var(--color-primary)] text-primary-foreground hover:bg-[var(--color-secondary)]"
+              // onClick={() => addToCart(product)}
+            >
+              <ShoppingCart className="size-4" aria-hidden="true" />
+              <span className="hidden sm:inline">{t("shop.addToCart")}</span>
+            </Button>
+            <Button
+              size="sm"
+              variant="outline"
+              aria-label={t("shop.viewDetails", { name: productName })}
+              onClick={() => navigate(`/products/${product._id}`)}
+            >
+              <ArrowUpRight className="size-4" aria-hidden="true" />
+              <span className="hidden sm:inline">{t("shop.details")}</span>
+            </Button>
+          </div>
+        </div>
+      </div>
+    );
+  }
 
   return (
-    <Card className="h-full gap-4 overflow-hidden border-[var(--color-border)] py-0 shadow-[var(--shadow-md)]">
+    <Card className="isolate h-full gap-4 overflow-hidden border-[var(--color-border)] py-0 shadow-[var(--shadow-md)]">
       <div className="relative m-4 aspect-[4/3] overflow-hidden rounded-xl bg-[var(--color-surface-secondary)]">
-        <img
-          src={image}
-          alt={productName}
-          loading="lazy"
-          className="h-full w-full object-cover"
-        />
+        {mainImage ? (
+          <img
+            src={mainImage}
+            alt={productName}
+            loading="lazy"
+            className="h-full w-full object-cover"
+          />
+        ) : (
+          <div className="flex h-full w-full items-center justify-center bg-[var(--color-surface-secondary)]">
+            <PackageOpen
+              className="size-10 text-[var(--color-text-disabled)]"
+              aria-hidden="true"
+            />
+          </div>
+        )}
 
         {/* Brand */}
         {hasBrand && (
           <Badge
             variant="outline"
-            className="absolute top-3 left-3 z-30 border-transparent bg-[var(--color-info)] px-2.5 text-[var(--color-on-error)]"
+            className="absolute start-3 top-3 z-30 border-transparent bg-[var(--color-info)] px-2.5 text-[var(--color-on-error)]"
           >
             {product.brand}
           </Badge>
@@ -87,45 +241,10 @@ export default function ProductCard({ product }) {
 
         {/* Wishlist — disabled until the real wishlist API exists. A heart
             that toggles locally but never persists would mislead users. */}
-        <Tooltip>
-          <TooltipTrigger asChild>
-            <span className="absolute top-3 right-3 z-40">
-              <Button
-                type="button"
-                variant="ghost"
-                size="icon-sm"
-                disabled
-                aria-label={t("shop.addToWishlist")}
-                className="cursor-not-allowed bg-[var(--color-surface)]/80 opacity-60 hover:bg-[var(--color-surface)]"
-              >
-                <Heart aria-hidden="true" />
-              </Button>
-            </span>
-          </TooltipTrigger>
-
-          <TooltipContent side="top">
-            <p className="text-xs">{t("shop.comingSoon")}</p>
-          </TooltipContent>
-        </Tooltip>
-
-        {images.length > 1 && (
-          <div className="absolute bottom-3 left-1/2 z-30 flex -translate-x-1/2 gap-1.5">
-            {images.map((_, index) => (
-              <button
-                key={index}
-                onClick={() => setCurrentImageIndex(index)}
-                className={`size-1.5 rounded-full ${
-                  index === currentImageIndex
-                    ? "bg-black"
-                    : "bg-black/50 hover:bg-black/80"
-                }`}
-              />
-            ))}
-          </div>
-        )}
+        {renderWishlist("absolute end-3 top-3 z-40")}
       </div>
 
-      <CardContent className="space-y-1 px-5 pb-5">
+      <CardContent className="flex flex-1 flex-col gap-1.5 px-5 pb-5">
         <div>
           <p className="font-mono text-[11px] tracking-wide text-[var(--color-text-secondary)] uppercase">
             {product.category} {t("shop.separator")} {product.subcategory}
@@ -194,7 +313,7 @@ export default function ProductCard({ product }) {
           )}
         </p>
 
-        <div className="flex gap-2 pt-1">
+        <div className="mt-auto flex gap-2 pt-2">
           <Button
             className="flex-1 bg-[var(--color-primary)] text-primary-foreground hover:bg-[var(--color-secondary)]"
             // onClick={() => addToCart(product)}
@@ -204,7 +323,7 @@ export default function ProductCard({ product }) {
           </Button>
           <Button
             variant="outline"
-            aria-label={`View details for ${productName}`}
+            aria-label={t("shop.viewDetails", { name: productName })}
             onClick={() => navigate(`/products/${product._id}`)}
           >
             {t("shop.details")}

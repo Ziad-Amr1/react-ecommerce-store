@@ -158,6 +158,22 @@
     "usernameMin": "يجب ألا يقل اسم المستخدم عن {{count}} أحرف",
     "phoneInvalid": "يرجى إدخال رقم هاتف صحيح"
   },
+  "shop": {
+    "subtitle": "استكشف منتجاتنا والعروض الحصرية",
+    "pagePrevious": "السابق",
+    "pageNext": "التالي",
+    "pagePreviousAria": "الصفحة السابقة",
+    "pageNextAria": "الصفحة التالية",
+    "pageOf": "صفحة {{current}} من {{total}}",
+    "viewGrid": "عرض الشبكة",
+    "viewList": "عرض القائمة",
+    "clearSearch": "مسح البحث",
+    "viewDetails": "عرض تفاصيل {{name}}",
+    "filterCategory": "الفئة:",
+    "filterPrice": "السعر:",
+    "filterSort": "الترتيب:",
+    "filterSearch": "البحث:"
+  },
   "dashboard": {
     "title": "صفحة لوحة التحكم",
     "loading": "جارٍ تحميل لوحة التحكم...",

@@ -17,7 +17,11 @@ export default function ShopSidebar({
   t
 }) {
   return (
-    <aside className={`w-full md:w-72 flex-shrink-0 space-y-6 ${isMobileFilterOpen ? "block" : "hidden md:block"}`}>
+    <aside
+      className={`w-full flex-shrink-0 space-y-6 md:sticky md:top-20 md:max-h-[calc(100dvh_-_6rem)] md:w-72 md:self-start md:overflow-y-auto md:overscroll-contain ${
+        isMobileFilterOpen ? "block" : "hidden md:block"
+      }`}
+    >
       <div className="bg-[var(--color-surface)] border border-[var(--color-border)] rounded-2xl p-5 space-y-6 shadow-sm">
         <div className="pb-3 border-b border-[var(--color-border)]">
           <h2 className="font-display text-lg font-bold text-[var(--color-text-primary)] flex items-center gap-2">
@@ -96,7 +100,7 @@ export default function ShopSidebar({
               <option value="price_desc">{t("sort_high_low", "Price: High to Low")}</option>
               <option value="rating">{t("sort_top_rated", "Top Rated")}</option>
             </select>
-            <ChevronDown className="absolute right-3 top-1/2 -translate-y-1/2 size-4 text-[var(--color-text-secondary)] pointer-events-none" />
+            <ChevronDown className="absolute end-3 top-1/2 size-4 -translate-y-1/2 text-[var(--color-text-secondary)] pointer-events-none" />
           </div>
         </div>
 

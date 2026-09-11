@@ -1,6 +1,13 @@
-import { describe, it, expect } from "vitest";
+import { describe, it, expect, vi } from "vitest";
 import { renderHook, act } from "@testing-library/react";
 import useProducts from "../features/admin/products/useProducts";
+
+vi.mock("@/api/axios", () => ({
+  default: {
+    get: vi.fn(() => new Promise(() => {})),
+    delete: vi.fn(),
+  },
+}));
 
 describe("useProducts - handleSearchChange", () => {
   it("should update search value", () => {

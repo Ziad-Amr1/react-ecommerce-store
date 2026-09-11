@@ -1,7 +1,9 @@
 {
   "common": {
     "loading": "Loading...",
-    "checkingSession": "Checking session..."
+    "checkingSession": "Checking session...",
+    "yes": "Yes",
+    "no": "No"
   },
   "brand": {
     "logoAlt": "Oversea Store Logo",
@@ -12,8 +14,8 @@
       "open": "Open navigation menu",
       "close": "Close navigation menu"
     },
-    "brandEyebrow": "ecommerce",
-    "adminPanel": "admin panel",
+    "adminPanel": "Admin Panel",
+    "backToStore": "Back to Store",
     "dashboardTitle": "Oversea Dashboard",
     "dashboardSubtitle": "E-Commerce Admin Panel",
     "dashboard": "Dashboard",
@@ -38,8 +40,14 @@
     "account": "Account",
     "accountDropdown": "Account menu",
     "roleAdmin": "Admin",
-    "apiConnected": "API Connected",
+    "apiChecking": "Checking API…",
+    "apiOnline": "API Online",
+    "apiUnavailable": "API Unavailable",
     "apiLabel": "E-commerce API"
+  },
+  "languages": {
+    "switcherLabel": "Select language",
+    "en": "English"
   },
   "auth": {
     "password": {
@@ -149,17 +157,11 @@
     "usernameMin": "Username must be at least {{count}} characters",
     "phoneInvalid": "Please enter a valid phone number"
   },
-  "home": {
-    "title": "E-commerce Home page",
-    "description": "Welcome to the E-commerce platform. Explore our products and manage your orders.",
-    "login": "Login",
-    "designSystem": "Design System",
-    "comingSoon": "This feature isn't implemented yet. It is planned for an upcoming release."
-  },
   "dashboard": {
     "title": "Dashboard Page",
     "loading": "Loading dashboard...",
     "loadError": "Failed to load dashboard data.",
+    "retry": "Retry",
     "noData": "No dashboard data available.",
     "noProducts": "No products",
 
@@ -167,7 +169,6 @@
     "recentOrders": "Recent Orders",
     "topProducts": "Top Products",
     "totalSold": "{{count}} sold",
-    "ofOrders": "{{count}}% of orders",
     "noRecentOrders": "No recent orders yet",
     "noStatusData": "No status data yet",
     "orderId": "Order ID",
@@ -175,7 +176,6 @@
     "total": "Total",
     "status": "Status",
     "date": "Date",
-    "unknownCustomer": "Unknown customer",
     "statusLabels": {
       "pending": "Pending",
       "processing": "Processing",
@@ -197,16 +197,288 @@
     "pendingOrderDescription": "Orders waiting to be processed",
 
     "totalRevenue": "Total Revenue",
-    "totalRevenueDescription": "Total gross revenue",
+    "totalRevenueDescription": "Overall gross revenue",
 
-    "thisMonth": "This Month",
-    "thisMonthDescription": "Monthly sales target",
+    "thisMonthRevenue": "This Month Revenue",
+    "thisMonthRevenueDescription": "Revenue generated in the current month",
 
-    "topProduct": "Top Product",
-    "topProductDescription": "{{count}} sold",
+    "revenueGrowth": "Revenue Growth",
+    "revenueGrowthDescription": "Rate of change in total revenue",
 
     "totalUsers": "Users",
     "totalUsersDescription": "Total registered customers"
+  },
+  "products": {
+    "title": "Products",
+    "description": "Manage your catalog — search, filter, and keep an eye on stock levels.",
+    "loadErrorTitle": "Something went wrong",
+    "loadErrorHint": "We couldn't load the products. Please try again.",
+    "loadProductFailed": "We couldn't load this product. Please try again.",
+    "notFound": "Product not found.",
+    "retry": "Retry",
+    "searchPlaceholder": "Search products by name or SKU...",
+    "clearSearch": "Clear search",
+    "filtersButton": "Filters",
+    "filtersTitle": "Filters",
+    "filtersSubtitle": "Narrow down the product list.",
+    "addProduct": "Add Product",
+    "addTitle": "Add Product",
+    "addDescription": "Fill in the product details and upload up to 5 images.",
+    "editTitle": "Edit Product",
+    "editDescription": "Update the product details and images.",
+    "editProduct": "Edit Product",
+    "viewProduct": "View Product",
+    "deleteProduct": "Delete Product",
+    "detailsTitle": "Product Details",
+    "backToList": "Back to Products",
+    "created": "Product created successfully",
+    "createFailed": "Failed to create product. Please try again.",
+    "updated": "Product updated successfully",
+    "updateFailed": "Failed to update product. Please try again.",
+    "deleted": "Product deleted successfully",
+    "deleteFailed": "Failed to delete product. Please try again.",
+    "createProduct": "Create Product",
+    "creating": "Creating...",
+    "saveChanges": "Save Changes",
+    "saving": "Saving...",
+    "cancel": "Cancel",
+    "discard": "Discard Changes",
+    "saveNow": "Save Now",
+    "unsavedTitle": "Unsaved changes",
+    "unsavedDescription": "You have unsaved changes. Leave without saving them?",
+    "validationNotice": "Please fix the highlighted fields and try again.",
+    "maxImages": "You can only upload up to {{max}} images.",
+    "onlySomeImages": "Some files were skipped because they are not allowed image types.",
+    "nameExists": "A product with this name already exists. Use a different name.",
+    "skuExists": "This SKU is already in use. Use a different SKU.",
+    "uploadImages": "Upload Images",
+    "uploadImagesHint": "PNG or JPG, up to 5 files",
+    "imageCount": "{{count}} / {{max}} images",
+    "imagePreviewAlt": "Image {{index}} preview",
+    "newImagePreviewAlt": "New image {{index}} preview",
+    "mainImage": "Main",
+    "removeImage": "Remove image",
+    "selectImage": "Show image {{index}}",
+    "noImage": "No image",
+    "active": "Active",
+    "inactive": "Inactive",
+    "featured": "Featured",
+    "stockUnits": "{{count}} in stock",
+    "discountOff": "{{percent}}% off",
+    "deleteTitle": "Delete product",
+    "deleteDescription": "This will permanently delete \"{{name}}\". This action can't be undone.",
+    "delete": "Delete",
+    "deleting": "Deleting...",
+    "clearQuery": "Clear query",
+    "noProductsFound": "No products found",
+    "noProductsHint": "Try adjusting your search or filters.",
+    "columns": {
+      "product": "Product",
+      "brand": "Brand",
+      "category": "Category",
+      "price": "Price",
+      "stock": "Stock",
+      "actions": "Actions"
+    },
+    "pagination": {
+      "previous": "Previous page",
+      "next": "Next page"
+    },
+    "fields": {
+      "name": "Name",
+      "shortDescription": "Short description",
+      "description": "Description",
+      "price": "Price",
+      "discountPrice": "Discount price",
+      "stock": "Stock",
+      "sku": "SKU",
+      "category": "Category",
+      "subcategory": "Subcategory",
+      "brand": "Brand",
+      "tags": "Tags",
+      "minPrice": "Min price",
+      "maxPrice": "Max price",
+      "sort": "Sort by",
+      "featured": "Featured",
+      "status": "Status",
+      "slug": "Slug"
+    },
+    "placeholders": {
+      "name": "E.g. Wireless Bluetooth Headphones",
+      "shortDescription": "A short summary shown in lists",
+      "description": "Full details, features and specifications",
+      "sku": "E.g. SKU-001",
+      "category": "E.g. Electronics",
+      "subcategory": "E.g. Audio",
+      "brand": "E.g. TechNova"
+    },
+    "sections": {
+      "productInformation": "Product Information",
+      "basicInformation": "Basic Information",
+      "basicInformationHint": "Update the core product fields",
+      "gallery": "Gallery",
+      "description": "Description",
+      "tags": "Tags"
+    },
+    "validation": {
+      "nameRequired": "Product name is required",
+      "shortDescriptionRequired": "Short description is required",
+      "shortDescriptionMin": "Short description must be at least {{count}} characters",
+      "descriptionRequired": "Description is required",
+      "descriptionMin": "Description must be at least {{count}} characters",
+      "priceRequired": "Price is required",
+      "pricePositive": "Price must be greater than zero",
+      "discountPricePositive": "Discount price must be greater than zero",
+      "discountPriceLower": "Discount price must be lower than the regular price",
+      "stockRequired": "Stock is required",
+      "stockNonNegative": "Stock cannot be negative",
+      "categoryRequired": "Category is required",
+      "imageRequired": "At least one image is required"
+    },
+    "sort": {
+      "default": "Default sorting"
+    },
+    "filters": {
+      "categoryPlaceholder": "Any category",
+      "brandPlaceholder": "Any brand",
+      "apply": "Apply Filters",
+      "clear": "Clear"
+    },
+    "tagsPlaceholder": "Type a tag and press Enter",
+    "removeTag": "Remove tag {{tag}}"
+  },
+  "landing": {
+    "comingSoon": "Coming soon in an upcoming release.",
+    "hero": {
+      "title": "Elevate Your Lifestyle",
+      "subPre": "with",
+      "subHighlight": "Premium Products",
+      "description": "Discover carefully curated products designed for quality, style, and everyday comfort.",
+      "shopNow": "Shop Now",
+      "explore": "Explore Collection",
+      "imageAlt": "Hero section showing premium lifestyle products",
+      "pros": {
+        "variety": {
+          "title": "Product Variety",
+          "desc": "Meet all your needs"
+        },
+        "returns": {
+          "title": "Easy Returns",
+          "desc": "30-day return policy"
+        },
+        "secure": {
+          "title": "Secure Payments",
+          "desc": "100% secure checkout"
+        },
+        "support": {
+          "title": "24/7 Support",
+          "desc": "We're here to help"
+        }
+      }
+    },
+    "featured": {
+      "title": "Featured Products",
+      "viewAll": "View All Products",
+      "loading": "Loading featured products...",
+      "emptyTitle": "No featured products yet",
+      "emptyHint": "Check back soon for hand-picked favorites.",
+      "errorTitle": "Couldn't load featured products",
+      "errorHint": "Something went wrong while loading featured products.",
+      "retry": "Retry",
+      "imageAlt": "{{name}} product image",
+      "untitled": "Untitled Product",
+      "discountOff": "-{{percent}}%"
+    },
+    "categories": {
+      "title": "Categories",
+      "viewAll": "View All Categories",
+      "shopNow": "Shop Now",
+      "names": {
+        "electronics": "Electronics",
+        "homeLiving": "Home & Living",
+        "accessories": "Accessories",
+        "sunglasses": "Sunglasses",
+        "beauty": "Beauty",
+        "fashion": "Fashion"
+      }
+    },
+    "banner": {
+      "label": "Summer Sale",
+      "headline": "Up to 30% OFF",
+      "description": "On selected items. Limited time only!",
+      "cta": "Shop the Sale",
+      "imageAlt": "Promotional summer sale banner"
+    },
+    "newsletter": {
+      "title": "Subscribe to our newsletter",
+      "description": "Get the latest updates on new arrivals and exclusive offers",
+      "emailLabel": "Email address",
+      "emailPlaceholder": "name@example.com",
+      "subscribe": "Subscribe"
+    }
+  },
+  "store": {
+    "header": {
+      "navLabel": "Store navigation",
+      "nav": {
+        "home": "Home",
+        "shop": "Shop",
+        "about": "About"
+      },
+      "account": "Account",
+      "cart": "Cart",
+      "adminLink": "Admin Panel"
+    },
+    "footer": {
+      "tagline": "Thoughtfully curated products for a better everyday.",
+      "rights": "All rights reserved.",
+      "groups": {
+        "shop": "Shop",
+        "support": "Support"
+      },
+      "links": {
+        "home": "Home",
+        "catalog": "Catalog",
+        "newArrivals": "New Arrivals",
+        "sale": "Sale",
+        "helpCenter": "Help Center",
+        "shippingReturns": "Shipping & Returns",
+        "contact": "Contact Us"
+      }
+    }
+  },
+  "profile": {
+    "title": "Profile Overview",
+    "description": "Your account information at a glance.",
+    "anonymous": {
+      "title": "You're not signed in",
+      "description": "Sign in to view your profile and account details.",
+      "signIn": "Sign In"
+    },
+    "header": {
+      "signedIn": "Signed in",
+      "signOut": "Sign Out",
+      "signingOut": "Signing out...",
+      "roleLabel": "Role"
+    },
+    "personal": {
+      "title": "Personal Information",
+      "description": "The details currently on file for your account.",
+      "fullName": "Full Name",
+      "email": "Email Address",
+      "username": "Username",
+      "phone": "Phone Number",
+      "missing": "Not provided"
+    },
+    "activity": {
+      "title": "Account Activity",
+      "description": "Order tracking, wishlist, saved addresses and payment methods are not available yet.",
+      "orders": "My Orders",
+      "wishlist": "Wishlist",
+      "addresses": "Saved Addresses",
+      "payments": "Payment Methods",
+      "comingSoon": "Not available yet"
+    }
   },
   "admin": {
     "comingSoon": "This feature isn't implemented yet. It is planned for an upcoming release.",

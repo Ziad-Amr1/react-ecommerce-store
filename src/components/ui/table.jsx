@@ -1,14 +1,28 @@
 import { cn } from "@/lib/utils"
 
+// Row height per density, applied to both instances of the same attribute for
+// header and body rows. Keep these strings fully static so Tailwind can see them.
+const DENSITY = {
+  compact: "[&_[data-slot=table-head]]:h-10 [&_[data-slot=table-row]]:h-10",
+  default: "[&_[data-slot=table-head]]:h-12 [&_[data-slot=table-row]]:h-12",
+  comfortable:
+    "[&_[data-slot=table-head]]:h-14 [&_[data-slot=table-row]]:h-14",
+};
+
 function Table({
   className,
+  density = "default",
   ...props
 }) {
   return (
     <div data-slot="table-container" className="relative w-full overflow-x-auto">
       <table
         data-slot="table"
-        className={cn("w-full caption-bottom text-sm", className)}
+        className={cn(
+          "w-full caption-bottom text-sm",
+          DENSITY[density] ?? DENSITY.default,
+          className
+        )}
         {...props} />
     </div>
   );
@@ -58,7 +72,7 @@ function TableRow({
     <tr
       data-slot="table-row"
       className={cn(
-        "border-b transition-colors hover:bg-muted/50 has-aria-expanded:bg-muted/50 data-[state=selected]:bg-muted",
+        "border-b border-(--color-border) transition-colors hover:bg-muted/50 has-aria-expanded:bg-muted/50 data-[state=selected]:bg-muted",
         className
       )}
       {...props} />
@@ -73,7 +87,7 @@ function TableHead({
     <th
       data-slot="table-head"
       className={cn(
-        "h-10 px-2 text-left align-middle font-medium whitespace-nowrap text-foreground [&:has([role=checkbox])]:pr-0 [&>[role=checkbox]]:translate-y-[2px]",
+        "h-10 px-2 text-start align-middle font-medium whitespace-nowrap text-foreground [&:has([role=checkbox])]:pr-0 [&>[role=checkbox]]:translate-y-[2px]",
         className
       )}
       {...props} />

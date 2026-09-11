@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Link, useNavigate } from "react-router";
+import { useNavigate } from "react-router";
 import { useTranslation } from "react-i18next";
 import { Button } from "@/components/ui/button";
 import {
@@ -9,6 +9,7 @@ import {
   ChevronDown,
   LogOut,
   Loader2,
+  Store,
 } from "lucide-react";
 import {
   DropdownMenu,
@@ -17,19 +18,26 @@ import {
   DropdownMenuLabel,
   DropdownMenuGroup,
   DropdownMenuItem,
+  DropdownMenuSeparator,
 } from "@/components/ui/dropdown-menu";
 import useAuth from "@/hooks/useAuth";
 import useTheme from "@/hooks/useTheme";
-import { adminNavigation } from "@/config/navigation";
+import { getUserIdentity } from "@/features/auth/utils/userIdentity";
 
 export default function HeaderActionButtons() {
   const { t } = useTranslation();
-  const { logout } = useAuth();
+  const { user, logout } = useAuth();
   const { theme, toggleTheme } = useTheme();
   const navigate = useNavigate();
   const [isLoggingOut, setIsLoggingOut] = useState(false);
   const [logoutError, setLogoutError] = useState("");
 
+  const identity = getUserIdentity(user);
+  const identityInitial = identity ? identity.charAt(0).toUpperCase() : "A";
+  const avatar =
+    typeof user?.avatar === "string" && user.avatar.trim()
+      ? user.avatar.trim()
+      : null;
   const isDark = theme === "dark";
 
   async function handleLogout() {
@@ -101,13 +109,26 @@ export default function HeaderActionButtons() {
         <DropdownMenuTrigger asChild>
           <button
             type="button"
-            className="hidden md:flex items-center gap-2 px-3 py-2 rounded-full bg-(--color-link) text-(--color-on-link) text-sm select-none cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-(--color-focus-ring) focus-visible:ring-offset-2"
+            className="flex items-center gap-2 px-3 py-2 rounded-full bg-(--color-link) text-(--color-on-link) text-sm select-none cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-(--color-focus-ring) focus-visible:ring-offset-2"
             aria-label={t("navigation.accountDropdown")}
           >
-            <span className="size-6 rounded-full bg-(--color-on-link)/20 flex items-center justify-center text-xs font-bold">
-              A
+            <span className="size-6 shrink-0 overflow-hidden rounded-full bg-(--color-on-link)/20 flex items-center justify-center text-xs font-bold">
+              {avatar ? (
+                <img
+                  src={avatar}
+                  alt=""
+                  className="size-full object-cover"
+                />
+              ) : (
+                identityInitial
+              )}
             </span>
-            <span>{t("navigation.roleAdmin")}</span>
+            <span
+              className="hidden md:inline max-w-36 truncate text-sm font-semibold"
+              title={identity ?? undefined}
+            >
+              {identity ?? t("navigation.roleAdmin")}
+            </span>
             <ChevronDown size={14} aria-hidden="true" />
           </button>
         </DropdownMenuTrigger>
@@ -115,37 +136,56 @@ export default function HeaderActionButtons() {
         <DropdownMenuContent align="end" className="w-56">
           <DropdownMenuLabel>{t("navigation.account")}</DropdownMenuLabel>
           <DropdownMenuGroup>
-            {adminNavigation.map((item) => {
-              const Icon = item.icon;
-
-              return (
-                <DropdownMenuItem key={item.path} asChild>
-                  <Link to={item.path}>
-                    <Icon size={16} />
-                    {t(item.labelKey)}
-                  </Link>
-                </DropdownMenuItem>
-              );
-            })}
+            <DropdownMenuLabel className="cursor-default gap-2 font-normal">
+              <span className="flex size-6 shrink-0 items-center justify-center overflow-hidden rounded-full bg-(--color-surface-secondary) text-xs font-bold">
+                {avatar ? (
+                  <img
+                    src={avatar}
+                    alt=""
+                    className="size-full object-cover"
+                  />
+                ) : (
+                  identityInitial
+                )}
+              </span>
+              <span className="flex flex-col">
+                <span className="max-w-40 truncate text-sm font-medium">
+                  {identity ?? t("navigation.roleAdmin")}
+                </span>
+                <span className="text-xs text-(--color-text-secondary)">
+                  {t("navigation.roleAdmin")}
+                </span>
+              </span>
+            </DropdownMenuLabel>
           </DropdownMenuGroup>
+
+          <DropdownMenuSeparator />
+
+          <DropdownMenuItem
+            variant="destructive"
+            onSelect={handleLogout}
+            disabled={isLoggingOut}
+            aria-busy={isLoggingOut}
+            className="cursor-pointer"
+          >
+            {isLoggingOut ? (
+              <Loader2 size={16} className="animate-spin" aria-label={t("auth.logout.loadingLabel")} />
+            ) : (
+              <LogOut size={16} aria-label={t("auth.logout.label")} />
+            )}
+            <span>{isLoggingOut ? t("auth.logout.loading") : t("auth.logout.label")}</span>
+          </DropdownMenuItem>
         </DropdownMenuContent>
       </DropdownMenu>
 
       <Button
-        variant="destructive"
-        onClick={handleLogout}
-        disabled={isLoggingOut}
-        aria-busy={isLoggingOut}
-        className="px-4 py-2 rounded-full text-sm flex items-center gap-2 cursor-pointer"
+        variant="outline"
+        onClick={() => navigate("/")}
+        aria-label={t("navigation.backToStore")}
+        className="rounded-full text-sm flex items-center gap-2 cursor-pointer"
       >
-        {isLoggingOut ? (
-          <Loader2 size={20} className="animate-spin" aria-label={t("auth.logout.loadingLabel")} />
-        ) : (
-          <LogOut size={20} aria-label={t("auth.logout.label")} />
-        )}
-        <span className="hidden md:inline-flex">
-          {isLoggingOut ? t("auth.logout.loading") : t("auth.logout.label")}
-        </span>
+        <Store size={20} aria-hidden="true" />
+        <span className="hidden md:inline-flex">{t("navigation.backToStore")}</span>
       </Button>
 
       {logoutError && (

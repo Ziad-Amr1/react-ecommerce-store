@@ -1,93 +1,63 @@
-import { useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import useDashboard from "@/features/admin/dashboard/useDashboard";
 
-import {
-  Card,
-  CardHeader,
-  CardTitle,
-  CardDescription,
-  CardContent,
-} from "@/components/ui/card";
-
-import { Skeleton } from "@/components/ui/skeleton";
+import { Card, CardHeader, CardDescription } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import StatCard from "@/features/admin/dashboard/components/StatCard";
+import RevenueOverview from "@/features/admin/dashboard/components/RevenueOverview";
 import OrderStatus from "@/features/admin/dashboard/components/OrderStatus";
 import TopProducts from "@/features/admin/dashboard/components/TopProducts";
 import RecentOrders from "@/features/admin/dashboard/components/RecentOrders";
-import { formatCurrency } from "@/utils/formatCurrency";
+import DashboardSkeleton from "@/features/admin/dashboard/components/DashboardSkeleton";
 import { formatNumber } from "@/utils/formatNumber";
 
-import {
-  ShoppingBag,
-  Package,
-  Users,
-  DollarSign,
-  Clock,
-  CircleCheck,
-  TriangleAlert,
-  Inbox,
-} from "lucide-react";
+import { ShoppingBag, Package, Users, TriangleAlert, Inbox } from "lucide-react";
 
-const CURRENCY = "USD";
+function resolveErrorMessage(error, t) {
+  if (typeof error === "string" && error.length > 0) {
+    return error;
+  }
+
+  if (error && typeof error.key === "string") {
+    return t(error.key);
+  }
+
+  return t("dashboard.loadError");
+}
 
 export default function Dashboard() {
   const { t, i18n } = useTranslation();
-
   const { dashboard, loading, error, fetchDashboard } = useDashboard();
 
-  useEffect(() => {
-    fetchDashboard();
-  }, [fetchDashboard]);
-
-  if (loading) {
-    return (
-      <div className="w-full space-y-6" role="status" aria-busy="true">
-        <span className="sr-only">{t("dashboard.loading")}</span>
-
-        <Card>
-          <CardHeader className="space-y-3">
-            <Skeleton className="h-4 w-28" />
-            <Skeleton className="h-7 w-64 max-w-full" />
-            <Skeleton className="h-4 w-80 max-w-full" />
-          </CardHeader>
-        </Card>
-
-        <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
-          {Array.from({ length: 6 }).map((_, index) => (
-            <Card
-              key={index}
-              className="overflow-hidden border-t-4 border-t-(--color-accent)"
-            >
-              <CardHeader className="space-y-3">
-                <Skeleton className="h-5 w-1/2" />
-                <Skeleton className="h-4 w-3/4" />
-              </CardHeader>
-
-              <CardContent className="flex items-end justify-between gap-4">
-                <Skeleton className="h-8 w-16" />
-                <Skeleton className="size-14 shrink-0 rounded-xl" />
-              </CardContent>
-            </Card>
-          ))}
-        </div>
-      </div>
-    );
-  }
+  if (loading && !dashboard) return <DashboardSkeleton />;
 
   if (error) {
+    const message = resolveErrorMessage(error, t);
+
     return (
       <div
         role="alert"
-        className="flex w-full items-start gap-3 rounded-lg border border-(--color-error) bg-(--color-error-bg) p-4"
+        className="flex w-full flex-wrap items-center justify-between gap-4 rounded-lg border border-(--color-error) bg-(--color-error-bg) p-4"
       >
-        <TriangleAlert
-          className="mt-0.5 size-5 shrink-0 text-(--color-error)"
-          aria-hidden="true"
-        />
+        <div className="flex items-start gap-3">
+          <TriangleAlert
+            className="mt-0.5 size-5 shrink-0 text-(--color-error)"
+            aria-hidden="true"
+          />
 
-        <p className="text-sm font-medium leading-5 text-(--color-error)">
-          {error}
-        </p>
+          <p className="text-sm font-medium leading-5 text-(--color-error)">
+            {message}
+          </p>
+        </div>
+
+        <Button
+          variant="outline"
+          size="sm"
+          className="shrink-0 cursor-pointer"
+          onClick={fetchDashboard}
+        >
+          {t("dashboard.retry")}
+        </Button>
       </div>
     );
   }
@@ -107,62 +77,27 @@ export default function Dashboard() {
     );
   }
 
-  const cardList = [
+  const kpis = [
     {
-      id: 1,
-      cardTitle: t("dashboard.totalOrders"),
-      cardDescription: t("dashboard.totalOrdersDescription"),
-      cardNumber: formatNumber(dashboard.orders.total, i18n.language),
-      cardIcon: ShoppingBag,
-      borderClass: "border-t-primary",
-      iconClass: "bg-primary text-primary-foreground",
+      id: "orders",
+      title: t("dashboard.totalOrders"),
+      description: t("dashboard.totalOrdersDescription"),
+      value: formatNumber(dashboard.orders.total, i18n.language),
+      icon: ShoppingBag,
     },
     {
-      id: 2,
-      cardTitle: t("dashboard.pendingOrders"),
-      cardDescription: t("dashboard.pendingOrderDescription"),
-      cardNumber: formatNumber(dashboard.orders.pending, i18n.language),
-      cardIcon: Package,
-      borderClass: "border-t-secondary",
-      iconClass: "bg-(--color-surface-secondary) text-(--color-secondary)",
+      id: "pending",
+      title: t("dashboard.pendingOrders"),
+      description: t("dashboard.pendingOrderDescription"),
+      value: formatNumber(dashboard.orders.pending, i18n.language),
+      icon: Package,
     },
     {
-      id: 3,
-      cardTitle: t("dashboard.totalRevenue"),
-      cardDescription: t("dashboard.totalRevenueDescription"),
-      cardNumber: formatCurrency(dashboard.revenue.total, CURRENCY, i18n.language),
-      cardIcon: DollarSign,
-      borderClass: "border-t-(--color-supporting)",
-      iconClass: "bg-(--color-supporting) text-(--color-primary)",
-    },
-    {
-      id: 4,
-      cardTitle: t("dashboard.thisMonth"),
-      cardDescription: t("dashboard.thisMonthDescription"),
-      cardNumber: formatCurrency(dashboard.revenue.thisMonth, CURRENCY, i18n.language),
-      cardIcon: Clock,
-      borderClass: "border-t-(--color-warning)",
-      iconClass: "bg-(--color-warning-bg) text-(--color-warning)",
-    },
-    {
-      id: 5,
-      cardTitle: t("dashboard.topProduct"),
-      cardDescription: t("dashboard.topProductDescription", {
-        count: dashboard.topProducts[0]?.totalSold ?? 0,
-      }),
-      cardNumber: dashboard.topProducts[0]?.name || t("dashboard.noProducts"),
-      cardIcon: CircleCheck,
-      borderClass: "border-t-(--color-info)",
-      iconClass: "bg-(--color-info-bg) text-(--color-info)",
-    },
-    {
-      id: 6,
-      cardTitle: t("dashboard.totalUsers"),
-      cardDescription: t("dashboard.totalUsersDescription"),
-      cardNumber: formatNumber(dashboard.totalCustomers, i18n.language),
-      cardIcon: Users,
-      borderClass: "border-t-(--color-success)",
-      iconClass: "bg-(--color-success-bg) text-(--color-success)",
+      id: "users",
+      title: t("dashboard.totalUsers"),
+      description: t("dashboard.totalUsersDescription"),
+      value: formatNumber(dashboard.totalCustomers, i18n.language),
+      icon: Users,
     },
   ];
 
@@ -174,9 +109,9 @@ export default function Dashboard() {
             {t("dashboard.adminOverview")}
           </span>
 
-          <CardTitle className="font-display text-2xl">
+          <h1 className="font-display text-2xl font-semibold leading-none">
             {t("dashboard.commerceHealth")}
-          </CardTitle>
+          </h1>
 
           <CardDescription className="max-w-3xl">
             {t("dashboard.commerceHealthDescription")}
@@ -184,46 +119,48 @@ export default function Dashboard() {
         </CardHeader>
       </Card>
 
-      <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
-        {cardList.map((card) => {
-          const Icon = card.cardIcon;
+      <div className="grid grid-cols-1 gap-6 lg:grid-cols-12">
+        <div className="lg:col-span-8">
+          <RevenueOverview
+            revenue={dashboard.revenue}
+            dailyRevenue={dashboard.dailyRevenue}
+          />
+        </div>
 
-          return (
-            <Card
-              key={card.id}
-              className={`overflow-hidden border-t-4 shadow-sm ${card.borderClass}`}
-            >
-              <CardHeader>
-                <CardTitle className="font-display">
-                  {card.cardTitle}
-                </CardTitle>
+        <section
+          className="lg:col-span-4"
+          aria-labelledby="operational-heading"
+        >
+          <h2 id="operational-heading" className="sr-only">
+            {t("dashboard.adminOverview")}
+          </h2>
 
-                <CardDescription>{card.cardDescription}</CardDescription>
-              </CardHeader>
-
-              <CardContent className="flex items-end justify-between gap-4">
-                <h2 className="font-display wrap-break-word text-2xl font-bold tabular-nums">
-                  {card.cardNumber}
-                </h2>
-
-                <div
-                  className={`flex size-14 shrink-0 items-center justify-center rounded-xl ${card.iconClass}`}
-                >
-                  <Icon className="size-8" aria-hidden="true" />
-                </div>
-              </CardContent>
-            </Card>
-          );
-        })}
+          <ul className="flex flex-col gap-4 lg:h-full lg:justify-between">
+            {kpis.map((kpi) => (
+              <li key={kpi.id}>
+                <StatCard
+                  title={kpi.title}
+                  description={kpi.description}
+                  value={kpi.value}
+                  icon={kpi.icon}
+                />
+              </li>
+            ))}
+          </ul>
+        </section>
       </div>
 
-      <div className="grid grid-cols-1 gap-6 xl:grid-cols-2">
-        <OrderStatus
-          ordersByStatus={dashboard.ordersByStatus}
-          totalOrders={dashboard.orders.total}
-        />
+      <div className="grid grid-cols-1 gap-6 lg:grid-cols-12">
+        <div className="lg:col-span-5">
+          <OrderStatus
+            ordersByStatus={dashboard.ordersByStatus}
+            totalOrders={dashboard.orders.total}
+          />
+        </div>
 
-        <TopProducts products={dashboard.topProducts} />
+        <div className="lg:col-span-7">
+          <TopProducts products={dashboard.topProducts} />
+        </div>
       </div>
 
       <RecentOrders orders={dashboard.recentOrders} />

@@ -42,6 +42,13 @@ export default function AdminLayout() {
     return () => document.removeEventListener("keydown", handleKeyDown);
   }, []);
 
+  useEffect(() => {
+    document.body.style.overflow = isSidebarOpen ? "hidden" : "";
+    return () => {
+      document.body.style.overflow = "";
+    };
+  }, [isSidebarOpen]);
+
   return (
     <div className="min-h-screen bg-background">
       <div className="flex min-h-screen">

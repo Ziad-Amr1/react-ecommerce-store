@@ -1,3 +1,6 @@
+
+
+import { useState, useEffect } from "react";
 import {
   Pagination as PaginationUI,
   PaginationContent,
@@ -5,6 +8,7 @@ import {
   PaginationPrevious,
   PaginationNext,
   PaginationLink,
+  PaginationEllipsis,
 } from "@/components/ui/pagination";
 
 const OrdersPagination = ({ currentPage, totalPages, onPageChange }) => {
@@ -12,7 +16,22 @@ const OrdersPagination = ({ currentPage, totalPages, onPageChange }) => {
     return null;
   }
 
-  const pages = Array.from({ length: totalPages }, (_, index) => index + 1);
+  const [startPage, setStartPage] = useState(1);
+
+  useEffect(() => {
+    if (currentPage < startPage) {
+      setStartPage(currentPage);
+    }
+    else if (currentPage > startPage + 2) {
+      setStartPage(currentPage - 2);
+    }
+  }, [currentPage, startPage]);
+
+  const endPage = Math.min(totalPages, startPage + 2);
+  const pages = [];
+  for (let i = startPage; i <= endPage; i++) {
+    pages.push(i);
+  }
 
   return (
     <div className="flex items-center justify-between border-t border-[var(--color-border)] bg-[var(--color-surface)] px-6 py-4 text-sm text-[var(--color-text-secondary)]">
@@ -37,7 +56,6 @@ const OrdersPagination = ({ currentPage, totalPages, onPageChange }) => {
               tabIndex={currentPage === 1 ? -1 : undefined}
               onClick={(e) => {
                 e.preventDefault();
-
                 if (currentPage > 1) {
                   onPageChange(currentPage - 1);
                 }
@@ -75,6 +93,13 @@ const OrdersPagination = ({ currentPage, totalPages, onPageChange }) => {
             );
           })}
 
+          {/* Ellipsis */}
+          {endPage < totalPages && (
+            <PaginationItem>
+              <PaginationEllipsis className="size-8 text-[var(--color-text-secondary)]" />
+            </PaginationItem>
+          )}
+
           {/* Next */}
           <PaginationItem>
             <PaginationNext
@@ -83,7 +108,6 @@ const OrdersPagination = ({ currentPage, totalPages, onPageChange }) => {
               tabIndex={currentPage === totalPages ? -1 : undefined}
               onClick={(e) => {
                 e.preventDefault();
-
                 if (currentPage < totalPages) {
                   onPageChange(currentPage + 1);
                 }

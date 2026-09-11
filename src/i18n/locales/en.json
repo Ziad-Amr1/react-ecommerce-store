@@ -547,7 +547,7 @@
     "totalOrders": "Total Orders",
     "loadError": "Failed to load orders.",
     "noOrdersFound": "No orders found.",
-    "currency": "EGP",
+    "currency": "USD",
     "notAvailable": "N/A",
     "searchPlaceholder": "Search ID, customer...",
     "filters": {

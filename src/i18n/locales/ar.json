@@ -47,7 +47,8 @@
   },
   "languages": {
     "switcherLabel": "اختر اللغة",
-    "en": "الإنجليزية"
+    "en": "الإنجليزية",
+    "ar": "العربية"
   },
   "auth": {
     "password": {

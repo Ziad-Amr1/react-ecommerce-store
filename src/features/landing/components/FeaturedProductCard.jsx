@@ -115,16 +115,18 @@ export default function FeaturedProductCard({ product }) {
           that toggles locally but doesn't persist would mislead users. */}
       <Tooltip>
         <TooltipTrigger asChild>
-          <Button
-            type="button"
-            variant="ghost"
-            size="icon-sm"
-            disabled
-            aria-label={t("landing.featured.toggleWishlist", { name })}
-            className="absolute end-2 top-2 z-20 cursor-not-allowed bg-(--color-surface)/80 backdrop-blur-sm opacity-60 hover:bg-(--color-surface)"
-          >
-            <Heart aria-hidden="true" />
-          </Button>
+          <span className="absolute end-2 top-2 z-20">
+            <Button
+              type="button"
+              variant="ghost"
+              size="icon-sm"
+              disabled
+              aria-label={t("landing.featured.toggleWishlist", { name })}
+              className="cursor-not-allowed bg-(--color-surface)/80 backdrop-blur-sm opacity-60 hover:bg-(--color-surface)"
+            >
+              <Heart aria-hidden="true" />
+            </Button>
+          </span>
         </TooltipTrigger>
 
         <TooltipContent side="top">

@@ -16,6 +16,7 @@ export default function StoreHeader() {
   const isAdmin = user?.role === "admin";
   const isHomeActive = pathname === "/";
   const isProductsActive = pathname.startsWith("/products");
+  const isCartActive = pathname.startsWith("/cart");
 
   return (
     <header className="sticky top-0 z-(--z-nav) border-b bg-(--color-surface)">
@@ -104,10 +105,22 @@ export default function StoreHeader() {
             )}
           </Button>
 
-          <ComingSoonButton variant="outline" size="icon" className="rounded-full">
-            <ShoppingCart size={20} aria-hidden="true" />
-            <span className="sr-only">{t("store.header.cart")}</span>
-          </ComingSoonButton>
+          <Button
+            asChild
+            variant="outline"
+            size="icon"
+            className="rounded-full cursor-pointer"
+            aria-current={isCartActive ? "page" : undefined}
+          >
+            <Link
+              to="/cart"
+              aria-label={t("store.header.cart")}
+              title={t("store.header.cart")}
+              className={isCartActive ? "text-(--color-primary)" : ""}
+            >
+              <ShoppingCart size={20} aria-hidden="true" />
+            </Link>
+          </Button>
 
           <Button asChild variant="outline" size="icon" className="rounded-full cursor-pointer">
             <Link to="/profile" aria-label={t("store.header.account")} title={t("store.header.account")}>

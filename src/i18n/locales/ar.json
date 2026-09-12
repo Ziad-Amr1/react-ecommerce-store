@@ -522,6 +522,12 @@
       "done": "مكتمل"
     }
   },
+  "cart": {
+    "title": "سلة التسوق",
+    "emptyTitle": "سلة التسوق فارغة",
+    "emptyDescription": "تصفح المتجر وأضف ما يعجبك إلى سلة التسوق.",
+    "browseProducts": "تصفح المنتجات"
+  },
   "notFound": {
     "title": "عذرًا!",
     "code": "خطأ 404",

@@ -17,30 +17,39 @@ import {
   updateCartItem,
 } from "@/features/cart/cart.service";
 
-const FETCH_LOADING = "loading";
-const FETCH_READY = "ready";
-
+// The server cart is owned by a specific user id. It is only ever rendered
+// for signed-in users whose id matches the tag, so logging out or switching
+// accounts can never leak a previous account's cart into the guest/view.
+// All transitions happen in async callbacks (never synchronously in effects).
 const CartProvider = ({ children }) => {
   const { user, isLoading: isAuthLoading } = useAuth();
 
-  const [serverCart, setServerCart] = useState(EMPTY_CART);
-  const [guestCart, setGuestCart] = useState(EMPTY_CART);
-  const [serverFetchState, setServerFetchState] = useState(FETCH_LOADING);
+  const [serverState, setServerState] = useState({
+    cart: EMPTY_CART,
+    userId: null,
+    loading: true,
+  });
   const [serverLoadError, setServerLoadError] = useState(null);
   const [isUpdating, setIsUpdating] = useState(false);
+  const [guestCart, setGuestCart] = useState({ ...EMPTY_CART });
 
   const controllerRef = useRef(null);
+  const currentUserId = user?._id ?? null;
   const isSignedIn = !isAuthLoading && Boolean(user);
 
-  const syncFromServer = useCallback((data) => {
-    setServerCart(normalizeServerCart(data));
+  const syncFromServer = useCallback((data, userId) => {
+    setServerState({
+      cart: normalizeServerCart(data),
+      userId,
+      loading: false,
+    });
     setServerLoadError(null);
   }, []);
 
   // Load the signed-in user's server cart. Guests keep an ephemeral
   // in-memory cart (separate state) — there is no fake persistence.
   useEffect(() => {
-    if (isAuthLoading || !user) {
+    if (isAuthLoading || !user || !currentUserId) {
       return undefined;
     }
 
@@ -48,52 +57,58 @@ const CartProvider = ({ children }) => {
     controllerRef.current?.abort();
     controllerRef.current = controller;
 
-    // Flip to "loading" as a microtask (not synchronously) so the effect
-    // body only starts async work — the same pattern the rest of the app uses.
+    // Mark the load as pending in a microtask (not synchronously), matching
+    // the async-only pattern the rest of the app follows.
     Promise.resolve().then(() => {
       if (controller.signal.aborted) {
         return;
       }
-      setServerFetchState(FETCH_LOADING);
+      setServerState((previous) => ({ ...previous, loading: true, userId: currentUserId }));
       setServerLoadError(null);
     });
 
     getCart(controller.signal)
       .then((response) => {
-        if (!controller.signal.aborted) {
-          syncFromServer(response.data);
+        if (controller.signal.aborted) {
+          return;
         }
+        syncFromServer(response.data, currentUserId);
       })
       .catch((error) => {
-        if (!controller.signal.aborted) {
-          // A fresh account simply has no cart yet (404 = empty cart).
-          if (error?.response?.status !== 404) {
-            setServerLoadError(error);
-          }
-          setServerCart(EMPTY_CART);
+        if (controller.signal.aborted) {
+          return;
         }
-      })
-      .finally(() => {
-        if (!controller.signal.aborted) {
-          setServerFetchState(FETCH_READY);
+        // A fresh account simply has no cart yet (404 = empty cart).
+        if (error?.response?.status !== 404) {
+          setServerLoadError(error);
         }
+        syncFromServer(null, currentUserId);
       });
 
     return () => controller.abort();
-  }, [isAuthLoading, user, syncFromServer]);
+  }, [isAuthLoading, user, currentUserId, syncFromServer]);
 
-  const cart = isSignedIn ? serverCart : guestCart;
-  const isLoading = isAuthLoading || (isSignedIn && serverFetchState === FETCH_LOADING);
+  // Single derived source of truth. A signed-in user sees only the server cart
+  // tagged with their own id; until that fetch lands they see the loading state
+  // (never a different user's cart). Guests see their own in-memory cart.
+  const canShowServerCart = isSignedIn && serverState.userId === currentUserId;
+  const cart = isSignedIn
+    ? canShowServerCart
+      ? serverState.cart
+      : EMPTY_CART
+    : guestCart;
+  const isLoading =
+    isAuthLoading || (isSignedIn && (serverState.loading || !canShowServerCart));
   const loadError = isSignedIn ? serverLoadError : null;
 
   // Server mutations return the full updated cart, which keeps the server
   // response as the single source of truth for signed-in sessions.
   const mutate = useCallback(
-    async (operation) => {
+    async (operation, userId) => {
       setIsUpdating(true);
       try {
         const data = await operation();
-        syncFromServer(data);
+        syncFromServer(data, userId);
         return data;
       } finally {
         setIsUpdating(false);
@@ -114,11 +129,12 @@ const CartProvider = ({ children }) => {
         return;
       }
 
-      await mutate(() =>
-        addCartItem({ productId, quantity: 1 }).then((response) => response.data),
+      await mutate(
+        () => addCartItem({ productId, quantity: 1 }).then((response) => response.data),
+        currentUserId,
       );
     },
-    [isSignedIn, mutate],
+    [isSignedIn, mutate, currentUserId],
   );
 
   const updateQuantity = useCallback(
@@ -128,11 +144,12 @@ const CartProvider = ({ children }) => {
         return;
       }
 
-      await mutate(() =>
-        updateCartItem({ productId, quantity }).then((response) => response.data),
+      await mutate(
+        () => updateCartItem({ productId, quantity }).then((response) => response.data),
+        currentUserId,
       );
     },
-    [isSignedIn, mutate],
+    [isSignedIn, mutate, currentUserId],
   );
 
   const removeItem = useCallback(
@@ -142,11 +159,12 @@ const CartProvider = ({ children }) => {
         return;
       }
 
-      await mutate(() =>
-        removeCartItem(productId).then((response) => response.data),
+      await mutate(
+        () => removeCartItem(productId).then((response) => response.data),
+        currentUserId,
       );
     },
-    [isSignedIn, mutate],
+    [isSignedIn, mutate, currentUserId],
   );
 
   const clear = useCallback(async () => {
@@ -155,8 +173,11 @@ const CartProvider = ({ children }) => {
       return;
     }
 
-    await mutate(() => clearCart().then((response) => response.data));
-  }, [isSignedIn, mutate]);
+    await mutate(
+      () => clearCart().then((response) => response.data),
+      currentUserId,
+    );
+  }, [isSignedIn, mutate, currentUserId]);
 
   return (
     <CartContext.Provider

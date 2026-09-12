@@ -42,7 +42,9 @@ export default function AddAdminDialog({ isOpen, onClose, onSuccess }) {
 
   const onSubmit = async (data) => {
     try {
-      await createUser({ ...data, role: "admin" });
+      // POST /users/add only documents { username, email, password, phone };
+      // the backend assigns the role (201 example returns "customer").
+      await createUser(data);
       toast.success(t("users.dialogs.addSuccess"));
       reset();
       onSuccess();
@@ -229,7 +231,7 @@ export default function AddAdminDialog({ isOpen, onClose, onSuccess }) {
             </Button>
             <Button type="submit" disabled={isSubmitting} className="w-full sm:w-auto">
               <ShieldPlus className="size-4" aria-hidden="true" />
-              {isSubmitting ? t("users.dialogs.adding") : t("users.dialogs.saveAdmin")}
+              {isSubmitting ? t("users.dialogs.adding") : t("users.dialogs.saveUser")}
             </Button>
           </DialogFooter>
         </form>

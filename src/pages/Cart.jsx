@@ -34,7 +34,7 @@ import {
 } from "@/components/ui/alert-dialog";
 import useAuth from "@/hooks/useAuth";
 import useCart from "@/hooks/useCart";
-import { formatCurrency } from "@/utils/formatCurrency";
+import { formatCurrency, ORDER_CURRENCY } from "@/utils/formatCurrency";
 
 function CartLineSkeleton() {
   return (
@@ -50,7 +50,7 @@ function CartLineSkeleton() {
 }
 
 export default function Cart() {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const { user } = useAuth();
   const {
     cart,
@@ -65,6 +65,8 @@ export default function Cart() {
   const [isClearing, setIsClearing] = useState(false);
 
   const isGuest = !user;
+  const locale = i18n.language || "en-US";
+  const money = (value) => formatCurrency(value, ORDER_CURRENCY, locale);
 
   const handleRemove = async (item) => {
     try {
@@ -177,7 +179,7 @@ export default function Cart() {
                       </Link>
                       <p className="mt-1 text-sm text-muted-foreground">
                         {t("cart.unitPrice", {
-                          price: formatCurrency(item.price),
+                          price: money(item.price),
                         })}
                       </p>
 
@@ -228,7 +230,7 @@ export default function Cart() {
                         <Trash2 className="size-4" aria-hidden="true" />
                       </Button>
                       <p className="font-semibold tabular-nums text-(--color-text-primary)">
-                        {formatCurrency(item.price * item.quantity)}
+                        {money(item.price * item.quantity)}
                       </p>
                     </div>
                   </div>
@@ -253,7 +255,7 @@ export default function Cart() {
                 <div className="flex items-center justify-between text-sm">
                   <span className="text-muted-foreground">{t("cart.subtotal")}</span>
                   <span className="font-medium tabular-nums text-foreground">
-                    {formatCurrency(cart.subtotal)}
+                    {money(cart.subtotal)}
                   </span>
                 </div>
 
@@ -265,7 +267,7 @@ export default function Cart() {
                       {cart.coupon ? ` · ${cart.coupon}` : ""}
                     </span>
                     <span className="tabular-nums text-success">
-                      -{formatCurrency(cart.discountAmount)}
+                      -{money(cart.discountAmount)}
                     </span>
                   </div>
                 )}
@@ -273,7 +275,7 @@ export default function Cart() {
                 <div className="flex items-center justify-between border-t border-(--color-border) pt-4">
                   <span className="font-medium text-foreground">{t("cart.total")}</span>
                   <span className="font-display text-xl font-bold tabular-nums text-foreground">
-                    {formatCurrency(cart.total)}
+                    {money(cart.total)}
                   </span>
                 </div>
 

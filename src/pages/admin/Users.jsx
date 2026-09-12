@@ -55,7 +55,7 @@ export default function Users() {
           className="w-full cursor-pointer sm:w-auto"
         >
           <Plus className="size-4" aria-hidden="true" />
-          {t("users.addAdmin")}
+          {t("users.addUser")}
         </Button>
       </div>
 

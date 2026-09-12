@@ -108,11 +108,12 @@ export default function useUsers() {
         await deleteUser(user._id);
         toast.success(t("users.dialogs.deleteSuccess"));
 
+        // Always reload so the deleted user cannot linger in the cached list;
+        // roll the page back only when it would otherwise become empty.
         if (users.length === 1 && currentPage > 1) {
           setCurrentPage((page) => page - 1);
-        } else {
-          setReloadKey((key) => key + 1);
         }
+        setReloadKey((key) => key + 1);
       } catch (error) {
         toast.error(error.response?.data?.message || t("users.dialogs.deleteFailed"));
       } finally {

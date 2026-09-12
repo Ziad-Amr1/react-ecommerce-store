@@ -1,12 +1,14 @@
 import { useState } from "react";
 import { useNavigate, useParams } from "react-router";
 import { useTranslation } from "react-i18next";
+import { toast } from "sonner";
 import {
   ArrowLeft,
   CircleCheck,
   CircleX,
   TriangleAlert,
   Heart,
+  LoaderCircle,
   ShoppingCart,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -15,6 +17,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { formatCurrency } from "@/utils/formatCurrency";
 import { formatNumber } from "@/utils/formatNumber";
 import useProductDetails from "@/features/products/useProductDetails";
+import useCart from "@/hooks/useCart";
 import Stars from "@/features/products/components/ProductRating";
 import ProductSkeleton from "@/features/products/components/ProductCardSkeleton";
 import {
@@ -28,7 +31,9 @@ export default function ProductDetails() {
   const { t } = useTranslation();
   const { id } = useParams();
   const { product, isLoading, error, retry } = useProductDetails(id);
+  const { addItem } = useCart();
   const [selectedImage, setSelectedImage] = useState(0);
+  const [isAdding, setIsAdding] = useState(false);
 
   if (isLoading) {
     return (
@@ -120,6 +125,25 @@ export default function ProductDetails() {
       : product.stock < 5
         ? "text-[var(--color-warning)]"
         : "text-[var(--color-success)]";
+
+  const isOutOfStock = product.stock === 0;
+
+  const handleAddToCart = async () => {
+    if (isOutOfStock || isAdding) {
+      return;
+    }
+
+    setIsAdding(true);
+
+    try {
+      await addItem(product);
+      toast.success(t("cart.added", { name: productName }));
+    } catch {
+      toast.error(t("cart.addFailed"));
+    } finally {
+      setIsAdding(false);
+    }
+  };
 
   return (
     <div className="min-h-screen bg-[var(--color-surface-secondary)] text-[var(--color-text-primary)] font-body transition-colors duration-300">
@@ -299,10 +323,18 @@ export default function ProductDetails() {
               <div className="flex gap-2 border-t border-[var(--color-border)] pt-5">
                 <Button
                   className="flex-1 bg-[var(--color-primary)] text-primary-foreground hover:bg-[var(--color-secondary)]"
-                  // onClick={() => addToCart(product)}
+                  onClick={handleAddToCart}
+                  disabled={isAdding || isOutOfStock}
+                  aria-label={
+                    isOutOfStock ? t("shop.outOfStock") : t("shop.addToCart")
+                  }
                 >
-                  <ShoppingCart aria-hidden="true" />
-                  {t("shop.addToCart")}
+                  {isAdding ? (
+                    <LoaderCircle className="size-4 animate-spin" aria-hidden="true" />
+                  ) : (
+                    <ShoppingCart aria-hidden="true" />
+                  )}
+                  {isOutOfStock ? t("shop.outOfStock") : t("shop.addToCart")}
                 </Button>
 
                 <Tooltip>

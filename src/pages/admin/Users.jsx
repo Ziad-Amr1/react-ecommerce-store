@@ -32,7 +32,7 @@ export default function Users(){
       setCurrentPage(1);
     } catch (error){
       setUsers([]);
-      setError(error.response?.data?.message || "Failed to load users. Please try again.");
+      setError(error.response?.data?.message || t("users.loadError"));
     } finally{
       setIsLoading(false);
     }
@@ -52,7 +52,7 @@ export default function Users(){
       } catch (error){
         if(!ignore){
           setUsers([]);
-          setError(error.response?.data?.message || "Failed to load users. Please try again.");
+          setError(error.response?.data?.message || t("users.loadError"));
         }
       } finally {
         if(!ignore){
@@ -64,7 +64,7 @@ export default function Users(){
     loadUsers();
 
     return () => { ignore = true; };
-  }, []);
+  }, [t]);
   
   // Pagination Calculations
   const totalPages = Math.ceil(users.length / usersPerPage);
@@ -129,8 +129,8 @@ export default function Users(){
     return (
       <div className="space-y-6">
         <div>
-          <h1 className="mb-1 text-3xl font-semibold text-[var(--color-text-primary)]">{t("Users Page")}</h1>
-          <p className="text-[var(--color-text-secondary)]">Manage all users</p>
+          <h1 className="mb-1 text-3xl font-semibold text-[var(--color-text-primary)]">{t("users.title")}</h1>
+          <p className="text-[var(--color-text-secondary)]">{t("users.subtitle")}</p>
         </div>
 
         <div className="min-h-[280px] flex items-center justify-center rounded-xl border border-[var(--color-supporting)] bg-[var(--color-surface)]">
@@ -138,7 +138,7 @@ export default function Users(){
             <div className="flex size-12 items-center justify-center rounded-full bg-[var(--color-accent)] text-[var(--color-primary)]">
               <UsersIcon size={24} />
             </div>
-            <p className="text-sm text-[var(--color-text-secondary)]">Loading users...</p>
+            <p className="text-sm text-[var(--color-text-secondary)]">{t("users.loading")}</p>
           </div>
         </div>
       </div>
@@ -150,8 +150,8 @@ export default function Users(){
     return (
       <div className="space-y-6">
         <div>
-          <h1 className="mb-1 text-3xl font-semibold text-[var(--color-text-primary)]">{t("Users Page")}</h1>
-          <p className="text-[var(--color-text-secondary)]">Manage all users</p>
+          <h1 className="mb-1 text-3xl font-semibold text-[var(--color-text-primary)]">{t("users.title")}</h1>
+          <p className="text-[var(--color-text-secondary)]">{t("users.subtitle")}</p>
         </div>
 
         <div className="min-h-[280px] flex flex-col items-center justify-center gap-4 rounded-xl border border-[var(--color-error)] bg-[var(--color-error-bg)] p-6 text-center">
@@ -159,11 +159,11 @@ export default function Users(){
             <RefreshCw size={22} />
           </div>
           <div>
-            <h2 className="text-base font-semibold text-[var(--color-text-primary)]">Unable to load users</h2>
+            <h2 className="text-base font-semibold text-[var(--color-text-primary)]">{t("users.loadErrorTitle")}</h2>
             <p className="mt-1 text-sm text-[var(--color-text-secondary)]">{error}</p>
           </div>
          <Button type="button" onClick={fetchUsers} className="bg-[var(--color-primary)] text-[var(--color-surface)] hover:bg-[var(--color-secondary)]">
-            <RefreshCw size={17} />Try Again
+            <RefreshCw size={17} />{t("users.retry")}
           </Button>
         </div>
       </div>
@@ -175,11 +175,11 @@ export default function Users(){
       {/* Header */}
       <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
         <div>
-          <h1 className="mb-1 font-semibold text-3xl text-[var(--color-text-primary)]">{t("Users Page")}</h1>
-          <p className="text-[var(--color-text-secondary)]">Manage all users</p>
+          <h1 className="mb-1 font-semibold text-3xl text-[var(--color-text-primary)]">{t("users.title")}</h1>
+          <p className="text-[var(--color-text-secondary)]">{t("users.subtitle")}</p>
         </div>
         <Button onClick={() => setIsAddAdminOpen(true)} className="w-full bg-[var(--color-primary)] text-[var(--color-surface)] hover:bg-[var(--color-secondary)] sm:w-auto">
-          <Plus size={18} />Add Admin
+          <Plus size={18} />{t("users.addAdmin")}
         </Button>
       </div>
 
@@ -192,8 +192,8 @@ export default function Users(){
               <UsersIcon size={24} />
             </div>
             <div>
-              <h2 className="text-base font-semibold text-[var(--color-text-primary)]">No users found.</h2>
-              <p className="mt-1 text-sm text-[var(--color-text-secondary)]">There are currently no users to display.</p>
+              <h2 className="text-base font-semibold text-[var(--color-text-primary)]">{t("users.emptyTitle")}</h2>
+              <p className="mt-1 text-sm text-[var(--color-text-secondary)]">{t("users.emptyDescription")}</p>
             </div>
           </div>
         ) : (
@@ -202,10 +202,10 @@ export default function Users(){
               <Table className="min-w-[700px]">
                 <TableHeader>
                   <TableRow className="border-b border-[var(--color-supporting)] bg-[var(--color-surface-secondary)]">
-                    <TableHead className="text-[var(--color-text-primary)]">Username</TableHead>
-                    <TableHead className="text-[var(--color-text-primary)]">Email</TableHead>
-                    <TableHead className="text-[var(--color-text-primary)]">Role</TableHead>
-                    <TableHead className="text-right text-[var(--color-text-primary)]">Actions</TableHead>
+                    <TableHead className="text-[var(--color-text-primary)]">{t("users.columns.username")}</TableHead>
+                    <TableHead className="text-[var(--color-text-primary)]">{t("users.columns.email")}</TableHead>
+                    <TableHead className="text-[var(--color-text-primary)]">{t("users.columns.role")}</TableHead>
+                    <TableHead className="text-end text-[var(--color-text-primary)]">{t("users.columns.actions")}</TableHead>
                   </TableRow>
                 </TableHeader>
 
@@ -234,10 +234,10 @@ export default function Users(){
                         >{user.role}
                         </Badge>
                       </TableCell>
-                      <TableCell className="text-right">
+                      <TableCell className="text-end">
                         <div className="flex justify-end gap-2">
-                          <Button variant="outline" size="sm" onClick={() => handleViewUser(user)} className="border-[var(--color-supporting-decorative)] text-[var(--color-text-primary)] hover:bg-[var(--color-accent)]hover:text-[var(--color-on-accent)]">View</Button>
-                          <Button variant="destructive" size="sm" onClick={() => handleDeleteUser(user)} aria-label={`Delete ${user.username}`} className="bg-[var(--color-error)] text-[var(--color-surface)] hover:opacity-90"><Trash2 size={16} /></Button>
+                          <Button variant="outline" size="sm" onClick={() => handleViewUser(user)} className="border-[var(--color-supporting-decorative)] text-[var(--color-text-primary)] hover:bg-[var(--color-accent)] hover:text-[var(--color-on-accent)]">{t("users.view")}</Button>
+                          <Button variant="destructive" size="sm" onClick={() => handleDeleteUser(user)} aria-label={t("users.deleteUser", { name: user.username })} className="bg-[var(--color-error)] text-[var(--color-surface)] hover:opacity-90"><Trash2 size={16} /></Button>
                         </div>
                       </TableCell>
                     </TableRow>
@@ -250,23 +250,21 @@ export default function Users(){
             {totalPages > 1 && (
               <div className="flex flex-col gap-4 border-t border-[var(--color-supporting)] bg-[var(--color-surface-secondary)] px-4 py-4 sm:flex-row sm:items-center sm:justify-between">
                 {/* Page information */}
-                <p className="text-center text-sm text-[var(--color-text-secondary)] sm:text-left">
-                  Showing{" "}
-                  <span className="font-medium text-[var(--color-text-primary)]">{startIndex + 1}</span>{" "}
-                  to{" "}
-                  <span className="font-medium text-[var(--color-text-primary)]">{Math.min(endIndex, users.length)}</span>{" "}
-                  of{" "}
-                  <span className="font-medium text-[var(--color-text-primary)]">{users.length}</span>{" "}
-                  users
+                <p className="text-center text-sm text-[var(--color-text-secondary)] sm:text-start">
+                  {t("users.pagination.showing", {
+                    from: startIndex + 1,
+                    to: Math.min(endIndex, users.length),
+                    count: users.length,
+                  })}
                 </p>
 
                 {/* Page Controls */}
-                <nav aria-label="Users pagination" className="flex items-center justify-center gap-1">
+                <nav aria-label={t("users.pagination.label")} className="flex items-center justify-center gap-1">
                   {/* Previous */}
-                  <Button variant="outline" size="sm" onClick={handlePreviousPage} disabled={currentPage === 1} aria-label="Previous page"
+                  <Button variant="outline" size="sm" onClick={handlePreviousPage} disabled={currentPage === 1} aria-label={t("users.pagination.previousLabel")}
                     className="border-[var(--color-supporting-decorative)] text-[var(--color-text-primary)] hover:bg-[var(--color-accent)] hover:text-[var(--color-on-accent)] disabled:pointer-events-none disabled:opacity-50">
-                    <ChevronLeft size={16} />
-                    <span>Previous</span>
+                    <ChevronLeft size={16} className="rtl:rotate-180" />
+                    <span>{t("users.pagination.previous")}</span>
                   </Button>
 
                   {/* Only 3 page numbers */}
@@ -287,7 +285,7 @@ export default function Users(){
                         aria-current={
                           isActive ? "page" : undefined
                         }
-                        aria-label={`Go to page ${pageNumber}`}
+                        aria-label={t("users.pagination.goToPage", { page: pageNumber })}
                         className={
                           isActive
                             ? `
@@ -308,10 +306,10 @@ export default function Users(){
                   })}
 
                   {/* Next */}
-                  <Button variant="outline" size="sm" onClick={handleNextPage} disabled={currentPage === totalPages} aria-label="Next page"
+                  <Button variant="outline" size="sm" onClick={handleNextPage} disabled={currentPage === totalPages} aria-label={t("users.pagination.nextLabel")}
                     className="border-[var(--color-supporting-decorative)] text-[var(--color-text-primary)] hover:bg-[var(--color-accent)] hover:text-[var(--color-on-accent)] disabled:pointer-events-none disabled:opacity-50">
-                    <span>Next</span>
-                    <ChevronRight size={16} />
+                    <span>{t("users.pagination.next")}</span>
+                    <ChevronRight size={16} className="rtl:rotate-180" />
                   </Button>
                 </nav>
               </div>

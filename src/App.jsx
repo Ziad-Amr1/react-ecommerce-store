@@ -21,6 +21,7 @@ import VerifyOtp from "./pages/auth/VerifyOtp.jsx";
 import NotFound from "./pages/NotFound.jsx";
 import ProtectedRoute from "./ProtectedRoute.jsx";
 import Shop from "./pages/Shop.jsx";
+import Cart from "./pages/Cart.jsx";
 
 const DesignSystem = lazy(() => import("./pages/DesignSystem"));
 
@@ -32,6 +33,7 @@ function App() {
           <Route path="/" element={<Landing />} />
           <Route path="/products" element={<Shop />} />
           <Route path="/products/:id" element={<StoreProductDetails />} />
+          <Route path="/cart" element={<Cart />} />
           <Route path="/profile" element={<Profile />} />
         </Route>
         <Route

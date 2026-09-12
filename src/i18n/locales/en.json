@@ -546,6 +546,12 @@
       "done": "Done"
     }
   },
+  "cart": {
+    "title": "Your Cart",
+    "emptyTitle": "Your cart is empty",
+    "emptyDescription": "Browse the store and add something you like to your cart.",
+    "browseProducts": "Browse Products"
+  },
   "notFound": {
     "title": "Oops!",
     "code": "Error 404",

@@ -522,11 +522,94 @@
       "done": "مكتمل"
     }
   },
-  "cart": {
+"cart": {
     "title": "سلة التسوق",
     "emptyTitle": "سلة التسوق فارغة",
     "emptyDescription": "تصفح المتجر وأضف ما يعجبك إلى سلة التسوق.",
     "browseProducts": "تصفح المنتجات"
+  },
+  "orders": {
+    "title": "الطلبات",
+    "subtitle": "الإدارة • الطلبات",
+    "totalOrders": "إجمالي الطلبات",
+    "loadErrorTitle": "تعذر تحميل الطلبات",
+    "loadErrorHint": "حدث خطأ ما أثناء جلب الطلبات. يرجى المحاولة مرة أخرى.",
+    "retry": "إعادة المحاولة",
+    "noOrdersFound": "لا توجد طلبات.",
+    "notAvailable": "غير متوفر",
+    "filters": {
+      "status": {
+        "placeholder": "كل الحالات",
+        "all": "كل الحالات",
+        "delivered": "تم التسليم",
+        "shipped": "تم الشحن",
+        "confirmed": "مؤكد",
+        "processing": "قيد المعالجة",
+        "cancelled": "ملغي"
+      },
+      "payment": {
+        "placeholder": "كل حالات الدفع",
+        "all": "كل حالات الدفع",
+        "pending": "قيد الدفع",
+        "paid": "مدفوع"
+      }
+    },
+    "columns": {
+      "order": "الطلب",
+      "customer": "العميل",
+      "date": "التاريخ",
+      "status": "الحالة",
+      "paymentStatus": "حالة الدفع",
+      "total": "الإجمالي"
+    },
+    "status": {
+      "delivered": "تم التسليم",
+      "shipped": "تم الشحن",
+      "confirmed": "مؤكد",
+      "processing": "قيد المعالجة",
+      "pending": "قيد الانتظار",
+      "cancelled": "ملغي",
+      "unknown": "غير معروف"
+    },
+    "paymentStatus": {
+      "paid": "مدفوع",
+      "pending": "قيد الدفع"
+    },
+    "pagination": {
+      "previous": "السابق",
+      "next": "التالي"
+    },
+    "sheet": {
+      "title": "تفاصيل الطلب",
+      "customerInformation": "معلومات العميل",
+      "customer": "العميل",
+      "phone": "الهاتف",
+      "country": "الدولة",
+      "city": "المدينة",
+      "address": "العنوان",
+      "postalCode": "الرمز البريدي",
+      "orderInformation": "معلومات الطلب",
+      "placed": "تاريخ الطلب",
+      "transactionId": "معرّف العملية",
+      "paidAt": "تاريخ الدفع",
+      "items": "المنتجات",
+      "noItems": "لا توجد منتجات.",
+      "product": "منتج",
+      "subtotal": "المجموع الفرعي",
+      "shipping": "الشحن",
+      "tax": "الضرائب",
+      "discount": "الخصم",
+      "total": "الإجمالي",
+      "customerNote": "ملاحظة العميل",
+      "updateStatus": "تحديث الحالة",
+      "selectStatus": "اختر الحالة",
+      "adminNotePlaceholder": "أضف ملاحظة إدارية...",
+      "save": "حفظ التغييرات",
+      "saving": "جارٍ الحفظ...",
+      "saveSuccess": "تم تحديث حالة الطلب بنجاح.",
+      "saveError": "تعذر تحديث حالة الطلب.",
+      "selectStatusError": "يرجى اختيار حالة الطلب."
+    }
   },
   "notFound": {
     "title": "عذرًا!",

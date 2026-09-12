@@ -546,11 +546,94 @@
       "done": "Done"
     }
   },
-  "cart": {
+"cart": {
     "title": "Your Cart",
     "emptyTitle": "Your cart is empty",
     "emptyDescription": "Browse the store and add something you like to your cart.",
     "browseProducts": "Browse Products"
+  },
+  "orders": {
+    "title": "Orders",
+    "subtitle": "Admin \u2022 Management",
+    "totalOrders": "Total Orders",
+    "loadErrorTitle": "Failed to load orders",
+    "loadErrorHint": "Something went wrong while fetching your orders. Please try again.",
+    "retry": "Retry",
+    "noOrdersFound": "No orders found.",
+    "notAvailable": "N/A",
+    "filters": {
+      "status": {
+        "placeholder": "All statuses",
+        "all": "All statuses",
+        "delivered": "Delivered",
+        "shipped": "Shipped",
+        "confirmed": "Confirmed",
+        "processing": "Processing",
+        "cancelled": "Cancelled"
+      },
+      "payment": {
+        "placeholder": "All payments",
+        "all": "All payments",
+        "pending": "Pending",
+        "paid": "Paid"
+      }
+    },
+    "columns": {
+      "order": "Order",
+      "customer": "Customer",
+      "date": "Date",
+      "status": "Status",
+      "paymentStatus": "Payment Status",
+      "total": "Total"
+    },
+    "status": {
+      "delivered": "Delivered",
+      "shipped": "Shipped",
+      "confirmed": "Confirmed",
+      "processing": "Processing",
+      "pending": "Pending",
+      "cancelled": "Cancelled",
+      "unknown": "Unknown"
+    },
+    "paymentStatus": {
+      "paid": "Paid",
+      "pending": "Pending"
+    },
+    "pagination": {
+      "previous": "Previous",
+      "next": "Next"
+    },
+    "sheet": {
+      "title": "Order Details",
+      "customerInformation": "Customer Information",
+      "customer": "Customer",
+      "phone": "Phone",
+      "country": "Country",
+      "city": "City",
+      "address": "Address",
+      "postalCode": "Postal Code",
+      "orderInformation": "Order Information",
+      "placed": "Placed",
+      "transactionId": "Transaction ID",
+      "paidAt": "Paid At",
+      "items": "Items",
+      "noItems": "No items found.",
+      "product": "Product",
+      "subtotal": "Subtotal",
+      "shipping": "Shipping",
+      "tax": "Tax",
+      "discount": "Discount",
+      "total": "Total",
+      "customerNote": "Customer Note",
+      "updateStatus": "Update Status",
+      "selectStatus": "Select Status",
+      "adminNotePlaceholder": "Add an admin note...",
+      "save": "Save Changes",
+      "saving": "Saving...",
+      "saveSuccess": "Order status updated successfully.",
+      "saveError": "Failed to update order status.",
+      "selectStatusError": "Please select an order status."
+    }
   },
   "notFound": {
     "title": "Oops!",

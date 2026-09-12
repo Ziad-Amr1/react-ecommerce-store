@@ -1,4 +1,6 @@
+import { useState } from "react";
 import { useNavigate } from "react-router";
+import { toast } from "sonner";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import {
@@ -7,6 +9,7 @@ import {
   CircleX,
   TriangleAlert,
   Heart,
+  LoaderCircle,
   PackageOpen,
   ShoppingCart,
 } from "lucide-react";
@@ -14,6 +17,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { formatCurrency } from "@/utils/formatCurrency";
 import { formatNumber } from "@/utils/formatNumber";
 import { useTranslation } from "react-i18next";
+import useCart from "@/hooks/useCart";
 import Stars from "@/features/products/components/ProductRating";
 import {
   Tooltip,
@@ -24,6 +28,8 @@ import {
 export default function ProductCard({ product, viewMode = "grid" }) {
   const { t } = useTranslation();
   const navigate = useNavigate();
+  const { addItem } = useCart();
+  const [isAdding, setIsAdding] = useState(false);
   const images = product.images?.filter((image) => image?.url) ?? [];
   const mainImage = images[0]?.url;
 
@@ -48,8 +54,27 @@ export default function ProductCard({ product, viewMode = "grid" }) {
   const reviewsCount = Number(product.numReviews) || 0;
   const hasRating = rating > 0;
 
+  const isOutOfStock = product.stock === 0;
+
+  const handleAddToCart = async () => {
+    if (isOutOfStock || isAdding) {
+      return;
+    }
+
+    setIsAdding(true);
+
+    try {
+      await addItem(product);
+      toast.success(t("cart.added", { name: productName }));
+    } catch {
+      toast.error(t("cart.addFailed"));
+    } finally {
+      setIsAdding(false);
+    }
+  };
+
   const stockStatusClass =
-    product.stock === 0
+    isOutOfStock
       ? "text-[var(--color-error)]"
       : product.stock < 5
         ? "text-[var(--color-warning)]"
@@ -190,10 +215,20 @@ export default function ProductCard({ product, viewMode = "grid" }) {
             <Button
               size="sm"
               className="bg-[var(--color-primary)] text-primary-foreground hover:bg-[var(--color-secondary)]"
-              // onClick={() => addToCart(product)}
+              onClick={handleAddToCart}
+              disabled={isAdding || isOutOfStock}
+              aria-label={
+                isOutOfStock ? t("shop.outOfStock") : t("shop.addToCart")
+              }
             >
-              <ShoppingCart className="size-4" aria-hidden="true" />
-              <span className="hidden sm:inline">{t("shop.addToCart")}</span>
+              {isAdding ? (
+                <LoaderCircle className="size-4 animate-spin" aria-hidden="true" />
+              ) : (
+                <ShoppingCart className="size-4" aria-hidden="true" />
+              )}
+              <span className="hidden sm:inline">
+                {isOutOfStock ? t("shop.outOfStock") : t("shop.addToCart")}
+              </span>
             </Button>
             <Button
               size="sm"
@@ -316,10 +351,18 @@ export default function ProductCard({ product, viewMode = "grid" }) {
         <div className="mt-auto flex gap-2 pt-2">
           <Button
             className="flex-1 bg-[var(--color-primary)] text-primary-foreground hover:bg-[var(--color-secondary)]"
-            // onClick={() => addToCart(product)}
+            onClick={handleAddToCart}
+            disabled={isAdding || isOutOfStock}
+            aria-label={
+              isOutOfStock ? t("shop.outOfStock") : t("shop.addToCart")
+            }
           >
-            <ShoppingCart aria-hidden="true" />
-            {t("shop.addToCart")}
+            {isAdding ? (
+              <LoaderCircle className="size-4 animate-spin" aria-hidden="true" />
+            ) : (
+              <ShoppingCart aria-hidden="true" />
+            )}
+            {isOutOfStock ? t("shop.outOfStock") : t("shop.addToCart")}
           </Button>
           <Button
             variant="outline"

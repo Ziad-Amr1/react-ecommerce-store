@@ -1,5 +1,5 @@
 export const ORDERS_LIMIT = 15;
-export const ORDER_CURRENCY = "EGP";
+export { ORDER_CURRENCY } from "@/utils/formatCurrency";
 export const ORDER_STATUSES = [
   "delivered",
   "shipped",

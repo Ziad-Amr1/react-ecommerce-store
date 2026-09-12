@@ -3,14 +3,17 @@ import { useTranslation } from "react-i18next";
 import { Moon, Sun, ShoppingCart, UserRound } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import useAuth from "@/hooks/useAuth";
+import useCart from "@/hooks/useCart";
 import useTheme from "@/hooks/useTheme";
 import ComingSoonButton from "@/features/landing/components/ComingSoonButton";
+import { formatItemCount } from "@/features/cart/cartUtils";
 import LanguageSwitcher from "./LanguageSwitcher";
 
 export default function StoreHeader() {
   const { t } = useTranslation();
   const { theme, toggleTheme } = useTheme();
   const { user } = useAuth();
+  const { cart } = useCart();
   const { pathname } = useLocation();
   const isDark = theme === "dark";
   const isAdmin = user?.role === "admin";
@@ -114,11 +117,20 @@ export default function StoreHeader() {
           >
             <Link
               to="/cart"
-              aria-label={t("store.header.cart")}
+              aria-label={
+                cart.itemCount > 0
+                  ? t("store.header.cartWithCount", { count: cart.itemCount })
+                  : t("store.header.cart")
+              }
               title={t("store.header.cart")}
-              className={isCartActive ? "text-(--color-primary)" : ""}
+              className={`relative ${isCartActive ? "text-(--color-primary)" : ""}`}
             >
               <ShoppingCart size={20} aria-hidden="true" />
+              {cart.itemCount > 0 && (
+                <span className="pointer-events-none absolute -top-2 -end-2 z-10 flex h-5 min-w-5 items-center justify-center rounded-full bg-(--color-error) px-1 text-[10px] font-bold leading-none tabular-nums text-(--color-surface) ring-2 ring-(--color-surface)">
+                  {formatItemCount(cart.itemCount)}
+                </span>
+              )}
             </Link>
           </Button>
 

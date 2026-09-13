@@ -1,5 +1,5 @@
 
-import { useState, useEffect } from "react";
+// import { useState, useEffect } from "react";
 import {
   Pagination as PaginationUI,
   PaginationContent,
@@ -11,21 +11,26 @@ import {
 } from "@/components/ui/pagination";
 
 const OrdersPagination = ({ currentPage, totalPages, onPageChange }) => {
+  // if (totalPages <= 1) {
+  //   return null;
+  // }
+
+  // const [startPage, setStartPage] = useState(1);
+
+  // useEffect(() => {
+  //   if (currentPage < startPage) {
+  //     setStartPage(currentPage);
+  //   }
+  //   else if (currentPage > startPage + 2) {
+  //     setStartPage(currentPage - 2);
+  //   }
+  // }, [currentPage, startPage]);
+
   if (totalPages <= 1) {
     return null;
   }
 
-  const [startPage, setStartPage] = useState(1);
-
-  useEffect(() => {
-    if (currentPage < startPage) {
-      setStartPage(currentPage);
-    }
-    else if (currentPage > startPage + 2) {
-      setStartPage(currentPage - 2);
-    }
-  }, [currentPage, startPage]);
-
+  const startPage = Math.max(1, Math.min(currentPage - 2, totalPages - 2));
   const endPage = Math.min(totalPages, startPage + 2);
   const pages = [];
   for (let i = startPage; i <= endPage; i++) {

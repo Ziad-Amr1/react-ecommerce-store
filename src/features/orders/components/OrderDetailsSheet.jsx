@@ -19,7 +19,8 @@ import {
 } from "@/components/ui/select";
 import { Badge } from "@/components/ui/badge";
 
-import api from "@/api/axios";
+// import api from "@/api/axios";
+import { updateOrderStatus } from "@/features/admin/orders/orders.service";
 
 const OrderDetailsSheet = ({
   selectedOrder,
@@ -53,11 +54,17 @@ const OrderDetailsSheet = ({
     setIsSaving(true);
 
     try {
-      await api.patch(`/orders/admin/${selectedOrder._id}/status`, {
-        status: updatedStatus,
-        adminNote: note,
-      });
-
+      // await api.patch(`/orders/admin/${selectedOrder._id}/status`, {
+      //   status: updatedStatus,
+      //   adminNote: note,
+      // });
+   await updateOrderStatus(
+  selectedOrder._id,
+  {
+    status: updatedStatus,
+    adminNote: note,
+  },
+    );
       // Update order in table
       setOrders((prevOrders) =>
         prevOrders.map((order) =>

@@ -1,11 +1,21 @@
 import api from "@/api/axios";
 
-export function getOrders({ page, limit, status, paymentStatus, sortBy, sortDir, signal }) {
+export function getOrders({
+  page,
+  limit,
+  search,
+  status,
+  paymentStatus,
+  sortBy,
+  sortDir,
+  signal,
+}) {
   return api.get("/orders/admin", {
     signal,
     params: {
       page,
       limit,
+      search,
       status,
       paymentStatus,
       sortBy,

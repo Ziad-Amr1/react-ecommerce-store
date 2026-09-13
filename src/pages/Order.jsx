@@ -11,7 +11,7 @@ import {
   ArrowUpDown,
 } from "lucide-react";
 
-import api from "@/api/axios";
+import { getOrders } from "@/features/admin/orders/orders.service";
 
 import { Badge } from "@/components/ui/badge";
 
@@ -94,7 +94,7 @@ export default function OrdersTable() {
   useEffect(() => {
     const controller = new AbortController();
 
-    const getOrders = async () => {
+    const fetchOrders = async () => {
       setLoading(true);
       setError("");
 
@@ -113,22 +113,15 @@ export default function OrdersTable() {
           sortBy = "paymentStatus";
         }
 
-        const response = await api.get("/orders/admin", {
-          params: {
-            page: currentPage,
-            limit: LIMIT,
-            search: debouncedSearch || undefined,
 
-            status: status !== "all-statuses" ? status : undefined,
-
-            paymentStatus:
-              payment !== "all-payments" ? payment : undefined,
-
-            sortBy: sortBy,
-
-            sortDir: sortKey ? sortDirection : undefined,
-          },
-
+        const response = await getOrders({
+          page: currentPage,
+          limit: LIMIT,
+          search: debouncedSearch || undefined,
+          status: status !== "all-statuses" ? status : undefined,
+          paymentStatus: payment !== "all-payments" ? payment : undefined,
+          sortBy,
+          sortDir: sortKey ? sortDirection : undefined,
           signal: controller.signal,
         });
 
@@ -138,10 +131,7 @@ export default function OrdersTable() {
         setTotalOrders(data.total || 0);
         setTotalPages(data.totalPages || 1);
       } catch (err) {
-        if (
-          err.name === "CanceledError" ||
-          err.code === "ERR_CANCELED"
-        ) {
+        if (err.name === "CanceledError" || err.code === "ERR_CANCELED") {
           return;
         }
 
@@ -155,7 +145,7 @@ export default function OrdersTable() {
       }
     };
 
-    getOrders();
+    fetchOrders();
 
     return () => {
       controller.abort();

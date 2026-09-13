@@ -8,8 +8,6 @@ const useRelatedProducts = (product) => {
 
   useEffect(() => {
     if (!product?._id || !product?.category) {
-      setSimilarProducts([]);
-      setRecommendedProducts([]);
       return;
     }
 
@@ -42,7 +40,7 @@ const useRelatedProducts = (product) => {
 
         setSimilarProducts(otherProducts.slice(0, 4));
         setRecommendedProducts(otherProducts.slice(4, 8));
-      } catch (error) {
+      } catch {
         if (!controller.signal.aborted) {
           setSimilarProducts([]);
           setRecommendedProducts([]);

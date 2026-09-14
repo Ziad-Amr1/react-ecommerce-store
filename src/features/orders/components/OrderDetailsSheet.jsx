@@ -1,5 +1,4 @@
 
-
 import { useState } from "react";
 import { toast } from "sonner";
 
@@ -42,7 +41,7 @@ function Row({ label, value, last }) {
   return (
     <div
       className={`flex justify-between text-xs ${
-        last ? "" : "border-b border-[var(--color-border)] pb-2"
+        last ? "" : "border-b border-[var(--color-border)] pb-2.5 pt-0.5"
       }`}
     >
       <span className="text-[var(--color-text-secondary)]">{label}</span>
@@ -56,15 +55,17 @@ function Row({ label, value, last }) {
 function InfoCard({ title, children }) {
   return (
     <div
-      className="space-y-3 rounded-lg border p-4"
+      className="space-y-3 rounded-xl border p-4 shadow-sm"
       style={{
         borderColor: "var(--color-border)",
         backgroundColor: "var(--color-surface)",
       }}
     >
-      <p className="text-xs font-semibold text-[var(--color-text-secondary)]">
-        {title}
-      </p>
+      {title && (
+        <p className="text-xs font-semibold text-[var(--color-text-secondary)]">
+          {title}
+        </p>
+      )}
       {children}
     </div>
   );
@@ -78,8 +79,6 @@ const STATUS_OPTIONS = [
   { value: "cancelled", label: "Cancelled" },
 ];
 
-// the actual editable form - keyed by order id from the parent so it
-// resets itself whenever a different order is selected
 function OrderForm({ order, setOrders }) {
   const [status, setStatus] = useState(order.status || "processing");
   const [note, setNote] = useState(order.adminNote || "");
@@ -112,14 +111,15 @@ function OrderForm({ order, setOrders }) {
   };
 
   return (
-    <div className="space-y-6">
-      <div className="flex items-center justify-between">
-        <span className="text-xs font-medium capitalize text-[var(--color-text-secondary)]">
+    <div className="space-y-5">
+      {/* Payment Method & Status Badge Header */}
+      <div className="flex items-center justify-between px-0.5 pt-1">
+        <span className="text-xs font-semibold capitalize text-[var(--color-text-secondary)]">
           {order.paymentMethod || "—"}
         </span>
         <Badge
           variant="outline"
-          className="border-transparent px-2 py-1 text-xs font-semibold"
+          className="border-transparent px-2.5 py-1 text-xs font-semibold rounded-full"
           style={{
             backgroundColor: "var(--color-warning-bg)",
             color: "var(--color-warning)",
@@ -130,22 +130,26 @@ function OrderForm({ order, setOrders }) {
       </div>
 
       <InfoCard title="Customer Information">
-        <Row label="Customer" value={address.fullName} />
-        <Row label="Phone" value={address.phone} />
-        <Row label="Country" value={address.country} />
-        <Row label="City" value={address.city} />
-        <Row label="Address" value={address.address} />
-        <Row label="Postal Code" value={address.postalCode} last />
+        <div className="space-y-2">
+          <Row label="Customer" value={address.fullName} />
+          <Row label="Phone" value={address.phone} />
+          <Row label="Country" value={address.country} />
+          <Row label="City" value={address.city} />
+          <Row label="Address" value={address.address} />
+          <Row label="Postal Code" value={address.postalCode} last />
+        </div>
       </InfoCard>
 
       <InfoCard title="Order Information">
-        <Row label="Placed" value={formatDate(order.createdAt)} />
-        <Row label="Transaction ID" value={order.transactionId} />
-        <Row label="Paid At" value={formatDate(order.paidAt)} last />
+        <div className="space-y-2">
+          <Row label="Placed" value={formatDate(order.createdAt)} />
+          <Row label="Transaction ID" value={order.transactionId} />
+          <Row label="Paid At" value={formatDate(order.paidAt)} last />
+        </div>
       </InfoCard>
 
       <div className="space-y-3">
-        <p className="text-xs font-semibold text-[var(--color-text-secondary)]">
+        <p className="px-0.5 text-xs font-semibold text-[var(--color-text-secondary)]">
           Items
         </p>
 
@@ -158,7 +162,7 @@ function OrderForm({ order, setOrders }) {
               return (
                 <div
                   key={item?.product || i}
-                  className="flex items-center justify-between rounded-lg border p-3"
+                  className="flex items-center justify-between rounded-xl border p-3 shadow-sm"
                   style={{
                     borderColor: "var(--color-border)",
                     backgroundColor: "var(--color-surface)",
@@ -168,7 +172,7 @@ function OrderForm({ order, setOrders }) {
                     <img
                       src={item?.image || "/placeholder.png"}
                       alt={item?.name || "Product"}
-                      className="size-12 rounded-md border border-[var(--color-border)] object-cover"
+                      className="size-12 rounded-lg border border-[var(--color-border)] object-cover"
                     />
                     <div>
                       <p className="line-clamp-1 text-xs font-semibold text-[var(--color-text-primary)]">
@@ -186,14 +190,14 @@ function OrderForm({ order, setOrders }) {
               );
             })
           ) : (
-            <div className="rounded-lg border border-[var(--color-border)] p-4 text-center text-xs text-[var(--color-text-secondary)]">
+            <div className="rounded-xl border border-[var(--color-border)] p-4 text-center text-xs text-[var(--color-text-secondary)]">
               No items found.
             </div>
           )}
         </div>
 
         <div
-          className="space-y-2 rounded-lg border p-4 text-xs"
+          className="space-y-2 rounded-xl border p-4 text-xs shadow-sm"
           style={{
             borderColor: "var(--color-border)",
             backgroundColor: "var(--color-surface)",
@@ -207,7 +211,7 @@ function OrderForm({ order, setOrders }) {
           />
           <Row label="Tax" value={`${money(order.tax)} EGP`} last />
           <Row label="Discount" value={`${money(order.discount)} EGP`} />
-          <div className="flex justify-between pt-1 text-sm font-bold">
+          <div className="flex justify-between pt-2 text-sm font-bold border-t border-[var(--color-border)] mt-2">
             <span className="text-[var(--color-text-primary)]">Total</span>
             <span className="text-[var(--color-text-primary)]">
               {money(order.totalPrice)} EGP
@@ -225,34 +229,36 @@ function OrderForm({ order, setOrders }) {
       )}
 
       <InfoCard title="Update Status">
-        <Select value={status} onValueChange={setStatus}>
-          <SelectTrigger className="w-full border-[var(--color-border)] bg-[var(--color-background)] text-xs">
-            <SelectValue placeholder="Select Status" />
-          </SelectTrigger>
-          <SelectContent>
-            {STATUS_OPTIONS.map((opt) => (
-              <SelectItem key={opt.value} value={opt.value}>
-                {opt.label}
-              </SelectItem>
-            ))}
-          </SelectContent>
-        </Select>
+        <div className="space-y-3">
+          <Select value={status} onValueChange={setStatus}>
+            <SelectTrigger className="w-full border-[var(--color-border)] bg-[var(--color-background)] text-xs h-9">
+              <SelectValue placeholder="Select Status" />
+            </SelectTrigger>
+            <SelectContent>
+              {STATUS_OPTIONS.map((opt) => (
+                <SelectItem key={opt.value} value={opt.value}>
+                  {opt.label}
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
 
-        <Textarea
-          value={note}
-          onChange={(e) => setNote(e.target.value)}
-          placeholder="Add an admin note..."
-          className="min-h-[80px] resize-none border-[var(--color-border)] bg-[var(--color-background)] text-xs"
-        />
+          <Textarea
+            value={note}
+            onChange={(e) => setNote(e.target.value)}
+            placeholder="Add an admin note..."
+            className="min-h-[80px] resize-none border-[var(--color-border)] bg-[var(--color-background)] text-xs"
+          />
 
-        <Button
-          onClick={handleSave}
-          disabled={isSaving}
-          className="w-full text-xs font-semibold"
-          style={{ backgroundColor: "var(--color-primary)", color: "white" }}
-        >
-          {isSaving ? "Saving..." : "Save changes"}
-        </Button>
+          <Button
+            onClick={handleSave}
+            disabled={isSaving}
+            className="w-full text-xs font-semibold h-9"
+            style={{ backgroundColor: "var(--color-primary)", color: "white" }}
+          >
+            {isSaving ? "Saving..." : "Save changes"}
+          </Button>
+        </div>
       </InfoCard>
     </div>
   );
@@ -271,23 +277,32 @@ const OrderDetailsSheet = ({
     <Sheet open={isDrawerOpen} onOpenChange={setIsDrawerOpen}>
       <SheetContent
         side="right"
-        className="inset-x-0 bottom-0 top-auto flex h-[85vh] w-full flex-col gap-0 rounded-t-2xl border-t border-[var(--color-border)] bg-[var(--color-background)] p-0 sm:inset-y-0 sm:right-0 sm:left-auto sm:h-full sm:max-w-md sm:rounded-none sm:border-t-0 sm:border-l"
+        className="inset-x-0 bottom-0 top-auto flex h-[85vh] w-full flex-col gap-0 rounded-t-2xl border-t border-[var(--color-border)] bg-[var(--color-background)] p-0 sm:inset-y-0 sm:right-0 sm:left-auto sm:h-full sm:max-w-md sm:rounded-none sm:border-t-0 sm:border-l [&>button]:top-8 [&>button]:right-6"
       >
-        {/* fixed header - stays put while the body below scrolls */}
-        <SheetHeader className="shrink-0 space-y-2 border-b border-[var(--color-border)] p-6 pb-4 text-left">
+        {/* Mobile Drag Handle */}
+        <div className="pt-3 pb-1 sm:hidden">
+          <div className="mx-auto h-1.5 w-12 rounded-full bg-[var(--color-border)]" />
+        </div>
+
+        {/* Header */}
+        <SheetHeader className="shrink-0 space-y-1 border-b border-[var(--color-border)] px-6 pt-5 pb-4 text-left">
           <p className="text-xs font-medium text-[var(--color-text-secondary)]">
             Order Details
           </p>
+
           <SheetTitle className="font-mono text-lg font-bold text-[var(--color-text-primary)]">
             #{selectedOrder._id ? selectedOrder._id.slice(0, 8) : "N/A"}
           </SheetTitle>
-          <div className="flex items-center gap-2">
-            {renderStatusBadge(selectedOrder.status)}
-          </div>
+
+          {renderStatusBadge && (
+            <div className="flex items-center gap-2 pt-1">
+              {renderStatusBadge(selectedOrder.status)}
+            </div>
+          )}
         </SheetHeader>
 
-        <div className="flex-1 overflow-y-auto p-6">
-          {/* key resets the form's internal state whenever a new order is picked */}
+        {/* Main Content Area */}
+        <div className="flex-1 overflow-y-auto px-6 py-5">
           <OrderForm
             key={selectedOrder._id}
             order={selectedOrder}
@@ -300,3 +315,11 @@ const OrderDetailsSheet = ({
 };
 
 export default OrderDetailsSheet;
+
+
+
+
+
+
+
+

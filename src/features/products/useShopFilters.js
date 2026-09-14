@@ -1,6 +1,3 @@
-<<<<<<< Updated upstream
-import { useState, useMemo } from "react";
-=======
 import { useState, useMemo, useEffect } from "react";
 
 const EMPTY_APPLIED = {
@@ -11,12 +8,6 @@ const EMPTY_APPLIED = {
   sortBy: "Default",
 };
 
-const SORT_LABELS = {
-  discount_asc: "Discount: Low to High",
-  discount_desc: "Discount: High to Low",
-};
->>>>>>> Stashed changes
-
 export default function useShopFilters(products, totalProducts) {
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("All");
@@ -26,14 +17,8 @@ export default function useShopFilters(products, totalProducts) {
   const [viewMode, setViewMode] = useState("grid");
   const [isMobileFilterOpen, setIsMobileFilterOpen] = useState(false);
 
-<<<<<<< Updated upstream
-  // حساب الأقسام ديناميكياً
-  const categories = useMemo(() => {
-    if (!products || !Array.isArray(products))
-      return [{ name: "All", count: 0 }];
-=======
   // Applied filters are the only values that drive server queries.
-  const [applied, setApplied] = useState(EMPTY_APPLIED);
+  const [, setApplied] = useState(EMPTY_APPLIED);
 
   // Debounce search/price input before committing it as a server query.
   useEffect(() => {
@@ -58,15 +43,10 @@ export default function useShopFilters(products, totalProducts) {
     setApplied((current) => ({ ...current, category: name }));
   };
 
-  const changeSort = (value) => {
-    setSortBy(value);
-    setApplied((current) => ({ ...current, sortBy: value }));
-  };
-
   // إرجاع All مع إجمالي المنتجات، وتصنيفي Phones (3) و Electronics (40) حصراً دون غيرهما
   const categories = useMemo(() => {
-    const allCount = totalProducts != null ? totalProducts : (products?.length || 0);
->>>>>>> Stashed changes
+    const allCount =
+      totalProducts != null ? totalProducts : products?.length || 0;
 
     return [
       { name: "All", count: allCount },
@@ -150,6 +130,7 @@ export default function useShopFilters(products, totalProducts) {
     setSearchQuery,
     selectedCategory,
     setSelectedCategory,
+    selectCategory,
     minPrice,
     setMinPrice,
     maxPrice,

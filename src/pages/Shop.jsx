@@ -27,9 +27,13 @@ export default function Shop() {
   } = useProducts();
 
   const [searchParams, setSearchParams] = useSearchParams();
+<<<<<<< Updated upstream
 
   // استدعاء Hook الفلاتر والمنطق
   const filters = useShopFilters(products);
+=======
+   const filters = useShopFilters(products, totalProducts);
+>>>>>>> Stashed changes
 
   useEffect(() => {
     const pageFromUrl = Number(searchParams.get("page")) || 1;

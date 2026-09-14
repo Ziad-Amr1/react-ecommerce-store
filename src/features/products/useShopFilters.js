@@ -1,6 +1,23 @@
+<<<<<<< Updated upstream
 import { useState, useMemo } from "react";
+=======
+import { useState, useMemo, useEffect } from "react";
 
-export default function useShopFilters(products) {
+const EMPTY_APPLIED = {
+  search: "",
+  category: "All",
+  minPrice: "",
+  maxPrice: "",
+  sortBy: "Default",
+};
+
+const SORT_LABELS = {
+  discount_asc: "Discount: Low to High",
+  discount_desc: "Discount: High to Low",
+};
+>>>>>>> Stashed changes
+
+export default function useShopFilters(products, totalProducts) {
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("All");
   const [minPrice, setMinPrice] = useState("");
@@ -9,25 +26,54 @@ export default function useShopFilters(products) {
   const [viewMode, setViewMode] = useState("grid");
   const [isMobileFilterOpen, setIsMobileFilterOpen] = useState(false);
 
+<<<<<<< Updated upstream
   // حساب الأقسام ديناميكياً
   const categories = useMemo(() => {
     if (!products || !Array.isArray(products))
       return [{ name: "All", count: 0 }];
+=======
+  // Applied filters are the only values that drive server queries.
+  const [applied, setApplied] = useState(EMPTY_APPLIED);
 
-    const counts = {};
-    products.forEach((p) => {
-      if (p.category) {
-        counts[p.category] = (counts[p.category] || 0) + 1;
-      }
-    });
+  // Debounce search/price input before committing it as a server query.
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setApplied((current) => {
+        const next = {
+          ...current,
+          search: searchQuery,
+          minPrice,
+          maxPrice,
+        };
+        return JSON.stringify(next) === JSON.stringify(current)
+          ? current
+          : next;
+      });
+    }, 300);
 
-    const dynamicList = Object.keys(counts).map((cat) => ({
-      name: cat,
-      count: counts[cat],
-    }));
+    return () => clearTimeout(timer);
+  }, [searchQuery, minPrice, maxPrice]);
 
-    return [{ name: "All", count: products.length }, ...dynamicList];
-  }, [products]);
+  const selectCategory = (name) => {
+    setApplied((current) => ({ ...current, category: name }));
+  };
+
+  const changeSort = (value) => {
+    setSortBy(value);
+    setApplied((current) => ({ ...current, sortBy: value }));
+  };
+
+  // إرجاع All مع إجمالي المنتجات، وتصنيفي Phones (3) و Electronics (40) حصراً دون غيرهما
+  const categories = useMemo(() => {
+    const allCount = totalProducts != null ? totalProducts : (products?.length || 0);
+>>>>>>> Stashed changes
+
+    return [
+      { name: "All", count: allCount },
+      { name: "Phones", count: 3 },
+      { name: "Electronics", count: 40 },
+    ];
+  }, [products, totalProducts]);
 
   // منطق الفلترة والترتيب
   const filteredProducts = useMemo(() => {

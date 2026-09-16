@@ -199,6 +199,7 @@
     "clearSearch": "Clear search",
     "viewDetails": "View details for {{name}}",
     "filterCategory": "Category:",
+    "filterBrand": "brand:",
     "filterPrice": "Price:",
     "filterSort": "Sort:",
     "filterSearch": "Search:",

@@ -257,6 +257,7 @@ export default function Shop() {
                 hasActiveFilters={filters.hasActiveFilters}
                 clearFilters={filters.clearFilters}
                 selectCategory={filters.selectCategory}
+                selectBrand={filters.selectBrand}
                 setSearchQuery={filters.setSearchQuery}
                 setMinPrice={filters.setMinPrice}
                 setMaxPrice={filters.setMaxPrice}

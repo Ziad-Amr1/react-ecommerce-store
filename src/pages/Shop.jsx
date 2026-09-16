@@ -171,6 +171,10 @@ export default function Shop() {
 
   const handlePageChange = (page) => {
     setSearchParams({ page: String(page), limit: String(PAGE_LIMIT) });
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth",
+    });
   };
 
   const resultsCount = totalProducts != null ? totalProducts : products.length;

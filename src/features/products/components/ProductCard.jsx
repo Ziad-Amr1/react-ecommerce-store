@@ -76,6 +76,10 @@ export default function ProductCard({ product, viewMode = "grid" }) {
     }
   };
 
+  const handleCardClick = () => {
+    navigate(`/products/${product._id}`);
+  };
+
   const stockStatusClass = isOutOfStock
     ? "text-[var(--color-error)]"
     : product.stock < 5
@@ -109,8 +113,8 @@ export default function ProductCard({ product, viewMode = "grid" }) {
     return (
       <div className="isolate flex items-center gap-3 rounded-xl border border-[var(--color-border)] bg-card p-3 shadow-[var(--shadow-md)] sm:gap-5 sm:p-4">
         {/* Small fixed-size thumbnail (not the 4:3 grid image) */}
-        <div className="relative shrink-0">
-          <div className="size-16 overflow-hidden rounded-lg bg-[var(--color-surface-secondary)] sm:size-20 sm:rounded-xl">
+        <div className="group relative shrink-0">
+          <div className="size-16 overflow-hidden rounded-lg bg-[var(--color-surface-secondary)] sm:size-20 sm:rounded-xl transition-transform duration-300 group-hover:scale-110">
             {mainImage ? (
               <img
                 src={mainImage}
@@ -228,7 +232,10 @@ export default function ProductCard({ product, viewMode = "grid" }) {
             <Button
               size="sm"
               className="bg-[var(--color-primary)] text-primary-foreground hover:bg-[var(--color-secondary)]"
-              onClick={handleAddToCart}
+              onClick={(e) => {
+                e.stopPropagation();
+                handleAddToCart();
+              }}
               disabled={isAdding || isOutOfStock}
               aria-label={
                 isOutOfStock ? t("shop.outOfStock") : t("shop.addToCart")
@@ -262,14 +269,17 @@ export default function ProductCard({ product, viewMode = "grid" }) {
   }
 
   return (
-    <Card className="isolate h-full gap-4 overflow-hidden border-[var(--color-border)] py-0 shadow-[var(--shadow-md)]">
+    <Card
+      className="group isolate h-full gap-4 overflow-hidden border-[var(--color-border)] py-0 shadow-[var(--shadow-md)] "
+      onClick={handleCardClick}
+    >
       <div className="relative m-4 aspect-[4/3] overflow-hidden rounded-xl bg-[var(--color-surface-secondary)] lg:h-60 xl:h-72">
         {mainImage ? (
           <img
             src={mainImage}
             alt={productName}
             loading="lazy"
-            className="h-full w-full object-cover"
+            className="h-full w-full object-cover transition-transform duration-300 group-hover:scale-110"
           />
         ) : (
           <div className="flex h-full w-full items-center justify-center bg-[var(--color-surface-secondary)]">
@@ -402,7 +412,10 @@ export default function ProductCard({ product, viewMode = "grid" }) {
         <div className="mt-auto flex gap-2 pt-4">
           <Button
             className="min-w-0 flex-1 bg-[var(--color-primary)] text-primary-foreground hover:bg-[var(--color-secondary)]"
-            onClick={handleAddToCart}
+            onClick={(e) => {
+              e.stopPropagation();
+              handleAddToCart();
+            }}
             disabled={isAdding || isOutOfStock}
             aria-label={
               isOutOfStock ? t("shop.outOfStock") : t("shop.addToCart")

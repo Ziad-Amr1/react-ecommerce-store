@@ -24,9 +24,9 @@ export default function OrderDetails(){
         if (controller.signal.aborted) return;
         setOrder(response.data.order);
         setStatus("success");
-      } catch (error){
+      } catch {
         if (controller.signal.aborted) return;
-        setStatus("error");
+          setStatus("error");
       }
     }
 

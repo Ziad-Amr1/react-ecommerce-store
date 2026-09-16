@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import { getMyOrders } from "../api/ordersApi";
+
 const LIMIT = 10;
 
 export default function useMyOrders(){
@@ -26,6 +27,7 @@ export default function useMyOrders(){
       setStatus("success");
     } catch (err){
       if (err.name === "AbortError" || controller.signal.aborted) return;
+
       setError(err);
       setStatus(err.response?.status === 401 ? "unauthorized" : "error");
     }
@@ -34,7 +36,12 @@ export default function useMyOrders(){
   useEffect(() => {
     const controller = new AbortController();
     controllerRef.current = controller;
-    fetchOrders(controller, currentPage);
+
+    queueMicrotask(() => {
+      if (!controller.signal.aborted) {
+        fetchOrders(controller, currentPage);
+      }
+    });
 
     return () => {
       controller.abort();
@@ -44,10 +51,13 @@ export default function useMyOrders(){
 
   const refetch = useCallback(() => {
     controllerRef.current?.abort();
+
     const controller = new AbortController();
     controllerRef.current = controller;
+
     setStatus("loading");
     setError(null);
+
     return fetchOrders(controller, currentPage);
   }, [fetchOrders, currentPage]);
 
@@ -59,5 +69,5 @@ export default function useMyOrders(){
     [currentPage, totalPages]
   );
 
-  return{ orders, status, error, refetch, currentPage, totalPages, goToPage };
-}
+  return { orders, status, error, refetch, currentPage, totalPages, goToPage };
+} 

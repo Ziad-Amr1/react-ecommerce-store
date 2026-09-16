@@ -23,7 +23,7 @@ import {
 } from "@/components/ui/tooltip";
 import { Link } from "react-router";
 import { ArrowRight } from "lucide-react";
-import { formatCurrency } from "@/utils/formatCurrency";
+import { formatCurrency, ORDER_CURRENCY } from "@/utils/formatCurrency";
 import { formatDisplayDate } from "@/utils/formatDate";
 import {
   STATUS_PRESENTATION,
@@ -104,7 +104,7 @@ export default function RecentOrders({ orders = [] }) {
                         ? "—"
                         : formatCurrency(
                             order.totalPrice,
-                            "USD",
+                            ORDER_CURRENCY,
                             i18n.language,
                           )}
                     </TableCell>

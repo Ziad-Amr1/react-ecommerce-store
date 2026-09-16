@@ -8,11 +8,9 @@ import {
   XAxis,
   YAxis,
 } from "recharts";
-import { formatCurrency } from "@/utils/formatCurrency";
+import { formatCurrency, ORDER_CURRENCY } from "@/utils/formatCurrency";
 import { formatDisplayDate } from "@/utils/formatDate";
 import { formatNumber } from "@/utils/formatNumber";
-
-const CURRENCY = "USD";
 
 function toChartData(dailyRevenue) {
   if (!Array.isArray(dailyRevenue)) {
@@ -67,7 +65,7 @@ function RevenueTrendTooltip({ active, payload }) {
       <p className="text-(--color-text-secondary)">{point.labelFull}</p>
 
       <p className="mt-1 text-sm font-semibold tabular-nums text-(--color-text-primary)">
-        {formatCurrency(point.revenue, CURRENCY, i18n.language)}
+        {formatCurrency(point.revenue, ORDER_CURRENCY, i18n.language)}
       </p>
 
       {point.orders != null && (
@@ -113,7 +111,7 @@ export default function RevenueTrend({ dailyRevenue }) {
 
   const compactCurrency = new Intl.NumberFormat(i18n.language, {
     style: "currency",
-    currency: CURRENCY,
+    currency: ORDER_CURRENCY,
     notation: "compact",
     maximumFractionDigits: 1,
   });
@@ -177,7 +175,7 @@ export default function RevenueTrend({ dailyRevenue }) {
           {chartData.map((point) => (
             <li key={point.key}>
               {point.labelFull}:{" "}
-              {formatCurrency(point.revenue, CURRENCY, i18n.language)}
+{formatCurrency(point.revenue, ORDER_CURRENCY, i18n.language)}
               {point.orders != null
                 ? ` (${formatNumber(point.orders, i18n.language)} ${t(
                     "dashboard.totalOrders",

@@ -8,11 +8,9 @@ import {
 } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Minus, TrendingDown, TrendingUp } from "lucide-react";
-import { formatCurrency } from "@/utils/formatCurrency";
+import { formatCurrency, ORDER_CURRENCY } from "@/utils/formatCurrency";
 
 const RevenueTrend = lazy(() => import("./RevenueTrend"));
-
-const CURRENCY = "USD";
 
 function formatGrowthPercent(value, locale) {
   if (typeof value !== "number" || !Number.isFinite(value)) {
@@ -57,7 +55,7 @@ export default function RevenueOverview({ revenue, dailyRevenue }) {
         </span>
 
         <p className="font-display text-3xl font-bold leading-tight tabular-nums wrap-break-word lg:text-5xl">
-          {formatCurrency(revenue?.total, CURRENCY, i18n.language)}
+          {formatCurrency(revenue?.total, ORDER_CURRENCY, i18n.language)}
         </p>
 
         <CardDescription className="max-w-2xl">
@@ -73,7 +71,7 @@ export default function RevenueOverview({ revenue, dailyRevenue }) {
             </dt>
 
             <dd className="mt-1 font-display text-2xl font-bold tabular-nums">
-              {formatCurrency(revenue?.thisMonth, CURRENCY, i18n.language)}
+              {formatCurrency(revenue?.thisMonth, ORDER_CURRENCY, i18n.language)}
             </dd>
 
             <p className="mt-0.5 text-xs leading-5 text-(--color-text-secondary)">

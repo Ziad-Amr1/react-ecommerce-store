@@ -14,14 +14,14 @@ import {
   Table,
   TableBody,
   TableCell,
-  TableHead,
-  TableHeader,
   TableRow,
 } from "@/components/ui/table";
 import { USERS_PER_PAGE } from "../constants";
+import { formatNumber } from "@/utils/formatNumber";
 import RowActionsMenu from "@/features/admin/components/RowActionsMenu";
 import TableSkeletonRows from "@/features/admin/components/TableSkeletonRows";
 import AdminTableEmptyState from "@/features/admin/components/AdminTableEmptyState";
+import SortableTableHeader from "@/features/admin/components/SortableTableHeader";
 
 function RoleBadge({ role }) {
   const { t } = useTranslation();
@@ -48,7 +48,8 @@ function UsersPagination({
   totalUsers,
   onPageChange,
 }) {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
+  const locale = i18n.language || "en-US";
 
   const getVisiblePages = () => {
     if (totalPages <= 3) {
@@ -67,11 +68,11 @@ function UsersPagination({
 
   return (
     <div className="flex flex-col gap-4 border-t bg-muted/50 px-4 py-4 sm:flex-row sm:items-center sm:justify-between">
-      <p className="text-center text-sm text-muted-foreground sm:text-start">
+      <p className="text-center text-sm tabular-nums text-muted-foreground sm:text-start">
         {t("users.pagination.showing", {
-          from: startIndex + 1,
-          to: Math.min(startIndex + USERS_PER_PAGE, totalUsers),
-          count: totalUsers,
+          from: formatNumber(startIndex + 1, locale),
+          to: formatNumber(Math.min(startIndex + USERS_PER_PAGE, totalUsers), locale),
+          count: formatNumber(totalUsers, locale),
         })}
       </p>
 
@@ -101,9 +102,9 @@ function UsersPagination({
               onClick={() => onPageChange(pageNumber)}
               aria-label={t("users.pagination.goToPage", { page: pageNumber })}
               aria-current={isActive ? "page" : undefined}
-              className={isActive ? "cursor-pointer" : "cursor-pointer"}
+              className="cursor-pointer tabular-nums"
             >
-              {pageNumber}
+              {formatNumber(pageNumber, locale)}
             </Button>
           );
         })}
@@ -138,18 +139,18 @@ export default function UsersTable({
 }) {
   const { t } = useTranslation();
 
+  const columns = [
+    { key: "username", label: t("users.columns.username") },
+    { key: "email", label: t("users.columns.email") },
+    { key: "role", label: t("users.columns.role") },
+    { key: "actions", label: t("users.columns.actions"), align: "end" },
+  ];
+
   return (
     <div className="overflow-hidden rounded-xl border border-(--color-border) bg-card shadow-sm">
       {isLoading ? (
         <Table>
-          <TableHeader>
-            <TableRow className="bg-muted/50">
-              <TableHead>{t("users.columns.username")}</TableHead>
-              <TableHead>{t("users.columns.email")}</TableHead>
-              <TableHead>{t("users.columns.role")}</TableHead>
-              <TableHead className="text-end">{t("users.columns.actions")}</TableHead>
-            </TableRow>
-          </TableHeader>
+          <SortableTableHeader columns={columns} />
           <TableBody>
             <TableSkeletonRows columns={4} />
           </TableBody>
@@ -166,14 +167,7 @@ export default function UsersTable({
       ) : (
         <div className="w-full overflow-x-auto">
           <Table className="min-w-[680px]">
-            <TableHeader>
-              <TableRow className="bg-muted/50">
-                <TableHead>{t("users.columns.username")}</TableHead>
-                <TableHead>{t("users.columns.email")}</TableHead>
-                <TableHead>{t("users.columns.role")}</TableHead>
-                <TableHead className="text-end">{t("users.columns.actions")}</TableHead>
-              </TableRow>
-            </TableHeader>
+            <SortableTableHeader columns={columns} />
 
             <TableBody>
               {users.map((user) => {
@@ -223,7 +217,7 @@ export default function UsersTable({
                           },
                           {
                             icon: <Trash2 className="size-4" aria-hidden="true" />,
-                            label: t("users.deleteUser"),
+                            label: t("users.deleteUser", { name: user.username }),
                             onClick: () => onDelete(user),
                             variant: "destructive",
                             separator: true,

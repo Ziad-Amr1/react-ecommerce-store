@@ -750,6 +750,11 @@
       "close": "إغلاق"
     }
   },
+  "adminTable": {
+    "page": "الصفحة",
+    "records": "السجلات",
+    "total": "الإجمالي"
+  },
   "notFound": {
     "title": "عذرًا!",
     "code": "خطأ 404",

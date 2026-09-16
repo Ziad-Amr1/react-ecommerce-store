@@ -775,6 +775,11 @@
       "close": "Close"
     }
   },
+  "adminTable": {
+    "page": "Page",
+    "records": "Records",
+    "total": "Total"
+  },
   "notFound": {
     "title": "Oops!",
     "code": "Error 404",

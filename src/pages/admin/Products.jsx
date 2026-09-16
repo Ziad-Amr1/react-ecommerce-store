@@ -2,6 +2,7 @@ import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router";
 import { SlidersHorizontal } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { formatNumber } from "@/utils/formatNumber";
 import useProducts from "@/features/admin/products/useProducts";
 import ProductSearch from "@/features/admin/products/components/ProductSearch";
 import ProductFilters from "@/features/admin/products/components/ProductFilters";
@@ -11,8 +12,9 @@ import AdminPageHeader from "@/features/admin/components/AdminPageHeader";
 import AdminErrorState from "@/features/admin/components/AdminErrorState";
 
 export default function Products() {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const navigate = useNavigate();
+  const locale = i18n.language || "en-US";
 
   const {
     products,
@@ -61,6 +63,18 @@ export default function Products() {
         title={t("products.title")}
         description={t("products.description")}
         className="mb-4"
+        statistics={[
+          {
+            id: "page",
+            label: t("adminTable.page"),
+            value: `${formatNumber(currentPage, locale)} / ${formatNumber(totalPages, locale)}`,
+          },
+          {
+            id: "records",
+            label: t("adminTable.records"),
+            value: formatNumber(products.length, locale),
+          },
+        ]}
         action={
           <Button onClick={() => navigate("/admin/products/add")}>
             {t("products.addProduct")}

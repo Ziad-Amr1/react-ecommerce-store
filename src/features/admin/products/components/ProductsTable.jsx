@@ -6,8 +6,6 @@ import {
   Table,
   TableBody,
   TableCell,
-  TableHead,
-  TableHeader,
   TableRow,
 } from "@/components/ui/table";
 import {
@@ -16,15 +14,15 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
-import { formatCurrency } from "@/utils/formatCurrency";
+import { formatCurrency, CURRENCIES } from "@/utils/formatCurrency";
+import { formatNumber } from "@/utils/formatNumber";
 import { STOCK_OK_THRESHOLD, STOCK_WARNING_THRESHOLD } from "../constants";
 import ProductThumb from "./ProductThumb";
 import RowActionsMenu from "@/features/admin/components/RowActionsMenu";
 import TableSkeletonRows from "@/features/admin/components/TableSkeletonRows";
 import AdminTableEmptyState from "@/features/admin/components/AdminTableEmptyState";
 import AdminTablePagination from "@/features/admin/components/AdminTablePagination";
-
-const CURRENCY = "USD";
+import SortableTableHeader from "@/features/admin/components/SortableTableHeader";
 
 function stockClass(stock) {
   if (stock > STOCK_OK_THRESHOLD) {
@@ -73,162 +71,152 @@ export default function ProductsTable({
 }) {
   const { t, i18n } = useTranslation();
 
-  if (isLoading || isFetching) {
-    return (
-      <div className="overflow-hidden rounded-lg border bg-card shadow-sm">
-        <Table density="compact">
-          <TableHeader>
-            <TableRow>
-              <TableHead>{t("products.columns.product")}</TableHead>
-              <TableHead>{t("products.columns.category")}</TableHead>
-              <TableHead>{t("products.columns.brand")}</TableHead>
-              <TableHead className="text-end">{t("products.columns.price")}</TableHead>
-              <TableHead className="text-end">{t("products.columns.stock")}</TableHead>
-              <TableHead className="text-end">{t("products.columns.actions")}</TableHead>
-            </TableRow>
-          </TableHeader>
-          <TableBody>
-            <TableSkeletonRows columns={6} />
-          </TableBody>
-        </Table>
-      </div>
-    );
-  }
+  const columns = [
+    { key: "product", label: t("products.columns.product") },
+    { key: "category", label: t("products.columns.category") },
+    { key: "brand", label: t("products.columns.brand") },
+    { key: "price", label: t("products.columns.price"), align: "end" },
+    { key: "stock", label: t("products.columns.stock"), align: "end" },
+    { key: "actions", label: t("products.columns.actions"), align: "end" },
+  ];
 
   return (
     <div className="overflow-hidden rounded-lg border bg-card shadow-sm">
-      <TooltipProvider delayDuration={0}>
-        <Table density="compact">
-          <TableHeader>
-            <TableRow>
-              <TableHead>{t("products.columns.product")}</TableHead>
-              <TableHead>{t("products.columns.category")}</TableHead>
-              <TableHead>{t("products.columns.brand")}</TableHead>
-              <TableHead className="text-end">{t("products.columns.price")}</TableHead>
-              <TableHead className="text-end">{t("products.columns.stock")}</TableHead>
-              <TableHead className="text-end">{t("products.columns.actions")}</TableHead>
-            </TableRow>
-          </TableHeader>
+      <Table density="compact">
+        <SortableTableHeader columns={columns} />
 
+        {isLoading || isFetching ? (
           <TableBody>
-            {products.length === 0 ? (
-              <TableRow>
-                <TableCell colSpan={6}>
-                  <AdminTableEmptyState
-                    icon={
-                      <PackageOpen
-                        className="size-7 text-muted-foreground"
-                        aria-hidden="true"
-                      />
-                    }
-                    title={t("products.noProductsFound")}
-                    hint={t("products.noProductsHint")}
-                    action={
-                      hasActiveQuery ? (
-                        <Button variant="outline" onClick={onClearQuery}>
-                          {t("products.clearQuery")}
-                        </Button>
-                      ) : undefined
-                    }
-                  />
-                </TableCell>
-              </TableRow>
-            ) : (
-              products.map((product) => {
-                const isDeleting = deletingProductId === product._id;
-
-                return (
-                  <TableRow key={product._id} className="group">
-                    <TableCell>
-                      <div className="flex max-w-72 items-center gap-3">
-                        <ProductThumb
-                          url={product.images?.[0]?.url}
-                          alt={product.name}
+            <TableSkeletonRows columns={6} />
+          </TableBody>
+        ) : (
+          <TooltipProvider delayDuration={0}>
+            <TableBody>
+              {products.length === 0 ? (
+                <TableRow>
+                  <TableCell colSpan={6}>
+                    <AdminTableEmptyState
+                      icon={
+                        <PackageOpen
+                          className="size-7 text-muted-foreground"
+                          aria-hidden="true"
                         />
+                      }
+                      title={t("products.noProductsFound")}
+                      hint={t("products.noProductsHint")}
+                      action={
+                        hasActiveQuery ? (
+                          <Button variant="outline" onClick={onClearQuery}>
+                            {t("products.clearQuery")}
+                          </Button>
+                        ) : undefined
+                      }
+                    />
+                  </TableCell>
+                </TableRow>
+              ) : (
+                products.map((product) => {
+                  const isDeleting = deletingProductId === product._id;
 
-                        <div className="min-w-0">
-                          <TruncateWithTooltip
-                            value={product.name}
-                            className="max-w-40 font-medium text-foreground"
+                  return (
+                    <TableRow key={product._id} className="group">
+                      <TableCell>
+                        <div className="flex max-w-72 items-center gap-3">
+                          <ProductThumb
+                            url={product.images?.[0]?.url}
+                            alt={product.name}
                           />
 
-                          {product.tags?.[0] && (
-                            <p className="truncate text-xs text-muted-foreground">
-                              {product.tags[0]}
-                            </p>
-                          )}
+                          <div className="min-w-0">
+                            <TruncateWithTooltip
+                              value={product.name}
+                              className="max-w-40 font-medium text-foreground"
+                            />
+
+                            {product.tags?.[0] && (
+                              <p className="truncate text-xs text-muted-foreground">
+                                {product.tags[0]}
+                              </p>
+                            )}
+                          </div>
                         </div>
-                      </div>
-                    </TableCell>
+                      </TableCell>
 
-                    <TableCell className="text-muted-foreground">
-                      <TruncateWithTooltip
-                        value={product.category || "—"}
-                        className="max-w-36"
-                      />
-                    </TableCell>
+                      <TableCell className="text-muted-foreground">
+                        <TruncateWithTooltip
+                          value={product.category || "—"}
+                          className="max-w-36"
+                        />
+                      </TableCell>
 
-                    <TableCell className="text-muted-foreground">
-                      <TruncateWithTooltip
-                        value={product.brand || "—"}
-                        className="max-w-36"
-                      />
-                    </TableCell>
+                      <TableCell className="text-muted-foreground">
+                        <TruncateWithTooltip
+                          value={product.brand || "—"}
+                          className="max-w-36"
+                        />
+                      </TableCell>
 
-                    <TableCell className="whitespace-nowrap text-end tabular-nums">
-                      {product.price == null
-                        ? "—"
-                        : formatCurrency(product.price, CURRENCY, i18n.language)}
-                    </TableCell>
+                      <TableCell className="whitespace-nowrap text-end tabular-nums">
+                        {product.price == null
+                          ? "—"
+                          : formatCurrency(
+                              product.price,
+                              CURRENCIES.EGP,
+                              i18n.language,
+                            )}
+                      </TableCell>
 
-                    <TableCell className="whitespace-nowrap text-end">
-                      <span
-                        className={`tabular-nums font-medium ${stockClass(product.stock)}`}
-                      >
-                        {product.stock == null ? "—" : product.stock}
-                      </span>
-                    </TableCell>
+                      <TableCell className="whitespace-nowrap text-end">
+                        <span
+                          className={`tabular-nums font-medium ${stockClass(product.stock)}`}
+                        >
+                          {product.stock == null
+                            ? "—"
+                            : formatNumber(product.stock, i18n.language)}
+                        </span>
+                      </TableCell>
 
-                    <TableCell className="whitespace-nowrap text-end">
-                      <RowActionsMenu
-                        disabled={isFetching || isDeleting}
-                        ariaLabel={t("products.columns.actions")}
-                        items={[
-                          {
-                            icon: (
-                              <Eye className="size-4" aria-hidden="true" />
-                            ),
-                            label: t("products.viewProduct"),
-                            onClick: () => onView(product._id),
-                          },
-                          {
-                            icon: (
-                              <Pencil className="size-4" aria-hidden="true" />
-                            ),
-                            label: t("products.editProduct"),
-                            onClick: () => onEdit(product._id),
-                          },
-                          {
-                            icon: (
-                              <Trash2 className="size-4" aria-hidden="true" />
-                            ),
-                            label: t("products.deleteProduct"),
-                            onClick: () => onDelete(product),
-                            variant: "destructive",
-                            separator: true,
-                          },
-                        ]}
-                      />
-                    </TableCell>
-                  </TableRow>
-                );
-              })
-            )}
-          </TableBody>
-        </Table>
-      </TooltipProvider>
+                      <TableCell className="whitespace-nowrap text-end">
+                        <RowActionsMenu
+                          disabled={isFetching || isDeleting}
+                          ariaLabel={t("products.columns.actions")}
+                          items={[
+                            {
+                              icon: (
+                                <Eye className="size-4" aria-hidden="true" />
+                              ),
+                              label: t("products.viewProduct"),
+                              onClick: () => onView(product._id),
+                            },
+                            {
+                              icon: (
+                                <Pencil className="size-4" aria-hidden="true" />
+                              ),
+                              label: t("products.editProduct"),
+                              onClick: () => onEdit(product._id),
+                            },
+                            {
+                              icon: (
+                                <Trash2 className="size-4" aria-hidden="true" />
+                              ),
+                              label: t("products.deleteProduct"),
+                              onClick: () => onDelete(product),
+                              variant: "destructive",
+                              separator: true,
+                            },
+                          ]}
+                        />
+                      </TableCell>
+                    </TableRow>
+                  );
+                })
+              )}
+            </TableBody>
+          </TooltipProvider>
+        )}
+      </Table>
 
-      {totalPages > 1 && (
+      {!isLoading && !isFetching && totalPages > 1 && (
         <footer className="border-t border-(--color-border) px-3 py-3">
           <AdminTablePagination
             currentPage={currentPage}

@@ -1,6 +1,7 @@
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { useTranslation } from "react-i18next";
 import { Button } from "@/components/ui/button";
+import { formatNumber } from "@/utils/formatNumber";
 import {
   Pagination,
   PaginationContent,
@@ -14,7 +15,8 @@ export default function AdminTablePagination({
   onPageChange,
   labelPrefix,
 }) {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
+  const locale = i18n.language || "en-US";
 
   if (totalPages <= 1) {
     return null;
@@ -38,7 +40,7 @@ export default function AdminTablePagination({
 
         <PaginationItem>
           <span className="rounded-md border bg-muted/50 px-3 py-1.5 tabular-nums text-sm text-foreground">
-            {currentPage} / {totalPages}
+            {formatNumber(currentPage, locale)} / {formatNumber(totalPages, locale)}
           </span>
         </PaginationItem>
 

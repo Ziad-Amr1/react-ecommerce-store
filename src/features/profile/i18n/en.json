@@ -1,0 +1,57 @@
+{ "profile": {
+    "title": "Profile Overview",
+    "description": "Your account information at a glance.",
+    "anonymous": {
+      "title": "You're not signed in",
+      "description": "Sign in to view your profile and account details.",
+      "signIn": "Sign In"
+    },
+    "header": {
+      "signedIn": "Signed in",
+      "signOut": "Sign Out",
+      "signingOut": "Signing out...",
+      "roleLabel": "Role",
+      "verified": "Verified",
+      "memberSince": "Member since {{date}}"
+      
+    },
+    "personal": {
+      "title": "Personal Information",
+      "description": "The details currently on file for your account.",
+      "fullName": "Full Name",
+      "email": "Email Address",
+      "username": "Username",
+      "phone": "Phone Number",
+      "missing": "Not provided",
+      "copied": "Copied {{field}} to clipboard",
+      "copyFailed": "Couldn't copy to clipboard",
+      "copyValue": "Copy {{value}}"
+    },
+    "activity": {
+      "title": "Account Activity",
+      "description": "Order tracking, wishlist, saved addresses and payment methods are not available yet.",
+      "orders": "My Orders",
+      "wishlist": "Wishlist",
+      "addresses": "Saved Addresses",
+      "payments": "Payment Methods",
+      "comingSoon": "Not available yet"
+    },
+    "edit": {
+      "success": "Profile updated successfully",
+      "error": "Failed to update profile",
+      "saving": "Saving...",
+      "save": "Save",
+      "cancel": "Cancel",
+      "edit": "Edit"
+    },
+    "validation": {
+      "usernameRequired": "Username is required",
+      "phoneRequired": "Phone is required"
+    },
+    "error": {
+      "title": "Something went wrong",
+      "description": "We couldn't load your profile. Please try again.",
+      "retry": "Try Again"
+    }
+  }
+}

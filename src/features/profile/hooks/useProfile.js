@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useRef, useState } from "react";
-import { fetchProfile } from "../api/profileApi";
+import { fetchProfile , updateProfile } from "../api/profileApi";
 
 export default function useProfile() {
   const [user, setUser] = useState(null);
@@ -52,10 +52,24 @@ export default function useProfile() {
     await fetchUser(controller);
   }, [fetchUser]);
 
+const updateUser = useCallback(async (data) => {
+  if (!user) {
+    throw new Error("User not loaded");
+  }
+
+  const response = await updateProfile(user._id, data);
+
+  const updatedUser = response.user ?? response;
+
+  setUser(updatedUser);
+
+  return updatedUser;
+}, [user]);
   return {
     user,
     status,
     error,
     refetch: load,
+    updateUser,
   };
 }

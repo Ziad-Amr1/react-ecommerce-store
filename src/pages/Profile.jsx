@@ -11,7 +11,7 @@ import useProfile from "@/features/profile/hooks/useProfile";
 export default function Profile() {
   const { t } = useTranslation();
   const { logout } = useAuth();
-  const { user, status, refetch } = useProfile();
+  const { user, status, refetch , updateUser} = useProfile();
 
   return (
     <main className="mx-auto w-full max-w-7xl px-4 py-10 sm:px-6 lg:px-8">
@@ -33,7 +33,7 @@ export default function Profile() {
       ) : (
         <div className="space-y-6">
           <ProfileHeader user={user} logout={logout} />
-          <PersonalInformation user={user} />
+          <PersonalInformation user={user}    updateUser={updateUser}/>
           <AccountActivity />
         </div>
       )}

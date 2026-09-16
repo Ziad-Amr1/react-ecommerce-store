@@ -510,6 +510,7 @@
       "roleLabel": "Role",
       "verified": "Verified",
       "memberSince": "Member since {{date}}"
+      
     },
     "personal": {
       "title": "Personal Information",
@@ -531,6 +532,18 @@
       "addresses": "Saved Addresses",
       "payments": "Payment Methods",
       "comingSoon": "Not available yet"
+    },
+    "edit": {
+      "success": "Profile updated successfully",
+      "error": "Failed to update profile",
+      "saving": "Saving...",
+      "save": "Save",
+      "cancel": "Cancel",
+      "edit": "Edit"
+    },
+    "validation": {
+      "usernameRequired": "Username is required",
+      "phoneRequired": "Phone is required"
     },
     "error": {
       "title": "Something went wrong",

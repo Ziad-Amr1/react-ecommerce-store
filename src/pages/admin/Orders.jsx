@@ -4,10 +4,8 @@ import {
   ArrowDown,
   ArrowUpDown,
   Package,
-  TriangleAlert,
 } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import {
   Select,
@@ -34,9 +32,11 @@ import {
   PAYMENT_STATUSES,
 } from "@/features/admin/orders/constants";
 import OrderStatusBadge from "@/features/admin/orders/components/OrderStatusBadge";
-import OrdersPagination from "@/features/admin/orders/components/OrdersPagination";
 import OrdersTableSkeleton from "@/features/admin/orders/components/OrdersTableSkeleton";
 import OrderDetailsSheet from "@/features/admin/orders/components/OrderDetailsSheet";
+import AdminPageHeader from "@/features/admin/components/AdminPageHeader";
+import AdminErrorState from "@/features/admin/components/AdminErrorState";
+import AdminTablePagination from "@/features/admin/components/AdminTablePagination";
 
 export default function Orders() {
   const { t, i18n } = useTranslation();
@@ -78,32 +78,27 @@ export default function Orders() {
 
   return (
     <div className="space-y-6">
-      <div className="flex flex-wrap items-start justify-between gap-3">
-        <div>
-          <p className="text-xs font-semibold uppercase tracking-widest text-muted-foreground">
-            {t("orders.subtitle")}
-          </p>
-          <h1 className="mt-1 font-display text-2xl font-bold text-foreground">
-            {t("orders.title")}
-          </h1>
-        </div>
-
-        <Card className="shadow-sm">
-          <CardContent className="flex items-center gap-2.5 px-4 py-2">
-            <div className="flex size-8 items-center justify-center rounded-lg bg-primary/10">
-              <Package className="size-4 text-primary" aria-hidden="true" />
-            </div>
-            <div className="flex flex-col leading-tight">
-              <span className="font-display text-lg font-bold tabular-nums text-foreground">
-                {formatNumber(totalOrders, locale)}
-              </span>
-              <span className="text-[11px] text-muted-foreground">
-                {t("orders.totalOrders")}
-              </span>
-            </div>
-          </CardContent>
-        </Card>
-      </div>
+      <AdminPageHeader
+        kicker={t("orders.subtitle")}
+        title={t("orders.title")}
+        action={
+          <Card className="shadow-sm">
+            <CardContent className="flex items-center gap-2.5 px-4 py-2">
+              <div className="flex size-8 items-center justify-center rounded-lg bg-primary/10">
+                <Package className="size-4 text-primary" aria-hidden="true" />
+              </div>
+              <div className="flex flex-col leading-tight">
+                <span className="font-display text-lg font-bold tabular-nums text-foreground">
+                  {formatNumber(totalOrders, locale)}
+                </span>
+                <span className="text-[11px] text-muted-foreground">
+                  {t("orders.totalOrders")}
+                </span>
+              </div>
+            </CardContent>
+          </Card>
+        }
+      />
 
       <div className="flex flex-wrap items-center gap-3">
         <div className="relative min-w-64 flex-1">
@@ -145,18 +140,12 @@ export default function Orders() {
 
       <Card className="overflow-hidden shadow-sm">
         {loadError && !isLoading ? (
-          <div className="flex flex-col items-center justify-center gap-3 px-4 py-14 text-center">
-            <div className="flex size-14 items-center justify-center rounded-full bg-error-bg">
-              <TriangleAlert className="size-7 text-error" aria-hidden="true" />
-            </div>
-            <h2 className="font-display text-lg font-semibold text-foreground">
-              {t("orders.loadErrorTitle")}
-            </h2>
-            <p className="text-sm text-muted-foreground">{t("orders.loadErrorHint")}</p>
-            <Button className="mt-2" onClick={retry}>
-              {t("orders.retry")}
-            </Button>
-          </div>
+          <AdminErrorState
+            title={t("orders.loadErrorTitle")}
+            hint={t("orders.loadErrorHint")}
+            onRetry={retry}
+            retryLabel={t("orders.retry")}
+          />
         ) : (
           <div className="overflow-x-auto">
             <Table>
@@ -257,12 +246,15 @@ export default function Orders() {
             </Table>
 
             {!isLoading && orders.length > 0 && (
-              <OrdersPagination
-                currentPage={currentPage}
-                totalPages={totalPages}
-                isLoading={isLoading}
-                onPageChange={handlePageChange}
-              />
+              <div className="border-t border-border px-6 py-4">
+                <AdminTablePagination
+                  currentPage={currentPage}
+                  totalPages={totalPages}
+                  loading={isLoading}
+                  onPageChange={handlePageChange}
+                  labelPrefix="orders.pagination"
+                />
+              </div>
             )}
           </div>
         )}

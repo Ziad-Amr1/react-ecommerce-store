@@ -181,7 +181,6 @@
     "retry": "إعادة المحاولة",
     "noData": "لا توجد بيانات للوحة التحكم.",
     "noProducts": "لا توجد منتجات",
-
     "orderStatus": "حالة الطلبات",
     "recentOrders": "الطلبات الأخيرة",
     "topProducts": "أفضل المنتجات",
@@ -202,26 +201,19 @@
       "cancelled": "ملغي",
       "returned": "مُرجَع"
     },
-
     "adminOverview": "نظرة عامة للمدير",
     "commerceHealth": "صحة التجارة",
     "commerceHealthDescription": "راقب أداء متجرك وإحصاءاته الرئيسية.",
-
     "totalOrders": "إجمالي الطلبات",
     "totalOrdersDescription": "جميع الطلبات المستلمة",
-
     "pendingOrders": "الطلبات قيد الانتظار",
     "pendingOrderDescription": "طلبات بانتظار المعالجة",
-
     "totalRevenue": "إجمالي الإيرادات",
     "totalRevenueDescription": "إجمالي الإيرادات الكلية",
-
     "thisMonthRevenue": "إيرادات هذا الشهر",
     "thisMonthRevenueDescription": "الإيرادات المحققة في الشهر الحالي",
-
     "revenueGrowth": "نمو الإيرادات",
     "revenueGrowthDescription": "معدل التغير في إجمالي الإيرادات",
-
     "totalUsers": "المستخدمون",
     "totalUsersDescription": "إجمالي العملاء المسجلين"
   },
@@ -524,7 +516,7 @@
       "done": "مكتمل"
     }
   },
-"cart": {
+  "cart": {
     "title": "سلة التسوق",
     "emptyTitle": "سلة التسوق فارغة",
     "emptyDescription": "تصفح المتجر وأضف ما يعجبك إلى سلة التسوق.",
@@ -675,11 +667,11 @@
       "goToPage": "الانتقال إلى الصفحة {{page}}",
       "showing": "عرض {{from}} إلى {{to}} من أصل {{count}} مستخدم"
     },
-"dialogs": {
-  "addTitle": "إضافة مستخدم جديد",
-  "addDescription": "إنشاء حساب مستخدم جديد مباشرة من لوحة التحكم.",
-  "editTitle": "تغيير الدور",
-  "editDescription": "تعديل صلاحية الوصول لـ {{name}}.",
+    "dialogs": {
+      "addTitle": "إضافة مستخدم جديد",
+      "addDescription": "إنشاء حساب مستخدم جديد مباشرة من لوحة التحكم.",
+      "editTitle": "تغيير الدور",
+      "editDescription": "تعديل صلاحية الوصول لـ {{name}}.",
       "username": "اسم المستخدم",
       "usernamePlaceholder": "أدخل اسم المستخدم",
       "usernameRequired": "اسم المستخدم مطلوب",
@@ -688,24 +680,24 @@
       "emailPlaceholder": "admin@example.com",
       "emailRequired": "البريد الإلكتروني مطلوب",
       "emailInvalid": "بريد إلكتروني غير صحيح",
-"emailValid": "البريد الإلكتروني صحيح.",
-  "password": "كلمة المرور",
+      "emailValid": "البريد الإلكتروني صحيح.",
+      "password": "كلمة المرور",
       "passwordPlaceholder": "أدخل كلمة المرور",
       "passwordRequired": "كلمة المرور مطلوبة",
       "passwordMinLength": "يجب ألا تقل كلمة المرور عن 6 أحرف",
-"passwordValid": "كلمة المرور صحيحة.",
-  "role": "الدور",
+      "passwordValid": "كلمة المرور صحيحة.",
+      "role": "الدور",
       "rolePlaceholder": "اختر الدور",
       "roleChangeHint": "ستتغير صلاحية وصول المستخدم عند الحفظ.",
       "cancel": "إلغاء",
       "adding": "جارٍ الإضافة...",
-"saving": "جارٍ الحفظ...",
-  "saveRole": "حفظ الدور",
-  "saveUser": "حفظ المستخدم",
-  "addSuccess": "تمت إضافة المستخدم بنجاح.",
-  "addFailed": "تعذر إضافة المستخدم.",
-  "roleUpdateSuccess": "تم تحديث الدور بنجاح.",
-  "roleChangeFailed": "تعذر تحديث الدور.",
+      "saving": "جارٍ الحفظ...",
+      "saveRole": "حفظ الدور",
+      "saveUser": "حفظ المستخدم",
+      "addSuccess": "تمت إضافة المستخدم بنجاح.",
+      "addFailed": "تعذر إضافة المستخدم.",
+      "roleUpdateSuccess": "تم تحديث الدور بنجاح.",
+      "roleChangeFailed": "تعذر تحديث الدور.",
       "deleteTitle": "حذف المستخدم",
       "deleteDescription": "لا يمكن التراجع عن هذا الإجراء.",
       "deleteQuestion": "حذف {{name}}؟ لا يمكن التراجع عن هذا الإجراء.",
@@ -728,5 +720,78 @@
     "subtitle": "الصفحة غير موجودة",
     "description": "الصفحة التي تبحث عنها غير موجودة أو تم نقلها.",
     "home": "العودة إلى الرئيسية"
+  },
+  "checkout": {
+    "title": "إتمام الطلب",
+    "subtitle": "أكمل طلبك واحصل على منتجاتك المفضلة عند بابك",
+    "optional": "اختياري",
+    "steps": {
+      "information": "البيانات",
+      "payment": "الدفع",
+      "review": "المراجعة"
+    },
+    "emptyCartTitle": "سلة التسوق فارغة",
+    "emptyCartDescription": "أضف بعض المنتجات إلى سلتك قبل إتمام الطلب.",
+    "backToCart": "العودة إلى السلة",
+    "emptyCartError": "سلة التسوق فارغة. أضف منتجات قبل تنفيذ الطلب.",
+    "validationError": "من فضلك صحّح الحقول المحددة قبل المتابعة.",
+    "genericError": "حدث خطأ أثناء تنفيذ طلبك. حاول مرة أخرى.",
+    "orderSuccessToast": "تم تنفيذ طلبك بنجاح.",
+    "shipping": {
+      "title": "بيانات الشحن",
+      "subtitle": "أدخل بيانات الشحن الخاصة بك لاستلام طلبك",
+      "fullNameLabel": "الاسم الكامل",
+      "fullNamePlaceholder": "أدخل اسمك",
+      "phoneLabel": "رقم الهاتف",
+      "phonePlaceholder": "رقم هاتفك",
+      "emailLabel": "البريد الإلكتروني",
+      "emailPlaceholder": "أدخل بريدك الإلكتروني",
+      "countryLabel": "الدولة",
+      "countryPlaceholder": "أدخل الدولة",
+      "cityLabel": "المدينة",
+      "cityPlaceholder": "أدخل مدينتك",
+      "addressLabel": "العنوان",
+      "addressPlaceholder": "أدخل عنوانك",
+      "postalCodeLabel": "الرمز البريدي",
+      "postalCodePlaceholder": "مثال: 12345",
+      "customerNoteLabel": "ملاحظة العميل",
+      "customerNotePlaceholder": "تعليمات خاصة بطلبك"
+    },
+    "summary": {
+      "title": "ملخص الطلب",
+      "subtitle": "راجع المنتجات الموجودة في طلبك",
+      "subtotal": "المجموع الفرعي",
+      "discount": "الخصم",
+      "total": "الإجمالي"
+    },
+    "payment": {
+      "title": "طريقة الدفع",
+      "subtitle": "اختر طريقة الدفع المفضلة لديك",
+      "cash": "الدفع عند الاستلام",
+      "stripe": "بطاقة ائتمان / خصم (Stripe)",
+      "stripeUnavailable": "غير متاحة حاليًا",
+      "placeOrder": "تنفيذ الطلب",
+      "placingOrder": "جارٍ تنفيذ الطلب...",
+      "secureNote": "معلوماتك آمنة ومشفّرة"
+    },
+    "validation": {
+      "fullNameRequired": "الاسم الكامل مطلوب",
+      "fullNameMin": "يجب ألا يقل الاسم الكامل عن 3 أحرف",
+      "phoneRequired": "رقم الهاتف مطلوب",
+      "countryRequired": "الدولة مطلوبة",
+      "cityRequired": "المدينة مطلوبة",
+      "addressRequired": "العنوان مطلوب",
+      "addressMin": "يجب ألا يقل العنوان عن 5 أحرف",
+      "postalCodeRequired": "الرمز البريدي مطلوب",
+      "postalCodeInvalid": "يرجى إدخال رمز بريدي صحيح",
+      "paymentMethodRequired": "يرجى اختيار طريقة الدفع"
+    }
+  },
+  "orderSuccess": {
+    "title": "تم تنفيذ الطلب بنجاح",
+    "description": "تم إنشاء طلبك. سنبدأ في تجهيزه فورًا.",
+    "orderRef": "رقم الطلب: #{{id}}",
+    "myOrders": "طلباتي",
+    "continueShopping": "مواصلة التسوق"
   }
 }

@@ -1,24 +1,46 @@
 import api from "@/api/axios";
 
 export const loginUser = async (email, password) => {
-  const response = await api.post("/auth/login", {
-    email,
-    password,
-  });
+  const response = await api.post(
+    "/auth/login",
+    {
+      email,
+      password,
+    },
+    {
+      withCredentials: true,
+    },
+  );
 
   return response.data;
 };
 
 export const logoutUser = async () => {
-  const response = await api.post("/auth/logout");
+  const response = await api.post(
+    "/auth/logout",
+    {},
+    {
+      withCredentials: true,
+    },
+  );
 
   return response.data;
 };
 
 export const getCurrentUser = async () => {
-  const response = await api.get("/auth/me");
+  try {
+    const response = await api.get("/auth/me", {
+      withCredentials: true,
+    });
 
-  return response.data;
+    return response.data;
+  } catch (error) {
+    if (error.response?.status === 401) {
+      return null;
+    }
+
+    throw error;
+  }
 };
 
 export const sendForgotPasswordOTP = async (email) => {
@@ -29,7 +51,11 @@ export const sendForgotPasswordOTP = async (email) => {
   return response.data;
 };
 
-export const verifyForgotPasswordOTP = async (email, otp, newPassword) => {
+export const verifyForgotPasswordOTP = async (
+  email,
+  otp,
+  newPassword,
+) => {
   const response = await api.post("/auth/forgot-password/verify-otp", {
     email,
     otp,
@@ -39,7 +65,12 @@ export const verifyForgotPasswordOTP = async (email, otp, newPassword) => {
   return response.data;
 };
 
-export const sendRegistrationOTP = async (username, email, password, phone) => {
+export const sendRegistrationOTP = async (
+  username,
+  email,
+  password,
+  phone,
+) => {
   const response = await api.post("/auth/register/send-otp", {
     username,
     email,

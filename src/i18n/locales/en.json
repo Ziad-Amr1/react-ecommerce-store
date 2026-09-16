@@ -158,7 +158,6 @@
     "usernameMin": "Username must be at least {{count}} characters",
     "phoneInvalid": "Please enter a valid phone number"
   },
-
   "home": {
     "title": "E-commerce Home page",
     "description": "Welcome to the E-commerce platform. Explore our products and manage your orders.",
@@ -197,7 +196,6 @@
     "filterSort": "Sort:",
     "filterSearch": "Search:"
   },
-
   "dashboard": {
     "title": "Dashboard Page",
     "loading": "Loading dashboard...",
@@ -205,7 +203,6 @@
     "retry": "Retry",
     "noData": "No dashboard data available.",
     "noProducts": "No products",
-
     "orderStatus": "Order Status",
     "recentOrders": "Recent Orders",
     "topProducts": "Top Products",
@@ -226,26 +223,19 @@
       "cancelled": "Cancelled",
       "returned": "Returned"
     },
-
     "adminOverview": "Admin Overview",
     "commerceHealth": "Commerce Health",
     "commerceHealthDescription": "Monitor your store's performance and key statistics.",
-
     "totalOrders": "Total Orders",
     "totalOrdersDescription": "All orders received",
-
     "pendingOrders": "Pending Orders",
     "pendingOrderDescription": "Orders waiting to be processed",
-
     "totalRevenue": "Total Revenue",
     "totalRevenueDescription": "Overall gross revenue",
-
     "thisMonthRevenue": "This Month Revenue",
     "thisMonthRevenueDescription": "Revenue generated in the current month",
-
     "revenueGrowth": "Revenue Growth",
     "revenueGrowthDescription": "Rate of change in total revenue",
-
     "totalUsers": "Users",
     "totalUsersDescription": "Total registered customers"
   },
@@ -548,7 +538,7 @@
       "done": "Done"
     }
   },
-"cart": {
+  "cart": {
     "title": "Your Cart",
     "emptyTitle": "Your cart is empty",
     "emptyDescription": "Browse the store and add something you like to your cart.",
@@ -585,7 +575,7 @@
   },
   "orders": {
     "title": "Orders",
-    "subtitle": "Admin \u2022 Management",
+    "subtitle": "Admin • Management",
     "totalOrders": "Total Orders",
     "loadErrorTitle": "Failed to load orders",
     "loadErrorHint": "Something went wrong while fetching your orders. Please try again.",
@@ -699,11 +689,11 @@
       "goToPage": "Go to page {{page}}",
       "showing": "Showing {{from}} to {{to}} of {{count}} users"
     },
-"dialogs": {
-  "addTitle": "Add New User",
-  "addDescription": "Create a new user account directly from the admin panel.",
-  "editTitle": "Change Role",
-  "editDescription": "Adjust the access level for {{name}}.",
+    "dialogs": {
+      "addTitle": "Add New User",
+      "addDescription": "Create a new user account directly from the admin panel.",
+      "editTitle": "Change Role",
+      "editDescription": "Adjust the access level for {{name}}.",
       "username": "Username",
       "usernamePlaceholder": "Enter username",
       "usernameRequired": "Username is required",
@@ -712,24 +702,24 @@
       "emailPlaceholder": "admin@example.com",
       "emailRequired": "Email is required",
       "emailInvalid": "Invalid email address",
-"emailValid": "Email is valid.",
-  "password": "Password",
+      "emailValid": "Email is valid.",
+      "password": "Password",
       "passwordPlaceholder": "Enter password",
       "passwordRequired": "Password is required",
       "passwordMinLength": "Password must be at least 6 characters",
-"passwordValid": "Password is valid.",
-  "role": "Role",
+      "passwordValid": "Password is valid.",
+      "role": "Role",
       "rolePlaceholder": "Select role",
       "roleChangeHint": "The user's access level will change on save.",
       "cancel": "Cancel",
       "adding": "Adding...",
-"saving": "Saving...",
-  "saveRole": "Save role",
-  "saveUser": "Save User",
-  "addSuccess": "User has been added successfully.",
-  "addFailed": "Failed to add user.",
-  "roleUpdateSuccess": "Role updated successfully.",
-  "roleChangeFailed": "Role update failed.",
+      "saving": "Saving...",
+      "saveRole": "Save role",
+      "saveUser": "Save User",
+      "addSuccess": "User has been added successfully.",
+      "addFailed": "Failed to add user.",
+      "roleUpdateSuccess": "Role updated successfully.",
+      "roleChangeFailed": "Role update failed.",
       "deleteTitle": "Delete User",
       "deleteDescription": "This action cannot be undone.",
       "deleteQuestion": "Delete {{name}}? This cannot be undone.",
@@ -752,5 +742,78 @@
     "subtitle": "Page Not Found",
     "description": "The page you're looking for doesn't exist or has been moved.",
     "home": "Back to Home"
+  },
+  "checkout": {
+    "title": "Checkout",
+    "subtitle": "Complete your order and get your favorite products delivered",
+    "optional": "optional",
+    "steps": {
+      "information": "Information",
+      "payment": "Payment",
+      "review": "Review"
+    },
+    "emptyCartTitle": "Your cart is empty",
+    "emptyCartDescription": "Add something to your cart before checking out.",
+    "backToCart": "Back to Cart",
+    "emptyCartError": "Your cart is empty. Add items before placing an order.",
+    "validationError": "Please fix the highlighted fields before continuing.",
+    "genericError": "Something went wrong while placing your order. Please try again.",
+    "orderSuccessToast": "Your order has been placed successfully.",
+    "shipping": {
+      "title": "Shipping Information",
+      "subtitle": "Enter your shipping details to receive your order",
+      "fullNameLabel": "Full Name",
+      "fullNamePlaceholder": "Enter your name",
+      "phoneLabel": "Phone Number",
+      "phonePlaceholder": "Your phone number",
+      "emailLabel": "Email",
+      "emailPlaceholder": "Enter your email address",
+      "countryLabel": "Country",
+      "countryPlaceholder": "Enter the country",
+      "cityLabel": "City",
+      "cityPlaceholder": "Enter your city",
+      "addressLabel": "Address",
+      "addressPlaceholder": "Enter your address",
+      "postalCodeLabel": "Postal Code",
+      "postalCodePlaceholder": "e.g. 12345",
+      "customerNoteLabel": "Customer Note",
+      "customerNotePlaceholder": "Special instructions for your order"
+    },
+    "summary": {
+      "title": "Order Summary",
+      "subtitle": "Review the items in your order",
+      "subtotal": "Subtotal",
+      "discount": "Discount",
+      "total": "Total"
+    },
+    "payment": {
+      "title": "Payment Method",
+      "subtitle": "Choose your preferred payment method",
+      "cash": "Cash on Delivery",
+      "stripe": "Credit / Debit Card (Stripe)",
+      "stripeUnavailable": "Currently unavailable",
+      "placeOrder": "Place Order",
+      "placingOrder": "Placing Order...",
+      "secureNote": "Your information is secure and encrypted"
+    },
+    "validation": {
+      "fullNameRequired": "Full name is required",
+      "fullNameMin": "Full name must be at least 3 characters",
+      "phoneRequired": "Phone number is required",
+      "countryRequired": "Country is required",
+      "cityRequired": "City is required",
+      "addressRequired": "Address is required",
+      "addressMin": "Address must be at least 5 characters",
+      "postalCodeRequired": "Postal code is required",
+      "postalCodeInvalid": "Please enter a valid postal code",
+      "paymentMethodRequired": "Please select a payment method"
+    }
+  },
+  "orderSuccess": {
+    "title": "Order placed successfully",
+    "description": "Your order has been created. We'll start preparing it right away.",
+    "orderRef": "Order ref: #{{id}}",
+    "myOrders": "My Orders",
+    "continueShopping": "Continue Shopping"
   }
 }

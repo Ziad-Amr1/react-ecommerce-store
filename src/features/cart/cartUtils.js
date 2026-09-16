@@ -111,3 +111,13 @@ export function formatItemCount(count) {
   }
   return String(value);
 }
+
+
+export const pluralize = (count, singular, plural = `${singular}s`) =>
+  `${count} ${count === 1 ? singular : plural}`;
+
+export const getApiErrorMessage = (error, fallback) =>
+  error?.response?.data?.message ||
+  error?.data?.message ||
+  error?.message ||
+  fallback;

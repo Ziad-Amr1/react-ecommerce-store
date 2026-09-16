@@ -164,8 +164,8 @@ export default function Checkout() {
     };
 
     return (
-        <div className="p-6 w-[90%] m-auto">
-            <div className="flex flex-col gap-6  lg:flex-row lg:items-center  ">
+        <div className="p-6 w-[80%] m-auto">
+            <div className="grid grid-cols-1 lg:grid-cols-[1.2fr_1fr] gap-4 ">
 
   <div className="">
 
@@ -173,7 +173,7 @@ export default function Checkout() {
                 <p className="text-sm text-muted-foreground">{t("checkout.subtitle")}</p>
             </div>
             {/* checkout steps */}
-            <div className="flex justify-center items-center gap-2 m-auto ">
+            <div className="flex justify-center items-center gap-2 ml-20">
                 <div className="flex flex-col items-center">
                     <div className="flex size-9 items-center justify-center rounded-full bg-primary text-(--color-surface)">1</div>
                     <span className="mt-1 text-sm">{t("checkout.steps.information")}</span>
@@ -211,21 +211,23 @@ export default function Checkout() {
                 </Empty>
             ) : (
             <form onSubmit={handleSubmit} noValidate aria-busy={isSubmitting}>
-            <div className="grid grid-cols-1 lg:grid-cols-[1.4fr_1fr] gap-4 mt-10">
+            <div className="grid grid-cols-1 lg:grid-cols-[1.2fr_1fr] gap-4 mt-10">
                 <div className="bg-(--color-surface) w-full p-4 sm:p-6  md:p-8 m-auto rounded-2xl">
 
                    <div className="flex items-center gap-2">
     <Truck className="size-9 text-primary bg-primary/10 rounded-full p-2" />
     <h2 className="text-2xl">{t("checkout.shipping.title")}</h2>
 </div>
-<p className="text-sm text-muted-foreground">
+<p className="text-xs text-muted-foreground">
     {t("checkout.shipping.subtitle")}
 </p>
                     {/* start Shipping Information  */}
                     <div className=" grid grid-cols-1 sm:grid-cols-2 gap-3">
 
                         <div className="flex flex-col mt-4">
-                            <label htmlFor="checkout-fullName" className="mb-1">{t("checkout.shipping.fullNameLabel")}</label>
+                            <label htmlFor="checkout-fullName" className="mb-1">{t("checkout.shipping.fullNameLabel")}
+                                <span className="text-red-500 ml-2 text-lg">*</span>
+                            </label>
                          <div className="relative">
                             <User  className="absolute start-3 top-1/2  -translate-y-1/2 size-4 text-muted-foreground"/>
                                <Input
@@ -243,7 +245,9 @@ export default function Checkout() {
                             <FieldError id="checkout-fullName-error" message={errors.fullName} />
                         </div>
                         <div className="flex flex-col mt-4">
-                            <label htmlFor="checkout-phone" className="mb-1" >{t("checkout.shipping.phoneLabel")}</label>
+                            <label htmlFor="checkout-phone" className="mb-1" >{t("checkout.shipping.phoneLabel")}
+                                    <span className="text-red-500 ml-2 text-lg">*</span>
+                            </label>
                              <div className="relative">
                             <Phone  className="absolute start-3 top-1/2  -translate-y-1/2 size-4 text-muted-foreground"/>
                             <Input
@@ -277,7 +281,9 @@ export default function Checkout() {
                         </div>
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                         <div className="flex flex-col mt-4">
-                            <label htmlFor="checkout-country" className="mb-1" >{t("checkout.shipping.countryLabel")}</label>
+                            <label htmlFor="checkout-country" className="mb-1" >{t("checkout.shipping.countryLabel")}
+                                    <span className="text-red-500 ml-2 text-lg">*</span>
+                            </label>
                                   <div className="relative">
                             <Globe  className="absolute start-3 top-1/2  -translate-y-1/2 size-4 text-muted-foreground"/>
                             <Input
@@ -295,7 +301,9 @@ export default function Checkout() {
                             <FieldError id="checkout-country-error" message={errors.country} />
                         </div>
                         <div className="flex flex-col mt-4">
-                            <label htmlFor="checkout-city" className="mb-1">{t("checkout.shipping.cityLabel")}</label>
+                            <label htmlFor="checkout-city" className="mb-1">{t("checkout.shipping.cityLabel")}
+                                    <span className="text-red-500 ml-2 text-lg">*</span>
+                            </label>
                                    <div className="relative">
                             <MapPin  className="absolute start-3 top-1/2  -translate-y-1/2 size-4 text-muted-foreground"/>
                             <Input
@@ -316,7 +324,9 @@ export default function Checkout() {
 
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                         <div className="flex flex-col mt-4">
-                            <label htmlFor="checkout-address" className="mb-1">{t("checkout.shipping.addressLabel")}</label>
+                            <label htmlFor="checkout-address" className="mb-1">{t("checkout.shipping.addressLabel")}
+                                    <span className="text-red-500 ml-2 text-lg">*</span>
+                            </label>
                                    <div className="relative">
                             <Home className="absolute start-3 top-1/2  -translate-y-1/2 size-4 text-muted-foreground"/>
                             <Input
@@ -376,13 +386,13 @@ export default function Checkout() {
 
 
                     {/* start order Summary */}
-                    <div className=" mt-4 bg-(--color-surface) m-auto rounded-2xl w-full max-w-[500px] p-4 flex flex-col ">
+                    <div className=" mt-4 bg-(--color-surface) m-auto rounded-2xl w-full max-w-[550px] p-4 flex flex-col ">
                     <div className="flex items-center gap-2 ">
     <ShoppingBag   className="size-9 text-primary bg-primary/10 rounded-full p-2" />
                     <h2 className="text-2xl ">{t("checkout.summary.title")}</h2>
                       
             </div>
-                        <p className="text-sm text-muted-foreground">{t("checkout.summary.subtitle")}</p>
+                        <p className="text-xs text-muted-foreground">{t("checkout.summary.subtitle")}</p>
                        <div className="max-h-[250px] overflow-y-auto">
                         {cart.items.map((item) => (
                             <div key={item.id} className="flex items-center gap-4 p-2  ">
@@ -432,14 +442,14 @@ export default function Checkout() {
                     </div>
                     {/* End order Summary */}
                       {/* start payment method */}
-                    <fieldset className="mt-4 bg-(--color-surface) p-6 m-auto rounded-2xl w-full max-w-[500px]">
+                    <fieldset className="mt-4 bg-(--color-surface) p-6 m-auto rounded-2xl w-full max-w-[550px]">
                         <legend className="sr-only">{t("checkout.payment.title")}</legend>
                                        <div className="flex items-center gap-2">
     <CreditCard   className="size-9 text-primary bg-primary/10 rounded-full p-2" />
                         <h2 className="text-2xl">{t("checkout.payment.title")}</h2>
                       
             </div>
-                        <p className="text-sm text-muted-foreground">{t("checkout.payment.subtitle")}</p>
+                        <p className="text-xs text-muted-foreground">{t("checkout.payment.subtitle")}</p>
                         <label className="flex items-center gap-2  mt-4 bg-(--color-surface) p-6 m-auto rounded-xl border cursor-pointer">
                             <input type="radio"
                                 name="paymentMethod"
@@ -448,7 +458,10 @@ export default function Checkout() {
                                 onChange={(e) => handlePaymentMethodChange(e.target.value)}
                             />
                             <WalletCards className="text-primary ps-2 size-7"/>
+                              <span className="flex flex-col">
                             {t("checkout.payment.cash")}
+                                 <span className="text-xs text-muted-foreground">{t("checkout.payment.cashDescription")}</span>
+                                     </span>
                         </label>
 
                         <label className="flex items-center gap-2  mt-4 bg-(--color-surface) p-6 m-auto rounded-xl border opacity-60 cursor-not-allowed">

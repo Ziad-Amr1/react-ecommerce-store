@@ -284,6 +284,14 @@ export default function Cart() {
                     asChild
                     className="bg-(--color-primary) text-primary-foreground hover:bg-(--color-secondary)"
                   >
+                    <Link to="/checkout">
+                      {t("cart.proceedToCheckout")}
+                    </Link>
+                  </Button>
+                  <Button
+                    asChild
+                    className="bg-(--color-primary) text-primary-foreground hover:bg-(--color-secondary)"
+                  >
                     <Link to="/products">{t("cart.continueShopping")}</Link>
                   </Button>
                   <Button

@@ -35,7 +35,13 @@ export default function RowActionsMenu({
             {items.map((item) => (
               <Fragment key={item.label}>
                 {item.separator && <DropdownMenuSeparator />}
-                <DropdownMenuItem variant={item.variant} onClick={item.onClick}>
+                <DropdownMenuItem
+                  variant={item.variant}
+                  onClick={(event) => {
+                    event.stopPropagation();
+                    item.onClick();
+                  }}
+                >
                   {item.icon}
                   {item.label}
                 </DropdownMenuItem>

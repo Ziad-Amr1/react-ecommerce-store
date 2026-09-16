@@ -1,6 +1,7 @@
 import { useTranslation } from "react-i18next";
 import { Plus, RefreshCw } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { formatNumber } from "@/utils/formatNumber";
 import useUsers from "@/features/admin/users/useUsers";
 import UsersTable from "@/features/admin/users/components/UsersTable";
 import AddAdminDialog from "@/features/admin/users/components/AddAdminDialog";
@@ -11,7 +12,8 @@ import AdminPageHeader from "@/features/admin/components/AdminPageHeader";
 import AdminErrorState from "@/features/admin/components/AdminErrorState";
 
 export default function Users() {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
+  const locale = i18n.language || "en-US";
 
   const {
     users,
@@ -45,6 +47,18 @@ export default function Users() {
       <AdminPageHeader
         kicker={t("users.subtitle")}
         title={t("users.title")}
+        statistics={[
+          {
+            id: "total",
+            label: t("adminTable.total"),
+            value: formatNumber(users.length, locale),
+          },
+          {
+            id: "page",
+            label: t("adminTable.page"),
+            value: `${formatNumber(currentPage, locale)} / ${formatNumber(totalPages, locale)}`,
+          },
+        ]}
         action={
           <Button
             onClick={() => setIsAddOpen(true)}

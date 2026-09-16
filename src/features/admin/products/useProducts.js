@@ -1,6 +1,7 @@
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { toast } from "sonner";
+import useAdminServerTable from "@/features/admin/components/useAdminServerTable";
 import { PAGE_SIZE } from "./constants";
 import { deleteProduct, getProducts } from "@/services/product.service";
 
@@ -12,138 +13,53 @@ const EMPTY_FILTERS = {
   sort: "",
 };
 
+// Map the controller's query state onto the products API's flat query params.
+function buildParams({ search, filters, page, limit }) {
+  const params = { page, limit };
+
+  if (search) {
+    params.search = search;
+  }
+  if (filters.category) {
+    params.category = filters.category;
+  }
+  if (filters.brand) {
+    params.brand = filters.brand;
+  }
+  if (filters.minPrice) {
+    params.minPrice = filters.minPrice;
+  }
+  if (filters.maxPrice) {
+    params.maxPrice = filters.maxPrice;
+  }
+  if (filters.sort) {
+    params.sort = filters.sort;
+  }
+
+  return params;
+}
+
 export default function useProducts() {
   const { t } = useTranslation();
 
-  const [products, setProducts] = useState([]);
-  const [isLoading, setIsLoading] = useState(true);
-  const [isFetching, setIsFetching] = useState(false);
-  const [error, setError] = useState(null);
-
-  const [search, setSearch] = useState("");
-  const [appliedSearch, setAppliedSearch] = useState("");
-
-  const [filters, setFilters] = useState(EMPTY_FILTERS);
-  const [appliedFilters, setAppliedFilters] = useState(EMPTY_FILTERS);
   const [showFilters, setShowFilters] = useState(false);
-
-  const [currentPage, setCurrentPage] = useState(1);
-  const [totalPages, setTotalPages] = useState(1);
-  const [reloadKey, setReloadKey] = useState(0);
-
   const [productToDelete, setProductToDelete] = useState(null);
   const [deletingProductId, setDeletingProductId] = useState(null);
 
-  const controllerRef = useRef(null);
-
-  // Debounce the typed search term before applying it as a server search.
-  useEffect(() => {
-    if (search === appliedSearch) {
-      return undefined;
-    }
-
-    const timer = setTimeout(() => {
-      setAppliedSearch(search);
-      setCurrentPage(1);
-      setIsFetching(true);
-    }, 300);
-
-    return () => clearTimeout(timer);
-  }, [search, appliedSearch]);
-
-  const fetchProducts = useCallback(() => {
-    const controller = new AbortController();
-    controllerRef.current?.abort();
-    controllerRef.current = controller;
-
-    const params = { page: currentPage, limit: PAGE_SIZE };
-    if (appliedSearch) {
-      params.search = appliedSearch;
-    }
-    if (appliedFilters.category) {
-      params.category = appliedFilters.category;
-    }
-    if (appliedFilters.brand) {
-      params.brand = appliedFilters.brand;
-    }
-    if (appliedFilters.minPrice) {
-      params.minPrice = appliedFilters.minPrice;
-    }
-    if (appliedFilters.maxPrice) {
-      params.maxPrice = appliedFilters.maxPrice;
-    }
-    if (appliedFilters.sort) {
-      params.sort = appliedFilters.sort;
-    }
-
-    getProducts(params, controller.signal)
-      .then((data) => {
-        if (controller.signal.aborted) {
-          return;
-        }
-
-        setProducts(data.products || []);
-        setTotalPages(data.totalPages || 1);
-      })
-      .catch((fetchError) => {
-        if (!controller.signal.aborted) {
-          setError(fetchError);
-        }
-      })
-      .finally(() => {
-        if (!controller.signal.aborted) {
-          setIsLoading(false);
-          setIsFetching(false);
-        }
-      });
-  }, [currentPage, appliedSearch, appliedFilters]);
-
-  useEffect(() => {
-    fetchProducts();
-
-    return () => controllerRef.current?.abort();
-  }, [fetchProducts, reloadKey]);
-
-  const handleSearchChange = (value) => {
-    setSearch(value);
-  };
+  const table = useAdminServerTable({
+    fetchData: ({ search, filters, page, limit, signal }) =>
+      getProducts(buildParams({ search, filters, page, limit }), signal),
+    mapResponse: (data) => ({
+      rows: data?.products ?? [],
+      total: data?.total ?? 0,
+      totalPages: data?.totalPages ?? 1,
+    }),
+    pageSize: PAGE_SIZE,
+    initialFilters: EMPTY_FILTERS,
+  });
 
   const handleSelectSearchResult = (productName) => {
-    setSearch(productName);
-    setAppliedSearch(productName);
-    setCurrentPage(1);
-    setIsFetching(true);
-  };
-
-  const handleApplyFilters = () => {
-    setAppliedFilters(filters);
-    setCurrentPage(1);
-    setIsFetching(true);
-  };
-
-  const handlePageChange = (page) => {
-    setIsFetching(true);
-    setCurrentPage(page);
-  };
-
-  const clearFilters = () => {
-    setFilters(EMPTY_FILTERS);
-    setAppliedFilters(EMPTY_FILTERS);
-    setCurrentPage(1);
-    setIsFetching(true);
-  };
-
-  const clearQuery = () => {
-    setSearch("");
-    setAppliedSearch("");
-    setCurrentPage(1);
-    setIsFetching(true);
-  };
-
-  const retry = () => {
-    setError(null);
-    setIsLoading(true);
-    setReloadKey((key) => key + 1);
+    table.selectSearch(productName);
   };
 
   const handleDelete = async () => {
@@ -158,10 +74,10 @@ export default function useProducts() {
       toast.success(t("products.deleted"));
       setProductToDelete(null);
 
-      if (products.length === 1 && currentPage > 1) {
-        setCurrentPage((page) => page - 1);
+      if (table.rows.length === 1 && table.currentPage > 1) {
+        table.handlePageChange(table.currentPage - 1);
       } else {
-        setReloadKey((key) => key + 1);
+        table.reload();
       }
     } catch {
       toast.error(t("products.deleteFailed"));
@@ -171,33 +87,33 @@ export default function useProducts() {
   };
 
   const hasActiveQuery =
-    appliedSearch !== "" ||
-    Object.values(appliedFilters).some((value) => value !== "");
+    table.appliedSearch !== "" ||
+    Object.values(table.appliedFilters).some((value) => value !== "");
 
   return {
-    products,
-    isLoading,
-    isFetching,
-    error,
-    search,
-    appliedSearch,
-    filters,
-    setFilters,
+    products: table.rows,
+    isLoading: table.isLoading,
+    isFetching: table.isFetching,
+    error: table.error,
+    search: table.search,
+    appliedSearch: table.appliedSearch,
+    filters: table.filters,
+    setFilters: table.setFilters,
     showFilters,
     setShowFilters,
-    currentPage,
-    totalPages,
+    currentPage: table.currentPage,
+    totalPages: table.totalPages,
     productToDelete,
     setProductToDelete,
     deletingProductId,
     hasActiveQuery,
-    handleSearchChange,
+    handleSearchChange: table.handleSearchChange,
     handleSelectSearchResult,
-    handleApplyFilters,
-    handlePageChange,
-    clearFilters,
-    clearQuery,
-    retry,
+    handleApplyFilters: table.applyFilters,
+    handlePageChange: table.handlePageChange,
+    clearFilters: table.clearFilters,
+    clearQuery: table.clearQuery,
+    retry: table.retry,
     handleDelete,
   };
 }

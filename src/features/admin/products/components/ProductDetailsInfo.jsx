@@ -3,10 +3,8 @@ import {
   Card,
   CardContent,
 } from "@/components/ui/card";
-import { formatCurrency } from "@/utils/formatCurrency";
+import { formatCurrency, CURRENCIES } from "@/utils/formatCurrency";
 import { STOCK_OK_THRESHOLD, STOCK_WARNING_THRESHOLD } from "../constants";
-
-const CURRENCY = "USD";
 
 function stockClass(stock) {
   if (stock > STOCK_OK_THRESHOLD) {
@@ -73,7 +71,7 @@ export default function ProductDetailsInfo({ product }) {
             <span className="font-display text-3xl font-bold tabular-nums text-foreground">
               {formatCurrency(
                 product.discountPrice || product.price,
-                CURRENCY,
+                CURRENCIES.EGP,
                 i18n.language,
               )}
             </span>
@@ -81,7 +79,7 @@ export default function ProductDetailsInfo({ product }) {
             {discount !== null && (
               <>
                 <span className="text-base tabular-nums text-muted-foreground line-through">
-                  {formatCurrency(product.price, CURRENCY, i18n.language)}
+                  {formatCurrency(product.price, CURRENCIES.EGP, i18n.language)}
                 </span>
                 <span className="rounded-md bg-success-bg px-2 py-1 text-xs font-semibold tabular-nums text-success">
                   {t("products.discountOff", { percent: discount })}

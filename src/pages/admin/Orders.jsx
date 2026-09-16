@@ -1,10 +1,4 @@
 import { useTranslation } from "react-i18next";
-import {
-  ArrowUp,
-  ArrowDown,
-  ArrowUpDown,
-  Package,
-} from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent } from "@/components/ui/card";
 import {
@@ -18,16 +12,13 @@ import {
   Table,
   TableBody,
   TableCell,
-  TableHead,
-  TableHeader,
   TableRow,
 } from "@/components/ui/table";
 import { formatNumber } from "@/utils/formatNumber";
-import { formatCurrency } from "@/utils/formatCurrency";
+import { formatCurrency, ORDER_CURRENCY } from "@/utils/formatCurrency";
 import { formatDisplayDate } from "@/utils/formatDate";
 import useOrders from "@/features/admin/orders/useOrders";
 import {
-  ORDER_CURRENCY,
   ORDER_STATUSES,
   PAYMENT_STATUSES,
 } from "@/features/admin/orders/constants";
@@ -37,6 +28,7 @@ import OrderDetailsSheet from "@/features/admin/orders/components/OrderDetailsSh
 import AdminPageHeader from "@/features/admin/components/AdminPageHeader";
 import AdminErrorState from "@/features/admin/components/AdminErrorState";
 import AdminTablePagination from "@/features/admin/components/AdminTablePagination";
+import SortableTableHeader from "@/features/admin/components/SortableTableHeader";
 
 export default function Orders() {
   const { t, i18n } = useTranslation();
@@ -47,7 +39,7 @@ export default function Orders() {
     totalOrders,
     totalPages,
     currentPage,
-    isLoading,
+    isFetching,
     loadError,
     status,
     payment,
@@ -65,39 +57,43 @@ export default function Orders() {
     retry,
   } = useOrders();
 
-  const getSortIcon = (key) => {
-    if (sortKey !== key) {
-      return <ArrowUpDown className="ms-1 inline size-3.5 opacity-40" aria-hidden="true" />;
-    }
-    return sortDirection === "asc" ? (
-      <ArrowUp className="ms-1 inline size-3.5" aria-hidden="true" />
-    ) : (
-      <ArrowDown className="ms-1 inline size-3.5" aria-hidden="true" />
-    );
-  };
+  const columns = [
+    { key: "order", label: t("orders.columns.order") },
+    { key: "customer", label: t("orders.columns.customer") },
+    {
+      key: "date",
+      label: t("orders.columns.date"),
+      sortable: true,
+      sortKey: "date",
+    },
+    {
+      key: "status",
+      label: t("orders.columns.status"),
+      sortable: true,
+      sortKey: "status",
+    },
+    { key: "paymentStatus", label: t("orders.columns.paymentStatus") },
+    {
+      key: "total",
+      label: t("orders.columns.total"),
+      sortable: true,
+      sortKey: "total",
+      align: "end",
+    },
+  ];
 
   return (
     <div className="space-y-6">
       <AdminPageHeader
         kicker={t("orders.subtitle")}
         title={t("orders.title")}
-        action={
-          <Card className="shadow-sm">
-            <CardContent className="flex items-center gap-2.5 px-4 py-2">
-              <div className="flex size-8 items-center justify-center rounded-lg bg-primary/10">
-                <Package className="size-4 text-primary" aria-hidden="true" />
-              </div>
-              <div className="flex flex-col leading-tight">
-                <span className="font-display text-lg font-bold tabular-nums text-foreground">
-                  {formatNumber(totalOrders, locale)}
-                </span>
-                <span className="text-[11px] text-muted-foreground">
-                  {t("orders.totalOrders")}
-                </span>
-              </div>
-            </CardContent>
-          </Card>
-        }
+        statistics={[
+          {
+            id: "total-orders",
+            label: t("orders.totalOrders"),
+            value: formatNumber(totalOrders, locale),
+          },
+        ]}
       />
 
       <div className="flex flex-wrap items-center gap-3">
@@ -139,7 +135,7 @@ export default function Orders() {
       </div>
 
       <Card className="overflow-hidden shadow-sm">
-        {loadError && !isLoading ? (
+        {loadError && !isFetching ? (
           <AdminErrorState
             title={t("orders.loadErrorTitle")}
             hint={t("orders.loadErrorHint")}
@@ -147,44 +143,25 @@ export default function Orders() {
             retryLabel={t("orders.retry")}
           />
         ) : (
-          <div className="overflow-x-auto">
+          <CardContent className="p-0">
             <Table>
-              <TableHeader>
-                <TableRow className="bg-muted/50">
-                  <TableHead>{t("orders.columns.order")}</TableHead>
-                  <TableHead>{t("orders.columns.customer")}</TableHead>
-                  <TableHead
-                    className="cursor-pointer select-none"
-                    onClick={() => handleSort("date")}
-                  >
-                    {t("orders.columns.date")}
-                    {getSortIcon("date")}
-                  </TableHead>
-                  <TableHead
-                    className="cursor-pointer select-none"
-                    onClick={() => handleSort("status")}
-                  >
-                    {t("orders.columns.status")}
-                    {getSortIcon("status")}
-                  </TableHead>
-                  <TableHead>{t("orders.columns.paymentStatus")}</TableHead>
-                  <TableHead
-                    className="cursor-pointer select-none"
-                    onClick={() => handleSort("total")}
-                  >
-                    {t("orders.columns.total")}
-                    {getSortIcon("total")}
-                  </TableHead>
-                </TableRow>
-              </TableHeader>
+              <SortableTableHeader
+                columns={columns}
+                sortKey={sortKey}
+                sortDirection={sortDirection}
+                onSort={handleSort}
+              />
 
-              {isLoading ? (
+              {isFetching ? (
                 <OrdersTableSkeleton />
               ) : (
                 <TableBody>
                   {orders.length === 0 ? (
                     <TableRow>
-                      <TableCell colSpan={6} className="py-12 text-center text-sm text-muted-foreground">
+                      <TableCell
+                        colSpan={6}
+                        className="py-12 text-center text-sm text-muted-foreground"
+                      >
                         {t("orders.noOrdersFound")}
                       </TableCell>
                     </TableRow>
@@ -205,7 +182,10 @@ export default function Orders() {
 
                           <TableCell>
                             {name ? (
-                              <span className="block max-w-40 truncate text-muted-foreground" title={name}>
+                              <span
+                                className="block max-w-40 truncate text-muted-foreground"
+                                title={name}
+                              >
                                 {name}
                               </span>
                             ) : (
@@ -214,7 +194,8 @@ export default function Orders() {
                           </TableCell>
 
                           <TableCell className="whitespace-nowrap text-muted-foreground">
-                            {formatDisplayDate(order?.createdAt) || t("orders.notAvailable")}
+                            {formatDisplayDate(order?.createdAt) ||
+                              t("orders.notAvailable")}
                           </TableCell>
 
                           <TableCell>
@@ -227,9 +208,10 @@ export default function Orders() {
                               className="border-transparent bg-warning-bg px-2 py-0.5 text-[10px] font-bold text-warning"
                             >
                               {order?.paymentStatus
-                                ? t(`orders.paymentStatus.${order.paymentStatus.toLowerCase()}`, {
-                                    defaultValue: order.paymentStatus,
-                                  })
+                                ? t(
+                                    `orders.paymentStatus.${order.paymentStatus.toLowerCase()}`,
+                                    { defaultValue: order.paymentStatus },
+                                  )
                                 : t("orders.notAvailable")}
                             </Badge>
                           </TableCell>
@@ -245,18 +227,18 @@ export default function Orders() {
               )}
             </Table>
 
-            {!isLoading && orders.length > 0 && (
+            {!isFetching && orders.length > 0 && (
               <div className="border-t border-border px-6 py-4">
                 <AdminTablePagination
                   currentPage={currentPage}
                   totalPages={totalPages}
-                  loading={isLoading}
+                  loading={isFetching}
                   onPageChange={handlePageChange}
                   labelPrefix="orders.pagination"
                 />
               </div>
             )}
-          </div>
+          </CardContent>
         )}
       </Card>
 

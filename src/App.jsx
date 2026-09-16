@@ -22,6 +22,8 @@ import NotFound from "./pages/NotFound.jsx";
 import ProtectedRoute from "./ProtectedRoute.jsx";
 import Shop from "./pages/Shop.jsx";
 import Cart from "./pages/Cart.jsx";
+import MyOrders from "./pages/MyOrders.jsx";
+import OrderDetails from "./pages/OrderDetails.jsx";
 
 const DesignSystem = lazy(() => import("./pages/DesignSystem"));
 
@@ -35,6 +37,8 @@ function App() {
           <Route path="/products/:id" element={<StoreProductDetails />} />
           <Route path="/cart" element={<Cart />} />
           <Route path="/profile" element={<Profile />} />
+          <Route path="/profile/orders" element={<MyOrders />} /> 
+          <Route path="/profile/orders/:id" element={<OrderDetails />} /> 
         </Route>
         <Route
           path="/design-system"

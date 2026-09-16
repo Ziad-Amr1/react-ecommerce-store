@@ -1,12 +1,18 @@
-import { useEffect, useState } from "react"; 
+import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Link, useParams } from "react-router";
 import { ArrowLeft, Package, MapPin, CreditCard } from "lucide-react";
-import { getMyOrderById, cancelMyOrder } from "@/features/my-orders/api/ordersApi";
+
+import {
+  getMyOrderById,
+  cancelMyOrder,
+} from "@/features/my-orders/api/ordersApi";
+
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
+
 import {
   AlertDialog,
   AlertDialogAction,
@@ -18,11 +24,13 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
+
 import { formatCurrency, ORDER_CURRENCY } from "@/utils/formatCurrency";
 
 export default function OrderDetails() {
   const { id } = useParams();
   const { t, i18n } = useTranslation();
+
   const [order, setOrder] = useState(null);
   const [status, setStatus] = useState("loading");
   const [isCancelling, setIsCancelling] = useState(false);
@@ -67,7 +75,7 @@ export default function OrderDetails() {
       if (controller.signal.aborted) return;
 
       setCancelError(
-        error.response?.data?.message || t("orders.cancelFailed")
+        error.response?.data?.message || t("orders.cancelFailed"),
       );
     } finally {
       if (!controller.signal.aborted) {
@@ -103,7 +111,6 @@ export default function OrderDetails() {
   return (
     <main className="min-h-screen bg-[var(--color-background)]">
       <div className="mx-auto w-full max-w-7xl space-y-6 px-4 py-10 sm:px-6 lg:px-8">
-
         {/* Header */}
         <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
           <div>
@@ -181,7 +188,6 @@ export default function OrderDetails() {
         </Card>
 
         <div className="grid gap-6 lg:grid-cols-2">
-
           {/* Shipping */}
           <Card className="border-[var(--color-border)] bg-[var(--color-surface)]">
             <CardHeader>
@@ -225,15 +231,16 @@ export default function OrderDetails() {
             </CardHeader>
 
             <CardContent className="space-y-3">
-
               <div className="flex justify-between gap-4">
                 <span className="text-sm text-[var(--color-text-secondary)]">
                   {t("orders.method")}
                 </span>
 
                 <span className="text-sm font-medium capitalize">
-                  {t(`orders.paymentMethod.${order.paymentMethod}`, {defaultValue: order.paymentMethod,})}
-               </span>
+                  {t(`orders.paymentMethod.${order.paymentMethod}`, {
+                    defaultValue: order.paymentMethod,
+                  })}
+                </span>
               </div>
 
               <div className="flex justify-between gap-4">
@@ -291,7 +298,6 @@ export default function OrderDetails() {
                   {formatCurrency(order.totalPrice, ORDER_CURRENCY)}
                 </span>
               </div>
-
             </CardContent>
           </Card>
         </div>
@@ -305,7 +311,6 @@ export default function OrderDetails() {
 
         {/* Actions */}
         <div className="flex flex-wrap items-center gap-3">
-
           <Button
             asChild
             variant="outline"
@@ -358,4 +363,4 @@ export default function OrderDetails() {
       </div>
     </main>
   );
-} 
+}

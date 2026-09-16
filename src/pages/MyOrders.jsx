@@ -1,12 +1,14 @@
 import { useTranslation } from "react-i18next";
 import { Link } from "react-router";
 import { ShoppingBag, ArrowRight } from "lucide-react";
+
 import useMyOrders from "@/features/my-orders/hooks/useMyOrders";
 import OrderCard from "@/features/my-orders/components/OrderCard";
 import MyOrdersSkeleton from "@/features/my-orders/components/MyOrdersSkeleton";
 import MyOrdersError from "@/features/my-orders/components/MyOrdersError";
 
 import { Button } from "@/components/ui/button";
+
 import {
   Pagination,
   PaginationContent,
@@ -36,10 +38,7 @@ export default function MyOrders() {
         </h1>
 
         <p className="mt-1 text-sm text-muted-foreground">
-          {t(
-            "orders.description",
-            "View and manage your orders.",
-          )}
+          {t("orders.description", "View and manage your orders.")}
         </p>
       </div>
 

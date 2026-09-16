@@ -3,7 +3,7 @@ import { getMyOrders } from "../api/ordersApi";
 
 const LIMIT = 10;
 
-export default function useMyOrders(){
+export default function useMyOrders() {
   const [orders, setOrders] = useState([]);
   const [status, setStatus] = useState("loading");
   const [error, setError] = useState(null);
@@ -25,11 +25,13 @@ export default function useMyOrders(){
       setCurrentPage(response.data.currentPage);
       setTotalPages(response.data.totalPages);
       setStatus("success");
-    } catch (err){
+    } catch (err) {
       if (err.name === "AbortError" || controller.signal.aborted) return;
 
       setError(err);
-      setStatus(err.response?.status === 401 ? "unauthorized" : "error");
+      setStatus(
+        err.response?.status === 401 ? "unauthorized" : "error",
+      );
     }
   }, []);
 
@@ -64,10 +66,19 @@ export default function useMyOrders(){
   const goToPage = useCallback(
     (page) => {
       if (page < 1 || page > totalPages || page === currentPage) return;
+
       setCurrentPage(page);
     },
-    [currentPage, totalPages]
+    [currentPage, totalPages],
   );
 
-  return { orders, status, error, refetch, currentPage, totalPages, goToPage };
-} 
+  return {
+    orders,
+    status,
+    error,
+    refetch,
+    currentPage,
+    totalPages,
+    goToPage,
+  };
+}

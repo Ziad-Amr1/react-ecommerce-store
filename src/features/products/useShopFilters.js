@@ -1,20 +1,23 @@
 import { useState, useMemo, useEffect } from "react";
+import { useTranslation } from "react-i18next";
 
 const EMPTY_APPLIED = {
   search: "",
   category: "All",
+  brand: "All",
   minPrice: "",
   maxPrice: "",
   sortBy: "Default",
 };
 
 const SORT_LABELS = {
-  price_asc: "Price: Low to High",
-  price_desc: "Price: High to Low",
-  rating: "Top Rated",
+  price_asc: "shop.sort.priceLowToHigh",
+  price_desc: "shop.sort.priceHighToLow",
+  rating: "shop.sort.topRated",
 };
 
 export default function useShopFilters(products) {
+  const { t } = useTranslation();
   const [searchQuery, setSearchQuery] = useState("");
   const [minPrice, setMinPrice] = useState("");
   const [maxPrice, setMaxPrice] = useState("");
@@ -46,6 +49,13 @@ export default function useShopFilters(products) {
 
   const selectCategory = (name) => {
     setApplied((current) => ({ ...current, category: name }));
+  };
+
+  const selectBrand = (brand) => {
+    setApplied((current) => ({
+      ...current,
+      brand,
+    }));
   };
 
   const changeSort = (value) => {
@@ -88,11 +98,17 @@ export default function useShopFilters(products) {
     setSearchQuery("");
     setMinPrice("");
     setMaxPrice("");
-    changeSort("Default");
+    setSortBy("Default");
     setApplied(EMPTY_APPLIED);
   };
 
-  const getSortLabel = (val) => SORT_LABELS[val] || val;
+  const getSortLabel = (val) => {
+    if (val === "Default") {
+      return t("shop.sort.default");
+    }
+
+    return t(SORT_LABELS[val], val);
+  };
 
   return {
     searchQuery,
@@ -105,6 +121,7 @@ export default function useShopFilters(products) {
     changeSort,
     applied,
     selectCategory,
+    selectBrand,
     viewMode,
     setViewMode,
     isMobileFilterOpen,

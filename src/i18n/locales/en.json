@@ -1,4 +1,10 @@
 {
+  "seo": {
+    "shop": {
+      "title": "Shop | Oversea Store",
+      "description": "Browse our wide selection of products at Oversea Store. Discover quality products, great prices, and exclusive deals."
+  }
+},
   "common": {
     "loading": "Loading...",
     "checkingSession": "Checking session...",
@@ -195,7 +201,28 @@
     "filterCategory": "Category:",
     "filterPrice": "Price:",
     "filterSort": "Sort:",
-    "filterSearch": "Search:"
+    "filterSearch": "Search:",
+    "clearAllFilters": "Clear All Filters",
+    "search": "Search products...",
+    "rating": "Rating:",
+    "noRatingsYet": "No ratings yet",
+    "sort": {
+    "default": "Default",
+    "priceLowToHigh": "Price: Low to High",
+    "priceHighToLow": "Price: High to Low",
+    "topRated": "Top Rated"
+  },
+    "sideBar": {
+      "filterTitle": "Filter Products",
+      "categories": "categories",
+      "brands": "brands",
+      "all": "All",
+      "priceRange": "price range",
+      "minPrice": "min",
+      "maxPrice": "max"
+      
+
+    }
   },
 
   "dashboard": {

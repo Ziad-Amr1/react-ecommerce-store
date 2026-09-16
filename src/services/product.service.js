@@ -1,14 +1,23 @@
 import api from "@/api/axios";
 
 export function getProducts(params = {}, signal) {
-  return api.get("/products", { params, signal }).then((response) => response.data);
+  return api
+    .get("/products", { params, signal })
+    .then((response) => response.data);
+}
+
+export async function searchProducts(params = {}, signal) {
+  const response = await api.get("/products/search", { params, signal });
+  return response.data;
 }
 
 export function getProduct(id, signal) {
   if (!id) {
     return Promise.reject(new Error("getProduct: missing product id"));
   }
-  return api.get(`/products/${id}`, { signal }).then((response) => response.data);
+  return api
+    .get(`/products/${id}`, { signal })
+    .then((response) => response.data);
 }
 
 export function createProduct(formData, signal) {
@@ -24,5 +33,7 @@ export function updateProduct(id, formData, signal) {
 }
 
 export function deleteProduct(id, signal) {
-  return api.delete(`/products/${id}`, { signal }).then((response) => response.data);
+  return api
+    .delete(`/products/${id}`, { signal })
+    .then((response) => response.data);
 }

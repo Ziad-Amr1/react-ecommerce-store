@@ -3,7 +3,6 @@ import {
   ChevronLeft,
   ChevronRight,
   Eye,
-  MoreHorizontal,
   Pencil,
   Trash2,
   UserRound,
@@ -11,13 +10,6 @@ import {
 } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
 import {
   Table,
   TableBody,
@@ -27,6 +19,9 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { USERS_PER_PAGE } from "../constants";
+import RowActionsMenu from "@/features/admin/components/RowActionsMenu";
+import TableSkeletonRows from "@/features/admin/components/TableSkeletonRows";
+import AdminTableEmptyState from "@/features/admin/components/AdminTableEmptyState";
 
 function RoleBadge({ role }) {
   const { t } = useTranslation();
@@ -44,18 +39,6 @@ function RoleBadge({ role }) {
       {t(`users.roles.${role}`, { defaultValue: role })}
     </Badge>
   );
-}
-
-function SkeletonRows({ columns }) {
-  return Array.from({ length: 5 }).map((_, index) => (
-    <TableRow key={index}>
-      {Array.from({ length: columns }).map((__, columnIndex) => (
-        <TableCell key={columnIndex}>
-          <div className="h-4 animate-pulse rounded-md bg-muted" />
-        </TableCell>
-      ))}
-    </TableRow>
-  ));
 }
 
 function UsersPagination({
@@ -168,21 +151,18 @@ export default function UsersTable({
             </TableRow>
           </TableHeader>
           <TableBody>
-            <SkeletonRows columns={4} />
+            <TableSkeletonRows columns={4} />
           </TableBody>
         </Table>
       ) : users.length === 0 ? (
-        <div className="flex min-h-64 flex-col items-center justify-center gap-3 p-6 text-center">
-          <div className="flex size-14 items-center justify-center rounded-full bg-muted">
+        <AdminTableEmptyState
+          className="min-h-64 p-6 text-center"
+          icon={
             <UsersIcon className="size-7 text-muted-foreground" aria-hidden="true" />
-          </div>
-          <div>
-            <p className="font-medium text-foreground">{t("users.emptyTitle")}</p>
-            <p className="mt-1 text-sm text-muted-foreground">
-              {t("users.emptyDescription")}
-            </p>
-          </div>
-        </div>
+          }
+          title={t("users.emptyTitle")}
+          hint={t("users.emptyDescription")}
+        />
       ) : (
         <div className="w-full overflow-x-auto">
           <Table className="min-w-[680px]">
@@ -225,44 +205,31 @@ export default function UsersTable({
                     </TableCell>
 
                     <TableCell className="text-end">
-                      <div className="flex justify-end">
-                        <div className="flex items-center gap-1 opacity-0 transition-opacity group-hover:opacity-100 group-focus-within:opacity-100 focus-within:opacity-100 [@media(pointer:coarse)]:opacity-100">
-                          <DropdownMenu>
-                            <DropdownMenuTrigger asChild>
-                              <Button
-                                variant="outline"
-                                size="icon"
-                                disabled={isDeleting}
-                                aria-label={t("users.columns.actions")}
-                                onClick={(event) => event.stopPropagation()}
-                              >
-                                <MoreHorizontal className="size-4" aria-hidden="true" />
-                              </Button>
-                            </DropdownMenuTrigger>
-                            <DropdownMenuContent align="end" onCloseAutoFocus={(event) => event.preventDefault()}>
-                              <DropdownMenuItem onClick={() => onView(user)}>
-                                <Eye className="size-4" aria-hidden="true" />
-                                {t("users.viewUser")}
-                              </DropdownMenuItem>
-
-                              <DropdownMenuItem onClick={() => onEdit(user)}>
-                                <Pencil className="size-4" aria-hidden="true" />
-                                {t("users.editUser")}
-                              </DropdownMenuItem>
-
-                              <DropdownMenuSeparator />
-
-                              <DropdownMenuItem
-                                variant="destructive"
-                                onClick={() => onDelete(user)}
-                              >
-                                <Trash2 className="size-4" aria-hidden="true" />
-                                {t("users.deleteUser")}
-                              </DropdownMenuItem>
-                            </DropdownMenuContent>
-                          </DropdownMenu>
-                        </div>
-                      </div>
+                      <RowActionsMenu
+                        disabled={isDeleting}
+                        ariaLabel={t("users.columns.actions")}
+                        onTriggerClick={(event) => event.stopPropagation()}
+                        onCloseAutoFocus={(event) => event.preventDefault()}
+                        items={[
+                          {
+                            icon: <Eye className="size-4" aria-hidden="true" />,
+                            label: t("users.viewUser"),
+                            onClick: () => onView(user),
+                          },
+                          {
+                            icon: <Pencil className="size-4" aria-hidden="true" />,
+                            label: t("users.editUser"),
+                            onClick: () => onEdit(user),
+                          },
+                          {
+                            icon: <Trash2 className="size-4" aria-hidden="true" />,
+                            label: t("users.deleteUser"),
+                            onClick: () => onDelete(user),
+                            variant: "destructive",
+                            separator: true,
+                          },
+                        ]}
+                      />
                     </TableCell>
                   </TableRow>
                 );

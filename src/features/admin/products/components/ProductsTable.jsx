@@ -21,7 +21,7 @@ import ProductThumb from "./ProductThumb";
 import RowActionsMenu from "@/features/admin/components/RowActionsMenu";
 import TableSkeletonRows from "@/features/admin/components/TableSkeletonRows";
 import AdminTableEmptyState from "@/features/admin/components/AdminTableEmptyState";
-import AdminTablePagination from "@/features/admin/components/AdminTablePagination";
+import AdminTableFooter from "@/features/admin/components/AdminTableFooter";
 import SortableTableHeader from "@/features/admin/components/SortableTableHeader";
 
 function stockClass(stock) {
@@ -61,6 +61,9 @@ export default function ProductsTable({
   isFetching,
   deletingProductId,
   hasActiveQuery,
+  sortKey,
+  sortDirection,
+  onSort,
   currentPage,
   totalPages,
   onPageChange,
@@ -72,10 +75,10 @@ export default function ProductsTable({
   const { t, i18n } = useTranslation();
 
   const columns = [
-    { key: "product", label: t("products.columns.product") },
+    { key: "product", label: t("products.columns.product"), sortable: true, sortKey: "name" },
     { key: "category", label: t("products.columns.category") },
     { key: "brand", label: t("products.columns.brand") },
-    { key: "price", label: t("products.columns.price"), align: "end" },
+    { key: "price", label: t("products.columns.price"), align: "end", sortable: true, sortKey: "price" },
     { key: "stock", label: t("products.columns.stock"), align: "end" },
     { key: "actions", label: t("products.columns.actions"), align: "end" },
   ];
@@ -83,7 +86,12 @@ export default function ProductsTable({
   return (
     <div className="overflow-hidden rounded-lg border bg-card shadow-sm">
       <Table density="compact">
-        <SortableTableHeader columns={columns} />
+        <SortableTableHeader
+          columns={columns}
+          sortKey={sortKey}
+          sortDirection={sortDirection}
+          onSort={onSort}
+        />
 
         {isLoading || isFetching ? (
           <TableBody>
@@ -217,15 +225,13 @@ export default function ProductsTable({
       </Table>
 
       {!isLoading && !isFetching && totalPages > 1 && (
-        <footer className="border-t border-(--color-border) px-3 py-3">
-          <AdminTablePagination
-            currentPage={currentPage}
-            totalPages={totalPages}
-            loading={isFetching}
-            onPageChange={onPageChange}
-            labelPrefix="products.pagination"
-          />
-        </footer>
+        <AdminTableFooter
+          currentPage={currentPage}
+          totalPages={totalPages}
+          loading={isFetching}
+          onPageChange={onPageChange}
+          labelPrefix="products.pagination"
+        />
       )}
     </div>
   );

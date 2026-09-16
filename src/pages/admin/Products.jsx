@@ -25,6 +25,8 @@ export default function Products() {
     appliedSearch,
     filters,
     setFilters,
+    sortKey,
+    sortDirection,
     showFilters,
     setShowFilters,
     currentPage,
@@ -36,6 +38,7 @@ export default function Products() {
     handleSearchChange,
     handleSelectSearchResult,
     handleApplyFilters,
+    handleSort,
     handlePageChange,
     clearFilters,
     clearQuery,
@@ -119,6 +122,9 @@ export default function Products() {
         isFetching={isFetching}
         deletingProductId={deletingProductId}
         hasActiveQuery={hasActiveQuery}
+        sortKey={sortKey}
+        sortDirection={sortDirection}
+        onSort={handleSort}
         currentPage={currentPage}
         totalPages={totalPages}
         onPageChange={handlePageChange}

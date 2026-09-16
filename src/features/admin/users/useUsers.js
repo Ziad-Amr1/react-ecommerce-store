@@ -1,18 +1,33 @@
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { toast } from "sonner";
 import { USERS_PER_PAGE } from "./constants";
 import { deleteUser, getUsers } from "./users.service";
 
+// The users admin API (`GET /users/all`) returns the FULL dataset with no
+// server-side search/sort/filter/pagination parameters. Unlike Products and
+// Orders (which use the shared `useAdminServerTable` for server-paged rows),
+// Users therefore derives filtering/sorting/paging client-side over the fetched
+// array. UI stays consistent by reusing the same shared components
+// (SortableTableHeader, AdminTableFooter, etc.) — only the data plumbing differs.
 export default function useUsers() {
   const { t } = useTranslation();
 
+  // ── Raw data ────────────────────────────────────────────────────────────
   const [users, setUsers] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [loadError, setLoadError] = useState(null);
-  const [currentPage, setCurrentPage] = useState(1);
   const [reloadKey, setReloadKey] = useState(0);
+  const controllerRef = useRef(null);
 
+  // ── Client-side filter / sort state ─────────────────────────────────────
+  const [searchTerm, setSearchTerm] = useState("");
+  const [roleFilter, setRoleFilter] = useState("all");
+  const [sortKey, setSortKey] = useState("");
+  const [sortDirection, setSortDirection] = useState("asc");
+  const [currentPage, setCurrentPage] = useState(1);
+
+  // ── Details / edit / delete sheet state (unchanged) ─────────────────────
   const [selectedUser, setSelectedUser] = useState(null);
   const [isDetailsOpen, setIsDetailsOpen] = useState(false);
   const [editingUser, setEditingUser] = useState(null);
@@ -21,8 +36,7 @@ export default function useUsers() {
   const [deletingUserId, setDeletingUserId] = useState(null);
   const [isAddOpen, setIsAddOpen] = useState(false);
 
-  const controllerRef = useRef(null);
-
+  // ── Fetch all users ─────────────────────────────────────────────────────
   const fetchUsers = useCallback(() => {
     const controller = new AbortController();
     controllerRef.current?.abort();
@@ -30,51 +44,102 @@ export default function useUsers() {
 
     getUsers(controller.signal)
       .then((data) => {
-        if (controller.signal.aborted) {
-          return;
-        }
-
+        if (controller.signal.aborted) return;
         setUsers(Array.isArray(data) ? data : []);
         setLoadError(null);
       })
       .catch((error) => {
-        if (!controller.signal.aborted) {
-          setLoadError(error);
-        }
+        if (!controller.signal.aborted) setLoadError(error);
       })
       .finally(() => {
-        if (!controller.signal.aborted) {
-          setIsLoading(false);
-        }
+        if (!controller.signal.aborted) setIsLoading(false);
       });
   }, []);
 
   useEffect(() => {
     fetchUsers();
-
     return () => controllerRef.current?.abort();
   }, [fetchUsers, reloadKey]);
 
-  const totalPages = Math.max(1, Math.ceil(users.length / USERS_PER_PAGE));
-  const startIndex = (currentPage - 1) * USERS_PER_PAGE;
-  const currentUsers = users.slice(startIndex, startIndex + USERS_PER_PAGE);
+  // ── Derived: filtered + sorted list ─────────────────────────────────────
+  const filteredSortedUsers = useMemo(() => {
+    let list = [...users];
 
-  const retry = () => {
+    // Role filter
+    if (roleFilter && roleFilter !== "all") {
+      list = list.filter((u) => u.role === roleFilter);
+    }
+
+    // Search filter (username or email)
+    if (searchTerm.trim()) {
+      const term = searchTerm.trim().toLowerCase();
+      list = list.filter(
+        (u) =>
+          (u.username && u.username.toLowerCase().includes(term)) ||
+          (u.email && u.email.toLowerCase().includes(term)),
+      );
+    }
+
+    // Sort
+    if (sortKey) {
+      list.sort((a, b) => {
+        const av = (a[sortKey] ?? "").toString().toLowerCase();
+        const bv = (b[sortKey] ?? "").toString().toLowerCase();
+        if (av < bv) return sortDirection === "asc" ? -1 : 1;
+        if (av > bv) return sortDirection === "asc" ? 1 : -1;
+        return 0;
+      });
+    }
+
+    return list;
+  }, [users, roleFilter, searchTerm, sortKey, sortDirection]);
+
+  // ── Derived: pagination ─────────────────────────────────────────────────
+  const totalPages = Math.max(1, Math.ceil(filteredSortedUsers.length / USERS_PER_PAGE));
+  const safeCurrentPage = Math.min(currentPage, totalPages);
+  const startIndex = (safeCurrentPage - 1) * USERS_PER_PAGE;
+  const currentUsers = filteredSortedUsers.slice(startIndex, startIndex + USERS_PER_PAGE);
+
+  // ── Sort toggle ─────────────────────────────────────────────────────────
+  const handleSearchChange = useCallback((value) => {
+    setSearchTerm(value);
+    setCurrentPage(1);
+  }, []);
+
+  const handleRoleFilterChange = useCallback((value) => {
+    setRoleFilter(value);
+    setCurrentPage(1);
+  }, []);
+
+  const handleSort = useCallback(
+    (key) => {
+      if (sortKey === key) {
+        setSortDirection((d) => (d === "asc" ? "desc" : "asc"));
+      } else {
+        setSortKey(key);
+        setSortDirection("asc");
+      }
+      setCurrentPage(1);
+    },
+    [sortKey],
+  );
+
+  // ── Pagination ──────────────────────────────────────────────────────────
+  const handlePageChange = useCallback((page) => {
+    if (typeof page !== "number" || !Number.isFinite(page) || page < 1) return;
+    setCurrentPage(page);
+  }, []);
+
+  // ── Detail / edit / delete handlers (unchanged) ─────────────────────────
+  const retry = useCallback(() => {
     setLoadError(null);
     setIsLoading(true);
     setCurrentPage(1);
     setReloadKey((key) => key + 1);
-  };
+  }, []);
 
   const reload = useCallback(() => {
     setReloadKey((key) => key + 1);
-  }, []);
-
-  const handlePageChange = useCallback((page) => {
-    if (page < 1) {
-      return;
-    }
-    setCurrentPage(page);
   }, []);
 
   const handleView = useCallback((user) => {
@@ -97,9 +162,7 @@ export default function useUsers() {
 
   const handleDelete = useCallback(
     async (user) => {
-      if (!user || deletingUserId) {
-        return;
-      }
+      if (!user || deletingUserId) return;
 
       setUserToDelete(null);
       setDeletingUserId(user._id);
@@ -108,9 +171,7 @@ export default function useUsers() {
         await deleteUser(user._id);
         toast.success(t("users.dialogs.deleteSuccess"));
 
-        // Always reload so the deleted user cannot linger in the cached list;
-        // roll the page back only when it would otherwise become empty.
-        if (users.length === 1 && currentPage > 1) {
+        if (users.length === 1 && safeCurrentPage > 1) {
           setCurrentPage((page) => page - 1);
         }
         setReloadKey((key) => key + 1);
@@ -120,16 +181,37 @@ export default function useUsers() {
         setDeletingUserId(null);
       }
     },
-    [currentPage, deletingUserId, t, users.length],
+    [safeCurrentPage, deletingUserId, t, users.length],
   );
 
   return {
+    // Raw data
     users,
-    currentUsers,
-    totalPages,
-    currentPage,
     isLoading,
     loadError,
+
+    // Filtered / sorted list (for display + statistics)
+    filteredSortedUsers,
+
+    // Current page slice
+    currentUsers,
+    totalPages,
+    currentPage: safeCurrentPage,
+    startIndex,
+
+    // Search / sort / filter state
+    searchTerm,
+    handleSearchChange,
+    roleFilter,
+    handleRoleFilterChange,
+    sortKey,
+    sortDirection,
+    handleSort,
+
+    // Pagination
+    handlePageChange,
+
+    // Details / edit / delete
     selectedUser,
     isDetailsOpen,
     editingUser,
@@ -137,8 +219,6 @@ export default function useUsers() {
     userToDelete,
     deletingUserId,
     isAddOpen,
-    startIndex,
-    handlePageChange,
     handleView,
     handleCloseDetails,
     handleEdit,

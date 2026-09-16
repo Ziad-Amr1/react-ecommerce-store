@@ -223,7 +223,15 @@
     "revenueGrowthDescription": "معدل التغير في إجمالي الإيرادات",
 
     "totalUsers": "المستخدمون",
-    "totalUsersDescription": "إجمالي العملاء المسجلين"
+    "totalUsersDescription": "إجمالي العملاء المسجلين",
+
+    "dateRange": {
+      "last3": "آخر 3 أيام",
+      "last7": "آخر 7 أيام",
+      "thisMonth": "الشهر الحالي",
+      "prevMonth": "الشهر السابق",
+      "all": "كل الفترات"
+    }
   },
   "products": {
     "title": "المنتجات",
@@ -584,11 +592,13 @@
       "status": {
         "placeholder": "كل الحالات",
         "all": "كل الحالات",
-        "delivered": "تم التسليم",
-        "shipped": "تم الشحن",
-        "confirmed": "مؤكد",
+        "pending": "قيد الانتظار",
         "processing": "قيد المعالجة",
-        "cancelled": "ملغي"
+        "confirmed": "مؤكد",
+        "shipped": "تم الشحن",
+        "delivered": "تم التسليم",
+        "cancelled": "ملغي",
+        "returned": "مُرجَع"
       },
       "payment": {
         "placeholder": "كل حالات الدفع",
@@ -603,7 +613,8 @@
       "date": "التاريخ",
       "status": "الحالة",
       "paymentStatus": "حالة الدفع",
-      "total": "الإجمالي"
+      "total": "الإجمالي",
+      "actions": "إجراءات"
     },
     "status": {
       "delivered": "تم التسليم",
@@ -612,6 +623,7 @@
       "processing": "قيد المعالجة",
       "pending": "قيد الانتظار",
       "cancelled": "ملغي",
+      "returned": "مُرجَع",
       "unknown": "غير معروف"
     },
     "paymentStatus": {
@@ -622,6 +634,8 @@
        "cash": "نقدًا",
        "stripe": "سترايب"
     }, 
+    "viewOrder": "عرض التفاصيل",
+    "changeStatus": "تغيير الحالة",
     "pagination": {
       "previous": "السابق",
       "next": "التالي"
@@ -678,6 +692,10 @@
     "loadErrorTitle": "تعذر تحميل المستخدمين",
     "retry": "إعادة المحاولة",
     "addUser": "إضافة مستخدم",
+    "searchPlaceholder": "ابحث عن مستخدمين باسم المستخدم أو البريد الإلكتروني...",
+    "clearSearch": "مسح البحث",
+    "roleFilter": "تصفية حسب الدور",
+    "roleFilterAll": "كل الأدوار",
     "emptyTitle": "لا يوجد مستخدمون.",
     "emptyDescription": "لا يوجد حالياً أي مستخدمين للعرض.",
     "roles": {

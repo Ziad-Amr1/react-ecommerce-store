@@ -32,6 +32,11 @@ const STATUS_STYLES = {
     dot: "bg-error",
     labelKey: "orders.status.cancelled",
   },
+  returned: {
+    className: "border-transparent bg-muted text-muted-foreground",
+    dot: "bg-muted-foreground",
+    labelKey: "orders.status.returned",
+  },
 };
 
 export default function OrderStatusBadge({ status }) {

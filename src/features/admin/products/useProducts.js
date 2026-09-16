@@ -13,8 +13,22 @@ const EMPTY_FILTERS = {
   sort: "",
 };
 
+// Map the controller's sortKey + sortDirection onto the products API's single
+// `sort` query parameter. Columns without a real backend sort are omitted.
+const SORT_COLUMNS = {
+  name: "name",
+  price: { asc: "price_asc", desc: "price_desc" },
+};
+
+function resolveSortParam(sortKey, sortDirection) {
+  if (!sortKey) return undefined;
+  const mapping = SORT_COLUMNS[sortKey];
+  if (!mapping) return undefined;
+  return typeof mapping === "string" ? mapping : mapping[sortDirection] ?? mapping.asc;
+}
+
 // Map the controller's query state onto the products API's flat query params.
-function buildParams({ search, filters, page, limit }) {
+function buildParams({ search, filters, page, limit, sortKey, sortDirection }) {
   const params = { page, limit };
 
   if (search) {
@@ -32,7 +46,11 @@ function buildParams({ search, filters, page, limit }) {
   if (filters.maxPrice) {
     params.maxPrice = filters.maxPrice;
   }
-  if (filters.sort) {
+
+  const sortParam = resolveSortParam(sortKey, sortDirection);
+  if (sortParam) {
+    params.sort = sortParam;
+  } else if (filters.sort) {
     params.sort = filters.sort;
   }
 
@@ -47,8 +65,8 @@ export default function useProducts() {
   const [deletingProductId, setDeletingProductId] = useState(null);
 
   const table = useAdminServerTable({
-    fetchData: ({ search, filters, page, limit, signal }) =>
-      getProducts(buildParams({ search, filters, page, limit }), signal),
+    fetchData: ({ search, filters, page, limit, sortKey, sortDirection, signal }) =>
+      getProducts(buildParams({ search, filters, page, limit, sortKey, sortDirection }), signal),
     mapResponse: (data) => ({
       rows: data?.products ?? [],
       total: data?.total ?? 0,
@@ -99,6 +117,8 @@ export default function useProducts() {
     appliedSearch: table.appliedSearch,
     filters: table.filters,
     setFilters: table.setFilters,
+    sortKey: table.sortKey,
+    sortDirection: table.sortDirection,
     showFilters,
     setShowFilters,
     currentPage: table.currentPage,
@@ -110,6 +130,7 @@ export default function useProducts() {
     handleSearchChange: table.handleSearchChange,
     handleSelectSearchResult,
     handleApplyFilters: table.applyFilters,
+    handleSort: table.handleSort,
     handlePageChange: table.handlePageChange,
     clearFilters: table.clearFilters,
     clearQuery: table.clearQuery,

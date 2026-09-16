@@ -82,6 +82,48 @@ test.describe("Admin Products", () => {
     await expect(page.locator("table tbody tr")).toHaveCount(5);
   });
 
+  test("Product name header sends the name sort param", async ({ page }) => {
+    const getRequests = [];
+    page.on("request", (req) => {
+      if (req.url().includes("/api/products")) getRequests.push(req);
+    });
+
+    await page.goto("/admin/products");
+    await expect(page.locator("table tbody tr")).toHaveCount(10);
+    await expect.poll(() => getRequests.length).toBeGreaterThanOrEqual(1);
+
+    const productHeader = page.getByRole("columnheader", { name: "Product" });
+    await productHeader.getByRole("button").click();
+    await expect.poll(() => getRequests.length).toBeGreaterThanOrEqual(2);
+    expect(new URL(getRequests.at(-1).url()).searchParams.get("sort")).toBe("name");
+    await expect(productHeader).toHaveAttribute("aria-sort", "ascending");
+
+    await productHeader.getByRole("button").click();
+    await expect(productHeader).toHaveAttribute("aria-sort", "descending");
+  });
+
+  test("Price header sorts by price_asc then price_desc", async ({ page }) => {
+    const getRequests = [];
+    page.on("request", (req) => {
+      if (req.url().includes("/api/products")) getRequests.push(req);
+    });
+
+    await page.goto("/admin/products");
+    await expect(page.locator("table tbody tr")).toHaveCount(10);
+    await expect.poll(() => getRequests.length).toBeGreaterThanOrEqual(1);
+
+    const priceHeader = page.getByRole("columnheader", { name: "Price" });
+    await priceHeader.getByRole("button").click();
+    await expect.poll(() => getRequests.length).toBeGreaterThanOrEqual(2);
+    expect(new URL(getRequests.at(-1).url()).searchParams.get("sort")).toBe("price_asc");
+    await expect(page.locator("table tbody tr").first()).toContainText("Stainless Steel Bottle");
+
+    await priceHeader.getByRole("button").click();
+    await expect.poll(() => getRequests.length).toBeGreaterThanOrEqual(3);
+    expect(new URL(getRequests.at(-1).url()).searchParams.get("sort")).toBe("price_desc");
+    await expect(page.locator("table tbody tr").first()).toContainText("Noise Cancelling Headphones");
+  });
+
   test("row actions menu provides view, edit and delete", async ({ page }) => {
     await page.goto("/admin/products");
     await expect(page.locator("table tbody tr")).toHaveCount(10);

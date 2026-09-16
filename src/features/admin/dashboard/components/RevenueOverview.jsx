@@ -7,6 +7,13 @@ import {
   CardHeader,
 } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import { Minus, TrendingDown, TrendingUp } from "lucide-react";
 import { formatCurrency, ORDER_CURRENCY } from "@/utils/formatCurrency";
 
@@ -26,7 +33,13 @@ function formatGrowthPercent(value, locale) {
   return "0%";
 }
 
-export default function RevenueOverview({ revenue, dailyRevenue }) {
+export default function RevenueOverview({
+  revenue,
+  filteredDailyRevenue,
+  dateRange,
+  onDateRangeChange,
+  dateRangeOptions = [],
+}) {
   const { t, i18n } = useTranslation();
 
   const growthValue = revenue?.growthPercent;
@@ -50,13 +63,32 @@ export default function RevenueOverview({ revenue, dailyRevenue }) {
   return (
     <Card>
       <CardHeader className="gap-2">
-        <span className="text-xs font-semibold uppercase tracking-[0.18em] text-(--color-text-secondary)">
-          {t("dashboard.totalRevenue")}
-        </span>
+        <div className="flex flex-wrap items-start justify-between gap-3">
+          <div className="min-w-0">
+            <span className="text-xs font-semibold uppercase tracking-[0.18em] text-(--color-text-secondary)">
+              {t("dashboard.totalRevenue")}
+            </span>
 
-        <p className="font-display text-3xl font-bold leading-tight tabular-nums wrap-break-word lg:text-5xl">
-          {formatCurrency(revenue?.total, ORDER_CURRENCY, i18n.language)}
-        </p>
+            <p className="font-display text-3xl font-bold leading-tight tabular-nums wrap-break-word lg:text-5xl">
+              {formatCurrency(revenue?.total, ORDER_CURRENCY, i18n.language)}
+            </p>
+          </div>
+
+          {dateRangeOptions.length > 0 && (
+            <Select value={dateRange} onValueChange={onDateRangeChange}>
+              <SelectTrigger className="w-auto shrink-0 text-xs">
+                <SelectValue />
+              </SelectTrigger>
+              <SelectContent>
+                {dateRangeOptions.map((option) => (
+                  <SelectItem key={option.value} value={option.value}>
+                    {t(option.labelKey)}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+          )}
+        </div>
 
         <CardDescription className="max-w-2xl">
           {t("dashboard.totalRevenueDescription")}
@@ -102,7 +134,7 @@ export default function RevenueOverview({ revenue, dailyRevenue }) {
         <Suspense
           fallback={<Skeleton className="h-56 w-full sm:h-64" />}
         >
-          <RevenueTrend dailyRevenue={dailyRevenue} />
+          <RevenueTrend dailyRevenue={filteredDailyRevenue} />
         </Suspense>
       </CardContent>
     </Card>

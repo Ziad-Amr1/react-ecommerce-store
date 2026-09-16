@@ -36,9 +36,11 @@ test.describe("Shared admin architecture", () => {
     await dateHeader.getByRole("button").click();
     await expect(dateHeader).toHaveAttribute("aria-sort", "descending");
 
-    // Products page: Product column is NOT sortable, no button inside
+    // Products page: Product (name) and Price columns are sortable with buttons
     await page.goto("/admin/products");
-    await expect(page.getByRole("columnheader", { name: "Product" }).getByRole("button")).toHaveCount(0);
+    await expect(page.locator("table tbody tr")).toHaveCount(10);
+    await expect(page.getByRole("columnheader", { name: "Product" }).getByRole("button")).toBeVisible();
+    await expect(page.getByRole("columnheader", { name: "Price" }).getByRole("button")).toBeVisible();
   });
 
   // ── AdminTablePagination ───────────────────────────────────────────────

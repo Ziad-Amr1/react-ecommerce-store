@@ -58,12 +58,72 @@ export const USERS = [
   { _id: "u12", username: "leodavis", email: "leo@example.com", role: "customer" },
 ];
 
+// Daily-revenue keys are generated relative to "today" using local-midnight
+// dates matching the client-side `dateRange.js` toDateKey logic so the
+// dashboard chart shows the expected number of points.
+export function createDashboard() {
+  const now = new Date();
+  now.setHours(0, 0, 0, 0);
+  const daysKey = (offset) => {
+    const d = new Date(now);
+    d.setDate(d.getDate() - offset);
+    const y = d.getFullYear();
+    const m = String(d.getMonth() + 1).padStart(2, "0");
+    const day = String(d.getDate()).padStart(2, "0");
+    return `${y}-${m}-${day}`;
+  };
+
+  return {
+    orders: {
+      total: 16,
+      pending: 4,
+      processing: 4,
+      confirmed: 2,
+      shipped: 3,
+      delivered: 5,
+      cancelled: 2,
+    },
+    revenue: {
+      total: 89450,
+      thisMonth: 28400,
+      lastMonth: 25100,
+      growthPercent: 13.1,
+    },
+    dailyRevenue: [
+      { _id: daysKey(0), revenue: 120000, orders: 10 },
+      { _id: daysKey(1), revenue: 62000, orders: 3 },
+      { _id: daysKey(2), revenue: 0, orders: 0 },
+      { _id: daysKey(3), revenue: 15000, orders: 2 },
+      { _id: daysKey(4), revenue: 9000, orders: 1 },
+      { _id: daysKey(5), revenue: 6000, orders: 1 },
+      { _id: daysKey(6), revenue: 11000, orders: 2 },
+    ],
+    ordersByStatus: [
+      { _id: "delivered", count: 5 },
+      { _id: "processing", count: 4 },
+      { _id: "shipped", count: 3 },
+      { _id: "confirmed", count: 2 },
+      { _id: "cancelled", count: 2 },
+    ],
+    topProducts: [
+      { _id: "p1", name: "Wireless Headphones", image: null, totalSold: 45, revenue: 54000 },
+      { _id: "p2", name: "Smart Watch", image: null, totalSold: 32, revenue: 80000 },
+      { _id: "p3", name: "Bluetooth Speaker", image: null, totalSold: 28, revenue: 22400 },
+      { _id: "p4", name: "Running Shoes", image: null, totalSold: 20, revenue: 30000 },
+      { _id: "p5", name: "Yoga Mat", image: null, totalSold: 18, revenue: 6300 },
+    ],
+    recentOrders: ORDERS.slice(0, 5).map((order) => ({ ...order })),
+    totalCustomers: 12,
+  };
+}
+
 // Per-test mutable state controlling mock API behaviour.
 export function createApiState(overrides = {}) {
   return {
     products: [...PRODUCTS],
     orders: [...ORDERS],
     users: [...USERS],
+    dashboard: createDashboard(),
     delayMs: 0,
     productStatus: 200,
     orderStatus: 200,
@@ -123,6 +183,7 @@ export function installMockApi(page, state) {
       const sort = url.searchParams.get("sort");
       if (sort === "price_asc") items = [...items].sort((a, b) => a.price - b.price);
       if (sort === "price_desc") items = [...items].sort((a, b) => b.price - a.price);
+      if (sort === "name") items = [...items].sort((a, b) => a.name.localeCompare(b.name));
 
       const limit = Math.min(Math.max(Number(url.searchParams.get("limit")) || 10, 1), 100);
       const page = Math.max(Number(url.searchParams.get("page")) || 1, 1);
@@ -143,6 +204,12 @@ export function installMockApi(page, state) {
       return route.fulfill({ status: 201, contentType: "application/json", body: JSON.stringify({ product: { _id: "new", ...(await request.postData() ? JSON.parse(request.postData()) : {}) } }) });
 
     // ── Orders ────────────────────────────────────────────────────────────
+    if (path === "/api/orders/admin/dashboard" && method === "GET") {
+      if (state.orderStatus !== 200)
+        return error(route, state.orderStatus, "Server error", state.delayMs);
+      return json(route, { dashboard: state.dashboard }, state.delayMs);
+    }
+
     if (path === "/api/orders/admin" && method === "GET") {
       if (state.orderStatus !== 200) return error(route, state.orderStatus, "Server error", state.delayMs);
 

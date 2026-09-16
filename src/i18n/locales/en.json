@@ -247,7 +247,15 @@
     "revenueGrowthDescription": "Rate of change in total revenue",
 
     "totalUsers": "Users",
-    "totalUsersDescription": "Total registered customers"
+    "totalUsersDescription": "Total registered customers",
+
+    "dateRange": {
+      "last3": "Last 3 days",
+      "last7": "Last 7 days",
+      "thisMonth": "Current month",
+      "prevMonth": "Previous month",
+      "all": "All time"
+    }
   },
   "products": {
     "title": "Products",
@@ -596,11 +604,13 @@
       "status": {
         "placeholder": "All statuses",
         "all": "All statuses",
-        "delivered": "Delivered",
-        "shipped": "Shipped",
-        "confirmed": "Confirmed",
+        "pending": "Pending",
         "processing": "Processing",
-        "cancelled": "Cancelled"
+        "confirmed": "Confirmed",
+        "shipped": "Shipped",
+        "delivered": "Delivered",
+        "cancelled": "Cancelled",
+        "returned": "Returned"
       },
       "payment": {
         "placeholder": "All payments",
@@ -615,7 +625,8 @@
       "date": "Date",
       "status": "Status",
       "paymentStatus": "Payment Status",
-      "total": "Total"
+      "total": "Total",
+      "actions": "Actions"
     },
     "status": {
       "delivered": "Delivered",
@@ -624,12 +635,15 @@
       "processing": "Processing",
       "pending": "Pending",
       "cancelled": "Cancelled",
+      "returned": "Returned",
       "unknown": "Unknown"
     },
     "paymentStatus": {
       "paid": "Paid",
       "pending": "Pending"
     },
+    "viewOrder": "View details",
+    "changeStatus": "Change status",
     "pagination": {
       "previous": "Previous",
       "next": "Next"
@@ -674,6 +688,10 @@
     "loadErrorTitle": "Unable to load users",
     "retry": "Try Again",
     "addUser": "Add User",
+    "searchPlaceholder": "Search users by username or email...",
+    "clearSearch": "Clear search",
+    "roleFilter": "Filter by role",
+    "roleFilterAll": "All roles",
     "emptyTitle": "No users found.",
     "emptyDescription": "There are currently no users to display.",
     "roles": {

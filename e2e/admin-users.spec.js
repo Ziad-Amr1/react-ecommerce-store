@@ -22,12 +22,52 @@ test.describe("Admin Users", () => {
     await page.goto("/admin/users");
     await expect(page.locator("table tbody tr")).toHaveCount(10);
 
-    await page.getByRole("button", { name: "Go to page 2" }).click();
+    await page.getByRole("button", { name: "Next" }).click();
     await expect(page.locator("table tbody tr")).toHaveCount(2);
     await expect(page.locator("dd").filter({ hasText: "2 / 2" })).toBeVisible();
 
-    await page.getByRole("button", { name: "Go to page 1" }).click();
+    await page.getByRole("button", { name: "Previous" }).click();
     await expect(page.locator("table tbody tr")).toHaveCount(10);
+  });
+
+  test("search filters users by username or email client-side", async ({ page }) => {
+    await page.goto("/admin/users");
+    await expect(page.locator("table tbody tr")).toHaveCount(10);
+
+    await page.getByPlaceholder("Search users by username or email...").fill("jane");
+    await expect(page.locator("table tbody tr")).toHaveCount(1);
+    await expect(page.getByText("janesmith")).toBeVisible();
+    await expect(page.locator("dd").filter({ hasText: "1 / 1" })).toBeVisible();
+
+    await page.getByRole("button", { name: "Clear search" }).click();
+    await expect(page.locator("table tbody tr")).toHaveCount(10);
+  });
+
+  test("role filter narrows the list to admins client-side", async ({ page }) => {
+    await page.goto("/admin/users");
+    await expect(page.locator("table tbody tr")).toHaveCount(10);
+
+    await page.getByLabel("Filter by role").click();
+    await page.getByRole("option", { name: "Admin" }).click();
+
+    await expect(page.locator("table tbody tr")).toHaveCount(2);
+    await expect(page.getByText("janesmith")).toBeVisible();
+    await expect(page.getByText("caroladams")).toBeVisible();
+    await expect(page.getByText("davidlee")).not.toBeVisible();
+  });
+
+  test("username column sorts ascending then descending client-side", async ({ page }) => {
+    await page.goto("/admin/users");
+    await expect(page.locator("table tbody tr")).toHaveCount(10);
+
+    const usernameHeader = page.getByRole("columnheader", { name: "Username" });
+    await usernameHeader.getByRole("button").click();
+    await expect(usernameHeader).toHaveAttribute("aria-sort", "ascending");
+    await expect(page.locator("table tbody tr").first()).toContainText("bobwilson");
+
+    await usernameHeader.getByRole("button").click();
+    await expect(usernameHeader).toHaveAttribute("aria-sort", "descending");
+    await expect(page.locator("table tbody tr").first()).toContainText("leodavis");
   });
 
   test("row click opens the details dialog", async ({ page }) => {

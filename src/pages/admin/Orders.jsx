@@ -1,4 +1,5 @@
 import { useTranslation } from "react-i18next";
+import { Eye, RefreshCw } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent } from "@/components/ui/card";
 import {
@@ -27,7 +28,8 @@ import OrdersTableSkeleton from "@/features/admin/orders/components/OrdersTableS
 import OrderDetailsSheet from "@/features/admin/orders/components/OrderDetailsSheet";
 import AdminPageHeader from "@/features/admin/components/AdminPageHeader";
 import AdminErrorState from "@/features/admin/components/AdminErrorState";
-import AdminTablePagination from "@/features/admin/components/AdminTablePagination";
+import AdminTableFooter from "@/features/admin/components/AdminTableFooter";
+import RowActionsMenu from "@/features/admin/components/RowActionsMenu";
 import SortableTableHeader from "@/features/admin/components/SortableTableHeader";
 
 export default function Orders() {
@@ -80,6 +82,7 @@ export default function Orders() {
       sortKey: "total",
       align: "end",
     },
+    { key: "actions", label: t("orders.columns.actions"), align: "end" },
   ];
 
   return (
@@ -159,7 +162,7 @@ export default function Orders() {
                   {orders.length === 0 ? (
                     <TableRow>
                       <TableCell
-                        colSpan={6}
+                        colSpan={7}
                         className="py-12 text-center text-sm text-muted-foreground"
                       >
                         {t("orders.noOrdersFound")}
@@ -173,14 +176,19 @@ export default function Orders() {
                       return (
                         <TableRow
                           key={orderId || index}
-                          onClick={() => handleOpenDetails(order)}
                           className="cursor-pointer transition-colors hover:bg-muted/50"
                         >
-                          <TableCell className="font-mono text-sm font-medium text-foreground">
+                          <TableCell
+                            className="cursor-pointer font-mono text-sm font-medium text-foreground"
+                            onClick={() => handleOpenDetails(order)}
+                          >
                             #{orderId ? orderId.slice(0, 8) : t("orders.notAvailable")}
                           </TableCell>
 
-                          <TableCell>
+                          <TableCell
+                            className="cursor-pointer"
+                            onClick={() => handleOpenDetails(order)}
+                          >
                             {name ? (
                               <span
                                 className="block max-w-40 truncate text-muted-foreground"
@@ -193,16 +201,25 @@ export default function Orders() {
                             )}
                           </TableCell>
 
-                          <TableCell className="whitespace-nowrap text-muted-foreground">
+                          <TableCell
+                            className="cursor-pointer whitespace-nowrap text-muted-foreground"
+                            onClick={() => handleOpenDetails(order)}
+                          >
                             {formatDisplayDate(order?.createdAt) ||
                               t("orders.notAvailable")}
                           </TableCell>
 
-                          <TableCell>
+                          <TableCell
+                            className="cursor-pointer"
+                            onClick={() => handleOpenDetails(order)}
+                          >
                             <OrderStatusBadge status={order?.status} />
                           </TableCell>
 
-                          <TableCell>
+                          <TableCell
+                            className="cursor-pointer"
+                            onClick={() => handleOpenDetails(order)}
+                          >
                             <Badge
                               variant="outline"
                               className="border-transparent bg-warning-bg px-2 py-0.5 text-[10px] font-bold text-warning"
@@ -216,8 +233,32 @@ export default function Orders() {
                             </Badge>
                           </TableCell>
 
-                          <TableCell className="font-display font-bold tabular-nums text-foreground">
+                          <TableCell
+                            className="cursor-pointer font-display font-bold tabular-nums text-foreground"
+                            onClick={() => handleOpenDetails(order)}
+                          >
                             {formatCurrency(order?.totalPrice, ORDER_CURRENCY, locale)}
+                          </TableCell>
+
+                          <TableCell className="whitespace-nowrap text-end">
+                            <RowActionsMenu
+                              disabled={isFetching}
+                              ariaLabel={t("orders.columns.actions")}
+                              onTriggerClick={(event) => event.stopPropagation()}
+                              onCloseAutoFocus={(event) => event.preventDefault()}
+                              items={[
+                                {
+                                  icon: <Eye className="size-4" aria-hidden="true" />,
+                                  label: t("orders.viewOrder", { defaultValue: "View details" }),
+                                  onClick: () => handleOpenDetails(order),
+                                },
+                                {
+                                  icon: <RefreshCw className="size-4" aria-hidden="true" />,
+                                  label: t("orders.changeStatus", { defaultValue: "Change status" }),
+                                  onClick: () => handleOpenDetails(order),
+                                },
+                              ]}
+                            />
                           </TableCell>
                         </TableRow>
                       );
@@ -228,15 +269,13 @@ export default function Orders() {
             </Table>
 
             {!isFetching && orders.length > 0 && (
-              <div className="border-t border-border px-6 py-4">
-                <AdminTablePagination
-                  currentPage={currentPage}
-                  totalPages={totalPages}
-                  loading={isFetching}
-                  onPageChange={handlePageChange}
-                  labelPrefix="orders.pagination"
-                />
-              </div>
+              <AdminTableFooter
+                currentPage={currentPage}
+                totalPages={totalPages}
+                loading={isFetching}
+                onPageChange={handlePageChange}
+                labelPrefix="orders.pagination"
+              />
             )}
           </CardContent>
         )}

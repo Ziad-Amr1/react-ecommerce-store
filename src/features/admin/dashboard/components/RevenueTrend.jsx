@@ -11,6 +11,7 @@ import {
 import { formatCurrency, ORDER_CURRENCY } from "@/utils/formatCurrency";
 import { formatDisplayDate } from "@/utils/formatDate";
 import { formatNumber } from "@/utils/formatNumber";
+import { measureAxisTextWidth } from "../chartUtils";
 
 function toChartData(dailyRevenue) {
   if (!Array.isArray(dailyRevenue)) {
@@ -103,9 +104,11 @@ export default function RevenueTrend({ dailyRevenue }) {
 
   if (chartData.length === 0) {
     return (
-      <p className="py-8 text-center text-sm text-(--color-text-secondary)">
-        {t("dashboard.noData")}
-      </p>
+      <div className="flex h-56 w-full items-center justify-center sm:h-64">
+        <p className="text-center text-sm text-(--color-text-secondary)">
+          {t("dashboard.noData")}
+        </p>
+      </div>
     );
   }
 
@@ -116,13 +119,22 @@ export default function RevenueTrend({ dailyRevenue }) {
     maximumFractionDigits: 1,
   });
 
+  const widestFormat = chartData.reduce(
+    (widest, row) => {
+      const formatted = compactCurrency.format(row.revenue);
+      return formatted.length > widest.formatted.length ? { formatted } : widest;
+    },
+    { formatted: compactCurrency.format(0) },
+  );
+  const axisWidth = Math.max(48, Math.min(120, measureAxisTextWidth(widestFormat.formatted) + 12));
+
   return (
     <div className="space-y-3">
       <div dir="ltr" className="h-56 w-full sm:h-64" aria-hidden="true">
         <ResponsiveContainer width="100%" height="100%">
           <AreaChart
             data={chartData}
-            margin={{ top: 8, right: 8, left: 0, bottom: 0 }}
+            margin={{ top: 8, right: 8, left: 8, bottom: 4 }}
           >
             <CartesianGrid
               stroke="var(--color-border)"
@@ -144,7 +156,8 @@ export default function RevenueTrend({ dailyRevenue }) {
               axisLine={false}
               tick={{ fontSize: 12, fill: "var(--color-text-secondary)" }}
               tickFormatter={(value) => compactCurrency.format(value)}
-              width={48}
+              width={axisWidth}
+              tickMargin={6}
             />
 
             <Tooltip

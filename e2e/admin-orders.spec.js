@@ -78,6 +78,21 @@ test.describe("Admin Orders", () => {
     await expect(page.locator("table tbody tr")).toHaveCount(15);
   });
 
+  test("row actions menu opens without triggering the details sheet", async ({ page }) => {
+    await page.goto("/admin/orders");
+    await expect(page.locator("table tbody tr")).toHaveCount(15);
+
+    await page.locator("table tbody tr").first().getByRole("button", { name: "Actions" }).click();
+    await expect(page.getByRole("menu")).toBeVisible();
+
+    // Opening the menu must not open the order details sheet.
+    await expect(page.getByRole("dialog")).toHaveCount(0);
+
+    await page.getByRole("menuitem", { name: "View details" }).click();
+    await expect(page.getByRole("dialog")).toBeVisible();
+    await expect(page.getByRole("dialog")).toContainText("Order Details");
+  });
+
   test("clicking a row opens the order details sheet", async ({ page }) => {
     await page.goto("/admin/orders");
     await expect(page.locator("table tbody tr")).toHaveCount(15);

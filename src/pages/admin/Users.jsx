@@ -1,6 +1,14 @@
 import { useTranslation } from "react-i18next";
-import { Plus, RefreshCw } from "lucide-react";
+import { Plus, RefreshCw, Search, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import { formatNumber } from "@/utils/formatNumber";
 import useUsers from "@/features/admin/users/useUsers";
 import UsersTable from "@/features/admin/users/components/UsersTable";
@@ -16,12 +24,19 @@ export default function Users() {
   const locale = i18n.language || "en-US";
 
   const {
-    users,
     currentUsers,
+    filteredSortedUsers,
     totalPages,
     currentPage,
     isLoading,
     loadError,
+    searchTerm,
+    handleSearchChange,
+    roleFilter,
+    handleRoleFilterChange,
+    sortKey,
+    sortDirection,
+    handleSort,
     selectedUser,
     isDetailsOpen,
     editingUser,
@@ -51,7 +66,7 @@ export default function Users() {
           {
             id: "total",
             label: t("adminTable.total"),
-            value: formatNumber(users.length, locale),
+            value: formatNumber(filteredSortedUsers.length, locale),
           },
           {
             id: "page",
@@ -70,6 +85,45 @@ export default function Users() {
         }
       />
 
+      <div className="flex flex-col gap-3 sm:flex-row sm:items-center">
+        <div className="relative flex-1">
+          <Search
+            className="pointer-events-none absolute top-1/2 start-3 size-4 -translate-y-1/2 text-muted-foreground"
+            aria-hidden="true"
+          />
+          <Input
+            value={searchTerm}
+            onChange={(event) => handleSearchChange(event.target.value)}
+            placeholder={t("users.searchPlaceholder")}
+            aria-label={t("users.searchPlaceholder")}
+            className="ps-9"
+          />
+          {searchTerm && (
+            <Button
+              type="button"
+              variant="ghost"
+              size="icon"
+              onClick={() => handleSearchChange("")}
+              aria-label={t("users.clearSearch")}
+              className="absolute end-1.5 top-1/2 size-7 -translate-y-1/2"
+            >
+              <X className="size-4" aria-hidden="true" />
+            </Button>
+          )}
+        </div>
+
+        <Select value={roleFilter} onValueChange={handleRoleFilterChange}>
+          <SelectTrigger className="w-full sm:w-48" aria-label={t("users.roleFilter")}>
+            <SelectValue placeholder={t("users.roleFilter")} />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectItem value="all">{t("users.roleFilterAll")}</SelectItem>
+            <SelectItem value="admin">{t("users.roles.admin")}</SelectItem>
+            <SelectItem value="customer">{t("users.roles.customer")}</SelectItem>
+          </SelectContent>
+        </Select>
+      </div>
+
       {loadError && !isLoading ? (
         <AdminErrorState
           title={t("users.loadErrorTitle")}
@@ -84,9 +138,12 @@ export default function Users() {
         <UsersTable
           users={currentUsers}
           isLoading={isLoading}
+          sortKey={sortKey}
+          sortDirection={sortDirection}
+          onSort={handleSort}
           currentPage={currentPage}
           totalPages={totalPages}
-          totalUsers={users.length}
+          totalUsers={filteredSortedUsers.length}
           startIndex={startIndex}
           deletingUserId={deletingUserId}
           onView={handleView}

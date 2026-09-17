@@ -787,7 +787,8 @@
       "unknown": "غير معروف"
     },
     "paymentMethods": {
-      "cash": "كاش"
+      "cash": "نقدًا",
+       "stripe": "سترايب"
     },
     "paymentMethod": {
        "cash": "نقدًا",

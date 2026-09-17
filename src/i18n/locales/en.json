@@ -790,7 +790,8 @@
       "unknown": "Unknown"
     },
     "paymentMethods": {
-      "cash": "Cash"
+      "cash": "Cash",
+      "stripe": "Stripe"
     },
     "paymentMethod": {
       "cash": "Cash",

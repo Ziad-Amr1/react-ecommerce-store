@@ -537,6 +537,7 @@
     "retry": "إعادة المحاولة",
     "noOrdersFound": "لا توجد طلبات.",
     "notAvailable": "غير متوفر",
+    "searchPlaceholder": "ابحث بالرقم التعريفي أو اسم العميل...",
     "filters": {
       "status": {
         "placeholder": "كل الحالات",
@@ -552,6 +553,12 @@
         "all": "كل حالات الدفع",
         "pending": "قيد الدفع",
         "paid": "مدفوع"
+      },
+      "method": {
+        "placeholder": "كل طرق الدفع",
+        "all": "كل الطرق",
+        "cash": "نقدًا",
+        "card": "بطاقة"
       }
     },
     "columns": {
@@ -560,6 +567,8 @@
       "date": "التاريخ",
       "status": "الحالة",
       "paymentStatus": "حالة الدفع",
+      "paymentMethod": "طريقة الدفع",
+
       "total": "الإجمالي"
     },
     "status": {
@@ -569,7 +578,8 @@
       "processing": "قيد المعالجة",
       "pending": "قيد الانتظار",
       "cancelled": "ملغي",
-      "unknown": "غير معروف"
+      "unknown": "غير معروف",
+      "returned": "مرتجع"
     },
     "paymentStatus": {
       "paid": "مدفوع",
@@ -600,6 +610,7 @@
       "subtotal": "المجموع الفرعي",
       "shipping": "الشحن",
       "tax": "الضرائب",
+      "cash": "نقدًا",
       "discount": "الخصم",
       "total": "الإجمالي",
       "customerNote": "ملاحظة العميل",

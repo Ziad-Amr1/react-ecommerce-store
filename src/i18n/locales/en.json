@@ -647,7 +647,8 @@
         "confirmed": "Confirmed",
         "processing": "Processing",
         "cancelled": "Cancelled",
-        "pending": "Pending"
+        "pending": "Pending",
+        "returned": "returned"
       },
       "payment": {
         "placeholder": "All payments",

@@ -22,21 +22,10 @@ import {
 import { Badge } from "@/components/ui/badge";
 
 import { updateOrderStatus } from "@/features/admin/orders/orders.service";
+import { formatCurrency } from "@/utils/formatCurrency";
+import { formatDisplayDate } from "@/utils/formatDate";
 
-const formatDate = (date, language) =>
-  date
-    ? new Intl.DateTimeFormat(language || "en-US", {
-        day: "2-digit",
-        month: "short",
-        year: "numeric",
-      }).format(new Date(date))
-    : "—";
-
-const money = (n, language) =>
-  Number(n || 0).toLocaleString(language || "en-US", {
-    minimumFractionDigits: 2,
-    maximumFractionDigits: 2,
-  });
+const ORDER_CURRENCY = "USD";
 
 function Row({ label, value, last }) {
   return (
@@ -83,7 +72,7 @@ const STATUS_OPTIONS = [
 ];
 
 function OrderForm({ order, setOrders }) {
-  const { t, i18n } = useTranslation();
+  const { t } = useTranslation();
 
   const [status, setStatus] = useState(order.status || "processing");
   const [note, setNote] = useState(order.adminNote || "");
@@ -126,7 +115,11 @@ function OrderForm({ order, setOrders }) {
       {/* Payment Method & Status */}
       <div className="flex items-center justify-between px-0.5 pt-1">
         <span className="text-xs font-semibold capitalize text-[var(--color-text-secondary)]">
-          {order.paymentMethod || "—"}
+          {order.paymentMethod
+            ? t(`orders.filters.method.${order.paymentMethod.toLowerCase()}`, {
+                defaultValue: order.paymentMethod,
+              })
+            : "—"}
         </span>
 
         <Badge
@@ -137,7 +130,9 @@ function OrderForm({ order, setOrders }) {
             color: "var(--color-warning)",
           }}
         >
-          {order.paymentStatus || "pending"}
+          {t(`orders.paymentStatus.${order.paymentStatus || "pending"}`, {
+            defaultValue: order.paymentStatus || "pending",
+          })}
         </Badge>
       </div>
 
@@ -145,15 +140,10 @@ function OrderForm({ order, setOrders }) {
       <InfoCard title={t("orders.sheet.customerInformation")}>
         <div className="space-y-2">
           <Row label={t("orders.sheet.customer")} value={address.fullName} />
-
           <Row label={t("orders.sheet.phone")} value={address.phone} />
-
           <Row label={t("orders.sheet.country")} value={address.country} />
-
           <Row label={t("orders.sheet.city")} value={address.city} />
-
           <Row label={t("orders.sheet.address")} value={address.address} />
-
           <Row
             label={t("orders.sheet.postalCode")}
             value={address.postalCode}
@@ -167,17 +157,15 @@ function OrderForm({ order, setOrders }) {
         <div className="space-y-2">
           <Row
             label={t("orders.sheet.placed")}
-            value={formatDate(order.createdAt, i18n.language)}
+            value={formatDisplayDate(order.createdAt)}
           />
-
           <Row
             label={t("orders.sheet.transactionId")}
             value={order.transactionId}
           />
-
           <Row
             label={t("orders.sheet.paidAt")}
-            value={formatDate(order.paidAt, i18n.language)}
+            value={formatDisplayDate(order.paidAt)}
             last
           />
         </div>
@@ -217,13 +205,13 @@ function OrderForm({ order, setOrders }) {
                       </p>
 
                       <p className="text-[11px] text-[var(--color-text-secondary)]">
-                        × {qty} • {money(price, i18n.language)} EGP
+                        × {qty} • {formatCurrency(price, ORDER_CURRENCY)}
                       </p>
                     </div>
                   </div>
 
                   <span className="text-xs font-bold text-[var(--color-text-primary)]">
-                    {money(price * qty, i18n.language)} EGP
+                    {formatCurrency(price * qty, ORDER_CURRENCY)}
                   </span>
                 </div>
               );
@@ -245,34 +233,30 @@ function OrderForm({ order, setOrders }) {
         >
           <Row
             label={t("orders.sheet.subtotal")}
-            value={`${money(order.subtotal, i18n.language)} EGP`}
+            value={formatCurrency(order.subtotal, ORDER_CURRENCY)}
             last
           />
-
           <Row
             label={t("orders.sheet.shipping")}
-            value={`${money(order.shippingFee, i18n.language)} EGP`}
+            value={formatCurrency(order.shippingFee, ORDER_CURRENCY)}
             last
           />
-
           <Row
             label={t("orders.sheet.tax")}
-            value={`${money(order.tax, i18n.language)} EGP`}
+            value={formatCurrency(order.tax, ORDER_CURRENCY)}
             last
           />
-
           <Row
             label={t("orders.sheet.discount")}
-            value={`${money(order.discount, i18n.language)} EGP`}
+            value={formatCurrency(order.discount, ORDER_CURRENCY)}
           />
 
           <div className="mt-2 flex justify-between border-t border-[var(--color-border)] pt-2 text-sm font-bold">
             <span className="text-[var(--color-text-primary)]">
               {t("orders.sheet.total")}
             </span>
-
             <span className="text-[var(--color-text-primary)]">
-              {money(order.totalPrice, i18n.language)} EGP
+              {formatCurrency(order.totalPrice, ORDER_CURRENCY)}
             </span>
           </div>
         </div>
@@ -345,12 +329,10 @@ const OrderDetailsSheet = ({
         side="right"
         className="inset-x-0 bottom-0 top-auto flex h-[85vh] w-full flex-col gap-0 rounded-t-2xl border-t border-[var(--color-border)] bg-[var(--color-background)] p-0 sm:inset-y-0 sm:right-0 sm:left-auto sm:h-full sm:max-w-md sm:rounded-none sm:border-t-0 sm:border-l [&>button]:top-8 [&>button]:right-6"
       >
-        {/* Mobile Drag Handle */}
         <div className="pb-1 pt-3 sm:hidden">
           <div className="mx-auto h-1.5 w-12 rounded-full bg-[var(--color-border)]" />
         </div>
 
-        {/* Header */}
         <SheetHeader className="shrink-0 space-y-1 border-b border-[var(--color-border)] px-6 pb-4 pt-5 text-left">
           <p className="text-xs font-medium text-[var(--color-text-secondary)]">
             {t("orders.sheet.title")}
@@ -367,7 +349,6 @@ const OrderDetailsSheet = ({
           )}
         </SheetHeader>
 
-        {/* Main Content */}
         <div className="flex-1 overflow-y-auto px-6 py-5">
           <OrderForm
             key={selectedOrder._id}

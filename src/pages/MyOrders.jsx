@@ -22,8 +22,8 @@ export default function MyOrders(){
         <MyOrdersError onRetry={refetch} />
       ) : orders.length === 0 ? (
         <div className="rounded-lg border p-8 text-center">
-          <h2 className="text-lg font-semibold">No orders yet</h2>
-          <p className="mt-2 text-sm text-muted-foreground">Your orders will appear here once you place an order.</p>
+          <h2 className="text-lg font-semibold"> {t("orders.emptyTitle")}</h2>
+          <p className="mt-2 text-sm text-muted-foreground">{t("orders.emptyDescription")}</p>
         </div>
       ) : (
         <>

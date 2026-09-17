@@ -643,6 +643,10 @@
       "paid": "Paid",
       "pending": "Pending"
     },
+    "paymentMethod": {
+      "cash": "Cash",
+      "stripe": "Stripe"
+    },
     "pagination": {
       "previous": "Previous",
       "next": "Next"
@@ -677,7 +681,19 @@
       "saveSuccess": "Order status updated successfully.",
       "saveError": "Failed to update order status.",
       "selectStatusError": "Please select an order status."
-    }
+    },
+    "loading": "Loading...",
+    "quantity": "Quantity",
+    "shippingAddress": "Shipping Address",
+    "payment": "Payment",
+    "method": "Method",
+    "backToMyOrders": "Back to My Orders",
+    "cancelOrder": "Cancel Order",
+    "cancelOrderTitle": "Cancel order?",
+    "cancelOrderDescription": "Are you sure you want to cancel this order?",
+    "keepOrder": "Keep order",
+    "cancelling": "Cancelling...",
+    "cancelFailed": "Failed to cancel order."
   },
   "users": {
     "title": "Users",

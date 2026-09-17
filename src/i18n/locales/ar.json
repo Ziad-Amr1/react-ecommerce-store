@@ -618,6 +618,10 @@
       "paid": "مدفوع",
       "pending": "قيد الدفع"
     },
+    "paymentMethod": {
+       "cash": "نقدًا",
+       "stripe": "سترايب"
+    }, 
     "pagination": {
       "previous": "السابق",
       "next": "التالي"
@@ -652,7 +656,19 @@
       "saveSuccess": "تم تحديث حالة الطلب بنجاح.",
       "saveError": "تعذر تحديث حالة الطلب.",
       "selectStatusError": "يرجى اختيار حالة الطلب."
-    }
+    },
+    "loading": "جارٍ التحميل...",
+    "quantity": "الكمية",
+    "shippingAddress": "عنوان الشحن",
+    "payment": "الدفع",
+    "method": "طريقة الدفع",
+    "backToMyOrders": "العودة إلى طلباتي",
+    "cancelOrder": "إلغاء الطلب",
+    "cancelOrderTitle": "إلغاء الطلب؟",
+    "cancelOrderDescription": "هل أنت متأكد أنك تريد إلغاء هذا الطلب؟",
+    "keepOrder": "الاحتفاظ بالطلب",
+    "cancelling": "جارٍ الإلغاء...",
+    "cancelFailed": "فشل إلغاء الطلب."
   },
   "users": {
     "title": "المستخدمون",

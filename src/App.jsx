@@ -37,9 +37,11 @@ function App() {
           <Route path="/products/:id" element={<StoreProductDetails />} />
           <Route path="/cart" element={<Cart />} />
           <Route path="/profile" element={<Profile />} />
-          <Route path="/profile/orders" element={<MyOrders />} /> 
-          <Route path="/profile/orders/:id" element={<OrderDetails />} /> 
-        </Route>
+          <Route path="/profile/orders" element={<ProtectedRoute />}>
+            <Route index element={<MyOrders />} />
+            <Route path=":id" element={<OrderDetails />} />
+         </Route> 
+        </Route> 
         <Route
           path="/design-system"
           element={
@@ -66,7 +68,7 @@ function App() {
         <Route path="/:flow/verify-otp" element={<VerifyOtp />} />
 
         {/* Start of Protected Admin Routes  */}
-        <Route path="/admin/*" element={<ProtectedRoute />}>
+        <Route path="/admin/*" element={<ProtectedRoute requireAdmin />}>
           <Route element={<AdminLayout />}>
             <Route index element={<Dashboard />} />
             <Route path="products" element={<Products />} />

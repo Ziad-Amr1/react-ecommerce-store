@@ -418,6 +418,12 @@
       "description": "Description",
       "tags": "Tags"
     },
+    "similarProducts": "Produits similaires",
+    "youMayAlsoLike": "Vous aimerez peut-être",
+    "similarProductsDescription": "Des produits de la même catégorie.",
+    "recommended": "Recommandé",
+    "recommendedForYou": "Recommandé pour vous",
+    "recommendedDescription": "D'autres produits pourraient vous intéresser.",
     "validation": {
       "nameRequired": "Le nom du produit est requis",
       "shortDescriptionRequired": "La description courte est requise",

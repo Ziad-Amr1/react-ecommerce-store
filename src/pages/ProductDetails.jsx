@@ -452,24 +452,15 @@ export default function ProductDetails() {
           <section className="space-y-5 border-t border-[var(--color-border)] pt-10">
             <div>
               <p className="text-sm font-medium text-[var(--color-primary)]">
-                {t(
-                  "products.similarProducts",
-                  "Similar Products",
-                )}
+                {t("products.similarProducts")}
               </p>
 
               <h2 className="mt-1 font-display text-2xl font-bold text-[var(--color-text-primary)]">
-                {t(
-                  "products.youMayAlsoLike",
-                  "You May Also Like",
-                )}
+                {t("products.youMayAlsoLike")}
               </h2>
 
               <p className="mt-2 text-sm text-[var(--color-text-secondary)]">
-                {t(
-                  "products.similarProductsDescription",
-                  "Products from the same category.",
-                )}
+                {t("products.similarProductsDescription")}
               </p>
             </div>
 
@@ -490,24 +481,15 @@ export default function ProductDetails() {
           <section className="space-y-5 border-t border-[var(--color-border)] pt-10">
             <div>
               <p className="text-sm font-medium text-[var(--color-primary)]">
-                {t(
-                  "products.recommended",
-                  "Recommended",
-                )}
+                {t("products.recommended")}
               </p>
 
               <h2 className="mt-1 font-display text-2xl font-bold text-[var(--color-text-primary)]">
-                {t(
-                  "products.recommendedForYou",
-                  "Recommended For You",
-                )}
+                {t("products.recommendedForYou")}
               </h2>
 
               <p className="mt-2 text-sm text-[var(--color-text-secondary)]">
-                {t(
-                  "products.recommendedDescription",
-                  "More products you may be interested in.",
-                )}
+                {t("products.recommendedDescription")}
               </p>
             </div>
 

@@ -427,6 +427,12 @@
       "description": "الوصف",
       "tags": "الوسوم"
     },
+    "similarProducts": "منتجات مشابهة",
+    "youMayAlsoLike": "قد يعجبك أيضًا",
+    "similarProductsDescription": "منتجات من نفس الفئة.",
+    "recommended": "مُوصى بها",
+    "recommendedForYou": "مقترحات لك",
+    "recommendedDescription": "المزيد من المنتجات التي تهمك.",
     "validation": {
       "nameRequired": "اسم المنتج مطلوب",
       "shortDescriptionRequired": "الوصف المختصر مطلوب",

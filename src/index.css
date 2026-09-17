@@ -2,6 +2,7 @@
 @import "tw-animate-css";
 
 @custom-variant dark (&:is([data-theme="dark"] *));
+@custom-variant rtl (&:is([dir="rtl"] *));
 
 :root {
     /* ==================================================
@@ -110,18 +111,6 @@
      SPACING
      ================================================== */
 
-    /* --space-1: 4px;
-    --space-2: 8px;
-    --space-3: 12px;
-    --space-4: 16px;
-    --space-5: 20px;
-    --space-6: 24px;
-    --space-8: 32px;
-    --space-10: 40px;
-    --space-12: 48px;
-    --space-14: 56px;
-    --space-16: 64px;
-    --space-20: 80px; */
     /* We can use Tailwind's spacing */
 
 
@@ -393,28 +382,31 @@
     --color-border-strong: #547082;
 }
 
-
-/* ======================================================
-   BADGES
-   ====================================================== */
-
-.badge-stock {
-    background: rgba(57, 115, 84, 0.12);
-    color: var(--color-success);
+/* Sonner toast theming via semantic design tokens
+   Scoped to .app-sonner + data-sonner-toaster + data-sonner-theme so it
+   outranks sonner's runtime-injected [data-sonner-toaster][data-sonner-theme=...]
+   rules and follows the app theme through --color-* tokens. */
+.app-sonner[data-sonner-toaster][data-sonner-theme] {
+  --normal-bg: var(--color-surface);
+  --normal-bg-hover: var(--color-surface-secondary);
+  --normal-border: var(--color-border);
+  --normal-border-hover: var(--color-border-strong);
+  --normal-text: var(--color-text-primary);
+  --success-bg: var(--color-success-bg);
+  --success-border: var(--color-success);
+  --success-text: var(--color-text-primary);
+  --error-bg: var(--color-error-bg);
+  --error-border: var(--color-error);
+  --error-text: var(--color-text-primary);
+  --info-bg: var(--color-info-bg);
+  --info-border: var(--color-info);
+  --info-text: var(--color-text-primary);
+  --warning-bg: var(--color-warning-bg);
+  --warning-border: var(--color-warning);
+  --warning-text: var(--color-text-primary);
+  --border-radius: var(--radius);
 }
 
-.badge-low {
-    background: rgba(176, 80, 58, 0.10);
-    color: var(--color-error);
-}
-
-.badge-new {
-    background: var(--color-accent);
-    color: var(--color-on-accent);
-    border: 1px solid var(--color-supporting);
-}
-
-.badge-black {
-    background: var(--color-primary);
-    color: var(--color-on-primary);
+.app-sonner[data-sonner-toaster] [data-description] {
+  color: var(--color-text-secondary);
 }

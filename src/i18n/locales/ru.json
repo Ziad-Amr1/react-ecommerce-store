@@ -418,6 +418,12 @@
       "description": "Описание",
       "tags": "Теги"
     },
+    "similarProducts": "Похожие товары",
+    "youMayAlsoLike": "Вам может понравиться",
+    "similarProductsDescription": "Товары из той же категории.",
+    "recommended": "Рекомендуем",
+    "recommendedForYou": "Рекомендуем для вас",
+    "recommendedDescription": "Ещё товары, которые могут вас заинтересовать.",
     "validation": {
       "nameRequired": "Название товара обязательно",
       "shortDescriptionRequired": "Краткое описание обязательно",

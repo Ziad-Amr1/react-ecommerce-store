@@ -1,20 +1,11 @@
-import { Eye, Pencil, Trash2, PackageOpen, MoreHorizontal } from "lucide-react";
+import { Eye, Pencil, Trash2, PackageOpen } from "lucide-react";
 import { useTranslation } from "react-i18next";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
-import {
   Table,
   TableBody,
   TableCell,
-  TableHead,
-  TableHeader,
   TableRow,
 } from "@/components/ui/table";
 import {
@@ -23,22 +14,15 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
-import { formatCurrency } from "@/utils/formatCurrency";
+import { formatCurrency, CURRENCIES } from "@/utils/formatCurrency";
+import { formatNumber } from "@/utils/formatNumber";
+import { stockClass } from "./stockClass";
 import ProductThumb from "./ProductThumb";
-import ProductPagination from "./ProductPagination";
-import { STOCK_OK_THRESHOLD, STOCK_WARNING_THRESHOLD } from "../constants";
-
-const CURRENCY = "USD";
-
-function stockClass(stock) {
-  if (stock > STOCK_OK_THRESHOLD) {
-    return "text-success";
-  }
-  if (stock > STOCK_WARNING_THRESHOLD) {
-    return "text-warning";
-  }
-  return "text-error";
-}
+import RowActionsMenu from "@/features/admin/components/RowActionsMenu";
+import TableSkeletonRows from "@/features/admin/components/TableSkeletonRows";
+import AdminTableEmptyState from "@/features/admin/components/AdminTableEmptyState";
+import AdminTableFooter from "@/features/admin/components/AdminTableFooter";
+import SortableTableHeader from "@/features/admin/components/SortableTableHeader";
 
 function TruncateWithTooltip({ value, className }) {
   return (
@@ -61,24 +45,15 @@ function TruncateWithTooltip({ value, className }) {
   );
 }
 
-function SkeletonRows({ columns }) {
-  return Array.from({ length: 5 }).map((_, index) => (
-    <TableRow key={index}>
-      {Array.from({ length: columns }).map((__, columnIndex) => (
-        <TableCell key={columnIndex}>
-          <div className="h-4 animate-pulse rounded-md bg-muted" />
-        </TableCell>
-      ))}
-    </TableRow>
-  ));
-}
-
 export default function ProductsTable({
   products,
   isLoading,
   isFetching,
   deletingProductId,
   hasActiveQuery,
+  sortKey,
+  sortDirection,
+  onSort,
   currentPage,
   totalPages,
   onPageChange,
@@ -89,184 +64,164 @@ export default function ProductsTable({
 }) {
   const { t, i18n } = useTranslation();
 
-  if (isLoading || isFetching) {
-    return (
-      <div className="overflow-hidden rounded-lg border bg-card shadow-sm">
-        <Table density="compact">
-          <TableHeader>
-            <TableRow>
-              <TableHead>{t("products.columns.product")}</TableHead>
-              <TableHead>{t("products.columns.category")}</TableHead>
-              <TableHead>{t("products.columns.brand")}</TableHead>
-              <TableHead className="text-end">{t("products.columns.price")}</TableHead>
-              <TableHead className="text-end">{t("products.columns.stock")}</TableHead>
-              <TableHead className="text-end">{t("products.columns.actions")}</TableHead>
-            </TableRow>
-          </TableHeader>
-          <TableBody>
-            <SkeletonRows columns={6} />
-          </TableBody>
-        </Table>
-      </div>
-    );
-  }
+  const columns = [
+    { key: "product", label: t("products.columns.product"), sortable: true, sortKey: "name" },
+    { key: "category", label: t("products.columns.category"), sortable: true, sortKey: "category" },
+    { key: "brand", label: t("products.columns.brand"), sortable: true, sortKey: "brand" },
+    { key: "price", label: t("products.columns.price"), align: "end", sortable: true, sortKey: "price" },
+    { key: "stock", label: t("products.columns.stock"), align: "end", sortable: true, sortKey: "stock" },
+    { key: "actions", label: t("products.columns.actions"), align: "end" },
+  ];
 
   return (
     <div className="overflow-hidden rounded-lg border bg-card shadow-sm">
-      <TooltipProvider delayDuration={0}>
-        <Table density="compact">
-          <TableHeader>
-            <TableRow>
-              <TableHead>{t("products.columns.product")}</TableHead>
-              <TableHead>{t("products.columns.category")}</TableHead>
-              <TableHead>{t("products.columns.brand")}</TableHead>
-              <TableHead className="text-end">{t("products.columns.price")}</TableHead>
-              <TableHead className="text-end">{t("products.columns.stock")}</TableHead>
-              <TableHead className="text-end">{t("products.columns.actions")}</TableHead>
-            </TableRow>
-          </TableHeader>
+      <Table density="compact" edgePadding>
+        <SortableTableHeader
+          columns={columns}
+          sortKey={sortKey}
+          sortDirection={sortDirection}
+          onSort={onSort}
+        />
 
+        {isLoading || isFetching ? (
           <TableBody>
-            {products.length === 0 ? (
-              <TableRow>
-                <TableCell colSpan={6}>
-                  <div className="flex h-52 flex-col items-center justify-center gap-3">
-                    <div className="flex size-14 items-center justify-center rounded-full bg-muted">
-                      <PackageOpen
-                        className="size-7 text-muted-foreground"
-                        aria-hidden="true"
-                      />
-                    </div>
-
-                    <div className="text-center">
-                      <p className="font-medium text-foreground">
-                        {t("products.noProductsFound")}
-                      </p>
-                      <p className="mt-1 text-sm text-muted-foreground">
-                        {t("products.noProductsHint")}
-                      </p>
-                    </div>
-
-                    {hasActiveQuery && (
-                      <Button variant="outline" onClick={onClearQuery}>
-                        {t("products.clearQuery")}
-                      </Button>
-                    )}
-                  </div>
-                </TableCell>
-              </TableRow>
-            ) : (
-              products.map((product) => {
-                const isDeleting = deletingProductId === product._id;
-
-                return (
-                  <TableRow key={product._id} className="group">
-                    <TableCell>
-                      <div className="flex max-w-72 items-center gap-3">
-                        <ProductThumb
-                          url={product.images?.[0]?.url}
-                          alt={product.name}
+            <TableSkeletonRows columns={6} />
+          </TableBody>
+        ) : (
+          <TooltipProvider delayDuration={0}>
+            <TableBody>
+              {products.length === 0 ? (
+                <TableRow>
+                  <TableCell colSpan={6}>
+                    <AdminTableEmptyState
+                      icon={
+                        <PackageOpen
+                          className="size-7 text-muted-foreground"
+                          aria-hidden="true"
                         />
+                      }
+                      title={t("products.noProductsFound")}
+                      hint={t("products.noProductsHint")}
+                      action={
+                        hasActiveQuery ? (
+                          <Button variant="outline" onClick={onClearQuery}>
+                            {t("products.clearQuery")}
+                          </Button>
+                        ) : undefined
+                      }
+                    />
+                  </TableCell>
+                </TableRow>
+              ) : (
+                products.map((product) => {
+                  const isDeleting = deletingProductId === product._id;
 
-                        <div className="min-w-0">
-                          <TruncateWithTooltip
-                            value={product.name}
-                            className="max-w-40 font-medium text-foreground"
+                  return (
+                    <TableRow key={product._id} className="group">
+                      <TableCell>
+                        <div className="flex max-w-72 items-center gap-3">
+                          <ProductThumb
+                            url={product.images?.[0]?.url}
+                            alt={product.name}
                           />
 
-                          {product.tags?.[0] && (
-                            <p className="truncate text-xs text-muted-foreground">
-                              {product.tags[0]}
-                            </p>
-                          )}
+                          <div className="min-w-0">
+                            <TruncateWithTooltip
+                              value={product.name}
+                              className="max-w-40 font-medium text-foreground"
+                            />
+
+                            {product.tags?.[0] && (
+                              <p className="truncate text-xs text-muted-foreground">
+                                {product.tags[0]}
+                              </p>
+                            )}
+                          </div>
                         </div>
-                      </div>
-                    </TableCell>
+                      </TableCell>
 
-                    <TableCell className="text-muted-foreground">
-                      <TruncateWithTooltip
-                        value={product.category || "—"}
-                        className="max-w-36"
-                      />
-                    </TableCell>
+                      <TableCell className="text-muted-foreground">
+                        <TruncateWithTooltip
+                          value={product.category || "—"}
+                          className="max-w-36"
+                        />
+                      </TableCell>
 
-                    <TableCell className="text-muted-foreground">
-                      <TruncateWithTooltip
-                        value={product.brand || "—"}
-                        className="max-w-36"
-                      />
-                    </TableCell>
+                      <TableCell className="text-muted-foreground">
+                        <TruncateWithTooltip
+                          value={product.brand || "—"}
+                          className="max-w-36"
+                        />
+                      </TableCell>
 
-                    <TableCell className="whitespace-nowrap text-end tabular-nums">
-                      {product.price == null
-                        ? "—"
-                        : formatCurrency(product.price, CURRENCY, i18n.language)}
-                    </TableCell>
+                      <TableCell className="whitespace-nowrap text-end tabular-nums">
+                        {product.price == null
+                          ? "—"
+                          : formatCurrency(
+                              product.price,
+                              CURRENCIES.EGP,
+                              i18n.language,
+                            )}
+                      </TableCell>
 
-                    <TableCell className="whitespace-nowrap text-end">
-                      <span
-                        className={`tabular-nums font-medium ${stockClass(product.stock)}`}
-                      >
-                        {product.stock == null ? "—" : product.stock}
-                      </span>
-                    </TableCell>
+                      <TableCell className="whitespace-nowrap text-end">
+                        <span
+                          className={`tabular-nums font-medium ${stockClass(product.stock)}`}
+                        >
+                          {product.stock == null
+                            ? "—"
+                            : formatNumber(product.stock, i18n.language)}
+                        </span>
+                      </TableCell>
 
-                    <TableCell className="whitespace-nowrap text-end">
-                      <div className="flex justify-end">
-                        <div className="flex items-center gap-1 opacity-0 transition-opacity group-hover:opacity-100 group-focus-within:opacity-100 focus-within:opacity-100 [@media(pointer:coarse)]:opacity-100">
-                          <DropdownMenu>
-                            <DropdownMenuTrigger asChild>
-                              <Button
-                                variant="outline"
-                                size="icon"
-                                disabled={isFetching || isDeleting}
-                                aria-label={t("products.columns.actions")}
-                              >
-                                <MoreHorizontal className="size-4" aria-hidden="true" />
-                              </Button>
-                            </DropdownMenuTrigger>
-                            <DropdownMenuContent align="end">
-                              <DropdownMenuItem onClick={() => onView(product._id)}>
+                      <TableCell className="whitespace-nowrap text-end">
+                        <RowActionsMenu
+                          disabled={isFetching || isDeleting}
+                          ariaLabel={t("products.columns.actions")}
+                          items={[
+                            {
+                              icon: (
                                 <Eye className="size-4" aria-hidden="true" />
-                                {t("products.viewProduct")}
-                              </DropdownMenuItem>
-
-                              <DropdownMenuItem onClick={() => onEdit(product._id)}>
+                              ),
+                              label: t("products.viewProduct"),
+                              onClick: () => onView(product._id),
+                            },
+                            {
+                              icon: (
                                 <Pencil className="size-4" aria-hidden="true" />
-                                {t("products.editProduct")}
-                              </DropdownMenuItem>
-
-                              <DropdownMenuSeparator />
-
-                              <DropdownMenuItem
-                                variant="destructive"
-                                onClick={() => onDelete(product)}
-                              >
+                              ),
+                              label: t("products.editProduct"),
+                              onClick: () => onEdit(product._id),
+                            },
+                            {
+                              icon: (
                                 <Trash2 className="size-4" aria-hidden="true" />
-                                {t("products.deleteProduct")}
-                              </DropdownMenuItem>
-                            </DropdownMenuContent>
-                          </DropdownMenu>
-                        </div>
-                      </div>
-                    </TableCell>
-                  </TableRow>
-                );
-              })
-            )}
-          </TableBody>
-        </Table>
-      </TooltipProvider>
+                              ),
+                              label: t("products.deleteProduct"),
+                              onClick: () => onDelete(product),
+                              variant: "destructive",
+                              separator: true,
+                            },
+                          ]}
+                        />
+                      </TableCell>
+                    </TableRow>
+                  );
+                })
+              )}
+            </TableBody>
+          </TooltipProvider>
+        )}
+      </Table>
 
-      {totalPages > 1 && (
-        <footer className="border-t border-(--color-border) px-3 py-3">
-          <ProductPagination
-            currentPage={currentPage}
-            totalPages={totalPages}
-            isFetching={isFetching}
-            onPageChange={onPageChange}
-          />
-        </footer>
+      {!isLoading && !isFetching && totalPages > 1 && (
+        <AdminTableFooter
+          currentPage={currentPage}
+          totalPages={totalPages}
+          loading={isFetching}
+          onPageChange={onPageChange}
+          labelPrefix="products.pagination"
+        />
       )}
     </div>
   );

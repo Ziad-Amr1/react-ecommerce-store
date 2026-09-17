@@ -3,7 +3,6 @@ import { useTranslation } from "react-i18next";
 import axios from "axios";
 import { toast } from "sonner";
 import { Package } from "lucide-react";
-import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import {
@@ -24,6 +23,7 @@ import { formatDisplayDate } from "@/utils/formatDate";
 import { ORDER_CURRENCY, ORDER_STATUSES } from "../constants";
 import { updateOrderStatus } from "../orders.service";
 import OrderStatusBadge from "./OrderStatusBadge";
+import PaymentStatusBadge from "./PaymentStatusBadge";
 
 function Money({ value, locale }) {
   const amount =
@@ -31,11 +31,13 @@ function Money({ value, locale }) {
   return formatCurrency(amount, ORDER_CURRENCY, locale);
 }
 
-function DetailRow({ label, value }) {
+function DetailRow({ label, value, isNumeric, isMono }) {
   return (
     <div className="flex items-start justify-between gap-3 border-b border-border pb-2 text-xs last:border-b-0 last:pb-0">
       <span className="shrink-0 text-muted-foreground">{label}</span>
-      <span className="text-end font-medium text-foreground">{value}</span>
+      <span className={`text-end font-medium text-foreground ${isNumeric ? "tabular-nums" : ""} ${isMono ? "font-mono" : ""}`}>
+        {value}
+      </span>
     </div>
   );
 }
@@ -105,16 +107,7 @@ function OrderDetailsContent({ order, onClose, onSaved }) {
 
       <div className="flex flex-wrap items-center gap-2">
         <OrderStatusBadge status={order.status} />
-        <Badge
-          variant="outline"
-          className="border-transparent bg-warning-bg px-2 py-1 text-xs font-semibold text-warning"
-        >
-          {order.paymentStatus
-            ? t(`orders.paymentStatus.${order.paymentStatus.toLowerCase()}`, {
-                defaultValue: order.paymentStatus,
-              })
-            : t("orders.notAvailable")}
-        </Badge>
+        <PaymentStatusBadge status={order.paymentStatus} />
       </div>
 
       <div className="space-y-3 rounded-lg border border-border bg-card p-4">
@@ -135,15 +128,18 @@ function OrderDetailsContent({ order, onClose, onSaved }) {
         </p>
         <DetailRow
           label={t("orders.sheet.placed")}
-          value={formatDisplayDate(order.createdAt) || t("orders.notAvailable")}
+          value={formatDisplayDate(order.createdAt, i18n.language) || t("orders.notAvailable")}
+          isNumeric
         />
         <DetailRow
           label={t("orders.sheet.transactionId")}
           value={order.transactionId || t("orders.notAvailable")}
+          isMono
         />
         <DetailRow
           label={t("orders.sheet.paidAt")}
-          value={formatDisplayDate(order.paidAt) || t("orders.notAvailable")}
+          value={formatDisplayDate(order.paidAt, i18n.language) || t("orders.notAvailable")}
+          isNumeric
         />
       </div>
 

@@ -2,6 +2,7 @@ import { X, FilterX } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { useTranslation } from "react-i18next";
+import { formatCurrency } from "@/utils/formatCurrency";
 
 export default function ActiveFiltersBar({
   resultsCount,
@@ -16,12 +17,22 @@ export default function ActiveFiltersBar({
   setMaxPrice,
   changeSort,
 }) {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
 
   const clearPrice = () => {
     setMinPrice("");
     setMaxPrice("");
   };
+
+  const minBound = Number(applied.minPrice) || 0;
+  const maxBound =
+    applied.maxPrice !== "" && Number.isFinite(Number(applied.maxPrice))
+      ? Number(applied.maxPrice)
+      : null;
+  const priceLabel =
+    maxBound == null
+      ? `${formatCurrency(minBound, undefined, i18n.language)} - ${t("shop.filterUnlimited", "∞")}`
+      : `${formatCurrency(minBound, undefined, i18n.language)} - ${formatCurrency(maxBound, undefined, i18n.language)}`;
 
   return (
     <div className="flex flex-wrap items-center justify-between gap-3 bg-[var(--color-surface)] p-3.5 rounded-2xl border border-[var(--color-border)] shadow-xs">
@@ -45,7 +56,7 @@ export default function ActiveFiltersBar({
           <Badge variant="secondary" className="gap-1.5 py-1 px-2.5 rounded-lg bg-[var(--color-surface-secondary)] text-[var(--color-text-primary)] border border-[var(--color-border)] font-normal text-xs">
             {t("shop.filterPrice")}{" "}
             <span className="font-mono font-semibold">
-              ${applied.minPrice || "0"} - ${applied.maxPrice || "∞"}
+              {priceLabel}
             </span>
             <X
               className="size-3.5 text-[var(--color-text-secondary)] hover:text-[var(--color-error)] cursor-pointer"
@@ -80,7 +91,7 @@ export default function ActiveFiltersBar({
       {hasActiveFilters && (
         <Button variant="ghost" size="sm" onClick={clearFilters} className="text-xs h-8 text-[var(--color-error)] hover:bg-[var(--color-error)]/10 hover:text-[var(--color-error)] flex items-center gap-1.5 px-2">
           <FilterX className="size-3.5" />
-          {t("clear_all_filters", "Clear Filters")}
+          {t("shop.clearAllFilters", "Clear Filters")}
         </Button>
       )}
     </div>

@@ -63,44 +63,44 @@ export default function PersonalInformation({ user }) {
 
   return (
     <Card>
-      <CardHeader>
-        <CardTitle className="font-display text-xl text-foreground">
+      <CardHeader className="p-4 sm:p-6 pb-2 sm:pb-4">
+        <CardTitle className="font-display text-lg sm:text-xl text-foreground">
           {t("profile.personal.title")}
         </CardTitle>
 
-        <CardDescription>{t("profile.personal.description")}</CardDescription>
+        <CardDescription className="text-xs sm:text-sm">{t("profile.personal.description")}</CardDescription>
       </CardHeader>
 
-      <CardContent>
-        <div className="grid gap-4 sm:grid-cols-2">
+      <CardContent className="p-4 sm:p-6 pt-0">
+        <div className="grid gap-3 sm:gap-4 grid-cols-1 sm:grid-cols-2">
           {rows.map(({ key, icon: Icon, label, value }) => (
             <div
               key={key}
-              className="group flex items-center gap-4 rounded-xl border bg-muted/40 p-4"
+              className="group flex items-center gap-3 sm:gap-4 rounded-xl border bg-muted/40 p-3.5 sm:p-4 min-w-0"
             >
-              <div className="flex size-10 shrink-0 items-center justify-center rounded-lg bg-accent text-primary">
-                <Icon className="size-5" aria-hidden="true" />
+              <div className="flex size-9 sm:size-10 shrink-0 items-center justify-center rounded-lg bg-accent text-primary">
+                <Icon className="size-4 sm:size-5" aria-hidden="true" />
               </div>
 
               <div className="min-w-0 flex-1">
-                <p className="text-sm text-muted-foreground">{label}</p>
+                <p className="text-xs sm:text-sm text-muted-foreground">{label}</p>
 
                 <button
                   type="button"
                   onClick={() => handleCopy(value, key)}
                   disabled={!value}
-                  className="mt-1 flex w-full items-center gap-1.5 text-start font-medium text-foreground hover:text-primary disabled:cursor-default disabled:hover:text-foreground"
+                  className="mt-0.5 flex w-full items-center gap-1.5 text-start text-xs sm:text-sm font-medium text-foreground hover:text-primary disabled:cursor-default disabled:hover:text-foreground"
                   aria-label={t("profile.personal.copyValue", {
                     value: value ?? t("profile.personal.missing"),
                   })}
                 >
-                  <span className="truncate">
+                  <span className="truncate min-w-0 flex-1">
                     {value ? value : t("profile.personal.missing")}
                   </span>
 
                   {value && (
                     <Copy
-                      className="size-3.5 shrink-0 opacity-0 transition-opacity group-hover:opacity-60"
+                      className="size-3.5 shrink-0 opacity-100 sm:opacity-0 transition-opacity group-hover:opacity-60 text-muted-foreground"
                       aria-hidden="true"
                     />
                   )}

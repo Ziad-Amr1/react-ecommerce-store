@@ -142,11 +142,11 @@ export default function ForgetPassword() {
                     aria-describedby={
                       errors.email ? "forget-password-email-error" : undefined
                     }
-                    className="bg-(--color-surface-secondary) border-(--color-border) rounded-(--radius-lg) py-6 pl-11 text-(--color-text-primary) placeholder:text-(--color-text-secondary) focus-visible:ring-(--color-focus-ring)"
+                    className="bg-(--color-surface-secondary) border-(--color-border) rounded-(--radius-lg) py-6 ps-11 text-(--color-text-primary) placeholder:text-(--color-text-secondary) focus-visible:ring-(--color-focus-ring)"
                   />
 
                   <Mail
-                    className="pointer-events-none absolute left-4 top-1/2 -translate-y-1/2 h-5 w-5 text-(--color-text-secondary)"
+                    className="pointer-events-none absolute start-4 top-1/2 -translate-y-1/2 h-5 w-5 text-(--color-text-secondary)"
                     aria-hidden="true"
                   />
                 </div>

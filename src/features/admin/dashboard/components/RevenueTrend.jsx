@@ -8,11 +8,10 @@ import {
   XAxis,
   YAxis,
 } from "recharts";
-import { formatCurrency } from "@/utils/formatCurrency";
+import { formatCurrency, ORDER_CURRENCY } from "@/utils/formatCurrency";
 import { formatDisplayDate } from "@/utils/formatDate";
 import { formatNumber } from "@/utils/formatNumber";
-
-const CURRENCY = "USD";
+import { measureAxisTextWidth } from "../chartUtils";
 
 function toChartData(dailyRevenue) {
   if (!Array.isArray(dailyRevenue)) {
@@ -67,7 +66,7 @@ function RevenueTrendTooltip({ active, payload }) {
       <p className="text-(--color-text-secondary)">{point.labelFull}</p>
 
       <p className="mt-1 text-sm font-semibold tabular-nums text-(--color-text-primary)">
-        {formatCurrency(point.revenue, CURRENCY, i18n.language)}
+        {formatCurrency(point.revenue, ORDER_CURRENCY, i18n.language)}
       </p>
 
       {point.orders != null && (
@@ -88,7 +87,7 @@ export default function RevenueTrend({ dailyRevenue }) {
   const chartData = raw.map((row) => {
     const fullLabel =
       row.time != null
-        ? (formatDisplayDate(new Date(row.time)) ?? row.label)
+        ? (formatDisplayDate(new Date(row.time), i18n.language) ?? row.label)
         : row.label;
 
     let shortLabel = row.label;
@@ -105,18 +104,29 @@ export default function RevenueTrend({ dailyRevenue }) {
 
   if (chartData.length === 0) {
     return (
-      <p className="py-8 text-center text-sm text-(--color-text-secondary)">
-        {t("dashboard.noData")}
-      </p>
+      <div className="flex h-56 w-full items-center justify-center sm:h-64">
+        <p className="text-center text-sm text-(--color-text-secondary)">
+          {t("dashboard.noData")}
+        </p>
+      </div>
     );
   }
 
   const compactCurrency = new Intl.NumberFormat(i18n.language, {
     style: "currency",
-    currency: CURRENCY,
+    currency: ORDER_CURRENCY,
     notation: "compact",
     maximumFractionDigits: 1,
   });
+
+  const widestFormat = chartData.reduce(
+    (widest, row) => {
+      const formatted = compactCurrency.format(row.revenue);
+      return formatted.length > widest.formatted.length ? { formatted } : widest;
+    },
+    { formatted: compactCurrency.format(0) },
+  );
+  const axisWidth = Math.max(48, Math.min(120, measureAxisTextWidth(widestFormat.formatted) + 12));
 
   return (
     <div className="space-y-3">
@@ -124,7 +134,7 @@ export default function RevenueTrend({ dailyRevenue }) {
         <ResponsiveContainer width="100%" height="100%">
           <AreaChart
             data={chartData}
-            margin={{ top: 8, right: 8, left: 0, bottom: 0 }}
+            margin={{ top: 8, right: 8, left: 8, bottom: 4 }}
           >
             <CartesianGrid
               stroke="var(--color-border)"
@@ -146,7 +156,8 @@ export default function RevenueTrend({ dailyRevenue }) {
               axisLine={false}
               tick={{ fontSize: 12, fill: "var(--color-text-secondary)" }}
               tickFormatter={(value) => compactCurrency.format(value)}
-              width={48}
+              width={axisWidth}
+              tickMargin={6}
             />
 
             <Tooltip
@@ -177,7 +188,7 @@ export default function RevenueTrend({ dailyRevenue }) {
           {chartData.map((point) => (
             <li key={point.key}>
               {point.labelFull}:{" "}
-              {formatCurrency(point.revenue, CURRENCY, i18n.language)}
+{formatCurrency(point.revenue, ORDER_CURRENCY, i18n.language)}
               {point.orders != null
                 ? ` (${formatNumber(point.orders, i18n.language)} ${t(
                     "dashboard.totalOrders",

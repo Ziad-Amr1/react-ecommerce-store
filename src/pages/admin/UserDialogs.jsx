@@ -117,7 +117,7 @@ export function DeleteConfirmDialog({ isOpen , onClose , user , onSuccess}){
                 <DialogHeader>
                     <DialogTitle>Confirm Delete</DialogTitle>
                 </DialogHeader>
-                <p className="text-sm text-muted-foreground">
+                <p className="text-sm text-muted-foregit pull originground">
                     Are you sure you want to delete this user?{"  "}
                     <span className="font-bold text-foreground">{user?.name || user?.username}</span>
                 </p>

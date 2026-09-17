@@ -103,7 +103,7 @@ export default function FeaturedProductCard({ product }) {
         )}
 
         {discount !== null && (
-          <Badge className="absolute start-2 top-2 max-w-[calc(100%-1rem)] truncate bg-(--color-error) px-2 text-xs tabular-nums text-on-error">
+          <Badge className="absolute start-2 top-2 max-w-[calc(100%-1rem)] truncate bg-(--color-error) px-2 text-xs tabular-nums text-(--color-on-error)">
             {t("landing.featured.discountOff", { percent: discount })}
           </Badge>
         )}

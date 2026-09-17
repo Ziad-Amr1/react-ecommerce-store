@@ -1,22 +1,14 @@
 
-
 import { useTranslation } from "react-i18next";
 import { formatDisplayDate } from "@/utils/formatDate";
-import {Badge} from '@/components/ui/badge'
+import { Badge } from "@/components/ui/badge";
 import { formatCurrency } from "@/utils/formatCurrency";
-import {
- 
-  TableBody,
-  TableRow,
-  
-  TableCell,
-} from "@/components/ui/table";
+import { TableBody, TableRow, TableCell } from "@/components/ui/table";
 
 import {
   Tooltip,
   TooltipTrigger,
   TooltipContent,
- 
 } from "@/components/ui/tooltip";
 
 const OrdersTableBody = ({ orders, onRowClick, renderStatusBadge }) => {
@@ -27,6 +19,18 @@ const OrdersTableBody = ({ orders, onRowClick, renderStatusBadge }) => {
         const name = order?.shippingAddress?.fullName || "—";
 
         const orderId = order?._id || "";
+
+        const paymentStatusLabel = order?.paymentStatus
+          ? t(`orders.paymentStatus.${order.paymentStatus}`, {
+              defaultValue: order.paymentStatus,
+            })
+          : "—";
+
+        const paymentMethodLabel = order?.paymentMethod
+          ? t(`orders.filters.method.${order.paymentMethod}`, {
+              defaultValue: order.paymentMethod,
+            })
+          : "—";
 
         return (
           <TableRow
@@ -66,7 +70,7 @@ const OrdersTableBody = ({ orders, onRowClick, renderStatusBadge }) => {
                   color: "var(--color-warning)",
                 }}
               >
-                {order?.paymentStatus || "—"}
+                {paymentStatusLabel}
               </Badge>
             </TableCell>
 
@@ -79,7 +83,7 @@ const OrdersTableBody = ({ orders, onRowClick, renderStatusBadge }) => {
                   color: "var(--color-text-secondary)",
                 }}
               >
-                {order?.paymentMethod || "—"}
+                {paymentMethodLabel}
               </Badge>
             </TableCell>
 
@@ -97,4 +101,4 @@ const OrdersTableBody = ({ orders, onRowClick, renderStatusBadge }) => {
   );
 };
 
-export default OrdersTableBody
+export default OrdersTableBody;

@@ -686,7 +686,9 @@
     },
     "pagination": {
       "previous": "Previous",
-      "next": "Next"
+      "next": "Next",
+      "pageLabel": "Page",
+      "ofLabel": "of"
     },
     "sheet": {
       "title": "Order Details",

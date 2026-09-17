@@ -20,7 +20,7 @@ import AddProduct from "./pages/admin/AddProduct";
 import EditProduct from "./pages/admin/EditProduct";
 import AdminProductDetails from "./pages/admin/ProductDetails";
 
-import Orders from "./pages/Order";
+import Orders from "./pages/admin/Order.jsx"
 import Users from "./pages/admin/Users";
 import Carts from "./pages/admin/Carts";
 import Settings from "./pages/admin/Settings";

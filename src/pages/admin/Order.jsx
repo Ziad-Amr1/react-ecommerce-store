@@ -1,10 +1,10 @@
 
 import  { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import OrdersFilters from '@/features/orders/components/OrdersFilters'
-import OrdersHeader from '@/features/orders/components/OrdersHeader'
- import OrdersTableBody from '@/features/orders/components/OrdersTableBody'
-  import OrdersTableHeader from '@/features/orders/components/OrdersTableHeader'
+import OrdersFilters from '@/features/admin/orders/OrdersFilters'
+import OrdersHeader from '@/features/admin/orders/OrdersHeader'
+ import OrdersTableBody from '@/features/admin/orders/OrdersTableBody'
+  import OrdersTableHeader from '@/features/admin/orders/OrdersTableHeader'
 import {
   ArrowUp,
   ArrowDown,
@@ -18,7 +18,7 @@ import { Badge } from "@/components/ui/badge";
 import { Card } from "@/components/ui/card";
 
 
-import OrderDetailsSheet from "@/features/orders/components/OrderDetailsSheet";
+import OrderDetailsSheet from "@/features/admin/orders/OrderDetailsSheet";
 
 import {
   Table,
@@ -27,7 +27,7 @@ import {
   TableHead,
 } from "@/components/ui/table";
 
-import OrdersPagination from "../features/orders/components/OrdersPagination";
+import OrdersPagination from "../../features/admin/orders/OrdersPagination";
 
 import {
   TooltipProvider,
@@ -35,7 +35,7 @@ import {
 
 
 
-import OrdersTableSkeleton from "../features/orders/components/OrdersTableSkeleton";
+import OrdersTableSkeleton from "../../features/admin/orders/OrdersTableSkeleton";
 
 const LIMIT = 15;
 const DEBOUNCE_DELAY = 500;

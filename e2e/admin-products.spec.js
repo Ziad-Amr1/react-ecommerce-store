@@ -12,10 +12,12 @@ test.describe("Admin Products", () => {
   test("page renders with title and statistics", async ({ page }) => {
     await page.goto("/admin/products");
     await expect(page.getByRole("heading", { name: "Products" })).toBeVisible();
-    await expect(page.locator("dt").filter({ hasText: "Page" })).toBeVisible();
-    await expect(page.locator("dd").filter({ hasText: "1 / 2" })).toBeVisible();
-    await expect(page.locator("dt").filter({ hasText: "Records" })).toBeVisible();
-    await expect(page.locator("dd").filter({ hasText: "10" })).toBeVisible();
+    const totalProductsKpi = page
+      .getByText("Total Products")
+      .locator("xpath=ancestor::div[contains(@class, 'h-full')]");
+    await expect(totalProductsKpi).toBeVisible();
+    await expect(totalProductsKpi.getByText("10")).toBeVisible();
+    await expect(page.getByText("1 / 2")).toBeVisible();
   });
 
   test("search debounce sends the search query param", async ({ page }) => {
@@ -59,7 +61,7 @@ test.describe("Admin Products", () => {
 
     await page.getByRole("button", { name: "Next page" }).click();
     await expect(page.locator("table tbody tr")).toHaveCount(2);
-    await expect(page.locator("dd").filter({ hasText: "2 / 2" })).toBeVisible();
+    await expect(page.getByText("2 / 2")).toBeVisible();
 
     await page.getByRole("button", { name: "Previous page" }).click();
     await expect(page.locator("table tbody tr")).toHaveCount(10);
@@ -167,6 +169,6 @@ test.describe("Admin Products", () => {
     await expect(page.locator("html")).toHaveAttribute("dir", "rtl");
     await expect(page.locator("html")).toHaveAttribute("lang", "ar");
     await expect(page.getByRole("heading", { name: "المنتجات" })).toBeVisible();
-    await expect(page.locator("dt").filter({ hasText: "السجلات" })).toBeVisible();
+    await expect(page.getByText("إجمالي المنتجات")).toBeVisible();
   });
 });

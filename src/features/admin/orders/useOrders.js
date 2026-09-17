@@ -18,7 +18,7 @@ export default function useOrders() {
   const [isDetailsOpen, setIsDetailsOpen] = useState(false);
 
   const table = useAdminServerTable({
-    fetchData: ({ page, sortKey, sortDirection, filters, signal }) =>
+    fetchData: ({ page, search, sortKey, sortDirection, filters, signal }) =>
       getOrders({
         page,
         limit: ORDERS_LIMIT,
@@ -26,6 +26,7 @@ export default function useOrders() {
         paymentStatus: filters.payment === ALL ? undefined : filters.payment,
         sortBy: sortKey ? SORT_COLUMNS[sortKey] : undefined,
         sortDir: sortKey ? sortDirection : undefined,
+        search,
         signal,
       }),
     mapResponse,
@@ -35,8 +36,10 @@ export default function useOrders() {
 
   const handleStatusChange = (value) => table.changeFilter("status", value);
   const handlePaymentChange = (value) => table.changeFilter("payment", value);
+  const handleSearchChange = (value) => table.handleSearchChange(value);
   const handleSort = (key) => table.handleSort(key);
   const handlePageChange = (page) => table.handlePageChange(page);
+  const clearQuery = () => table.clearQuery();
   const retry = () => table.retry();
 
   const handleOpenDetails = useCallback((order) => {
@@ -63,6 +66,8 @@ export default function useOrders() {
     isLoading: table.isLoading,
     isFetching: table.isFetching,
     loadError: table.error,
+    search: table.search,
+    appliedSearch: table.appliedSearch,
     status: table.filters.status,
     payment: table.filters.payment,
     sortKey: table.sortKey,
@@ -71,6 +76,8 @@ export default function useOrders() {
     isDetailsOpen,
     handleStatusChange,
     handlePaymentChange,
+    handleSearchChange,
+    clearQuery,
     handleSort,
     handlePageChange,
     handleOpenDetails,

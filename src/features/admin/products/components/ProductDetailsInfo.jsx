@@ -4,17 +4,7 @@ import {
   CardContent,
 } from "@/components/ui/card";
 import { formatCurrency, CURRENCIES } from "@/utils/formatCurrency";
-import { STOCK_OK_THRESHOLD, STOCK_WARNING_THRESHOLD } from "../constants";
-
-function stockClass(stock) {
-  if (stock > STOCK_OK_THRESHOLD) {
-    return "text-success";
-  }
-  if (stock > STOCK_WARNING_THRESHOLD) {
-    return "text-warning";
-  }
-  return "text-error";
-}
+import { stockClass } from "./stockClass";
 
 function discountPercent(product) {
   const price = Number(product.price);
@@ -50,14 +40,14 @@ export default function ProductDetailsInfo({ product }) {
           <div className="flex shrink-0 gap-2">
             <span
               className={`rounded-full px-3 py-1 text-xs font-medium ${
-                product.isActive ? "bg-success-bg text-success" : "bg-error-bg text-error"
+                product.isActive ? "bg-(--color-success-bg) text-(--color-success)" : "bg-(--color-error-bg) text-(--color-error)"
               }`}
             >
               {t(product.isActive ? "products.active" : "products.inactive")}
             </span>
 
             {product.featured && (
-              <span className="rounded-full border border-supporting bg-accent px-3 py-1 text-xs font-medium text-foreground">
+              <span className="rounded-full border border-(--color-supporting) bg-accent px-3 py-1 text-xs font-medium text-foreground">
                 {t("products.featured")}
               </span>
             )}
@@ -81,7 +71,7 @@ export default function ProductDetailsInfo({ product }) {
                 <span className="text-base tabular-nums text-muted-foreground line-through">
                   {formatCurrency(product.price, CURRENCIES.EGP, i18n.language)}
                 </span>
-                <span className="rounded-md bg-success-bg px-2 py-1 text-xs font-semibold tabular-nums text-success">
+                <span className="rounded-md bg-(--color-success-bg) px-2 py-1 text-xs font-semibold tabular-nums text-(--color-success)">
                   {t("products.discountOff", { percent: discount })}
                 </span>
               </>

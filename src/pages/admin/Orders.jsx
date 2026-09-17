@@ -1,7 +1,9 @@
+import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
-import { Eye, RefreshCw } from "lucide-react";
-import { Badge } from "@/components/ui/badge";
+import { CheckCircle2, Clock, Eye, RefreshCw, Search, ShoppingBag, Truck, X } from "lucide-react";
+import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
+import { Input } from "@/components/ui/input";
 import {
   Select,
   SelectContent,
@@ -24,6 +26,7 @@ import {
   PAYMENT_STATUSES,
 } from "@/features/admin/orders/constants";
 import OrderStatusBadge from "@/features/admin/orders/components/OrderStatusBadge";
+import PaymentStatusBadge from "@/features/admin/orders/components/PaymentStatusBadge";
 import OrdersTableSkeleton from "@/features/admin/orders/components/OrdersTableSkeleton";
 import OrderDetailsSheet from "@/features/admin/orders/components/OrderDetailsSheet";
 import AdminPageHeader from "@/features/admin/components/AdminPageHeader";
@@ -31,6 +34,7 @@ import AdminErrorState from "@/features/admin/components/AdminErrorState";
 import AdminTableFooter from "@/features/admin/components/AdminTableFooter";
 import RowActionsMenu from "@/features/admin/components/RowActionsMenu";
 import SortableTableHeader from "@/features/admin/components/SortableTableHeader";
+import StatCard from "@/features/admin/dashboard/components/StatCard";
 
 export default function Orders() {
   const { t, i18n } = useTranslation();
@@ -43,6 +47,7 @@ export default function Orders() {
     currentPage,
     isFetching,
     loadError,
+    search,
     status,
     payment,
     sortKey,
@@ -51,6 +56,7 @@ export default function Orders() {
     isDetailsOpen,
     handleStatusChange,
     handlePaymentChange,
+    handleSearchChange,
     handleSort,
     handlePageChange,
     handleOpenDetails,
@@ -59,9 +65,66 @@ export default function Orders() {
     retry,
   } = useOrders();
 
+  const pendingCount = useMemo(
+    () => orders.filter((o) => o?.status === "pending").length,
+    [orders],
+  );
+  const activeCount = useMemo(
+    () =>
+      orders.filter((o) =>
+        ["processing", "confirmed", "shipped"].includes(o?.status),
+      ).length,
+    [orders],
+  );
+  const deliveredCount = useMemo(
+    () => orders.filter((o) => o?.status === "delivered").length,
+    [orders],
+  );
+
+  const kpis = [
+    {
+      id: "total",
+      title: t("orders.kpis.totalOrders", { defaultValue: "Total Orders" }),
+      description: t("orders.kpis.totalOrdersDesc", { defaultValue: "All recorded purchases" }),
+      value: formatNumber(totalOrders, locale),
+      icon: ShoppingBag,
+    },
+    {
+      id: "pending",
+      title: t("orders.kpis.pendingOrders", { defaultValue: "Pending Orders" }),
+      description: t("orders.kpis.pendingOrdersDesc", { defaultValue: "Awaiting fulfillment" }),
+      value: formatNumber(pendingCount, locale),
+      icon: Clock,
+    },
+    {
+      id: "active",
+      title: t("orders.kpis.activeOrders", { defaultValue: "Processing / Active" }),
+      description: t("orders.kpis.activeOrdersDesc", { defaultValue: "In-transit & active processing" }),
+      value: formatNumber(activeCount, locale),
+      icon: Truck,
+    },
+    {
+      id: "delivered",
+      title: t("orders.kpis.deliveredOrders", { defaultValue: "Delivered" }),
+      description: t("orders.kpis.deliveredOrdersDesc", { defaultValue: "Successfully completed" }),
+      value: formatNumber(deliveredCount, locale),
+      icon: CheckCircle2,
+    },
+  ];
+
   const columns = [
-    { key: "order", label: t("orders.columns.order") },
-    { key: "customer", label: t("orders.columns.customer") },
+    {
+      key: "order",
+      label: t("orders.columns.order"),
+      sortable: true,
+      sortKey: "order",
+    },
+    {
+      key: "customer",
+      label: t("orders.columns.customer"),
+      sortable: true,
+      sortKey: "customer",
+    },
     {
       key: "date",
       label: t("orders.columns.date"),
@@ -74,7 +137,18 @@ export default function Orders() {
       sortable: true,
       sortKey: "status",
     },
-    { key: "paymentStatus", label: t("orders.columns.paymentStatus") },
+    {
+      key: "paymentMethod",
+      label: t("orders.columns.paymentMethod"),
+      sortable: true,
+      sortKey: "paymentMethod",
+    },
+    {
+      key: "paymentStatus",
+      label: t("orders.columns.paymentStatus"),
+      sortable: true,
+      sortKey: "paymentStatus",
+    },
     {
       key: "total",
       label: t("orders.columns.total"),
@@ -88,19 +162,56 @@ export default function Orders() {
   return (
     <div className="space-y-6">
       <AdminPageHeader
-        kicker={t("orders.subtitle")}
+        kicker={t("orders.subtitle", { defaultValue: "Fulfillment & Operations" })}
         title={t("orders.title")}
-        statistics={[
-          {
-            id: "total-orders",
-            label: t("orders.totalOrders"),
-            value: formatNumber(totalOrders, locale),
-          },
-        ]}
+        description={t("orders.description", { defaultValue: "Track and manage customer purchases, payment statuses, and fulfillment workflows." })}
       />
 
-      <div className="flex flex-wrap items-center gap-3">
-        <div className="relative min-w-64 flex-1">
+      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
+        {kpis.map((kpi) => (
+          <StatCard
+            key={kpi.id}
+            title={kpi.title}
+            description={kpi.description}
+            value={kpi.value}
+            icon={kpi.icon}
+            className="gap-0 py-4"
+          />
+        ))}
+      </div>
+
+      <div className="flex flex-col gap-3 sm:flex-row sm:items-center">
+        <div className="relative flex-1">
+          <Search
+            className="pointer-events-none absolute top-1/2 start-3 size-4 -translate-y-1/2 text-muted-foreground"
+            aria-hidden="true"
+          />
+          <Input
+            value={search}
+            onChange={(event) => handleSearchChange(event.target.value)}
+            placeholder={t("orders.searchPlaceholder", {
+              defaultValue: "Search by customer or order ID...",
+            })}
+            aria-label={t("orders.searchPlaceholder", {
+              defaultValue: "Search by customer or order ID...",
+            })}
+            className="ps-9"
+          />
+          {search && (
+            <Button
+              type="button"
+              variant="ghost"
+              size="icon"
+              onClick={() => handleSearchChange("")}
+              aria-label={t("orders.clearSearch", { defaultValue: "Clear search" })}
+              className="absolute end-1.5 top-1/2 size-7 -translate-y-1/2"
+            >
+              <X className="size-4" aria-hidden="true" />
+            </Button>
+          )}
+        </div>
+
+        <div className="w-full sm:w-48">
           <Select value={status} onValueChange={handleStatusChange}>
             <SelectTrigger className="w-full">
               <SelectValue placeholder={t("orders.filters.status.placeholder")} />
@@ -118,7 +229,7 @@ export default function Orders() {
           </Select>
         </div>
 
-        <div className="relative min-w-64 flex-1">
+        <div className="w-full sm:w-48">
           <Select value={payment} onValueChange={handlePaymentChange}>
             <SelectTrigger className="w-full">
               <SelectValue placeholder={t("orders.filters.payment.placeholder")} />
@@ -137,7 +248,7 @@ export default function Orders() {
         </div>
       </div>
 
-      <Card className="overflow-hidden shadow-sm">
+      <Card className="gap-0 overflow-hidden shadow-sm py-0">
         {loadError && !isFetching ? (
           <AdminErrorState
             title={t("orders.loadErrorTitle")}
@@ -147,7 +258,7 @@ export default function Orders() {
           />
         ) : (
           <CardContent className="p-0">
-            <Table>
+            <Table edgePadding>
               <SortableTableHeader
                 columns={columns}
                 sortKey={sortKey}
@@ -162,7 +273,7 @@ export default function Orders() {
                   {orders.length === 0 ? (
                     <TableRow>
                       <TableCell
-                        colSpan={7}
+                        colSpan={8}
                         className="py-12 text-center text-sm text-muted-foreground"
                       >
                         {t("orders.noOrdersFound")}
@@ -176,7 +287,7 @@ export default function Orders() {
                       return (
                         <TableRow
                           key={orderId || index}
-                          className="cursor-pointer transition-colors hover:bg-muted/50"
+                          className="group cursor-pointer transition-colors hover:bg-muted/50"
                         >
                           <TableCell
                             className="cursor-pointer font-mono text-sm font-medium text-foreground"
@@ -202,10 +313,10 @@ export default function Orders() {
                           </TableCell>
 
                           <TableCell
-                            className="cursor-pointer whitespace-nowrap text-muted-foreground"
+                            className="cursor-pointer whitespace-nowrap tabular-nums text-muted-foreground"
                             onClick={() => handleOpenDetails(order)}
                           >
-                            {formatDisplayDate(order?.createdAt) ||
+                            {formatDisplayDate(order?.createdAt, i18n.language) ||
                               t("orders.notAvailable")}
                           </TableCell>
 
@@ -217,24 +328,26 @@ export default function Orders() {
                           </TableCell>
 
                           <TableCell
-                            className="cursor-pointer"
+                            className="cursor-pointer text-muted-foreground"
                             onClick={() => handleOpenDetails(order)}
                           >
-                            <Badge
-                              variant="outline"
-                              className="border-transparent bg-warning-bg px-2 py-0.5 text-[10px] font-bold text-warning"
-                            >
-                              {order?.paymentStatus
-                                ? t(
-                                    `orders.paymentStatus.${order.paymentStatus.toLowerCase()}`,
-                                    { defaultValue: order.paymentStatus },
-                                  )
-                                : t("orders.notAvailable")}
-                            </Badge>
+                            {order?.paymentMethod
+                              ? t(
+                                  `orders.paymentMethods.${order.paymentMethod.toLowerCase()}`,
+                                  { defaultValue: order.paymentMethod },
+                                )
+                              : t("orders.notAvailable")}
                           </TableCell>
 
                           <TableCell
-                            className="cursor-pointer font-display font-bold tabular-nums text-foreground"
+                            className="cursor-pointer"
+                            onClick={() => handleOpenDetails(order)}
+                          >
+                            <PaymentStatusBadge status={order?.paymentStatus} />
+                          </TableCell>
+
+                          <TableCell
+                            className="cursor-pointer text-end font-bold tabular-nums text-foreground"
                             onClick={() => handleOpenDetails(order)}
                           >
                             {formatCurrency(order?.totalPrice, ORDER_CURRENCY, locale)}

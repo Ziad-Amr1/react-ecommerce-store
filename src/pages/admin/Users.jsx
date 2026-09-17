@@ -1,5 +1,6 @@
+import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
-import { Plus, RefreshCw, Search, X } from "lucide-react";
+import { Plus, RefreshCw, Search, ShieldCheck, UserCheck, Users as UsersIcon, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import {
@@ -18,6 +19,7 @@ import DeleteUserDialog from "@/features/admin/users/components/DeleteUserDialog
 import UserDetailsDialog from "@/features/admin/users/components/UserDetailsDialog";
 import AdminPageHeader from "@/features/admin/components/AdminPageHeader";
 import AdminErrorState from "@/features/admin/components/AdminErrorState";
+import StatCard from "@/features/admin/dashboard/components/StatCard";
 
 export default function Users() {
   const { t, i18n } = useTranslation();
@@ -57,33 +59,68 @@ export default function Users() {
     reload,
   } = useUsers();
 
+  const customerCount = useMemo(
+    () => filteredSortedUsers.filter((u) => u?.role === "customer").length,
+    [filteredSortedUsers],
+  );
+  const adminCount = useMemo(
+    () => filteredSortedUsers.filter((u) => u?.role === "admin").length,
+    [filteredSortedUsers],
+  );
+
+  const kpis = [
+    {
+      id: "total",
+      title: t("users.kpis.totalUsers", { defaultValue: "Total Users" }),
+      description: t("users.kpis.totalUsersDesc", { defaultValue: "All registered accounts" }),
+      value: formatNumber(filteredSortedUsers.length, locale),
+      icon: UsersIcon,
+    },
+    {
+      id: "customers",
+      title: t("users.kpis.customers", { defaultValue: "Customers" }),
+      description: t("users.kpis.customersDesc", { defaultValue: "Standard store shoppers" }),
+      value: formatNumber(customerCount, locale),
+      icon: UserCheck,
+    },
+    {
+      id: "admins",
+      title: t("users.kpis.admins", { defaultValue: "Administrators" }),
+      description: t("users.kpis.adminsDesc", { defaultValue: "Privileged admin roles" }),
+      value: formatNumber(adminCount, locale),
+      icon: ShieldCheck,
+    },
+  ];
+
   return (
     <div className="space-y-6">
       <AdminPageHeader
-        kicker={t("users.subtitle")}
+        kicker={t("users.subtitle", { defaultValue: "Account Governance" })}
         title={t("users.title")}
-        statistics={[
-          {
-            id: "total",
-            label: t("adminTable.total"),
-            value: formatNumber(filteredSortedUsers.length, locale),
-          },
-          {
-            id: "page",
-            label: t("adminTable.page"),
-            value: `${formatNumber(currentPage, locale)} / ${formatNumber(totalPages, locale)}`,
-          },
-        ]}
+        description={t("users.description", { defaultValue: "Manage registered user accounts, system roles, and customer access." })}
         action={
           <Button
             onClick={() => setIsAddOpen(true)}
-            className="w-full cursor-pointer sm:w-auto"
+            className="w-full cursor-pointer sm:w-auto gap-2"
           >
             <Plus className="size-4" aria-hidden="true" />
             {t("users.addUser")}
           </Button>
         }
       />
+
+      <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">
+        {kpis.map((kpi) => (
+          <StatCard
+            key={kpi.id}
+            title={kpi.title}
+            description={kpi.description}
+            value={kpi.value}
+            icon={kpi.icon}
+            className="gap-0 py-4"
+          />
+        ))}
+      </div>
 
       <div className="flex flex-col gap-3 sm:flex-row sm:items-center">
         <div className="relative flex-1">
@@ -131,8 +168,8 @@ export default function Users() {
           onRetry={retry}
           retryLabel={t("users.retry")}
           retryIcon={<RefreshCw className="size-4" aria-hidden="true" />}
-          className="rounded-xl border border-error bg-error-bg"
-          iconClassName="bg-error text-surface"
+          className="rounded-xl border border-(--color-error) bg-(--color-error-bg)"
+          iconClassName="bg-(--color-error) text-(--color-surface)"
         />
       ) : (
         <UsersTable

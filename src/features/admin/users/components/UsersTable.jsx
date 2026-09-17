@@ -66,7 +66,7 @@ export default function UsersTable({
   return (
     <div className="overflow-hidden rounded-xl border border-(--color-border) bg-card shadow-sm">
       {isLoading ? (
-        <Table>
+        <Table edgePadding>
           <SortableTableHeader
             columns={columns}
             sortKey={sortKey}
@@ -88,7 +88,7 @@ export default function UsersTable({
         />
       ) : (
         <div className="w-full overflow-x-auto">
-          <Table className="min-w-[680px]">
+          <Table edgePadding className="min-w-[680px]">
             <SortableTableHeader
               columns={columns}
               sortKey={sortKey}

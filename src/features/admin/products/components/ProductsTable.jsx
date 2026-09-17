@@ -16,23 +16,13 @@ import {
 } from "@/components/ui/tooltip";
 import { formatCurrency, CURRENCIES } from "@/utils/formatCurrency";
 import { formatNumber } from "@/utils/formatNumber";
-import { STOCK_OK_THRESHOLD, STOCK_WARNING_THRESHOLD } from "../constants";
+import { stockClass } from "./stockClass";
 import ProductThumb from "./ProductThumb";
 import RowActionsMenu from "@/features/admin/components/RowActionsMenu";
 import TableSkeletonRows from "@/features/admin/components/TableSkeletonRows";
 import AdminTableEmptyState from "@/features/admin/components/AdminTableEmptyState";
 import AdminTableFooter from "@/features/admin/components/AdminTableFooter";
 import SortableTableHeader from "@/features/admin/components/SortableTableHeader";
-
-function stockClass(stock) {
-  if (stock > STOCK_OK_THRESHOLD) {
-    return "text-success";
-  }
-  if (stock > STOCK_WARNING_THRESHOLD) {
-    return "text-warning";
-  }
-  return "text-error";
-}
 
 function TruncateWithTooltip({ value, className }) {
   return (
@@ -76,16 +66,16 @@ export default function ProductsTable({
 
   const columns = [
     { key: "product", label: t("products.columns.product"), sortable: true, sortKey: "name" },
-    { key: "category", label: t("products.columns.category") },
-    { key: "brand", label: t("products.columns.brand") },
+    { key: "category", label: t("products.columns.category"), sortable: true, sortKey: "category" },
+    { key: "brand", label: t("products.columns.brand"), sortable: true, sortKey: "brand" },
     { key: "price", label: t("products.columns.price"), align: "end", sortable: true, sortKey: "price" },
-    { key: "stock", label: t("products.columns.stock"), align: "end" },
+    { key: "stock", label: t("products.columns.stock"), align: "end", sortable: true, sortKey: "stock" },
     { key: "actions", label: t("products.columns.actions"), align: "end" },
   ];
 
   return (
     <div className="overflow-hidden rounded-lg border bg-card shadow-sm">
-      <Table density="compact">
+      <Table density="compact" edgePadding>
         <SortableTableHeader
           columns={columns}
           sortKey={sortKey}

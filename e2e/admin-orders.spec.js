@@ -12,8 +12,11 @@ test.describe("Admin Orders", () => {
   test("page renders with title and total-orders statistic", async ({ page }) => {
     await page.goto("/admin/orders");
     await expect(page.getByRole("heading", { name: "Orders" })).toBeVisible();
-    await expect(page.locator("dt").filter({ hasText: "Total Orders" })).toBeVisible();
-    await expect(page.locator("dd").filter({ hasText: "16" })).toBeVisible();
+    const totalOrdersKpi = page
+      .getByText("Total Orders")
+      .locator("xpath=ancestor::div[contains(@class, 'h-full')]");
+    await expect(totalOrdersKpi).toBeVisible();
+    await expect(totalOrdersKpi.getByText("16")).toBeVisible();
   });
 
   test("status filter sends the correct query param", async ({ page }) => {
@@ -136,6 +139,6 @@ test.describe("Admin Orders", () => {
     await expect(page.locator("html")).toHaveAttribute("dir", "rtl");
     await expect(page.locator("html")).toHaveAttribute("lang", "ar");
     await expect(page.getByRole("heading", { name: "الطلبات" })).toBeVisible();
-    await expect(page.locator("dt").filter({ hasText: "إجمالي الطلبات" })).toBeVisible();
+    await expect(page.getByText("إجمالي الطلبات")).toBeVisible();
   });
 });

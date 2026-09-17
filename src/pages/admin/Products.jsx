@@ -1,6 +1,7 @@
+import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router";
-import { SlidersHorizontal } from "lucide-react";
+import { AlertTriangle, CheckCircle2, Package, PackageX, Plus, SlidersHorizontal } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { formatNumber } from "@/utils/formatNumber";
 import useProducts from "@/features/admin/products/useProducts";
@@ -10,6 +11,11 @@ import ProductsTable from "@/features/admin/products/components/ProductsTable";
 import DeleteProductDialog from "@/features/admin/products/components/DeleteProductDialog";
 import AdminPageHeader from "@/features/admin/components/AdminPageHeader";
 import AdminErrorState from "@/features/admin/components/AdminErrorState";
+import StatCard from "@/features/admin/dashboard/components/StatCard";
+import {
+  STOCK_OK_THRESHOLD,
+  STOCK_WARNING_THRESHOLD,
+} from "@/features/admin/products/constants";
 
 export default function Products() {
   const { t, i18n } = useTranslation();
@@ -46,6 +52,54 @@ export default function Products() {
     handleDelete,
   } = useProducts();
 
+  const inStockCount = useMemo(
+    () => products.filter((p) => Number(p?.stock) > STOCK_OK_THRESHOLD).length,
+    [products],
+  );
+  const lowStockCount = useMemo(
+    () =>
+      products.filter((p) => {
+        const stock = Number(p?.stock);
+        return stock > STOCK_WARNING_THRESHOLD && stock <= STOCK_OK_THRESHOLD;
+      }).length,
+    [products],
+  );
+  const outOfStockCount = useMemo(
+    () => products.filter((p) => Number(p?.stock) <= STOCK_WARNING_THRESHOLD).length,
+    [products],
+  );
+
+  const kpis = [
+    {
+      id: "total",
+      title: t("products.kpis.totalProducts", { defaultValue: "Total Products" }),
+      description: t("products.kpis.totalProductsDesc", { defaultValue: "Active & inactive catalog items" }),
+      value: formatNumber(products.length, locale),
+      icon: Package,
+    },
+    {
+      id: "inStock",
+      title: t("products.kpis.inStock", { defaultValue: "In Stock" }),
+      description: t("products.kpis.inStockDesc", { defaultValue: "Well supplied (>20 units)" }),
+      value: formatNumber(inStockCount, locale),
+      icon: CheckCircle2,
+    },
+    {
+      id: "lowStock",
+      title: t("products.kpis.lowStock", { defaultValue: "Low Stock" }),
+      description: t("products.kpis.lowStockDesc", { defaultValue: "Restock recommended (6–20 units)" }),
+      value: formatNumber(lowStockCount, locale),
+      icon: AlertTriangle,
+    },
+    {
+      id: "outOfStock",
+      title: t("products.kpis.outOfStock", { defaultValue: "Out of Stock" }),
+      description: t("products.kpis.outOfStockDesc", { defaultValue: "Depleted stock (≤5 units)" }),
+      value: formatNumber(outOfStockCount, locale),
+      icon: PackageX,
+    },
+  ];
+
   if (error && !isLoading) {
     return (
       <div className="p-4">
@@ -61,31 +115,33 @@ export default function Products() {
   }
 
   return (
-    <div>
+    <div className="space-y-6">
       <AdminPageHeader
+        kicker={t("products.subtitle", { defaultValue: "Inventory Management" })}
         title={t("products.title")}
-        description={t("products.description")}
-        className="mb-4"
-        statistics={[
-          {
-            id: "page",
-            label: t("adminTable.page"),
-            value: `${formatNumber(currentPage, locale)} / ${formatNumber(totalPages, locale)}`,
-          },
-          {
-            id: "records",
-            label: t("adminTable.records"),
-            value: formatNumber(products.length, locale),
-          },
-        ]}
+        description={t("products.description", { defaultValue: "Manage your product catalog, stock levels, categories, and pricing." })}
         action={
-          <Button onClick={() => navigate("/admin/products/add")}>
+          <Button onClick={() => navigate("/admin/products/add")} className="gap-2">
+            <Plus className="size-4" aria-hidden="true" />
             {t("products.addProduct")}
           </Button>
         }
       />
 
-      <div className="mb-6 space-y-4">
+      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
+        {kpis.map((kpi) => (
+          <StatCard
+            key={kpi.id}
+            title={kpi.title}
+            description={kpi.description}
+            value={kpi.value}
+            icon={kpi.icon}
+            className="gap-0 py-4"
+          />
+        ))}
+      </div>
+
+      <div className="space-y-4">
         <div className="flex w-full flex-col gap-3 md:flex-row">
           <ProductSearch
             search={search}

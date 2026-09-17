@@ -1,10 +1,11 @@
 import { Link, useLocation } from "react-router";
 import { useTranslation } from "react-i18next";
-import { Moon, Sun, ShoppingCart, UserRound } from "lucide-react";
+import { Moon, Sun, ShoppingCart, UserRound, Heart } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import useAuth from "@/hooks/useAuth";
 import useCart from "@/hooks/useCart";
 import useTheme from "@/hooks/useTheme";
+import { useWishlist } from "@/contexts/WishlistContext";
 import ComingSoonButton from "@/features/landing/components/ComingSoonButton";
 import { formatItemCount } from "@/features/cart/cartUtils";
 import LanguageSwitcher from "./LanguageSwitcher";
@@ -14,12 +15,16 @@ export default function StoreHeader() {
   const { theme, toggleTheme } = useTheme();
   const { user } = useAuth();
   const { cart } = useCart();
+  const { wishlistItems } = useWishlist();
   const { pathname } = useLocation();
   const isDark = theme === "dark";
   const isAdmin = user?.role === "admin";
   const isHomeActive = pathname === "/";
   const isProductsActive = pathname.startsWith("/products");
   const isCartActive = pathname.startsWith("/cart");
+  const isWishlistActive = pathname.startsWith("/wishlist");
+
+  const wishlistCount = Array.isArray(wishlistItems) ? wishlistItems.length : 0;
 
   return (
     <header className="sticky top-0 z-(--z-nav) border-b bg-(--color-surface)">
@@ -108,6 +113,34 @@ export default function StoreHeader() {
             )}
           </Button>
 
+          {/* Wishlist Icon Button */}
+          <Button
+            asChild
+            variant="outline"
+            size="icon"
+            className="rounded-full cursor-pointer"
+            aria-current={isWishlistActive ? "page" : undefined}
+          >
+            <Link
+              to="/wishlist"
+              aria-label={
+                wishlistCount > 0
+                  ? t("store.header.wishlistWithCount", { count: wishlistCount, defaultValue: `Wishlist, ${wishlistCount} items` })
+                  : t("store.header.wishlist", { defaultValue: "Wishlist" })
+              }
+              title={t("store.header.wishlist", { defaultValue: "Wishlist" })}
+              className={`relative ${isWishlistActive ? "text-(--color-primary)" : ""}`}
+            >
+              <Heart size={20} aria-hidden="true" />
+              {wishlistCount > 0 && (
+                <span className="pointer-events-none absolute -top-2 -end-2 z-10 flex h-5 min-w-5 items-center justify-center rounded-full bg-(--color-primary) px-1 text-[10px] font-bold leading-none tabular-nums text-white ring-2 ring-(--color-surface)">
+                  {formatItemCount(wishlistCount)}
+                </span>
+              )}
+            </Link>
+          </Button>
+
+          {/* Cart Icon Button */}
           <Button
             asChild
             variant="outline"

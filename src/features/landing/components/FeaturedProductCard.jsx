@@ -1,15 +1,13 @@
 import { Link } from "react-router";
 import { Heart, PackageOpen, Star } from "lucide-react";
 import { useTranslation } from "react-i18next";
+import { useState } from "react";
+import { toast } from "sonner";
 import { formatCurrency } from "@/utils/formatCurrency";
 import { formatNumber } from "@/utils/formatNumber";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipTrigger,
-} from "@/components/ui/tooltip";
+import { useWishlist } from "@/contexts/WishlistContext";
 
 const CURRENCY = "USD"; // TODO: hoist to shared config — third copy of this
 
@@ -27,8 +25,8 @@ function discountPercent(product) {
 }
 
 /* Partial-fill stars (Amazon/Google style): a row of outline stars with a
-   clipped row of filled stars layered on top. The clip is anchored to the
-   start edge, so it mirrors correctly in RTL. */
+    clipped row of filled stars layered on top. The clip is anchored to the
+    start edge, so it mirrors correctly in RTL. */
 function Stars({ rating, label }) {
   const clamped = Math.min(Math.max(rating, 0), 5);
 
@@ -61,6 +59,33 @@ function Stars({ rating, label }) {
 
 export default function FeaturedProductCard({ product }) {
   const { t, i18n } = useTranslation();
+  const { isInWishlist, addToWishlist, removeFromWishlist } = useWishlist();
+  const [isWishlistLoading, setIsWishlistLoading] = useState(false);
+
+  const productId = product._id || product.id;
+  const isFavorite = isInWishlist(productId);
+
+  const handleWishlistClick = async (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    if (isWishlistLoading) return;
+
+    try {
+      setIsWishlistLoading(true);
+      if (isFavorite) {
+        await removeFromWishlist(productId);
+        toast.success(t("wishlist.removed", "Removed from wishlist"));
+      } else {
+        await addToWishlist(productId);
+        toast.success(t("wishlist.added", "Added to wishlist"));
+      }
+    } catch (err) {
+      console.error("Failed to update wishlist", err);
+      toast.error(t("wishlist.error", "Failed to update wishlist"));
+    } finally {
+      setIsWishlistLoading(false);
+    }
+  };
 
   const name = product.name || t("landing.featured.untitled");
   const image = product.images?.[0]?.url;
@@ -81,7 +106,7 @@ export default function FeaturedProductCard({ product }) {
           It carries the accessible name, so the img below is decorative
           (alt="") — the name is read once, not twice. */}
       <Link
-        to={`/products/${product._id}`}
+        to={`/products/${productId}`}
         aria-label={t("landing.featured.cardAriaLabel", { name })}
         className="absolute inset-0 z-10 rounded-xl focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-(--color-focus-ring)"
       />
@@ -111,28 +136,28 @@ export default function FeaturedProductCard({ product }) {
         )}
       </div>
 
-      {/* Wishlist — disabled until the real wishlist API exists. A heart
-          that toggles locally but doesn't persist would mislead users. */}
-      <Tooltip>
-        <TooltipTrigger asChild>
-          <span className="absolute end-2 top-2 z-20">
-            <Button
-              type="button"
-              variant="ghost"
-              size="icon-sm"
-              disabled
-              aria-label={t("landing.featured.toggleWishlist", { name })}
-              className="cursor-not-allowed bg-(--color-surface)/80 backdrop-blur-sm opacity-60 hover:bg-(--color-surface)"
-            >
-              <Heart aria-hidden="true" />
-            </Button>
-          </span>
-        </TooltipTrigger>
-
-        <TooltipContent side="top">
-          <p className="text-xs">{t("landing.comingSoon")}</p>
-        </TooltipContent>
-      </Tooltip>
+      {/* Wishlist Button */}
+      <div className="absolute end-2 top-2 z-20">
+        <Button
+          type="button"
+          variant="ghost"
+          size="icon-sm"
+          onClick={handleWishlistClick}
+          disabled={isWishlistLoading}
+          style={{ cursor: isWishlistLoading ? 'wait' : 'pointer' }}
+          aria-label={t("landing.featured.toggleWishlist", { name })}
+          className={`cursor-pointer bg-(--color-surface)/80 backdrop-blur-sm hover:bg-(--color-surface) ${
+            isFavorite ? "text-red-500 hover:text-red-600" : "text-muted-foreground"
+          }`}
+        >
+          <Heart
+            aria-hidden="true"
+            className={`transition-colors size-4 ${
+              isFavorite ? "fill-red-500 text-red-500" : ""
+            }`}
+          />
+        </Button>
+      </div>
 
       {/* Body — pointer-events-none so the stretched link handles clicks */}
       <div className="pointer-events-none flex flex-1 flex-col gap-2 p-3 sm:gap-3 sm:p-4">

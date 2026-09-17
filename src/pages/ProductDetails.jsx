@@ -18,6 +18,7 @@ import { formatCurrency } from "@/utils/formatCurrency";
 import { formatNumber } from "@/utils/formatNumber";
 import useProductDetails from "@/features/products/useProductDetails";
 import useCart from "@/hooks/useCart";
+import { useWishlist } from "@/contexts/WishlistContext";
 import Stars from "@/features/products/components/ProductRating";
 import ProductSkeleton from "@/features/products/components/ProductCardSkeleton";
 import {
@@ -28,12 +29,43 @@ import {
 
 export default function ProductDetails() {
   const navigate = useNavigate();
-  const { t } = useTranslation();
   const { id } = useParams();
+  const { t } = useTranslation();
+
   const { product, isLoading, error, retry } = useProductDetails(id);
   const { addItem } = useCart();
+  
+  // تفعيل دوال وحالة الـ Wishlist
+  const { addToWishlist, removeFromWishlist, isInWishlist } = useWishlist();
+  const [isWishlistLoading, setIsWishlistLoading] = useState(false);
+
   const [selectedImage, setSelectedImage] = useState(0);
   const [isAdding, setIsAdding] = useState(false);
+
+  // معرف المنتج الفعلي
+  const productId = product?._id || product?.id || id;
+  const isFav = productId ? isInWishlist(productId) : false;
+
+  // دالة التعامل مع زر المفضلة
+  const handleWishlistToggle = async () => {
+    if (isWishlistLoading || !productId) return;
+
+    try {
+      setIsWishlistLoading(true);
+      if (isFav) {
+        await removeFromWishlist(productId);
+        toast.success(t("wishlist.removed", { defaultValue: "Removed from wishlist" }));
+      } else {
+        await addToWishlist(productId);
+        toast.success(t("wishlist.added", { defaultValue: "Added to wishlist" }));
+      }
+    } catch (err) {
+      console.error("Wishlist error details:", err);
+      toast.error(t("wishlist.error", { defaultValue: "Something went wrong" }));
+    } finally {
+      setIsWishlistLoading(false);
+    }
+  };
 
   if (isLoading) {
     return (
@@ -113,8 +145,6 @@ export default function ProductDetails() {
     ? Math.round(((product.price - product.discountPrice) / product.price) * 100)
     : null;
 
-  // The catalog API exposes no rating fields yet; only render the row when
-  // the product actually carries a rating.
   const rating = Number(product.averageRating) || 0;
   const reviewsCount = Number(product.numReviews) || 0;
   const hasRating = rating > 0;
@@ -337,6 +367,7 @@ export default function ProductDetails() {
                   {isOutOfStock ? t("shop.outOfStock") : t("shop.addToCart")}
                 </Button>
 
+                {/* Wishlist Action Button */}
                 <Tooltip>
                   <TooltipTrigger asChild>
                     <span>
@@ -344,17 +375,26 @@ export default function ProductDetails() {
                         type="button"
                         variant="outline"
                         size="icon"
-                        disabled
-                        aria-label={t("shop.addToWishlist")}
-                        className="cursor-not-allowed rounded-xl border-[var(--color-border)] bg-[var(--color-surface)] text-[var(--color-text-primary)] opacity-60 hover:bg-[var(--color-surface-secondary)]"
+                        onClick={handleWishlistToggle}
+                        disabled={isWishlistLoading}
+                        aria-label={isFav ? t("shop.removeFromWishlist", { defaultValue: "Remove from wishlist" }) : t("shop.addToWishlist")}
+                        className={`rounded-xl border-[var(--color-border)] bg-[var(--color-surface)] ${
+                          isFav ? "text-red-500 hover:text-red-600" : "text-[var(--color-text-primary)]"
+                        } hover:bg-[var(--color-surface-secondary)]`}
                       >
-                        <Heart aria-hidden="true" />
+                        {isWishlistLoading ? (
+                          <LoaderCircle className="size-4 animate-spin" aria-hidden="true" />
+                        ) : (
+                          <Heart aria-hidden="true" className={isFav ? "fill-current text-red-500" : ""} />
+                        )}
                       </Button>
                     </span>
                   </TooltipTrigger>
 
                   <TooltipContent side="top">
-                    <p className="text-xs">{t("shop.comingSoon")}</p>
+                    <p className="text-xs">
+                      {isFav ? t("shop.removeFromWishlist", { defaultValue: "Remove from wishlist" }) : t("shop.addToWishlist")}
+                    </p>
                   </TooltipContent>
                 </Tooltip>
               </div>

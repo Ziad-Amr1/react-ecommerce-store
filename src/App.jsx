@@ -22,18 +22,21 @@ import NotFound from "./pages/NotFound.jsx";
 import ProtectedRoute from "./ProtectedRoute.jsx";
 import Shop from "./pages/Shop.jsx";
 import Cart from "./pages/Cart.jsx";
+import Wishlist from "./pages/Wishlist.jsx";
+import { WishlistProvider } from "./contexts/WishlistContext"; 
 
 const DesignSystem = lazy(() => import("./pages/DesignSystem"));
 
 function App() {
   return (
-    <>
+    <WishlistProvider>
       <Routes>
         <Route element={<StoreLayout />}>
           <Route path="/" element={<Landing />} />
           <Route path="/products" element={<Shop />} />
           <Route path="/products/:id" element={<StoreProductDetails />} />
           <Route path="/cart" element={<Cart />} />
+          <Route path="/wishlist" element={<Wishlist />} />
           <Route path="/profile" element={<Profile />} />
         </Route>
         <Route
@@ -78,7 +81,7 @@ function App() {
         {/* End of Protected Admin Routes  */}
         <Route path="*" element={<NotFound />} />
       </Routes>
-    </>
+    </WishlistProvider>
   );
 }
 

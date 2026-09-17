@@ -1,15 +1,17 @@
 import { Link } from "react-router";
 import { Heart, PackageOpen, Star } from "lucide-react";
 import { useTranslation } from "react-i18next";
+
 import { useState } from "react";
 import { toast } from "sonner";
 import { formatCurrency } from "@/utils/formatCurrency";
+
+import { formatCurrency, CURRENCIES } from "@/utils/formatCurrency";
+
 import { formatNumber } from "@/utils/formatNumber";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { useWishlist } from "@/contexts/WishlistContext";
-
-const CURRENCY = "USD"; // TODO: hoist to shared config — third copy of this
 
 const STAR_SLOTS = [1, 2, 3, 4, 5];
 
@@ -130,7 +132,7 @@ export default function FeaturedProductCard({ product }) {
         )}
 
         {discount !== null && (
-          <Badge className="absolute start-2 top-2 max-w-[calc(100%-1rem)] truncate bg-(--color-error) px-2 text-xs tabular-nums text-on-error">
+          <Badge className="absolute start-2 top-2 max-w-[calc(100%-1rem)] truncate bg-(--color-error) px-2 text-xs tabular-nums text-(--color-on-error)">
             {t("landing.featured.discountOff", { percent: discount })}
           </Badge>
         )}
@@ -183,12 +185,12 @@ export default function FeaturedProductCard({ product }) {
 
         <div className="mt-auto flex min-w-0 flex-wrap items-baseline gap-x-2 gap-y-1 pt-1 sm:gap-x-3">
           <span className="font-display text-base font-bold tabular-nums text-foreground sm:text-xl">
-            {formatCurrency(currentPrice, CURRENCY, i18n.language)}
+            {formatCurrency(currentPrice, CURRENCIES.EGP, i18n.language)}
           </span>
 
           {discount !== null && (
             <span className="text-xs tabular-nums text-muted-foreground line-through sm:text-sm">
-              {formatCurrency(price, CURRENCY, i18n.language)}
+              {formatCurrency(price, CURRENCIES.EGP, i18n.language)}
             </span>
           )}
         </div>

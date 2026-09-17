@@ -1,0 +1,914 @@
+{
+  "common": {
+    "loading": "Загрузка...",
+    "checkingSession": "Проверка сессии...",
+    "yes": "Да",
+    "no": "Нет"
+  },
+  "brand": {
+    "logoAlt": "Логотип Oversea Store",
+    "name": "Oversea Store"
+  },
+  "navigation": {
+    "menu": {
+      "open": "Открыть меню навигации",
+      "close": "Закрыть меню навигации"
+    },
+    "adminPanel": "Панель администратора",
+    "backToStore": "Назад в магазин",
+    "dashboardTitle": "Панель Oversea",
+    "dashboardSubtitle": "Панель управления e-commerce",
+    "dashboard": "Панель управления",
+    "products": "Товары",
+    "categories": "Категории",
+    "orders": "Заказы",
+    "users": "Пользователи",
+    "carts": "Корзины",
+    "reviews": "Отзывы",
+    "wishlists": "Списки желаний",
+    "coupons": "Купоны",
+    "reports": "Отчеты и аналитика",
+    "settings": "Настройки",
+    "notifications": "Уведомления",
+    "notificationsPanel": {
+      "title": "Уведомления",
+      "emptyTitle": "Пока нет уведомлений",
+      "emptyMessage": "Когда у вас появятся уведомления, они отобразятся здесь."
+    },
+    "toggleTheme": "Переключить тему",
+    "theme": {
+      "switchToDark": "Переключить на темную тему",
+      "switchToLight": "Переключить на светлую тему"
+    },
+    "collapseSidebar": "Свернуть боковую панель",
+    "expandSidebar": "Развернуть боковую панель",
+    "account": "Аккаунт",
+    "accountDropdown": "Меню аккаунта",
+    "roleAdmin": "Админ",
+    "apiChecking": "Проверка API…",
+    "apiOnline": "API онлайн",
+    "apiUnavailable": "API недоступен",
+    "apiLabel": "E-commerce API"
+  },
+  "languages": {
+    "switcherLabel": "Выберите язык",
+    "en": "English",
+    "ar": "العربية",
+    "fr": "Французский",
+    "ru": "Русский"
+  },
+  "notifications": {
+    "title": "Уведомления",
+    "unread": "непрочитано",
+    "description": "Будьте в курсе последних обновлений заказов, предложений и оповещений аккаунта.",
+    "markAllRead": "Отметить все как прочитанные",
+    "clearAll": "Очистить все",
+    "empty": "Пока нет уведомлений",
+    "emptyDescription": "Когда вы получите обновления заказов, акции или оповещения безопасности, они появятся здесь.",
+    "markUnread": "Отметить как непрочитанное",
+    "markRead": "Отметить как прочитанное",
+    "viewAll": "Посмотреть все уведомления",
+    "tabs": {
+      "all": "Все",
+      "unread": "Непрочитанные"
+    },
+    "items": {
+      "orderShipped": "Заказ отправлен",
+      "orderShippedDesc": "Заказ #ORD-8921 отправлен и находится в пути!",
+      "saleAlert": "Весеннее предложение",
+      "saleAlertDesc": "Скидки до 30% на все товары электроники сегодня!",
+      "securityAlert": "Предупреждение безопасности",
+      "securityAlertDesc": "Пароль вашего аккаунта был успешно обновлен.",
+      "welcome": "Приветственный бонус",
+      "welcomeDesc": "Добро пожаловать в наш магазин! Бесплатная доставка вашего первого заказа.",
+      "orderShippedTime": "2 часа назад",
+      "saleAlertTime": "5 часов назад",
+      "securityAlertTime": "1 день назад",
+      "welcomeTime": "3 дня назад"
+    }
+  },
+  "auth": {
+    "password": {
+      "show": "Показать пароль",
+      "hide": "Скрыть пароль"
+    },
+    "back": {
+      "toPrevious": "Назад"
+    },
+    "login": {
+      "heroTitle": "Лучшие покупки начинаются здесь",
+      "heroSubtitle": "Покупайте, отслеживайте заказы и управляйте аккаунтом с легкостью.",
+      "title": "С возвращением",
+      "subtitle": "Войдите в панель управления администратора",
+      "emailLabel": "Электронная почта",
+      "emailPlaceholder": "admin@gmail.com",
+      "passwordLabel": "Пароль",
+      "passwordPlaceholder": "••••••••",
+      "submit": "Войти",
+      "submitting": "Вход...",
+      "forgotPassword": "Забыли пароль?",
+      "noAccount": "Нет аккаунта?",
+      "signUp": "Зарегистрироваться"
+    },
+    "forgetPassword": {
+      "title": "Забыли пароль?",
+      "subtitle": "Введите ваш email, и мы отправим вам код подтверждения.",
+      "emailLabel": "Электронная почта",
+      "emailPlaceholder": "admin@gmail.com",
+      "submit": "Отправить код OTP",
+      "submitting": "Отправка...",
+      "failed": "Не удалось отправить код. Попробуйте снова.",
+      "backToLogin": "Назад к входу"
+    },
+    "verifyOtp": {
+      "title": "Подтверждение кода",
+      "subtitle": "Введите 6-значный код, отправленный на {{email}}, и задайте новый пароль.",
+      "otpLabel": "Код подтверждения",
+      "otpPlaceholder": "123456",
+      "newPasswordLabel": "Новый пароль",
+      "newPasswordPlaceholder": "••••••••",
+      "submit": "Сбросить пароль",
+      "submitting": "Сброс пароля...",
+      "failed": "Сброс не удался. Попробуйте снова.",
+      "backToForgot": "Назад к сбросу пароля",
+      "successTitle": "Пароль обновлен",
+      "successMessage": "Ваш пароль успешно сброшен.",
+      "goToLogin": "Перейти к входу"
+    },
+    "register": {
+      "title": "Создать аккаунт",
+      "subtitle": "Зарегистрируйтесь, чтобы начать",
+      "usernameLabel": "Имя пользователя",
+      "usernamePlaceholder": "johndoe",
+      "emailLabel": "Электронная почта",
+      "emailPlaceholder": "you@example.com",
+      "phoneLabel": "Номер телефона (необязательно)",
+      "phonePlaceholder": "+201234567890",
+      "passwordLabel": "Пароль",
+      "passwordPlaceholder": "••••••••",
+      "passwordHint": "Должен быть не менее 6 символов.",
+      "confirmPasswordLabel": "Подтвердите пароль",
+      "confirmPasswordPlaceholder": "••••••••",
+      "submit": "Создать аккаунт",
+      "submitting": "Создание аккаунта...",
+      "failed": "Регистрация не удалась.",
+      "alreadyHaveAccount": "Уже есть аккаунт?",
+      "signIn": "Войти"
+    },
+    "registerVerifyOtp": {
+      "title": "Подтвердите ваш email",
+      "subtitle": "Введите 6-значный код, отправленный на {{email}}.",
+      "otpLabel": "Код подтверждения",
+      "otpPlaceholder": "123456",
+      "submit": "Подтвердить и создать",
+      "submitting": "Проверка...",
+      "failed": "Проверка не удалась.",
+      "backToRegister": "Назад к регистрации",
+      "successTitle": "Аккаунт создан",
+      "successMessage": "Ваш аккаунт успешно создан.",
+      "goToLogin": "Перейти к входу"
+    },
+    "benefits": {
+      "products": "Легкие покупки",
+      "orders": "Отслеживание заказов",
+      "customers": "Безопасный аккаунт"
+    },
+    "logout": {
+      "label": "Выйти",
+      "loading": "Выход...",
+      "loadingLabel": "Выход"
+    },
+    "errors": {
+      "invalidCredentials": "Неверный email или пароль",
+      "logoutFailed": "Не удалось выйти. Попробуйте снова."
+    }
+  },
+  "validation": {
+    "emailRequired": "Email обязателен",
+    "emailInvalid": "Введите корректный email",
+    "passwordRequired": "Пароль обязателен",
+    "passwordMin": "Пароль должен быть не менее {{count}} символов",
+    "confirmPasswordRequired": "Подтвердите пароль",
+    "confirmPasswordMismatch": "Пароли не совпадают",
+    "otpRequired": "Введите 6-значный код",
+    "usernameRequired": "Имя пользователя обязательно",
+    "usernameMin": "Имя пользователя должно быть не менее {{count}} символов",
+    "phoneInvalid": "Введите корректный номер телефона"
+  },
+  "home": {
+    "title": "Главная страница магазина",
+    "description": "Добро пожаловать в Oversea Store.",
+    "login": "Войти",
+    "designSystem": "Дизайн-система",
+    "comingSoon": "Эта функция пока недоступна."
+  },
+  "shop": {
+    "title": "Магазин",
+    "off": "% скидка",
+    "separator": "·",
+    "productRatingLabel": "{{rating}} из 5 звезд, {{reviewsCount}} отзывов",
+    "inStock": "В наличии",
+    "runningLow": "осталось только {{count}}",
+    "outOfStock": "Нет в наличии",
+    "addToCart": "В корзину",
+    "details": "Детали",
+    "results": "Результаты ({{count}})",
+    "showing": "Показано {{count}} товаров",
+    "untitledProduct": "Товар без названия",
+    "image": "изображение",
+    "addToWishlist": "В избранное",
+    "comingSoon": "Скоро появится.",
+    "subtitle": "Исследуйте наши товары и эксклюзивные предложения",
+    "pagePrevious": "Назад",
+    "pageNext": "Вперед",
+    "pagePreviousAria": "Предыдущая страница",
+    "pageNextAria": "Следующая страница",
+    "pageOf": "Страница {{current}} из {{total}}",
+    "viewGrid": "Сетка",
+    "viewList": "Список",
+    "clearSearch": "Очистить поиск",
+    "viewDetails": "Посмотреть детали {{name}}",
+    "filterCategory": "Категория:",
+    "filterPrice": "Цена:",
+    "filterSort": "Сортировка:",
+    "filterSearch": "Поиск:",
+    "filterTitle": "Фильтр товаров",
+    "category": "Категории",
+    "priceRange": "Диапазон цен",
+    "minPrice": "Мин",
+    "maxPrice": "Макс",
+    "sortBy": "Сортировать по",
+    "sortDefault": "По умолчанию",
+    "sortLowHigh": "Цена: от низкой к высокой",
+    "sortHighLow": "Цена: от высокой к низкой",
+    "sortTopRated": "Высокий рейтинг",
+    "clearAllFilters": "Сбросить все фильтры",
+    "filterUnlimited": "∞"
+  },
+  "dashboard": {
+    "title": "Панель управления",
+    "loading": "Загрузка панели...",
+    "loadError": "Не удалось загрузить данные.",
+    "retry": "Повторить",
+    "noData": "Нет данных.",
+    "noProducts": "Нет товаров",
+    "orderStatus": "Статус заказов",
+    "recentOrders": "Последние заказы",
+    "topProducts": "Популярные товары",
+    "totalSold": "Продано {{count}}",
+    "noRecentOrders": "Пока нет последних заказов",
+    "noStatusData": "Пока нет данных о статусах",
+    "orderId": "ID Заказа",
+    "customer": "Клиент",
+    "total": "Итого",
+    "status": "Статус",
+    "date": "Дата",
+    "statusLabels": {
+      "pending": "В ожидании",
+      "processing": "В обработке",
+      "confirmed": "Подтвержден",
+      "shipped": "Отправлен",
+      "delivered": "Доставлен",
+      "cancelled": "Отменен",
+      "returned": "Возвращен"
+    },
+    "adminOverview": "Обзор администратора",
+    "commerceHealth": "Состояние торговли",
+    "commerceHealthDescription": "Отслеживайте показатели вашего магазина.",
+    "totalOrders": "Всего заказов",
+    "totalOrdersDescription": "Все полученные заказы",
+    "pendingOrders": "Заказы в ожидании",
+    "pendingOrderDescription": "Заказы, ожидающие обработки",
+    "totalRevenue": "Общая выручка",
+    "totalRevenueDescription": "Общая валовая выручка",
+    "thisMonthRevenue": "Выручка за этот месяц",
+    "thisMonthRevenueDescription": "Выручка за текущий месяц",
+    "revenueGrowth": "Рост выручки",
+    "revenueGrowthDescription": "Темп изменения общей выручки",
+    "totalUsers": "Пользователи",
+    "totalUsersDescription": "Всего зарегистрированных клиентов",
+    "dateRange": {
+      "last3": "Последние 3 дня",
+      "last7": "Последние 7 дней",
+      "thisMonth": "Текущий месяц",
+      "prevMonth": "Прошлый месяц",
+      "all": "За все время"
+    }
+  },
+  "products": {
+    "title": "Товары",
+    "subtitle": "Управление запасами",
+    "description": "Управляйте каталогом товаров, уровнем запасов и ценами.",
+    "kpis": {
+      "totalProducts": "Всего товаров",
+      "totalProductsDesc": "Активные и неактивные товары каталога",
+      "inStock": "В наличии",
+      "inStockDesc": "Достаточный запас (>20 ед.)",
+      "lowStock": "Мало на складе",
+      "lowStockDesc": "Рекомендуется пополнить (6–20 ед.)",
+      "outOfStock": "Нет на складе",
+      "outOfStockDesc": "Запас исчерпан (≤5 ед.)"
+    },
+    "loadErrorTitle": "Что-то пошло не так",
+    "loadErrorHint": "Не удалось загрузить товары.",
+    "loadProductFailed": "Не удалось загрузить этот товар.",
+    "notFound": "Товар не найден.",
+    "retry": "Повторить",
+    "searchPlaceholder": "Поиск по названию или артикулу...",
+    "clearSearch": "Очистить поиск",
+    "filtersButton": "Фильтры",
+    "filtersTitle": "Фильтры",
+    "filtersSubtitle": "Сузить список товаров.",
+    "addProduct": "Добавить товар",
+    "addTitle": "Добавить товар",
+    "addDescription": "Заполните данные о товаре и загрузите до 5 изображений.",
+    "editTitle": "Редактировать товар",
+    "editDescription": "Обновите данные о товаре и изображения.",
+    "editProduct": "Редактировать товар",
+    "viewProduct": "Просмотреть товар",
+    "deleteProduct": "Удалить товар",
+    "detailsTitle": "Детали товара",
+    "backToList": "Назад к товарам",
+    "created": "Товар успешно создан",
+    "createFailed": "Не удалось создать товар.",
+    "updated": "Товар успешно обновлен",
+    "updateFailed": "Не удалось обновить товар.",
+    "deleted": "Товар успешно удален",
+    "deleteFailed": "Не удалось удалить товар.",
+    "createProduct": "Создать товар",
+    "creating": "Создание...",
+    "saveChanges": "Сохранить изменения",
+    "saving": "Сохранение...",
+    "cancel": "Отмена",
+    "discard": "Сбросить изменения",
+    "saveNow": "Сохранить сейчас",
+    "unsavedTitle": "Несохраненные изменения",
+    "unsavedDescription": "У вас есть несохраненные изменения.",
+    "validationNotice": "Пожалуйста, исправьте выделенные поля.",
+    "maxImages": "Вы можете загрузить максимум {{max}} изображений.",
+    "onlySomeImages": "Некоторые файлы пропущены.",
+    "nameExists": "Товар с таким названием уже существует.",
+    "skuExists": "Этот SKU уже используется.",
+    "uploadImages": "Загрузить изображения",
+    "uploadImagesHint": "PNG или JPG, до 5 файлов",
+    "imageCount": "{{count}} / {{max}} изображений",
+    "imagePreviewAlt": "Предпросмотр изображения {{index}}",
+    "newImagePreviewAlt": "Предпросмотр нового изображения {{index}}",
+    "mainImage": "Главное",
+    "removeImage": "Удалить изображение",
+    "selectImage": "Показать изображение {{index}}",
+    "noImage": "Нет изображения",
+    "active": "Активен",
+    "inactive": "Неактивен",
+    "featured": "Рекомендуемый",
+    "stockUnits": "{{count}} в наличии",
+    "discountOff": "Скидка {{percent}}%",
+    "deleteTitle": "Удалить товар",
+    "deleteDescription": "Это навсегда удалит \"{{name}}\".",
+    "delete": "Удалить",
+    "deleting": "Удаление...",
+    "clearQuery": "Очистить запрос",
+    "noProductsFound": "Товары не найдены",
+    "noProductsHint": "Попробуйте изменить поиск или фильтры.",
+    "columns": {
+      "product": "Товар",
+      "brand": "Бренд",
+      "category": "Категория",
+      "price": "Цена",
+      "stock": "Запас",
+      "actions": "Действия"
+    },
+    "pagination": {
+      "previous": "Предыдущая страница",
+      "next": "Следующая страница"
+    },
+    "fields": {
+      "name": "Название",
+      "shortDescription": "Краткое описание",
+      "description": "Описание",
+      "price": "Цена",
+      "discountPrice": "Цена со скидкой",
+      "stock": "Запас",
+      "sku": "Артикул (SKU)",
+      "category": "Категория",
+      "subcategory": "Подкатегория",
+      "brand": "Бренд",
+      "tags": "Теги",
+      "minPrice": "Мин цена",
+      "maxPrice": "Макс цена",
+      "sort": "Сортировать по",
+      "featured": "Рекомендуемый",
+      "status": "Статус",
+      "slug": "ЧПУ (Slug)"
+    },
+    "placeholders": {
+      "name": "Например: Беспроводные наушники",
+      "shortDescription": "Краткая сводка для списков",
+      "description": "Полные характеристики и описание",
+      "sku": "Например: SKU-001",
+      "category": "Например: Электроника",
+      "subcategory": "Например: Аудио",
+      "brand": "Например: TechNova"
+    },
+    "sections": {
+      "productInformation": "Информация о товаре",
+      "basicInformation": "Основная информация",
+      "basicInformationHint": "Обновить основные поля товара",
+      "gallery": "Галерея",
+      "description": "Описание",
+      "tags": "Теги"
+    },
+    "validation": {
+      "nameRequired": "Название товара обязательно",
+      "shortDescriptionRequired": "Краткое описание обязательно",
+      "shortDescriptionMin": "Должно быть не менее {{count}} символов",
+      "descriptionRequired": "Описание обязательно",
+      "descriptionMin": "Должно быть не менее {{count}} символов",
+      "priceRequired": "Цена обязательна",
+      "pricePositive": "Цена должна быть больше нуля",
+      "discountPricePositive": "Цена со скидкой должна быть больше нуля",
+      "discountPriceLower": "Цена со скидкой должна быть ниже обычной",
+      "stockRequired": "Запас обязателен",
+      "stockNonNegative": "Запас не может быть отрицательным",
+      "categoryRequired": "Категория обязательна",
+      "imageRequired": "Требуется хотя бы одно изображение"
+    },
+    "sort": {
+      "default": "Сортировка по умолчанию"
+    },
+    "filters": {
+      "categoryPlaceholder": "Любая категория",
+      "brandPlaceholder": "Любой бренд",
+      "apply": "Применить фильтры",
+      "clear": "Сбросить"
+    },
+    "tagsPlaceholder": "Введите тег и нажмите Enter",
+    "removeTag": "Удалить тег {{tag}}"
+  },
+  "landing": {
+    "comingSoon": "Скоро в ближайших обновлениях.",
+    "hero": {
+      "title": "Улучшите свой стиль жизни",
+      "subPre": "с",
+      "subHighlight": "Премиум товарами",
+      "description": "Откройте для себя тщательно отобранные товары для качества и комфорта.",
+      "shopNow": "Купить сейчас",
+      "explore": "Исследовать коллекцию",
+      "imageAlt": "Главный баннер с премиальными товарами",
+      "badge": "Распродажа",
+      "pros": {
+        "variety": {
+          "title": "Разнообразие товаров",
+          "desc": "Удовлетворит любые потребности"
+        },
+        "returns": {
+          "title": "Простой возврат",
+          "desc": "30 дней на возврат"
+        },
+        "secure": {
+          "title": "Безопасная оплата",
+          "desc": "100% защищенная покупка"
+        },
+        "support": {
+          "title": "Поддержка 24/7",
+          "desc": "Мы всегда на связи"
+        }
+      }
+    },
+    "featured": {
+      "title": "Рекомендуемые товары",
+      "viewAll": "Все товары",
+      "loading": "Загрузка товаров...",
+      "emptyTitle": "Пока нет рекомендуемых товаров",
+      "emptyHint": "Загляните позже.",
+      "errorTitle": "Не удалось загрузить товары",
+      "errorHint": "Произошла ошибка.",
+      "retry": "Повторить",
+      "imageAlt": "Изображение товара {{name}}",
+      "untitled": "Товар без названия",
+      "discountOff": "-{{percent}}%",
+      "eyebrow": "Отобрано для вас",
+      "cardAriaLabel": "Посмотреть {{name}}",
+      "toggleWishlist": "Добавить {{name}} в избранное",
+      "ratingAria": "Рейтинг {{rating}} из 5, {{count}} отзывов"
+    },
+    "categories": {
+      "title": "Категории",
+      "viewAll": "Все категории",
+      "shopNow": "Купить сейчас",
+      "names": {
+        "electronics": "Электроника",
+        "homeLiving": "Дом и уют",
+        "accessories": "Аксессуары",
+        "sunglasses": "Солнцезащитные очки",
+        "beauty": "Красота",
+        "fashion": "Мода"
+      }
+    },
+    "banner": {
+      "label": "Летняя распродажа",
+      "headline": "Скидки до 30%",
+      "description": "На избранные товары. Ограниченное время!",
+      "cta": "К распродаже",
+      "imageAlt": "Промо-баннер летней распродажи"
+    },
+    "newsletter": {
+      "title": "Подпишитесь на рассылку",
+      "description": "Получайте новости о новинках и эксклюзивных скидках",
+      "emailLabel": "Электронная почта",
+      "emailPlaceholder": "name@example.com",
+      "subscribe": "Подписаться"
+    }
+  },
+  "store": {
+    "header": {
+      "navLabel": "Навигация магазина",
+      "nav": {
+        "home": "Главная",
+        "shop": "Магазин",
+        "about": "О нас",
+        "myOrders": "Мои заказы",
+        "wishlist": "Избранное"
+      },
+      "account": "Аккаунт",
+      "cart": "Корзина",
+      "cartWithCount": "Корзина, {{count}} товаров",
+      "cartWithCount_one": "Корзина, {{count}} товар",
+      "adminLink": "Панель управления"
+    },
+    "footer": {
+      "tagline": "Тщательно отобранные товары для лучшей повседневной жизни.",
+      "rights": "Все права защищены.",
+      "groups": {
+        "shop": "Магазин",
+        "support": "Поддержка"
+      },
+      "links": {
+        "home": "Главная",
+        "catalog": "Каталог",
+        "newArrivals": "Новинки",
+        "sale": "Распродажа",
+        "helpCenter": "Центр помощи",
+        "shippingReturns": "Доставка и возврат",
+        "contact": "Контакты"
+      }
+    }
+  },
+  "about": {
+    "title": "О нас",
+    "eyebrow": "Наша история и видение",
+    "heroTitle": "Переосмысление онлайн-покупок",
+    "heroSubtitle": "Мы предлагаем тщательно отобранные товары для вашего комфорта и стиля.",
+    "missionTitle": "Наша миссия",
+    "missionDescription": "В Oversea Store мы верим, что онлайн-покупки должны быть простыми и надежными.",
+    "bullet1": "Строгая проверка качества каждого товара",
+    "bullet2": "Прозрачные цены без скрытых комиссий",
+    "bullet3": "Быстрая доставка с отслеживанием",
+    "valuesTitle": "Почему выбирают Oversea Store",
+    "values": {
+      "quality": {
+        "title": "Премиум качество",
+        "description": "Каждый товар проходит тщательную проверку."
+      },
+      "shipping": {
+        "title": "Быстрая доставка",
+        "description": "Партнерство с ведущими логистическими компаниями."
+      },
+      "secure": {
+        "title": "100% безопасная оплата",
+        "description": "Зашифрованные транзакции и безопасная обработка."
+      },
+      "support": {
+        "title": "Поддержка 24/7",
+        "description": "Наша команда всегда готова помочь вам."
+      }
+    },
+    "stats": {
+      "customers": "Довольных клиентов",
+      "products": "Товаров в каталоге",
+      "satisfaction": "Уровень удовлетворенности",
+      "support": "Поддержка"
+    },
+    "ctaTitle": "Готовы к лучшим покупкам?",
+    "ctaSubtitle": "Ознакомьтесь с нашими новинками прямо сейчас.",
+    "exploreProducts": "Перейти в каталог"
+  },
+  "myOrders": {
+    "title": "Мои заказы",
+    "subtitle": "Просматривайте и отслеживайте ваши заказы.",
+    "emptyTitle": "У вас пока нет заказов",
+    "emptyDescription": "Вы еще не совершали покупок. Начните шопинг прямо сейчас!",
+    "browseProducts": "Перейти к товарам"
+  },
+  "wishlist": {
+    "title": "Избранное",
+    "subtitle": "Товары, сохраненные на потом.",
+    "emptyTitle": "Ваш список избранного пуст",
+    "emptyDescription": "Сохраняйте понравившиеся товары во время просмотра.",
+    "browseProducts": "Перейти к товарам"
+  },
+  "profile": {
+    "title": "Обзор профиля",
+    "description": "Информация о вашем аккаунте.",
+    "anonymous": {
+      "title": "Вы не вошли в систему",
+      "description": "Войдите, чтобы просмотреть ваш профиль.",
+      "signIn": "Войти"
+    },
+    "header": {
+      "signedIn": "Вы вошли",
+      "signOut": "Выйти",
+      "signingOut": "Выход...",
+      "roleLabel": "Роль",
+      "verified": "Подтвержден",
+      "memberSince": "На сайте с {{date}}"
+    },
+    "personal": {
+      "title": "Личные данные",
+      "description": "Информация вашего профиля.",
+      "fullName": "Полное имя",
+      "email": "Электронная почта",
+      "username": "Имя пользователя",
+      "phone": "Телефон",
+      "missing": "Не указано",
+      "copied": "Скопировано в буфер обмена",
+      "copyFailed": "Не удалось скопировать",
+      "copyValue": "Скопировать {{value}}"
+    },
+    "activity": {
+      "title": "Активность аккаунта",
+      "description": "История и списки.",
+      "orders": "Мои заказы",
+      "wishlist": "Избранное",
+      "addresses": "Сохраненные адреса",
+      "payments": "Способы оплаты",
+      "comingSoon": "Скоро появится"
+    },
+    "error": {
+      "title": "Произошла ошибка",
+      "description": "Не удалось загрузить ваш профиль.",
+      "retry": "Повторить"
+    }
+  },
+  "admin": {
+    "comingSoon": "Эта функция пока не реализована.",
+    "status": {
+      "planned": "Запланировано",
+      "inProgress": "В процессе",
+      "polishing": "Доработка",
+      "doneWaitingPR": "Готово — Ожидает PR",
+      "done": "Готово"
+    }
+  },
+  "cart": {
+    "title": "Ваша корзина",
+    "emptyTitle": "Ваша корзина пуста",
+    "emptyDescription": "Просмотрите магазин и добавьте понравившиеся товары.",
+    "browseProducts": "Перейти к товарам",
+    "itemsCount": "{{count}} товаров",
+    "itemsCount_one": "{{count}} товар",
+    "subtotal": "Промежуточный итог",
+    "discount": "Скидка",
+    "coupon": "Купон",
+    "total": "Итого",
+    "added": "{{name}} добавлен в корзину",
+    "addFailed": "Не удалось добавить в корзину.",
+    "adding": "Добавление...",
+    "removed": "{{name}} удален из корзины",
+    "removeFailed": "Не удалось удалить товар.",
+    "updateFailed": "Не удалось обновить количество.",
+    "cleared": "Ваша корзина очищена.",
+    "clearFailed": "Не удалось очистить корзину.",
+    "clearTitle": "Очистить корзину?",
+    "clearDescription": "Все товары будут удалены из корзины.",
+    "clear": "Очистить корзину",
+    "clearConfirm": "Очистить",
+    "clearing": "Очистка...",
+    "cancel": "Отмена",
+    "minus": "Уменьшить количество",
+    "plus": "Увеличить количество",
+    "quantity": "Количество",
+    "removeItem": "Удалить {{name}}",
+    "continueShopping": "Продолжить покупки",
+    "unitPrice": "{{price}} за шт.",
+    "loading": "Загрузка корзины...",
+    "guestNote": "Вы просматриваете магазин как гость.",
+    "signIn": "Войти"
+  },
+  "orders": {
+    "title": "Заказы",
+    "subtitle": "Операции и исполнение",
+    "description": "Отслеживайте заказы и статусы оплаты.",
+    "totalOrders": "Всего заказов",
+    "searchPlaceholder": "Поиск по клиенту или ID...",
+    "clearSearch": "Очистить поиск",
+    "kpis": {
+      "totalOrders": "Всего заказов",
+      "totalOrdersDesc": "Все зарегистрированные покупки",
+      "pendingOrders": "Заказы в ожидании",
+      "pendingOrdersDesc": "Ожидают обработки",
+      "activeOrders": "В обработке / Активные",
+      "activeOrdersDesc": "В пути и активные",
+      "deliveredOrders": "Доставлены",
+      "deliveredOrdersDesc": "Успешно завершены"
+    },
+    "loadErrorTitle": "Ошибка загрузки заказов",
+    "loadErrorHint": "Произошла ошибка. Попробуйте снова.",
+    "retry": "Повторить",
+    "noOrdersFound": "Заказы не найдены.",
+    "notAvailable": "Н/Д",
+    "filters": {
+      "status": {
+        "placeholder": "Все статусы",
+        "all": "Все статусы",
+        "pending": "В ожидании",
+        "processing": "В обработке",
+        "confirmed": "Подтвержден",
+        "shipped": "Отправлен",
+        "delivered": "Доставлен",
+        "cancelled": "Отменен",
+        "returned": "Возвращен"
+      },
+      "payment": {
+        "placeholder": "Все платежи",
+        "all": "Все платежи",
+        "pending": "В ожидании",
+        "paid": "Оплачено",
+        "failed": "Ошибка",
+        "refunded": "Возвращено"
+      }
+    },
+    "columns": {
+      "order": "Заказ",
+      "customer": "Клиент",
+      "date": "Дата",
+      "status": "Статус",
+      "paymentMethod": "Способ оплаты",
+      "paymentStatus": "Статус оплаты",
+      "total": "Итого",
+      "actions": "Действия"
+    },
+    "status": {
+      "delivered": "Доставлен",
+      "shipped": "Отправлен",
+      "confirmed": "Подтвержден",
+      "processing": "В обработке",
+      "pending": "В ожидании",
+      "cancelled": "Отменен",
+      "returned": "Возвращен",
+      "unknown": "Неизвестно"
+    },
+    "paymentStatus": {
+      "paid": "Оплачено",
+      "pending": "В ожидании",
+      "failed": "Ошибка",
+      "refunded": "Возвращено",
+      "unknown": "Неизвестно"
+    },
+    "paymentMethods": {
+      "cash": "Наличные"
+    },
+    "viewOrder": "Посмотреть детали",
+    "changeStatus": "Изменить статус",
+    "pagination": {
+      "previous": "Назад",
+      "next": "Вперед"
+    },
+    "sheet": {
+      "title": "Детали заказа",
+      "customerInformation": "Информация о клиенте",
+      "customer": "Клиент",
+      "phone": "Телефон",
+      "country": "Страна",
+      "city": "Город",
+      "address": "Адрес",
+      "postalCode": "Почтовый индекс",
+      "orderInformation": "Информация о заказе",
+      "placed": "Оформлен",
+      "transactionId": "ID Транзакции",
+      "paidAt": "Оплачен",
+      "items": "Товары",
+      "noItems": "Товары не найдены.",
+      "product": "Товар",
+      "subtotal": "Промежуточный итог",
+      "shipping": "Доставка",
+      "tax": "Налоги",
+      "discount": "Скидка",
+      "total": "Итого",
+      "customerNote": "Заметка клиента",
+      "updateStatus": "Обновить статус",
+      "selectStatus": "Выберите статус",
+      "adminNotePlaceholder": "Заметка администратора...",
+      "save": "Сохранить изменения",
+      "saving": "Сохранение...",
+      "saveSuccess": "Статус заказа обновлен.",
+      "saveError": "Не удалось обновить статус.",
+      "selectStatusError": "Выберите статус заказа."
+    }
+  },
+  "users": {
+    "title": "Пользователи",
+    "subtitle": "Управление аккаунтами",
+    "description": "Управляйте аккаунтами пользователей и системными ролями.",
+    "kpis": {
+      "totalUsers": "Всего пользователей",
+      "totalUsersDesc": "Все зарегистрированные аккаунты",
+      "customers": "Клиенты",
+      "customersDesc": "Обычные покупатели",
+      "admins": "Администраторы",
+      "adminsDesc": "Административные роли"
+    },
+    "loading": "Загрузка пользователей...",
+    "loadError": "Не удалось загрузить пользователей.",
+    "loadErrorTitle": "Ошибка загрузки",
+    "retry": "Повторить",
+    "addUser": "Добавить пользователя",
+    "searchPlaceholder": "Поиск пользователя...",
+    "clearSearch": "Очистить поиск",
+    "roleFilter": "Фильтр по роли",
+    "roleFilterAll": "Все роли",
+    "emptyTitle": "Пользователи не найдены.",
+    "emptyDescription": "Нет пользователей для отображения.",
+    "roles": {
+      "admin": "Админ",
+      "customer": "Клиент"
+    },
+    "viewUser": "Посмотреть детали",
+    "editUser": "Изменить роль",
+    "columns": {
+      "username": "Имя пользователя",
+      "email": "Email",
+      "role": "Роль",
+      "actions": "Действия"
+    },
+    "view": "Просмотр",
+    "deleteUser": "Удалить {{name}}",
+    "pagination": {
+      "label": "Пагинация пользователей",
+      "previous": "Назад",
+      "next": "Вперед",
+      "previousLabel": "Предыдущая страница",
+      "nextLabel": "Следующая страница",
+      "goToPage": "Перейти на страницу {{page}}",
+      "showing": "Показано с {{from}} по {{to}} из {{count}} пользователей"
+    },
+    "dialogs": {
+      "addTitle": "Добавить пользователя",
+      "addDescription": "Создать новый аккаунт пользователя.",
+      "editTitle": "Изменить роль",
+      "editDescription": "Изменить уровень доступа для {{name}}.",
+      "username": "Имя пользователя",
+      "usernamePlaceholder": "Введите имя пользователя",
+      "usernameRequired": "Имя пользователя обязательно",
+      "usernameValid": "Корректно.",
+      "email": "Email",
+      "emailPlaceholder": "admin@example.com",
+      "emailRequired": "Email обязателен",
+      "emailInvalid": "Некорректный email",
+      "emailValid": "Корректно.",
+      "password": "Пароль",
+      "passwordPlaceholder": "Введите пароль",
+      "passwordRequired": "Пароль обязателен",
+      "passwordMinLength": "Не менее 6 символов",
+      "passwordValid": "Корректно.",
+      "role": "Роль",
+      "rolePlaceholder": "Выберите роль",
+      "roleChangeHint": "Доступ изменится после сохранения.",
+      "cancel": "Отмена",
+      "adding": "Добавление...",
+      "saving": "Сохранение...",
+      "saveRole": "Сохранить роль",
+      "saveUser": "Сохранить пользователя",
+      "addSuccess": "Пользователь успешно добавлен.",
+      "addFailed": "Не удалось добавить пользователя.",
+      "roleUpdateSuccess": "Роль успешно обновлена.",
+      "roleChangeFailed": "Не удалось обновить роль.",
+      "deleteTitle": "Удалить пользователя",
+      "deleteDescription": "Действие необратимо.",
+      "deleteQuestion": "Удалить {{name}}?",
+      "deleting": "Удаление...",
+      "deleteUser": "Удалить пользователя",
+      "deleteSuccess": "Пользователь удален.",
+      "deleteFailed": "Не удалось удалить.",
+      "detailsTitle": "Детали пользователя",
+      "detailsDescription": "Информация об аккаунте.",
+      "detailsId": "ID:",
+      "detailsName": "Имя:",
+      "detailsEmail": "Email:",
+      "detailsRole": "Роль:",
+      "close": "Закрыть"
+    }
+  },
+  "adminTable": {
+    "page": "Страница",
+    "records": "Записи",
+    "total": "Всего"
+  },
+  "notFound": {
+    "title": "Упс!",
+    "code": "Ошибка 404",
+    "subtitle": "Страница не найдена",
+    "description": "Запрашиваемая страница не существует.",
+    "home": "На главную"
+  }
+}

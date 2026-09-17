@@ -26,9 +26,9 @@ import { ArrowRight } from "lucide-react";
 import { formatCurrency, ORDER_CURRENCY } from "@/utils/formatCurrency";
 import { formatDisplayDate } from "@/utils/formatDate";
 import {
-  STATUS_PRESENTATION,
-  STATUS_BADGE_CLASS_FALLBACK,
-} from "@/features/admin/dashboard/constants";
+  ORDER_STATUS_PRESENTATION,
+  ORDER_STATUS_BADGE_FALLBACK,
+} from "@/features/admin/orders/constants";
 
 export default function RecentOrders({ orders = [] }) {
   const { t, i18n } = useTranslation();
@@ -113,18 +113,18 @@ export default function RecentOrders({ orders = [] }) {
                       <Badge
                         variant="outline"
                         className={
-                          STATUS_PRESENTATION[order.status]?.badgeClass ||
-                          STATUS_BADGE_CLASS_FALLBACK
+                          ORDER_STATUS_PRESENTATION[order.status]?.badgeClass ||
+                          ORDER_STATUS_BADGE_FALLBACK
                         }
                       >
-                        {STATUS_PRESENTATION[order.status]
-                          ? t(STATUS_PRESENTATION[order.status].labelKey)
+                        {ORDER_STATUS_PRESENTATION[order.status]
+                          ? t(ORDER_STATUS_PRESENTATION[order.status].labelKey)
                           : order.status}
                       </Badge>
                     </TableCell>
 
                     <TableCell className="whitespace-nowrap text-muted-foreground">
-                      {formatDisplayDate(order.createdAt) ?? "—"}
+                      {formatDisplayDate(order.createdAt, i18n.language) ?? "—"}
                     </TableCell>
                   </TableRow>
                 ))}

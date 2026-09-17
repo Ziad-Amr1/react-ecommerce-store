@@ -9,9 +9,17 @@ const DENSITY = {
     "[&_[data-slot=table-head]]:h-14 [&_[data-slot=table-row]]:h-14",
 };
 
+// Opt-in roomier edge spacing: extra inline-start padding on the first column
+// and inline-end padding on the last column (2rem / ps-8 / pe-8), applied to BOTH the header and
+// every body cell so header and rows stay aligned. Intermediate columns keep
+// the default padding. Uses logical (ps/pe) utilities for RTL safety.
+const EDGE_PADDING =
+  "[&_tr>:first-child]:ps-8 [&_tr>:last-child]:pe-8";
+
 function Table({
   className,
   density = "default",
+  edgePadding = false,
   ...props
 }) {
   return (
@@ -21,6 +29,7 @@ function Table({
         className={cn(
           "w-full caption-bottom text-sm",
           DENSITY[density] ?? DENSITY.default,
+          edgePadding && EDGE_PADDING,
           className
         )}
         {...props} />
@@ -87,7 +96,7 @@ function TableHead({
     <th
       data-slot="table-head"
       className={cn(
-        "h-10 px-3 text-start align-middle font-medium whitespace-nowrap text-foreground [&:has([role=checkbox])]:pr-0 [&>[role=checkbox]]:translate-y-[2px]",
+        "h-10 px-2 text-start align-middle font-medium whitespace-nowrap text-foreground [&:has([role=checkbox])]:pr-0 [&>[role=checkbox]]:translate-y-[2px]",
         className
       )}
       {...props} />
@@ -102,7 +111,7 @@ function TableCell({
     <td
       data-slot="table-cell"
       className={cn(
-        "px-3 py-2 align-middle whitespace-nowrap [&:has([role=checkbox])]:pr-0 [&>[role=checkbox]]:translate-y-[2px]",
+        "px-2 py-2 align-middle whitespace-nowrap [&:has([role=checkbox])]:pr-0 [&>[role=checkbox]]:translate-y-[2px]",
         className
       )}
       {...props} />

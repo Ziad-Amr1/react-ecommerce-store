@@ -12,10 +12,12 @@ test.describe("Admin Users", () => {
   test("page renders with title and statistics", async ({ page }) => {
     await page.goto("/admin/users");
     await expect(page.getByRole("heading", { name: "Users" })).toBeVisible();
-    await expect(page.locator("dt").filter({ hasText: "Total" })).toBeVisible();
-    await expect(page.locator("dd").filter({ hasText: "12" })).toBeVisible();
-    await expect(page.locator("dt").filter({ hasText: "Page" })).toBeVisible();
-    await expect(page.locator("dd").filter({ hasText: "1 / 2" })).toBeVisible();
+    const totalUsersKpi = page
+      .getByText("Total Users")
+      .locator("xpath=ancestor::div[contains(@class, 'h-full')]");
+    await expect(totalUsersKpi).toBeVisible();
+    await expect(totalUsersKpi.getByText("12")).toBeVisible();
+    await expect(page.getByText("1 / 2")).toBeVisible();
   });
 
   test("client-side pagination navigates between pages", async ({ page }) => {
@@ -24,7 +26,7 @@ test.describe("Admin Users", () => {
 
     await page.getByRole("button", { name: "Next" }).click();
     await expect(page.locator("table tbody tr")).toHaveCount(2);
-    await expect(page.locator("dd").filter({ hasText: "2 / 2" })).toBeVisible();
+    await expect(page.getByText("2 / 2")).toBeVisible();
 
     await page.getByRole("button", { name: "Previous" }).click();
     await expect(page.locator("table tbody tr")).toHaveCount(10);
@@ -37,7 +39,10 @@ test.describe("Admin Users", () => {
     await page.getByPlaceholder("Search users by username or email...").fill("jane");
     await expect(page.locator("table tbody tr")).toHaveCount(1);
     await expect(page.getByText("janesmith")).toBeVisible();
-    await expect(page.locator("dd").filter({ hasText: "1 / 1" })).toBeVisible();
+    const filteredUsersKpi = page
+      .getByText("Total Users")
+      .locator("xpath=ancestor::div[contains(@class, 'h-full')]");
+    await expect(filteredUsersKpi.getByText("1")).toBeVisible();
 
     await page.getByRole("button", { name: "Clear search" }).click();
     await expect(page.locator("table tbody tr")).toHaveCount(10);
@@ -148,6 +153,6 @@ test.describe("Admin Users", () => {
     await expect(page.locator("html")).toHaveAttribute("dir", "rtl");
     await expect(page.locator("html")).toHaveAttribute("lang", "ar");
     await expect(page.getByRole("heading", { name: "المستخدمون" })).toBeVisible();
-    await expect(page.locator("dt").filter({ hasText: "إجمالي" })).toBeVisible();
+    await expect(page.getByText("إجمالي المستخدمين")).toBeVisible();
   });
 });

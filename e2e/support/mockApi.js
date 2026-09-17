@@ -24,22 +24,22 @@ export const PRODUCTS = [
 
 // Enough orders for 2 pages (ORDERS_LIMIT=15) with varied statuses.
 export const ORDERS = [
-  { _id: "ord1", shippingAddress: { fullName: "Alice Johnson" }, createdAt: "2024-06-15T10:30:00Z", status: "delivered", paymentStatus: "paid", totalPrice: 2400 },
-  { _id: "ord2", shippingAddress: { fullName: "Bob Smith" }, createdAt: "2024-06-16T11:00:00Z", status: "processing", paymentStatus: "pending", totalPrice: 800 },
-  { _id: "ord3", shippingAddress: { fullName: "Carol Williams" }, createdAt: "2024-06-17T09:15:00Z", status: "shipped", paymentStatus: "paid", totalPrice: 3500 },
-  { _id: "ord4", shippingAddress: { fullName: "David Brown" }, createdAt: "2024-06-18T14:45:00Z", status: "confirmed", paymentStatus: "paid", totalPrice: 1200 },
-  { _id: "ord5", shippingAddress: { fullName: "Eva Martinez" }, createdAt: "2024-06-19T08:20:00Z", status: "cancelled", paymentStatus: "pending", totalPrice: 600 },
-  { _id: "ord6", shippingAddress: { fullName: "Frank Garcia" }, createdAt: "2024-06-20T16:00:00Z", status: "delivered", paymentStatus: "paid", totalPrice: 4200 },
-  { _id: "ord7", shippingAddress: { fullName: "Grace Lee" }, createdAt: "2024-06-21T12:30:00Z", status: "processing", paymentStatus: "paid", totalPrice: 950 },
-  { _id: "ord8", shippingAddress: { fullName: "Hank Wilson" }, createdAt: "2024-06-22T10:10:00Z", status: "shipped", paymentStatus: "pending", totalPrice: 2100 },
-  { _id: "ord9", shippingAddress: { fullName: "Iris Chen" }, createdAt: "2024-06-23T09:45:00Z", status: "delivered", paymentStatus: "paid", totalPrice: 1800 },
-  { _id: "ord10", shippingAddress: { fullName: "Jake Davis" }, createdAt: "2024-06-24T11:20:00Z", status: "confirmed", paymentStatus: "paid", totalPrice: 3200 },
-  { _id: "ord11", shippingAddress: { fullName: "Karen Patel" }, createdAt: "2024-06-25T15:00:00Z", status: "processing", paymentStatus: "pending", totalPrice: 450 },
-  { _id: "ord12", shippingAddress: { fullName: "Leo Nguyen" }, createdAt: "2024-06-26T08:00:00Z", status: "delivered", paymentStatus: "paid", totalPrice: 2700 },
-  { _id: "ord13", shippingAddress: { fullName: "Mia Thompson" }, createdAt: "2024-06-27T13:15:00Z", status: "shipped", paymentStatus: "paid", totalPrice: 1100 },
-  { _id: "ord14", shippingAddress: { fullName: "Noah Kim" }, createdAt: "2024-06-28T10:45:00Z", status: "cancelled", paymentStatus: "paid", totalPrice: 500 },
-  { _id: "ord15", shippingAddress: { fullName: "Olivia Wang" }, createdAt: "2024-06-29T12:00:00Z", status: "delivered", paymentStatus: "paid", totalPrice: 1950 },
-  { _id: "ord16", shippingAddress: { fullName: "Peter Yang" }, createdAt: "2024-06-30T09:30:00Z", status: "processing", paymentStatus: "pending", totalPrice: 2800 },
+  { _id: "ord1", shippingAddress: { fullName: "Alice Johnson" }, createdAt: "2024-06-15T10:30:00Z", status: "delivered", paymentMethod: "cash", paymentStatus: "paid", totalPrice: 2400 },
+  { _id: "ord2", shippingAddress: { fullName: "Bob Smith" }, createdAt: "2024-06-16T11:00:00Z", status: "processing", paymentMethod: "cash", paymentStatus: "pending", totalPrice: 800 },
+  { _id: "ord3", shippingAddress: { fullName: "Carol Williams" }, createdAt: "2024-06-17T09:15:00Z", status: "shipped", paymentMethod: "cash", paymentStatus: "paid", totalPrice: 3500 },
+  { _id: "ord4", shippingAddress: { fullName: "David Brown" }, createdAt: "2024-06-18T14:45:00Z", status: "confirmed", paymentMethod: "cash", paymentStatus: "paid", totalPrice: 1200 },
+  { _id: "ord5", shippingAddress: { fullName: "Eva Martinez" }, createdAt: "2024-06-19T08:20:00Z", status: "cancelled", paymentMethod: "cash", paymentStatus: "pending", totalPrice: 600 },
+  { _id: "ord6", shippingAddress: { fullName: "Frank Garcia" }, createdAt: "2024-06-20T16:00:00Z", status: "delivered", paymentMethod: "cash", paymentStatus: "paid", totalPrice: 4200 },
+  { _id: "ord7", shippingAddress: { fullName: "Grace Lee" }, createdAt: "2024-06-21T12:30:00Z", status: "processing", paymentMethod: "cash", paymentStatus: "paid", totalPrice: 950 },
+  { _id: "ord8", shippingAddress: { fullName: "Hank Wilson" }, createdAt: "2024-06-22T10:10:00Z", status: "shipped", paymentMethod: "cash", paymentStatus: "pending", totalPrice: 2100 },
+  { _id: "ord9", shippingAddress: { fullName: "Iris Chen" }, createdAt: "2024-06-23T09:45:00Z", status: "delivered", paymentMethod: "cash", paymentStatus: "paid", totalPrice: 1800 },
+  { _id: "ord10", shippingAddress: { fullName: "Jake Davis" }, createdAt: "2024-06-24T11:20:00Z", status: "confirmed", paymentMethod: "cash", paymentStatus: "paid", totalPrice: 3200 },
+  { _id: "ord11", shippingAddress: { fullName: "Karen Patel" }, createdAt: "2024-06-25T15:00:00Z", status: "processing", paymentMethod: "cash", paymentStatus: "pending", totalPrice: 450 },
+  { _id: "ord12", shippingAddress: { fullName: "Leo Nguyen" }, createdAt: "2024-06-26T08:00:00Z", status: "delivered", paymentMethod: "cash", paymentStatus: "paid", totalPrice: 2700 },
+  { _id: "ord13", shippingAddress: { fullName: "Mia Thompson" }, createdAt: "2024-06-27T13:15:00Z", status: "shipped", paymentMethod: "cash", paymentStatus: "paid", totalPrice: 1100 },
+  { _id: "ord14", shippingAddress: { fullName: "Noah Kim" }, createdAt: "2024-06-28T10:45:00Z", status: "cancelled", paymentMethod: "cash", paymentStatus: "paid", totalPrice: 500 },
+  { _id: "ord15", shippingAddress: { fullName: "Olivia Wang" }, createdAt: "2024-06-29T12:00:00Z", status: "delivered", paymentMethod: "cash", paymentStatus: "paid", totalPrice: 1950 },
+  { _id: "ord16", shippingAddress: { fullName: "Peter Yang" }, createdAt: "2024-06-30T09:30:00Z", status: "processing", paymentMethod: "cash", paymentStatus: "pending", totalPrice: 2800 },
 ];
 
 // Enough users for 2 client-side pages (USERS_PER_PAGE=10).

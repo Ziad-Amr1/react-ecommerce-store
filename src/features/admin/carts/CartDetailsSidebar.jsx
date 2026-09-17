@@ -6,9 +6,9 @@ import {
   SheetTitle,
   SheetDescription,
 } from "@/components/ui/sheet";
-import { CartAvatar } from "@/components/ui/carts/CartAvatar";
-import { CartStatusBadge } from "@/components/ui/carts/CartStatusBadge";
-import { cartItemCount, cartTotal, formatCurrency } from "@/lib/cart-helpers";
+import { CartAvatar } from "@/features/admin/carts/CartAvatar";
+import { CartStatusBadge } from "@/features/admin/carts/CartStatusBadge";
+import { cartItemCount, cartTotal, formatCurrency } from "@/utils/cart-helpers";
 
 export function CartDetailsSidebar({ cart, open, onOpenChange }) {
   if (!cart) return null;

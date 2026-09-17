@@ -1,8 +1,8 @@
 import { useRef } from "react";
-import { CartMobileCard } from "@/components/ui/carts/CartMobileCard";
-import { CartTabletRow } from "@/components/ui/carts/CartTabletRow";
-import { CartDesktopRow } from "@/components/ui/carts/CartDesktopRow";
-import { CartsEmptyState } from "@/components/ui/carts/CartsEmptyState";
+import { CartMobileCard } from "@/features/admin/carts/CartMobileCard";
+import { CartTabletRow } from "@/features/admin/carts/CartTabletRow";
+import { CartDesktopRow } from "@/features/admin/carts/CartDesktopRow";
+import { CartsEmptyState } from "@/features/admin/carts/CartsEmptyState";
 
 export function CartList({ carts = [], expandedId, onToggleExpanded, onOpenDetails }) {
   const containerRef = useRef(null);

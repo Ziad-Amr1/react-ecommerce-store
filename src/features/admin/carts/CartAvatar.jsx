@@ -1,4 +1,4 @@
-import { avatarColor, initials } from "@/lib/cart-helpers";
+import { avatarColor, initials } from "@/utils/cart-helpers";
 
 export function CartAvatar({ name }) {
   return (

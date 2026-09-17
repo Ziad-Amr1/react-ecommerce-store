@@ -1,5 +1,5 @@
 import { ChevronLeft, ChevronRight } from "lucide-react";
-import { getPaginationRange, DOTS } from "@/lib/cart-helpers";
+import { getPaginationRange, DOTS } from "@/utils/cart-helpers";
 
 export function CartPagination({ page, totalPages, total, pageSize, onPageChange }) {
   if (totalPages <= 1) return null;

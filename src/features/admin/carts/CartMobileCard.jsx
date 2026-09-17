@@ -1,8 +1,8 @@
 import { ChevronDown } from "lucide-react";
-import { CartAvatar } from "@/components/ui/carts/CartAvatar";
-import { CartStatusBadge } from "@/components/ui/carts/CartStatusBadge";
-import { CartItemsBreakdown } from "@/components/ui/carts/CartItemsBreakdown";
-import { cartItemCount, cartTotal, formatCurrency } from "@/lib/cart-helpers";
+import { CartAvatar } from "@/features/admin/carts/CartAvatar";
+import { CartStatusBadge } from "@/features/admin/carts/CartStatusBadge";
+import { CartItemsBreakdown } from "@/features/admin/carts/CartItemsBreakdown";
+import { cartItemCount, cartTotal, formatCurrency } from "@/utils/cart-helpers";
 
 const ROW_ITEM_LIMIT = 2;
 

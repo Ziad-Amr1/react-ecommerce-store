@@ -1,6 +1,6 @@
 import { ShoppingCart, CreditCard, TrendingUp, Tag } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
-import { cartTotal, formatCurrency } from "@/lib/cart-helpers";
+import { cartTotal, formatCurrency } from "@/utils/cart-helpers";
 
 export function CartStatsGrid({ carts }) {
   const totalCarts = carts.length;

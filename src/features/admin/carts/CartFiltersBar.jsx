@@ -1,6 +1,5 @@
-import { CartSearchInput } from "@/components/ui/carts/CartSearchInput";
-import { CART_STATUS_OPTIONS, CART_SORT_OPTIONS } from "@/lib/cart-helpers";
-
+import { CartSearchInput } from "@/features/admin/carts/CartSearchInput";
+import { CART_STATUS_OPTIONS, CART_SORT_OPTIONS } from "@/utils/cart-helpers";
 const selectClasses =
   "rounded-lg border bg-background px-3 py-2.5 text-sm outline-none transition-shadow focus:ring-2 focus:ring-ring";
 

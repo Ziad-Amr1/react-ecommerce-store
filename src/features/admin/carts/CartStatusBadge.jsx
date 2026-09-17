@@ -1,5 +1,5 @@
 import { Badge } from "@/components/ui/badge";
-import { CART_STATUSES } from "@/lib/cart-helpers";
+import { CART_STATUSES } from "@/utils/cart-helpers";
 
 export function CartStatusBadge({ status }) {
   const config = CART_STATUSES[status] ?? {

@@ -1,3 +1,6 @@
+// Consolidated cart-helpers.js — single source of truth.
+// Replaces both src/lib/cart-helpers.js and src/utils/cart-helpers.js.
+
 export const AVATAR_COLORS = [
   "bg-blue-500/15 text-blue-600 dark:text-blue-400",
   "bg-violet-500/15 text-violet-600 dark:text-violet-400",
@@ -31,8 +34,6 @@ export const cartTotal = (items) =>
 export const cartItemCount = (items) =>
   items.reduce((sum, item) => sum + item.quantity, 0);
 
-// Central place to describe each order status: label + badge styling.
-// Adding a new status only means adding one entry here.
 export const CART_STATUSES = {
   active: { label: "Active", className: "bg-blue-500/10 text-blue-600 dark:text-blue-400" },
   payment_pending: {
@@ -52,3 +53,91 @@ export const CART_STATUSES = {
     className: "bg-rose-500/10 text-rose-600 dark:text-rose-400",
   },
 };
+
+export const CART_STATUS_OPTIONS = [
+  { value: "all", label: "All statuses" },
+  ...Object.entries(CART_STATUSES).map(([value, { label }]) => ({ value, label })),
+];
+
+export const CART_SORT_OPTIONS = [
+  {
+    value: "updated_desc",
+    label: "Last updated (newest)",
+    compare: (a, b) => b.updatedAtTimestamp - a.updatedAtTimestamp,
+  },
+  {
+    value: "updated_asc",
+    label: "Last updated (oldest)",
+    compare: (a, b) => a.updatedAtTimestamp - b.updatedAtTimestamp,
+  },
+  {
+    value: "total_desc",
+    label: "Total (high to low)",
+    compare: (a, b) => cartTotal(b.items) - cartTotal(a.items),
+  },
+  {
+    value: "total_asc",
+    label: "Total (low to high)",
+    compare: (a, b) => cartTotal(a.items) - cartTotal(b.items),
+  },
+  {
+    value: "customer_asc",
+    label: "Customer (A–Z)",
+    compare: (a, b) => a.customer.localeCompare(b.customer),
+  },
+];
+
+export const sortCarts = (carts, sortValue) => {
+  const option = CART_SORT_OPTIONS.find((opt) => opt.value === sortValue);
+  if (!option) return carts;
+  return [...carts].sort(option.compare);
+};
+
+export const filterCartsByStatus = (carts, status) => {
+  if (!status || status === "all") return carts;
+  return carts.filter((cart) => cart.status === status);
+};
+
+export const filterCartsByQuery = (carts, query) => {
+  const q = query.trim().toLowerCase();
+  if (!q) return carts;
+  return carts.filter(
+    (cart) =>
+      cart.customer.toLowerCase().includes(q) ||
+      cart.email.toLowerCase().includes(q) ||
+      cart.id.toLowerCase().includes(q)
+  );
+};
+
+// --- Pagination -----------------------------------------------------------
+
+export const DOTS = "...";
+
+const range = (start, end) =>
+  Array.from({ length: end - start + 1 }, (_, i) => start + i);
+
+export function getPaginationRange(currentPage, totalPages, siblingCount = 1) {
+  const totalPageNumbers = siblingCount * 2 + 5;
+
+  if (totalPageNumbers >= totalPages) {
+    return range(1, totalPages);
+  }
+
+  const leftSiblingIndex = Math.max(currentPage - siblingCount, 1);
+  const rightSiblingIndex = Math.min(currentPage + siblingCount, totalPages);
+
+  const shouldShowLeftDots = leftSiblingIndex > 2;
+  const shouldShowRightDots = rightSiblingIndex < totalPages - 2;
+
+  if (!shouldShowLeftDots && shouldShowRightDots) {
+    const leftItemCount = 3 + 2 * siblingCount;
+    return [...range(1, leftItemCount), DOTS, totalPages];
+  }
+
+  if (shouldShowLeftDots && !shouldShowRightDots) {
+    const rightItemCount = 3 + 2 * siblingCount;
+    return [1, DOTS, ...range(totalPages - rightItemCount + 1, totalPages)];
+  }
+
+  return [1, DOTS, ...range(leftSiblingIndex, rightSiblingIndex), DOTS, totalPages];
+}

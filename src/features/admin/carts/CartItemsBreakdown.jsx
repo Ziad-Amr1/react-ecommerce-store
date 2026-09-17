@@ -1,5 +1,5 @@
 import { Package } from "lucide-react";
-import { formatCurrency } from "@/lib/cart-helpers";
+import { formatCurrency } from "@/utils/cart-helpers";
 
 export function CartItemsBreakdown({ items, limit }) {
   const visibleItems = limit ? items.slice(0, limit) : items;

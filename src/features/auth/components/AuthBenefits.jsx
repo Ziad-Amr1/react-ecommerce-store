@@ -9,7 +9,7 @@ const BENEFIT_KEYS = [
 
 const itemVariants = {
   success: "flex items-center gap-3 rounded-xl bg-primary-foreground/10 p-4",
-  surface: "flex items-center gap-3 rounded-xl bg-surface/10 p-4",
+  surface: "flex items-center gap-3 rounded-xl bg-(--color-surface)/10 p-4",
 };
 
 export default function AuthBenefits({ variant = "success" }) {

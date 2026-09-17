@@ -20,11 +20,11 @@ export default function AdminErrorState({
     >
       <div
         className={cn(
-          "flex size-14 items-center justify-center rounded-full bg-error-bg",
+          "flex size-14 items-center justify-center rounded-full bg-(--color-error-bg)",
           iconClassName,
         )}
       >
-        <TriangleAlert className="size-7 text-error" aria-hidden="true" />
+        <TriangleAlert className="size-7 text-(--color-error)" aria-hidden="true" />
       </div>
       <h2 className="font-display text-lg font-semibold text-foreground">
         {title}

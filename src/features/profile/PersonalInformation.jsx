@@ -1,16 +1,7 @@
-import {useState } from "react";
-import {
-  Copy,
-  Mail,
-  Phone,
-  User,
-  Pencil,
-  Save,
-  X,
-} from "lucide-react";
+import { CreditCard, Heart, MapPin, Package, ChevronLeft } from "lucide-react";
 import { useTranslation } from "react-i18next";
-import { toast } from "sonner";
-
+import { Badge } from "@/components/ui/badge";
+import { Link } from "react-router";
 import {
   Card,
   CardContent,
@@ -19,246 +10,95 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 
-import { getUserIdentity } from "@/features/auth/utils/userIdentity";
-import { validateProfile } from "@/features/profile/utils/profileValidation";
+const sections = [
+  {
+    key: "orders",
+    labelKey: "profile.activity.orders",
+    icon: Package,
+    to: null,
+  },
+  {
+    key: "wishlist",
+    labelKey: "profile.activity.wishlist",
+    icon: Heart,
+  },
+  {
+    key: "addresses",
+    labelKey: "profile.activity.addresses",
+    icon: MapPin,
+    to: null,
+  },
+  {
+    key: "payments",
+    labelKey: "profile.activity.payments",
+    icon: CreditCard,
+    to: null,
+  },
+];
 
-
-export default function PersonalInformation({ user, updateUser }) {
+export default function AccountActivity() {
   const { t } = useTranslation();
-
-  const [isEditing, setIsEditing] = useState(false);
-  const [isSaving, setIsSaving] = useState(false);
-
-  
-  const [formData, setFormData] = useState({
-    username: user?.username ?? "",
-    phone: user?.phone ?? "",
-    avatar: user?.avatar ?? "",
-  });
-
-  const name = getUserIdentity(user);
-  const email = user?.email?.trim();
-  const username = user?.username?.trim();
-  const phone = user?.phone?.trim();
-
-  const rows = [
-    {
-      key: "fullName",
-      icon: User,
-      label: t("profile.personal.fullName"),
-      value: name,
-    },
-    {
-      key: "email",
-      icon: Mail,
-      label: t("profile.personal.email"),
-      value: email,
-    },
-    {
-      key: "username",
-      icon: User,
-      label: t("profile.personal.username"),
-      value: username,
-    },
-    {
-      key: "phone",
-      icon: Phone,
-      label: t("profile.personal.phone"),
-      value: phone,
-    },
-  ];
-
-  const handleCopy = async (value, key) => {
-    if (!value || !navigator.clipboard) return;
-
-    try {
-      await navigator.clipboard.writeText(value);
-
-      toast.success(
-        t("profile.personal.copied", {
-          field: t(`profile.personal.${key}`),
-        }),
-      );
-    } catch {
-      toast.error(t("profile.personal.copyFailed"));
-    }
-  };
-  
-
-const handleSave = async () => {
-const errors = validateProfile(formData , t);
-
-if (Object.keys(errors).length > 0) {
-  toast.error(Object.values(errors)[0]);
-  return;
-}
-    setIsSaving(true);
-  try {
-    await updateUser({
-      username: formData.username.trim(),
-      phone: formData.phone.trim(),
-      avatar: formData.avatar.trim(),
-    });
-      setIsEditing(false);
-
-      toast.success(t("profile.edit.success"));
-    } catch {
-      toast.error(t("profile.edit.error"));
-    } finally {
-      setIsSaving(false);
-    }
-  };
-
-  const handleCancel = () => {
-    setFormData({
-      username: user?.username ?? "",
-      phone: user?.phone ?? "",
-      avatar: user?.avatar ?? "",
-    });
-
-    setIsEditing(false);
-  };
 
   return (
     <Card>
-      <CardHeader>
-        <div className="flex items-center justify-between gap-4">
-          <div>
-            <CardTitle className="font-display text-xl text-foreground">
-              {t("profile.personal.title")}
-            </CardTitle>
-
-            <CardDescription>
-              {t("profile.personal.description")}
-            </CardDescription>
-          </div>
-
-          {!isEditing ? (
-            <button
-              type="button"
-              onClick={() => setIsEditing(true)}
-              className="flex items-center gap-2"
-            >
-              <Pencil className="size-4" />
-             {t("profile.edit.edit")}
-            </button>
-          ) : (
-            <div className="flex items-center gap-2">
-              <button
-                type="button"
-                onClick={handleSave}
-                disabled={isSaving}
-                className="flex items-center gap-2"
-              >
-                <Save className="size-4" />
-                {isSaving ? t("profile.edit.saving") : t("profile.edit.save")}
-              </button>
-
-              <button
-                type="button"
-                onClick={handleCancel}
-                disabled={isSaving}
-                className="flex items-center gap-2"
-              >
-                <X className="size-4" />
-               {t("profile.edit.cancel")}
-              </button>
-            </div>
-          )}
-        </div>
+      <CardHeader className="p-4 pb-2 sm:p-6 sm:pb-4">
+        <CardTitle className="font-display text-lg text-foreground sm:text-xl">
+          {t("profile.activity.title")}
+        </CardTitle>
+        <CardDescription className="text-xs sm:text-sm">
+          {t("profile.activity.description")}
+        </CardDescription>
       </CardHeader>
 
-      <CardContent>
-        <div className="grid gap-4 sm:grid-cols-2">
-          {rows.map(({ key, icon: Icon, label, value }) => (
-            <div
-              key={key}
-              className="group flex items-center gap-4 rounded-xl border bg-muted/40 p-4"
-            >
-              <div className="flex size-10 shrink-0 items-center justify-center rounded-lg bg-accent text-primary">
-                <Icon
-                  className="size-5"
-                  aria-hidden="true"
-                />
-              </div>
+      <CardContent className="p-4 pt-0 sm:p-6 sm:pt-0">
+        <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 sm:gap-4">
+          {sections.map(({ key, labelKey, icon: Icon, to }) => {
+            const content = (
+              <>
+                <div className="flex min-w-0 items-center gap-3 sm:gap-4">
+                  <div className="flex size-9 shrink-0 items-center justify-center rounded-lg bg-accent text-primary sm:size-10">
+                    <Icon className="size-4 sm:size-5" aria-hidden="true" />
+                  </div>
 
-              <div className="min-w-0 flex-1">
-                <p className="text-sm text-muted-foreground">
-                  {label}
-                </p>
+                  <p className="truncate text-xs font-medium text-foreground sm:text-sm">
+                    {t(labelKey)}
+                  </p>
+                </div>
 
-                {isEditing && key === "username" ? (
-                  <input
-                    type="text"
-                    value={formData.username}
-                    onChange={(e) =>
-                      setFormData({
-                        ...formData,
-                        username: e.target.value,
-                      })
-                    }
-                    className="mt-1 w-full rounded-md border bg-background px-3 py-2"
-                  />
-                ) : isEditing && key === "phone" ? (
-                  <input
-                    type="tel"
-                    value={formData.phone}
-                    onChange={(e) =>
-                      setFormData({
-                        ...formData,
-                        phone: e.target.value,
-                      })
-                    }
-                    className="mt-1 w-full rounded-md border bg-background px-3 py-2"
+                {to ? (
+                  <ChevronLeft
+                    className="size-4 shrink-0 text-muted-foreground rtl:rotate-180"
+                    aria-hidden="true"
                   />
                 ) : (
-                  <button
-                    type="button"
-                    onClick={() => handleCopy(value, key)}
-                    disabled={!value}
-                    className="mt-1 flex w-full items-center gap-1.5 text-start font-medium text-foreground hover:text-primary disabled:cursor-default disabled:hover:text-foreground"
-                    aria-label={t("profile.personal.copyValue", {
-                      value:
-                        value ?? t("profile.personal.missing"),
-                    })}
+                  <Badge
+                    variant="secondary"
+                    className="shrink-0 text-[10px] sm:text-xs"
                   >
-                    <span className="truncate">
-                      {value
-                        ? value
-                        : t("profile.personal.missing")}
-                    </span>
-
-                    {value && (
-                      <Copy
-                        className="size-3.5 shrink-0 opacity-0 transition-opacity group-hover:opacity-60"
-                        aria-hidden="true"
-                      />
-                    )}
-                  </button>
+                    {t("profile.activity.comingSoon")}
+                  </Badge>
                 )}
+              </>
+            );
+
+            return to ? (
+              <Link
+                key={key}
+                to={to}
+                className="flex min-w-0 items-center justify-between gap-3 rounded-xl border bg-muted/40 p-3.5 transition-colors hover:bg-muted sm:gap-4 sm:p-4"
+              >
+                {content}
+              </Link>
+            ) : (
+              <div
+                key={key}
+                aria-disabled="true"
+                className="flex min-w-0 items-center justify-between gap-3 rounded-xl border bg-muted/40 p-3.5 sm:gap-4 sm:p-4"
+              >
+                {content}
               </div>
-            </div>
-          ))}
-
-          {isEditing && (
-            <div className="rounded-xl border bg-muted/40 p-4 sm:col-span-2">
-              <p className="text-sm text-muted-foreground">
-                Avatar URL
-              </p>
-
-              <input
-                type="url"
-                value={formData.avatar}
-                onChange={(e) =>
-                  setFormData({
-                    ...formData,
-                    avatar: e.target.value,
-                  })
-                }
-                className="mt-1 w-full rounded-md border bg-background px-3 py-2"
-              />
-            </div>
-          )}
+            );
+          })}
         </div>
       </CardContent>
     </Card>

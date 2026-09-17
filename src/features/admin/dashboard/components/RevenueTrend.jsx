@@ -87,7 +87,7 @@ export default function RevenueTrend({ dailyRevenue }) {
   const chartData = raw.map((row) => {
     const fullLabel =
       row.time != null
-        ? (formatDisplayDate(new Date(row.time)) ?? row.label)
+        ? (formatDisplayDate(new Date(row.time), i18n.language) ?? row.label)
         : row.label;
 
     let shortLabel = row.label;

@@ -76,6 +76,14 @@ export default function StoreFooter() {
           </h2>
           <ul className="mt-3 space-y-2">
             <li>
+              <Link
+                to="/privacy"
+                className="text-sm text-(--color-text-secondary) hover:text-(--color-link)"
+              >
+                {t("store.footer.links.privacy", { defaultValue: "Privacy Policy" })}
+              </Link>
+            </li>
+            <li>
               <ComingSoonText label={t("store.footer.links.helpCenter")} />
             </li>
             <li>

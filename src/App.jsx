@@ -38,6 +38,8 @@ import Notifications from "./pages/Notifications.jsx";
 import NotificationProvider from "./contexts/NotificationProvider.jsx";
 import { TooltipProvider } from "@/components/ui/tooltip";
 
+import PrivacyPolicy from "./pages/PrivacyPolicy.jsx";
+
 const DesignSystem = lazy(() => import("./pages/DesignSystem"));
 
 function App() {
@@ -50,6 +52,7 @@ function App() {
           <Route path="/products" element={<Shop />} />
           <Route path="/products/:id" element={<StoreProductDetails />} />
           <Route path="/about" element={<About />} />
+          <Route path="/privacy" element={<PrivacyPolicy />} />
           <Route element={<RequireAuth />}>
             <Route path="/my-orders" element={<MyOrders />} />
             <Route path="/my-orders/:id" element={<OrderDetails />} />

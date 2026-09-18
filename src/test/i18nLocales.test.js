@@ -22,6 +22,7 @@ const ADMIN_NAMESPACES = [
   "orders",
   "users",
   "carts",
+  "wishlist",
 ];
 
 describe("i18n locale parity (admin-relevant namespaces)", () => {

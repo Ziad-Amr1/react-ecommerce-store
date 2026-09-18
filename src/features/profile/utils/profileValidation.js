@@ -1,6 +1,6 @@
 
 export function validateProfile(formData , t) {
-    
+
   const errors = {};
 
   if (!formData.username.trim()) {

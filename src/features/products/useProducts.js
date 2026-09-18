@@ -31,6 +31,9 @@ const useProducts = () => {
     if (applied.category && applied.category !== "All") {
       params.category = applied.category;
     }
+    if (applied.brand && applied.brand !== "All") {
+      params.brand = applied.brand;
+    }
     if (applied.minPrice !== "") {
       params.minPrice = applied.minPrice;
     }

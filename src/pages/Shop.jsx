@@ -13,6 +13,7 @@ import ShopSearchBar from "@/features/products/components/ShopSearchBar";
 import ShopSidebar from "@/features/products/components/ShopSidebar";
 import ActiveFiltersBar from "@/features/products/components/ActiveFiltersBar";
 import ProductSkeleton from "@/features/products/components/ProductCardSkeleton";
+import useDocumentMeta from "@/hooks/useDocumentMeta";
 
 export default function Shop() {
   const { t } = useTranslation();
@@ -29,6 +30,23 @@ export default function Shop() {
 
   const [searchParams, setSearchParams] = useSearchParams();
   const filters = useShopFilters(products);
+
+  // Derive the price slider's upper bound from the prices actually returned on
+  // the current page, never by fetching the whole catalog. Always accounting
+  // for an applied max price keeps a user-set value inside the range.
+  const pageMaxPrice = products.length
+    ? Math.max(...products.map((p) => Number(p.price) || 0))
+    : 0;
+  const sliderMax = Math.max(
+    pageMaxPrice,
+    Number(filters.applied.maxPrice) || 0,
+    100,
+  );
+
+  useDocumentMeta({
+    title: t("shop.title"),
+    description: t("shop.subtitle"),
+  });
 
   // When the applied filters change (not on first render), go back to
   // page 1 so the user sees the start of the filtered results.
@@ -117,10 +135,14 @@ export default function Shop() {
             categories={filters.categories}
             selectedCategory={filters.applied.category}
             setSelectedCategory={filters.selectCategory}
+            brands={filters.brands}
+            selectedBrand={filters.applied.brand}
+            setSelectedBrand={filters.selectBrand}
             minPrice={filters.minPrice}
             setMinPrice={filters.setMinPrice}
             maxPrice={filters.maxPrice}
             setMaxPrice={filters.setMaxPrice}
+            priceCeiling={sliderMax}
             sortBy={filters.sortBy}
             setSortBy={filters.changeSort}
             clearFilters={filters.clearFilters}
@@ -139,6 +161,7 @@ export default function Shop() {
               hasActiveFilters={filters.hasActiveFilters}
               clearFilters={filters.clearFilters}
               selectCategory={filters.selectCategory}
+              selectBrand={filters.selectBrand}
               setSearchQuery={filters.setSearchQuery}
               setMinPrice={filters.setMinPrice}
               setMaxPrice={filters.setMaxPrice}

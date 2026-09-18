@@ -204,6 +204,9 @@
     "comingSoon": "This feature isn't implemented yet. It is planned for an upcoming release."
   },
   "shop": {
+    "brand": "Brand",
+    "allBrands": "All Brands",
+    "filterBrand": "Brand:",
     "title": "Shop",
     "off": "% off",
     "separator": "·",

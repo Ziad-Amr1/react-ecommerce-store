@@ -2,12 +2,7 @@ import { Search, X, LayoutGrid, List } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { useTranslation } from "react-i18next";
 
-export default function ShopSearchBar({
-  searchQuery,
-  setSearchQuery,
-  viewMode,
-  setViewMode,
-}) {
+export default function ShopSearchBar({ searchQuery, setSearchQuery, viewMode, setViewMode }) {
   const { t } = useTranslation();
 
   return (
@@ -18,7 +13,7 @@ export default function ShopSearchBar({
           type="search"
           value={searchQuery}
           onChange={(e) => setSearchQuery(e.target.value)}
-          placeholder={t("shop.search")}
+          placeholder={t("shop.filterSearch", "Search products...")}
           className="ps-12 pe-10 py-6 text-sm bg-transparent border-none shadow-none focus-visible:ring-0 rounded-xl text-[var(--color-text-primary)] placeholder:text-[var(--color-text-secondary)] font-body"
         />
         {searchQuery && (
@@ -38,8 +33,8 @@ export default function ShopSearchBar({
           aria-label={t("shop.viewGrid")}
           aria-pressed={viewMode === "grid"}
           className={`p-2 rounded-lg transition-all ${
-            viewMode === "grid"
-              ? "bg-[var(--color-surface)] text-[var(--color-primary)] shadow-xs"
+            viewMode === "grid" 
+              ? "bg-[var(--color-surface)] text-[var(--color-primary)] shadow-xs" 
               : "text-[var(--color-text-secondary)] hover:text-[var(--color-text-primary)]"
           }`}
         >
@@ -50,8 +45,8 @@ export default function ShopSearchBar({
           aria-label={t("shop.viewList")}
           aria-pressed={viewMode === "list"}
           className={`p-2 rounded-lg transition-all ${
-            viewMode === "list"
-              ? "bg-[var(--color-surface)] text-[var(--color-primary)] shadow-xs"
+            viewMode === "list" 
+              ? "bg-[var(--color-surface)] text-[var(--color-primary)] shadow-xs" 
               : "text-[var(--color-text-secondary)] hover:text-[var(--color-text-primary)]"
           }`}
         >

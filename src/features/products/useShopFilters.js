@@ -1,5 +1,4 @@
 import { useState, useMemo, useEffect } from "react";
-import { useTranslation } from "react-i18next";
 
 const EMPTY_APPLIED = {
   search: "",
@@ -11,13 +10,12 @@ const EMPTY_APPLIED = {
 };
 
 const SORT_LABELS = {
-  price_asc: "shop.sort.priceLowToHigh",
-  price_desc: "shop.sort.priceHighToLow",
-  rating: "shop.sort.topRated",
+  price_asc: "Price: Low to High",
+  price_desc: "Price: High to Low",
+  rating: "Top Rated",
 };
 
 export default function useShopFilters(products) {
-  const { t } = useTranslation();
   const [searchQuery, setSearchQuery] = useState("");
   const [minPrice, setMinPrice] = useState("");
   const [maxPrice, setMaxPrice] = useState("");
@@ -51,11 +49,8 @@ export default function useShopFilters(products) {
     setApplied((current) => ({ ...current, category: name }));
   };
 
-  const selectBrand = (brand) => {
-    setApplied((current) => ({
-      ...current,
-      brand,
-    }));
+  const selectBrand = (name) => {
+    setApplied((current) => ({ ...current, brand: name }));
   };
 
   const changeSort = (value) => {
@@ -87,9 +82,33 @@ export default function useShopFilters(products) {
     return [{ name: "All", count: products.length }, ...dynamicList];
   }, [products]);
 
+  // Brand list reflects only the products returned on the current page, for
+  // the same reason as the category list: the backend exposes no catalog-wide
+  // brand facet endpoint yet, while selecting a brand still applies a real
+  // server-side filter.
+  const brands = useMemo(() => {
+    if (!products || !Array.isArray(products)) {
+      return [{ name: "All", count: 0 }];
+    }
+
+    const counts = {};
+    products.forEach((p) => {
+      if (p.brand) {
+        counts[p.brand] = (counts[p.brand] || 0) + 1;
+      }
+    });
+
+    const dynamicList = Object.keys(counts)
+      .sort((a, b) => a.localeCompare(b))
+      .map((brand) => ({ name: brand, count: counts[brand] }));
+
+    return [{ name: "All", count: products.length }, ...dynamicList];
+  }, [products]);
+
   const hasActiveFilters =
     applied.search !== "" ||
     applied.category !== "All" ||
+    applied.brand !== "All" ||
     applied.minPrice !== "" ||
     applied.maxPrice !== "" ||
     applied.sortBy !== "Default";
@@ -98,17 +117,11 @@ export default function useShopFilters(products) {
     setSearchQuery("");
     setMinPrice("");
     setMaxPrice("");
-    setSortBy("Default");
+    changeSort("Default");
     setApplied(EMPTY_APPLIED);
   };
 
-  const getSortLabel = (val) => {
-    if (val === "Default") {
-      return t("shop.sort.default");
-    }
-
-    return t(SORT_LABELS[val], val);
-  };
+  const getSortLabel = (val) => SORT_LABELS[val] || val;
 
   return {
     searchQuery,
@@ -122,6 +135,7 @@ export default function useShopFilters(products) {
     applied,
     selectCategory,
     selectBrand,
+    brands,
     viewMode,
     setViewMode,
     isMobileFilterOpen,

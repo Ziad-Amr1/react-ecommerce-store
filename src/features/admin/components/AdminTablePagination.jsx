@@ -1,14 +1,22 @@
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { useTranslation } from "react-i18next";
 import { Button } from "@/components/ui/button";
+import { formatNumber } from "@/utils/formatNumber";
 import {
   Pagination,
   PaginationContent,
   PaginationItem,
 } from "@/components/ui/pagination";
 
-export default function ProductPagination({ currentPage, totalPages, isFetching, onPageChange }) {
-  const { t } = useTranslation();
+export default function AdminTablePagination({
+  currentPage,
+  totalPages,
+  loading,
+  onPageChange,
+  labelPrefix,
+}) {
+  const { t, i18n } = useTranslation();
+  const locale = i18n.language || "en-US";
 
   if (totalPages <= 1) {
     return null;
@@ -21,18 +29,18 @@ export default function ProductPagination({ currentPage, totalPages, isFetching,
           <Button
             variant="outline"
             size="sm"
-            disabled={currentPage === 1 || isFetching}
+            disabled={currentPage === 1 || loading}
             onClick={() => onPageChange(currentPage - 1)}
-            aria-label={t("products.pagination.previous")}
+            aria-label={t(`${labelPrefix}.previous`)}
           >
             <ChevronLeft className="size-4 rtl:rotate-180" aria-hidden="true" />
-            {t("products.pagination.previous")}
+            {t(`${labelPrefix}.previous`)}
           </Button>
         </PaginationItem>
 
         <PaginationItem>
           <span className="rounded-md border bg-muted/50 px-3 py-1.5 tabular-nums text-sm text-foreground">
-            {currentPage} / {totalPages}
+            {formatNumber(currentPage, locale)} / {formatNumber(totalPages, locale)}
           </span>
         </PaginationItem>
 
@@ -40,11 +48,11 @@ export default function ProductPagination({ currentPage, totalPages, isFetching,
           <Button
             variant="outline"
             size="sm"
-            disabled={currentPage === totalPages || isFetching}
+            disabled={currentPage === totalPages || loading}
             onClick={() => onPageChange(currentPage + 1)}
-            aria-label={t("products.pagination.next")}
+            aria-label={t(`${labelPrefix}.next`)}
           >
-            {t("products.pagination.next")}
+            {t(`${labelPrefix}.next`)}
             <ChevronRight className="size-4 rtl:rotate-180" aria-hidden="true" />
           </Button>
         </PaginationItem>

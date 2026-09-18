@@ -8,6 +8,7 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { getUserIdentity } from "@/features/auth/utils/userIdentity";
+import { formatLocaleDate } from "@/utils/formatDate";
 
 function getInitials(identity) {
   const words = identity
@@ -22,7 +23,7 @@ function getInitials(identity) {
 }
 
 export default function ProfileHeader({ user, logout }) {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const navigate = useNavigate();
   const [isLoggingOut, setIsLoggingOut] = useState(false);
 
@@ -30,7 +31,7 @@ export default function ProfileHeader({ user, logout }) {
   const email = user?.email?.trim() || null;
 
   const memberSince = user?.createdAt
-    ? new Date(user.createdAt).toLocaleDateString(undefined, {
+    ? formatLocaleDate(user.createdAt, i18n.language, {
         year: "numeric",
         month: "long",
       })
@@ -52,9 +53,9 @@ export default function ProfileHeader({ user, logout }) {
 
   return (
     <Card>
-      <CardContent className="flex flex-col gap-6 p-6 sm:flex-row sm:items-center sm:justify-between">
-        <div className="flex flex-col items-center gap-4 text-center sm:flex-row sm:items-center sm:text-start">
-          <Avatar className="size-20 border-2 border-border text-2xl">
+      <CardContent className="flex flex-col gap-5 p-4 sm:p-6 sm:flex-row sm:items-center sm:justify-between">
+        <div className="flex flex-col items-center gap-4 text-center sm:flex-row sm:items-center sm:text-start min-w-0 max-w-full">
+          <Avatar className="size-16 sm:size-20 border-2 border-border text-xl sm:text-2xl shrink-0">
             <AvatarImage
               src={user?.avatar}
               alt={identity ?? t("profile.title")}
@@ -65,26 +66,26 @@ export default function ProfileHeader({ user, logout }) {
             </AvatarFallback>
           </Avatar>
 
-          <div className="min-w-0">
+          <div className="min-w-0 max-w-full flex-1">
             <div className="flex flex-wrap items-center justify-center gap-2 sm:justify-start">
-              <h2 className="truncate font-display text-2xl font-bold text-foreground">
+              <h2 className="truncate max-w-full font-display text-xl sm:text-2xl font-bold text-foreground">
                 {identity ?? "—"}
               </h2>
 
               {identity && (
-                <Badge className="border-transparent bg-(--color-success-bg) text-(--color-success)">
+                <Badge className="border-transparent bg-(--color-success-bg) text-(--color-success) shrink-0">
                   {t("profile.header.signedIn")}
                 </Badge>
               )}
 
               {user?.role && (
-                <Badge variant="outline">
+                <Badge variant="outline" className="shrink-0">
                   {user.role.charAt(0).toUpperCase() + user.role.slice(1)}
                 </Badge>
               )}
 
               {user?.isVerified && (
-                <Badge variant="secondary" className="gap-1">
+                <Badge variant="secondary" className="gap-1 shrink-0">
                   <BadgeCheck className="size-3.5" aria-hidden="true" />
                   {t("profile.header.verified")}
                 </Badge>
@@ -92,19 +93,19 @@ export default function ProfileHeader({ user, logout }) {
             </div>
 
             {email && (
-              <p className="mt-1 flex items-center justify-center gap-1.5 text-sm text-muted-foreground sm:justify-start">
+              <p className="mt-1 flex items-center justify-center gap-1.5 text-xs sm:text-sm text-muted-foreground sm:justify-start min-w-0 max-w-full">
                 <Mail className="size-4 shrink-0" aria-hidden="true" />
-                <span className="truncate">{email}</span>
+                <span className="truncate max-w-full">{email}</span>
               </p>
             )}
 
             {memberSince && (
-              <p className="mt-1 flex items-center justify-center gap-1.5 text-xs text-muted-foreground sm:justify-start">
+              <p className="mt-1 flex items-center justify-center gap-1.5 text-xs text-muted-foreground sm:justify-start min-w-0 max-w-full">
                 <CalendarDays
                   className="size-3.5 shrink-0"
                   aria-hidden="true"
                 />
-                <span>
+                <span className="truncate max-w-full">
                   {t("profile.header.memberSince", {
                     date: memberSince,
                   })}
@@ -118,7 +119,7 @@ export default function ProfileHeader({ user, logout }) {
           variant="outline"
           onClick={handleSignOut}
           disabled={isLoggingOut}
-          className="shrink-0"
+          className="w-full sm:w-auto shrink-0 justify-center mt-2 sm:mt-0"
         >
           {isLoggingOut ? (
             <>

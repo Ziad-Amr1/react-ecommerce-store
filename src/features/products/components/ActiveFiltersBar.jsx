@@ -2,6 +2,7 @@ import { X, FilterX } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { useTranslation } from "react-i18next";
+import { formatCurrency } from "@/utils/formatCurrency";
 
 export default function ActiveFiltersBar({
   resultsCount,
@@ -17,12 +18,22 @@ export default function ActiveFiltersBar({
   setMaxPrice,
   changeSort,
 }) {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
 
   const clearPrice = () => {
     setMinPrice("");
     setMaxPrice("");
   };
+
+  const minBound = Number(applied.minPrice) || 0;
+  const maxBound =
+    applied.maxPrice !== "" && Number.isFinite(Number(applied.maxPrice))
+      ? Number(applied.maxPrice)
+      : null;
+  const priceLabel =
+    maxBound == null
+      ? `${formatCurrency(minBound, undefined, i18n.language)} - ${t("shop.filterUnlimited", "∞")}`
+      : `${formatCurrency(minBound, undefined, i18n.language)} - ${formatCurrency(maxBound, undefined, i18n.language)}`;
 
   return (
     <div className="flex flex-wrap items-center justify-between gap-3 bg-[var(--color-surface)] p-3.5 rounded-2xl border border-[var(--color-border)] shadow-xs">
@@ -32,10 +43,7 @@ export default function ActiveFiltersBar({
         </span>
 
         {applied.category !== "All" && (
-          <Badge
-            variant="secondary"
-            className="gap-1.5 py-1 px-2.5 rounded-lg bg-[var(--color-surface-secondary)] text-[var(--color-text-primary)] border border-[var(--color-border)] font-normal text-xs"
-          >
+          <Badge variant="secondary" className="gap-1.5 py-1 px-2.5 rounded-lg bg-[var(--color-surface-secondary)] text-[var(--color-text-primary)] border border-[var(--color-border)] font-normal text-xs">
             {t("shop.filterCategory")}{" "}
             <span className="font-semibold">{applied.category}</span>
             <X
@@ -46,10 +54,7 @@ export default function ActiveFiltersBar({
         )}
 
         {applied.brand !== "All" && (
-          <Badge
-            variant="secondary"
-            className="gap-1.5 py-1 px-2.5 rounded-lg bg-[var(--color-surface-secondary)] text-[var(--color-text-primary)] border border-[var(--color-border)] font-normal text-xs"
-          >
+          <Badge variant="secondary" className="gap-1.5 py-1 px-2.5 rounded-lg bg-[var(--color-surface-secondary)] text-[var(--color-text-primary)] border border-[var(--color-border)] font-normal text-xs">
             {t("shop.filterBrand")}{" "}
             <span className="font-semibold">{applied.brand}</span>
             <X
@@ -60,13 +65,10 @@ export default function ActiveFiltersBar({
         )}
 
         {(applied.minPrice !== "" || applied.maxPrice !== "") && (
-          <Badge
-            variant="secondary"
-            className="gap-1.5 py-1 px-2.5 rounded-lg bg-[var(--color-surface-secondary)] text-[var(--color-text-primary)] border border-[var(--color-border)] font-normal text-xs"
-          >
+          <Badge variant="secondary" className="gap-1.5 py-1 px-2.5 rounded-lg bg-[var(--color-surface-secondary)] text-[var(--color-text-primary)] border border-[var(--color-border)] font-normal text-xs">
             {t("shop.filterPrice")}{" "}
             <span className="font-mono font-semibold">
-              ${applied.minPrice || "0"} - ${applied.maxPrice || "∞"}
+              {priceLabel}
             </span>
             <X
               className="size-3.5 text-[var(--color-text-secondary)] hover:text-[var(--color-error)] cursor-pointer"
@@ -76,14 +78,9 @@ export default function ActiveFiltersBar({
         )}
 
         {applied.sortBy !== "Default" && (
-          <Badge
-            variant="secondary"
-            className="gap-1.5 py-1 px-2.5 rounded-lg bg-[var(--color-surface-secondary)] text-[var(--color-text-primary)] border border-[var(--color-border)] font-normal text-xs"
-          >
+          <Badge variant="secondary" className="gap-1.5 py-1 px-2.5 rounded-lg bg-[var(--color-surface-secondary)] text-[var(--color-text-primary)] border border-[var(--color-border)] font-normal text-xs">
             {t("shop.filterSort")}{" "}
-            <span className="font-semibold">
-              {getSortLabel(applied.sortBy)}
-            </span>
+            <span className="font-semibold">{getSortLabel(applied.sortBy)}</span>
             <X
               className="size-3.5 text-[var(--color-text-secondary)] hover:text-[var(--color-error)] cursor-pointer"
               onClick={() => changeSort("Default")}
@@ -92,10 +89,7 @@ export default function ActiveFiltersBar({
         )}
 
         {applied.search !== "" && (
-          <Badge
-            variant="secondary"
-            className="gap-1.5 py-1 px-2.5 rounded-lg bg-[var(--color-surface-secondary)] text-[var(--color-text-primary)] border border-[var(--color-border)] font-normal text-xs"
-          >
+          <Badge variant="secondary" className="gap-1.5 py-1 px-2.5 rounded-lg bg-[var(--color-surface-secondary)] text-[var(--color-text-primary)] border border-[var(--color-border)] font-normal text-xs">
             {t("shop.filterSearch")}{" "}
             <span className="font-semibold">"{applied.search}"</span>
             <X
@@ -107,14 +101,9 @@ export default function ActiveFiltersBar({
       </div>
 
       {hasActiveFilters && (
-        <Button
-          variant="ghost"
-          size="sm"
-          onClick={clearFilters}
-          className="text-xs h-8 text-[var(--color-error)] hover:bg-[var(--color-error)]/10 hover:text-[var(--color-error)] flex items-center gap-1.5 px-2"
-        >
+        <Button variant="ghost" size="sm" onClick={clearFilters} className="text-xs h-8 text-[var(--color-error)] hover:bg-[var(--color-error)]/10 hover:text-[var(--color-error)] flex items-center gap-1.5 px-2">
           <FilterX className="size-3.5" />
-          {t("shop.clearAllFilters")}
+          {t("shop.clearAllFilters", "Clear Filters")}
         </Button>
       )}
     </div>

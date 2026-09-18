@@ -31,8 +31,8 @@ export default function ProductDetails() {
     return (
       <div className="p-4">
         <div className="flex min-h-75 flex-col items-center justify-center rounded-lg border bg-card shadow-sm">
-          <div className="mb-3 flex size-14 items-center justify-center rounded-full bg-error-bg">
-            <TriangleAlert className="size-7 text-error" aria-hidden="true" />
+          <div className="mb-3 flex size-14 items-center justify-center rounded-full bg-(--color-error-bg)">
+            <TriangleAlert className="size-7 text-(--color-error)" aria-hidden="true" />
           </div>
           <h2 className="font-display text-lg font-semibold text-foreground">
             {t("products.loadErrorTitle")}

@@ -1,16 +1,6 @@
 import { Star, StarHalf } from "lucide-react";
 
-export default function Stars({ value, label, noRating = false }) {
-  if (noRating) {
-    return (
-      <div className="flex items-center gap-0.5" role="img" aria-label={label}>
-        <Star
-          aria-hidden="true"
-          className="size-4 text-[var(--color-text-secondary)]"
-        />
-      </div>
-    );
-  }
+export default function Stars({ value, label }) {
   return (
     <div
       className="flex items-center gap-0.5"

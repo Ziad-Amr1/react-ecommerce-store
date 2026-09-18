@@ -53,18 +53,18 @@ export default function ProductDetails() {
 
   if (isLoading) {
     return (
-      <div className="min-h-screen bg-[var(--color-surface-secondary)] text-[var(--color-text-primary)] font-body transition-colors duration-300">
+      <div className="min-h-screen bg-(--color-surface-secondary) text-(--color-text-primary) font-body transition-colors duration-300">
         <div className="mx-auto w-full max-w-6xl space-y-8 px-6 py-10 sm:px-8 lg:px-10">
-          <div className="h-8 w-40 animate-pulse rounded-lg bg-[var(--color-surface)]" />
+          <div className="h-8 w-40 animate-pulse rounded-lg bg-(--color-surface)" />
 
           <div className="grid gap-8 lg:grid-cols-2">
             <ProductSkeleton />
 
             <div className="space-y-4">
-              <div className="h-8 w-3/4 animate-pulse rounded-lg bg-[var(--color-surface)]" />
-              <div className="h-4 w-1/2 animate-pulse rounded-lg bg-[var(--color-surface)]" />
-              <div className="h-12 w-full animate-pulse rounded-2xl bg-[var(--color-surface)]" />
-              <div className="h-28 w-full animate-pulse rounded-2xl bg-[var(--color-surface)]" />
+              <div className="h-8 w-3/4 animate-pulse rounded-lg bg-(--color-surface)" />
+              <div className="h-4 w-1/2 animate-pulse rounded-lg bg-(--color-surface)" />
+              <div className="h-12 w-full animate-pulse rounded-2xl bg-(--color-surface)" />
+              <div className="h-28 w-full animate-pulse rounded-2xl bg-(--color-surface)" />
             </div>
           </div>
         </div>
@@ -74,21 +74,21 @@ export default function ProductDetails() {
 
   if (error) {
     return (
-      <div className="min-h-screen bg-[var(--color-surface-secondary)] text-[var(--color-text-primary)] font-body transition-colors duration-300">
+      <div className="min-h-screen bg-(--color-surface-secondary) text-(--color-text-primary) font-body transition-colors duration-300">
         <div className="mx-auto w-full max-w-6xl px-6 py-10 sm:px-8 lg:px-10">
-          <div className="flex flex-col items-center justify-center rounded-2xl border border-[var(--color-border)] bg-[var(--color-surface)] py-20">
-            <div className="mb-3 flex size-14 items-center justify-center rounded-full bg-[var(--color-error)]/10">
+          <div className="flex flex-col items-center justify-center rounded-2xl border border-(--color-border) bg-(--color-surface) py-20">
+            <div className="mb-3 flex size-14 items-center justify-center rounded-full bg-(--color-error)/10">
               <TriangleAlert
-                className="size-7 text-[var(--color-error)]"
+                className="size-7 text-(--color-error)"
                 aria-hidden="true"
               />
             </div>
 
-            <h2 className="font-display text-lg font-semibold text-[var(--color-text-primary)]">
+            <h2 className="font-display text-lg font-semibold text-(--color-text-primary)">
               {t("products.loadErrorTitle")}
             </h2>
 
-            <p className="mt-1 text-sm text-[var(--color-text-secondary)]">
+            <p className="mt-1 text-sm text-(--color-text-secondary)">
               {t("products.loadProductFailed")}
             </p>
 
@@ -103,10 +103,10 @@ export default function ProductDetails() {
 
   if (!product) {
     return (
-      <div className="min-h-screen bg-[var(--color-surface-secondary)] text-[var(--color-text-primary)] font-body transition-colors duration-300">
+      <div className="min-h-screen bg-(--color-surface-secondary) text-(--color-text-primary) font-body transition-colors duration-300">
         <div className="mx-auto w-full max-w-6xl px-6 py-10 sm:px-8 lg:px-10">
-          <div className="flex flex-col items-center justify-center rounded-2xl border border-[var(--color-border)] bg-[var(--color-surface)] py-20">
-            <h2 className="font-display text-lg font-semibold text-[var(--color-text-primary)]">
+          <div className="flex flex-col items-center justify-center rounded-2xl border border-(--color-border) bg-(--color-surface) py-20">
+            <h2 className="font-display text-lg font-semibold text-(--color-text-primary)">
               {t("products.notFound")}
             </h2>
 
@@ -148,10 +148,10 @@ export default function ProductDetails() {
 
   const stockStatusClass =
     product.stock === 0
-      ? "text-[var(--color-error)]"
+      ? "text-(--color-error)"
       : product.stock < 5
-        ? "text-[var(--color-warning)]"
-        : "text-[var(--color-success)]";
+        ? "text-(--color-warning)"
+        : "text-(--color-success)";
 
   const isOutOfStock = product.stock === 0;
 
@@ -178,12 +178,12 @@ export default function ProductDetails() {
   };
 
   return (
-    <div className="min-h-screen bg-[var(--color-surface-secondary)] text-[var(--color-text-primary)] font-body transition-colors duration-300">
+    <div className="min-h-screen bg-(--color-surface-secondary) text-(--color-text-primary) font-body transition-colors duration-300">
       <div className="mx-auto w-full max-w-6xl space-y-10 px-6 py-10 sm:px-8 lg:px-10">
         {/* Back */}
         <Button
           variant="outline"
-          className="rounded-xl border-[var(--color-border)] bg-[var(--color-surface)] text-[var(--color-text-primary)]"
+          className="rounded-xl border-(--color-border) bg-(--color-surface) text-(--color-text-primary)"
           onClick={() => navigate("/products")}
           aria-label={t("products.backToList")}
         >
@@ -198,8 +198,8 @@ export default function ProductDetails() {
         {/* Product Details */}
         <div className="grid gap-8 lg:grid-cols-2">
           {/* Gallery */}
-          <Card className="h-full gap-4 overflow-hidden border-[var(--color-border)] py-0 shadow-[var(--shadow-md)]">
-            <div className="relative m-4 aspect-square overflow-hidden rounded-xl bg-[var(--color-surface-secondary)]">
+          <Card className="h-full gap-4 overflow-hidden border-(--color-border) py-0 shadow-(--shadow-md)">
+            <div className="relative m-4 aspect-square overflow-hidden rounded-xl bg-(--color-surface-secondary)">
               {currentImage ? (
                 <img
                   src={currentImage}
@@ -207,7 +207,7 @@ export default function ProductDetails() {
                   className="h-full w-full object-cover"
                 />
               ) : (
-                <div className="flex h-full w-full items-center justify-center text-sm text-[var(--color-text-disabled)]">
+                <div className="flex h-full w-full items-center justify-center text-sm text-(--color-text-disabled)">
                   {t("products.noImage", "No image")}
                 </div>
               )}
@@ -226,8 +226,8 @@ export default function ProductDetails() {
                     )} ${index + 1}`}
                     className={`size-16 overflow-hidden rounded-lg border ${
                       index === selectedImage
-                        ? "border-[var(--color-primary)]"
-                        : "border-[var(--color-border)]"
+                        ? "border-(--color-primary)"
+                        : "border-(--color-border)"
                     }`}
                   >
                     <img
@@ -242,29 +242,29 @@ export default function ProductDetails() {
           </Card>
 
           {/* Info */}
-          <Card className="h-full border-[var(--color-border)] shadow-[var(--shadow-md)]">
+          <Card className="h-full border-(--color-border) shadow-(--shadow-md)">
             <CardContent className="space-y-5 pt-6">
               <div className="space-y-2">
                 {product.brand && (
                   <Badge
                     variant="outline"
-                    className="border-transparent bg-[var(--color-info)] px-2.5 text-[var(--color-on-error)]"
+                    className="border-transparent bg-(--color-info) px-2.5 text-(--color-on-error)"
                   >
                     {product.brand}
                   </Badge>
                 )}
 
-                <p className="font-mono text-[11px] tracking-wide text-[var(--color-text-secondary)] uppercase">
+                <p className="font-mono text-[11px] tracking-wide text-(--color-text-secondary) uppercase">
                   {product.category} {t("shop.separator")}{" "}
                   {product.subcategory}
                 </p>
 
-                <h1 className="font-display text-3xl font-bold tracking-tight text-[var(--color-text-primary)]">
+                <h1 className="font-display text-3xl font-bold tracking-tight text-(--color-text-primary)">
                   {productName}
                 </h1>
 
                 {product.shortDescription && (
-                  <p className="text-sm leading-6 text-[var(--color-text-secondary)]">
+                  <p className="text-sm leading-6 text-(--color-text-secondary)">
                     {product.shortDescription}
                   </p>
                 )}
@@ -279,9 +279,9 @@ export default function ProductDetails() {
                       })}
                     />
 
-                    <span className="text-sm text-[var(--color-text-secondary)]">
+                    <span className="text-sm text-(--color-text-secondary)">
                       {rating.toFixed(1)}{" "}
-                      <span className="text-[var(--color-text-disabled)]">
+                      <span className="text-(--color-text-disabled)">
                         ({formatNumber(reviewsCount)})
                       </span>
                     </span>
@@ -290,14 +290,14 @@ export default function ProductDetails() {
               </div>
 
               {/* Price */}
-              <div className="border-t border-[var(--color-border)] pt-5">
+              <div className="border-t border-(--color-border) pt-5">
                 <div className="flex flex-wrap items-baseline gap-3">
-                  <p className="font-display text-3xl font-bold tabular-nums text-[var(--color-text-primary)]">
+                  <p className="font-display text-3xl font-bold tabular-nums text-(--color-text-primary)">
                     {formatCurrency(displayPrice)}
                   </p>
 
                   {hasDiscount && (
-                    <p className="text-base text-[var(--color-text-secondary)] line-through">
+                    <p className="text-base text-(--color-text-secondary) line-through">
                       {formatCurrency(product.price)}
                     </p>
                   )}
@@ -305,7 +305,7 @@ export default function ProductDetails() {
                   {hasDiscount && (
                     <Badge
                       variant="outline"
-                      className="border-transparent bg-[var(--color-error)] text-[var(--color-on-error)]"
+                      className="border-transparent bg-(--color-error) text-(--color-on-error)"
                     >
                       {salePercentage} {t("shop.off")}
                     </Badge>
@@ -349,33 +349,33 @@ export default function ProductDetails() {
               </div>
 
               {/* Product Information */}
-              <div className="grid gap-5 border-t border-[var(--color-border)] pt-5 sm:grid-cols-3">
+              <div className="grid gap-5 border-t border-(--color-border) pt-5 sm:grid-cols-3">
                 <div>
-                  <p className="text-sm text-[var(--color-text-secondary)]">
+                  <p className="text-sm text-(--color-text-secondary)">
                     {t("products.fields.category")}
                   </p>
 
-                  <p className="mt-1 font-semibold text-[var(--color-text-primary)]">
+                  <p className="mt-1 font-semibold text-(--color-text-primary)">
                     {product.category || "—"}
                   </p>
                 </div>
 
                 <div>
-                  <p className="text-sm text-[var(--color-text-secondary)]">
+                  <p className="text-sm text-(--color-text-secondary)">
                     {t("products.fields.subcategory")}
                   </p>
 
-                  <p className="mt-1 font-semibold text-[var(--color-text-primary)]">
+                  <p className="mt-1 font-semibold text-(--color-text-primary)">
                     {product.subcategory || "—"}
                   </p>
                 </div>
 
                 <div>
-                  <p className="text-sm text-[var(--color-text-secondary)]">
+                  <p className="text-sm text-(--color-text-secondary)">
                     {t("products.fields.sku")}
                   </p>
 
-                  <p className="mt-1 break-all font-mono text-sm font-semibold text-[var(--color-text-primary)]">
+                  <p className="mt-1 break-all font-mono text-sm font-semibold text-(--color-text-primary)">
                     {product.sku || "—"}
                   </p>
                 </div>
@@ -383,21 +383,21 @@ export default function ProductDetails() {
 
               {/* Description */}
               {product.description && (
-                <div className="border-t border-[var(--color-border)] pt-5">
-                  <h2 className="font-display text-lg font-bold text-[var(--color-text-primary)]">
+                <div className="border-t border-(--color-border) pt-5">
+                  <h2 className="font-display text-lg font-bold text-(--color-text-primary)">
                     {t("products.sections.description")}
                   </h2>
 
-                  <p className="mt-2 whitespace-pre-line text-sm leading-7 text-[var(--color-text-secondary)]">
+                  <p className="mt-2 whitespace-pre-line text-sm leading-7 text-(--color-text-secondary)">
                     {product.description}
                   </p>
                 </div>
               )}
 
               {/* Actions */}
-              <div className="flex gap-2 border-t border-[var(--color-border)] pt-5">
+              <div className="flex gap-2 border-t border-(--color-border) pt-5">
                 <Button
-                  className="flex-1 bg-[var(--color-primary)] text-primary-foreground hover:bg-[var(--color-secondary)]"
+                  className="flex-1 bg-(--color-primary) text-primary-foreground hover:bg-(--color-secondary)"
                   onClick={handleAddToCart}
                   disabled={isAdding || isOutOfStock}
                   aria-label={
@@ -429,7 +429,7 @@ export default function ProductDetails() {
                         size="icon"
                         disabled
                         aria-label={t("shop.addToWishlist")}
-                        className="cursor-not-allowed rounded-xl border-[var(--color-border)] bg-[var(--color-surface)] text-[var(--color-text-primary)] opacity-60 hover:bg-[var(--color-surface-secondary)]"
+                        className="cursor-not-allowed rounded-xl border-(--color-border) bg-(--color-surface) text-(--color-text-primary) opacity-60 hover:bg-(--color-surface-secondary)"
                       >
                         <Heart aria-hidden="true" />
                       </Button>
@@ -449,17 +449,17 @@ export default function ProductDetails() {
 
         {/* Similar Products */}
         {!isRelatedLoading && similarProducts.length > 0 && (
-          <section className="space-y-5 border-t border-[var(--color-border)] pt-10">
+          <section className="space-y-5 border-t border-(--color-border) pt-10">
             <div>
-              <p className="text-sm font-medium text-[var(--color-primary)]">
+              <p className="text-sm font-medium text-(--color-primary)">
                 {t("products.similarProducts")}
               </p>
 
-              <h2 className="mt-1 font-display text-2xl font-bold text-[var(--color-text-primary)]">
+              <h2 className="mt-1 font-display text-2xl font-bold text-(--color-text-primary)">
                 {t("products.youMayAlsoLike")}
               </h2>
 
-              <p className="mt-2 text-sm text-[var(--color-text-secondary)]">
+              <p className="mt-2 text-sm text-(--color-text-secondary)">
                 {t("products.similarProductsDescription")}
               </p>
             </div>
@@ -478,17 +478,17 @@ export default function ProductDetails() {
 
         {/* Recommended Products */}
         {!isRelatedLoading && recommendedProducts.length > 0 && (
-          <section className="space-y-5 border-t border-[var(--color-border)] pt-10">
+          <section className="space-y-5 border-t border-(--color-border) pt-10">
             <div>
-              <p className="text-sm font-medium text-[var(--color-primary)]">
+              <p className="text-sm font-medium text-(--color-primary)">
                 {t("products.recommended")}
               </p>
 
-              <h2 className="mt-1 font-display text-2xl font-bold text-[var(--color-text-primary)]">
+              <h2 className="mt-1 font-display text-2xl font-bold text-(--color-text-primary)">
                 {t("products.recommendedForYou")}
               </h2>
 
-              <p className="mt-2 text-sm text-[var(--color-text-secondary)]">
+              <p className="mt-2 text-sm text-(--color-text-secondary)">
                 {t("products.recommendedDescription")}
               </p>
             </div>

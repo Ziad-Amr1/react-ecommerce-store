@@ -92,15 +92,15 @@ export default function Shop() {
     totalProducts != null ? "shop.results" : "shop.showing";
 
   return (
-    <div className="min-h-screen bg-[var(--color-surface-secondary)] text-[var(--color-text-primary)] font-body transition-colors duration-300">
+    <div className="min-h-screen bg-(--color-surface-secondary) text-(--color-text-primary) font-body transition-colors duration-300">
       <div className="w-full mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-10 space-y-6 sm:space-y-8">
         {/* Header */}
-        <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 pb-4 border-b border-[var(--color-border)]">
+        <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 pb-4 border-b border-(--color-border)">
           <div>
-            <h1 className="text-3xl font-bold font-display tracking-tight text-[var(--color-text-primary)]">
+            <h1 className="text-3xl font-bold font-display tracking-tight text-(--color-text-primary)">
               {t("shop.title", "Shop")}
             </h1>
-            <p className="text-sm text-[var(--color-text-secondary)] mt-1">
+            <p className="text-sm text-(--color-text-secondary) mt-1">
               {t("shop.subtitle")}
             </p>
           </div>
@@ -110,12 +110,12 @@ export default function Shop() {
             onClick={() =>
               filters.setIsMobileFilterOpen(!filters.isMobileFilterOpen)
             }
-            className="md:hidden flex items-center gap-2 rounded-xl border-[var(--color-border)] bg-[var(--color-surface)] text-[var(--color-text-primary)]"
+            className="md:hidden flex items-center gap-2 rounded-xl border-(--color-border) bg-(--color-surface) text-(--color-text-primary)"
           >
             <SlidersHorizontal className="size-4" />
             {t("shop.filterTitle", "Filters")}
             {filters.hasActiveFilters && (
-              <span className="size-2 rounded-full bg-[var(--color-primary)]" />
+              <span className="size-2 rounded-full bg-(--color-primary)" />
             )}
           </Button>
         </div>
@@ -133,10 +133,10 @@ export default function Shop() {
           {/* Sidebar Component */}
           <ShopSidebar
             categories={filters.categories}
-            selectedCategory={filters.applied.category}
+            selectedCategory={filters.draft.category}
             setSelectedCategory={filters.selectCategory}
             brands={filters.brands}
-            selectedBrand={filters.applied.brand}
+            selectedBrand={filters.draft.brand}
             setSelectedBrand={filters.selectBrand}
             minPrice={filters.minPrice}
             setMinPrice={filters.setMinPrice}
@@ -145,6 +145,7 @@ export default function Shop() {
             priceCeiling={sliderMax}
             sortBy={filters.sortBy}
             setSortBy={filters.changeSort}
+            applyFilters={filters.applyFilters}
             clearFilters={filters.clearFilters}
             isMobileFilterOpen={filters.isMobileFilterOpen}
             t={t}
@@ -160,12 +161,11 @@ export default function Shop() {
               getSortLabel={filters.getSortLabel}
               hasActiveFilters={filters.hasActiveFilters}
               clearFilters={filters.clearFilters}
-              selectCategory={filters.selectCategory}
-              selectBrand={filters.selectBrand}
-              setSearchQuery={filters.setSearchQuery}
-              setMinPrice={filters.setMinPrice}
-              setMaxPrice={filters.setMaxPrice}
-              changeSort={filters.changeSort}
+              clearCategory={filters.clearCategory}
+              clearBrand={filters.clearBrand}
+              clearPrice={filters.clearPrice}
+              clearSort={filters.clearSort}
+              clearSearch={filters.clearSearch}
             />
 
             {/* Product Feed */}
@@ -178,8 +178,8 @@ export default function Shop() {
                 ))}
               </div>
             ) : apiError ? (
-              <div className="text-center py-16 bg-[var(--color-surface)] rounded-2xl border border-[var(--color-border)]">
-                <h3 className="text-base font-semibold text-[var(--color-error)]">
+              <div className="text-center py-16 bg-(--color-surface) rounded-2xl border border-(--color-border)">
+                <h3 className="text-base font-semibold text-(--color-error)">
                   {t("products.loadErrorTitle")}
                 </h3>
                 <Button
@@ -192,9 +192,9 @@ export default function Shop() {
                 </Button>
               </div>
             ) : products.length === 0 ? (
-              <div className="text-center py-16 bg-[var(--color-surface)] rounded-2xl border border-[var(--color-border)]">
-                <ShoppingBag className="size-12 text-[var(--color-text-secondary)] opacity-40 mx-auto mb-3" />
-                <h3 className="text-lg font-semibold text-[var(--color-text-primary)]">
+              <div className="text-center py-16 bg-(--color-surface) rounded-2xl border border-(--color-border)">
+                <ShoppingBag className="size-12 text-(--color-text-secondary) opacity-40 mx-auto mb-3" />
+                <h3 className="text-lg font-semibold text-(--color-text-primary)">
                   {t("products.noProductsFound")}
                 </h3>
                 {filters.hasActiveFilters && (

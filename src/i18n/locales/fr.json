@@ -737,6 +737,7 @@
     "quantity": "Quantité",
     "removeItem": "Retirer {{name}}",
     "continueShopping": "Continuer les achats",
+    "proceedToCheckout": "Passer à la caisse",
     "unitPrice": "{{price}} l'unité",
     "loading": "Chargement de votre panier...",
     "guestNote": "Vous naviguez en tant qu'invité.",
@@ -991,5 +992,72 @@
       "subtotal": "Sous-total",
       "total": "Total"
     }
+  },
+  "checkout": {
+    "title": "Paiement",
+    "subtitle": "Complétez vos informations de livraison pour passer commande.",
+    "optional": "facultatif",
+    "emptyCartTitle": "Votre panier est vide",
+    "emptyCartDescription": "Ajoutez des articles à votre panier avant de passer commande.",
+    "backToCart": "Retour au panier",
+    "validationError": "Veuillez corriger les champs en surbrillance.",
+    "emptyCartError": "Votre panier est vide.",
+    "genericError": "Impossible de passer votre commande. Veuillez réessayer.",
+    "orderSuccessToast": "Commande passée avec succès.",
+    "shipping": {
+      "title": "Informations de livraison",
+      "subtitle": "Où devons-nous livrer votre commande ?",
+      "fullNameLabel": "Nom complet",
+      "fullNamePlaceholder": "Marie Dupont",
+      "phoneLabel": "Numéro de téléphone",
+      "phonePlaceholder": "+20 100 000 0000",
+      "countryLabel": "Pays",
+      "countryPlaceholder": "Égypte",
+      "cityLabel": "Ville",
+      "cityPlaceholder": "Le Caire",
+      "addressLabel": "Adresse",
+      "addressPlaceholder": "123 rue du Nil, appt 4",
+      "postalCodeLabel": "Code postal",
+      "postalCodePlaceholder": "11511",
+      "customerNoteLabel": "Note de commande",
+      "customerNotePlaceholder": "Instructions de livraison, points de repère, etc."
+    },
+    "payment": {
+      "title": "Mode de paiement",
+      "subtitle": "Le paiement à la livraison est disponible dès maintenant.",
+      "cash": "Paiement à la livraison",
+      "cashDescription": "Payez en espèces à la réception de votre commande.",
+      "stripe": "Paiement par carte",
+      "stripeUnavailable": "Bientôt disponible",
+      "secureNote": "Vos informations servent uniquement à livrer cette commande.",
+      "placeOrder": "Passer la commande",
+      "placingOrder": "Commande en cours..."
+    },
+    "summary": {
+      "title": "Récapitulatif",
+      "subtitle": "Vérifiez les articles de votre commande.",
+      "subtotal": "Sous-total",
+      "discount": "Remise",
+      "total": "Total",
+      "quantity": "Quantité : {{quantity}}"
+    },
+    "validation": {
+      "fullNameRequired": "Le nom complet est requis",
+      "fullNameMin": "Le nom complet doit comporter au moins 3 caractères",
+      "phoneRequired": "Le numéro de téléphone est requis",
+      "countryRequired": "Le pays est requis",
+      "cityRequired": "La ville est requise",
+      "addressRequired": "L'adresse est requise",
+      "addressMin": "L'adresse doit comporter au moins 5 caractères",
+      "postalCodeInvalid": "Saisissez un code postal valide",
+      "paymentMethodRequired": "Sélectionnez un mode de paiement"
+    }
+  },
+  "orderSuccess": {
+    "title": "Commande confirmée",
+    "description": "Merci pour votre commande. Nous commençons sa préparation immédiatement.",
+    "orderRef": "Référence de commande : {{id}}",
+    "myOrders": "Mes commandes",
+    "continueShopping": "Continuer les achats"
   }
 }

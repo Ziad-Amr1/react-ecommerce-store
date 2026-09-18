@@ -28,6 +28,8 @@ import ProtectedRoute from "./ProtectedRoute.jsx";
 import RequireAuth from "./RequireAuth.jsx";
 import Shop from "./pages/Shop.jsx";
 import Cart from "./pages/Cart.jsx";
+import Checkout from "./pages/Checkout/Checkout.jsx";
+import OrderSuccess from "./pages/OrderSuccess.jsx";
 import About from "./pages/About.jsx";
 import MyOrders from "./pages/MyOrders.jsx";
 import OrderDetails from "./pages/OrderDetails.jsx";
@@ -52,6 +54,8 @@ function App() {
             <Route path="/my-orders" element={<MyOrders />} />
             <Route path="/my-orders/:id" element={<OrderDetails />} />
             <Route path="/wishlist" element={<Wishlist />} />
+            <Route path="/checkout" element={<Checkout />} />
+            <Route path="/order-success" element={<OrderSuccess />} />
             <Route path="/notifications" element={<Notifications />} />
           </Route>
           <Route path="/cart" element={<Cart />} />

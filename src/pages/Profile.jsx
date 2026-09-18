@@ -5,11 +5,10 @@ import PersonalInformation from "@/features/profile/PersonalInformation";
 import AccountActivity from "@/features/profile/AccountActivity";
 import AnonymousPrompt from "@/features/profile/AnonymousPrompt";
 import ProfileSkeleton from "@/features/profile/ProfileSkeleton";
-import ErrorState from "@/features/profile/ErrorState";
 
 export default function Profile() {
   const { t } = useTranslation();
-  const { user, isLoading, restoreError, logout, refresh, updateUser } = useAuth();
+  const { user, isLoading, logout, updateUser } = useAuth();
 
   return (
     <main className="mx-auto w-full max-w-7xl px-4 py-6 sm:px-6 sm:py-10 lg:px-8">
@@ -30,8 +29,6 @@ export default function Profile() {
           <PersonalInformation user={user} updateUser={updateUser} />
           <AccountActivity />
         </div>
-      ) : restoreError ? (
-        <ErrorState onRetry={refresh} />
       ) : (
         <AnonymousPrompt />
       )}

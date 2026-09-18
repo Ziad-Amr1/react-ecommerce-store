@@ -737,6 +737,7 @@
     "quantity": "Количество",
     "removeItem": "Удалить {{name}}",
     "continueShopping": "Продолжить покупки",
+    "proceedToCheckout": "Перейти к оформлению",
     "unitPrice": "{{price}} за шт.",
     "loading": "Загрузка корзины...",
     "guestNote": "Вы просматриваете магазин как гость.",
@@ -991,5 +992,72 @@
       "subtotal": "Подытог",
       "total": "Итого"
     }
+  },
+  "checkout": {
+    "title": "Оформление заказа",
+    "subtitle": "Заполните данные доставки, чтобы оформить заказ.",
+    "optional": "необязательно",
+    "emptyCartTitle": "Ваша корзина пуста",
+    "emptyCartDescription": "Добавьте товары в корзину перед оформлением заказа.",
+    "backToCart": "Вернуться в корзину",
+    "validationError": "Исправьте выделенные поля.",
+    "emptyCartError": "Ваша корзина пуста.",
+    "genericError": "Не удалось оформить заказ. Попробуйте ещё раз.",
+    "orderSuccessToast": "Заказ успешно оформлен.",
+    "shipping": {
+      "title": "Данные доставки",
+      "subtitle": "Куда доставить ваш заказ?",
+      "fullNameLabel": "Полное имя",
+      "fullNamePlaceholder": "Иван Иванов",
+      "phoneLabel": "Номер телефона",
+      "phonePlaceholder": "+20 100 000 0000",
+      "countryLabel": "Страна",
+      "countryPlaceholder": "Египет",
+      "cityLabel": "Город",
+      "cityPlaceholder": "Каир",
+      "addressLabel": "Адрес",
+      "addressPlaceholder": "ул. Нил, 123, кв. 4",
+      "postalCodeLabel": "Почтовый индекс",
+      "postalCodePlaceholder": "11511",
+      "customerNoteLabel": "Комментарий к заказу",
+      "customerNotePlaceholder": "Инструкции по доставке, ориентиры и т. д."
+    },
+    "payment": {
+      "title": "Способ оплаты",
+      "subtitle": "Оплата при получении уже доступна.",
+      "cash": "Оплата при получении",
+      "cashDescription": "Оплатите наличными при получении заказа.",
+      "stripe": "Оплата картой",
+      "stripeUnavailable": "Скоро",
+      "secureNote": "Ваши данные используются только для доставки этого заказа.",
+      "placeOrder": "Оформить заказ",
+      "placingOrder": "Оформление..."
+    },
+    "summary": {
+      "title": "Состав заказа",
+      "subtitle": "Проверьте товары в заказе.",
+      "subtotal": "Подытог",
+      "discount": "Скидка",
+      "total": "Итого",
+      "quantity": "Количество: {{quantity}}"
+    },
+    "validation": {
+      "fullNameRequired": "Укажите полное имя",
+      "fullNameMin": "Полное имя должно содержать не менее 3 символов",
+      "phoneRequired": "Укажите номер телефона",
+      "countryRequired": "Укажите страну",
+      "cityRequired": "Укажите город",
+      "addressRequired": "Укажите адрес",
+      "addressMin": "Адрес должен содержать не менее 5 символов",
+      "postalCodeInvalid": "Введите корректный почтовый индекс",
+      "paymentMethodRequired": "Выберите способ оплаты"
+    }
+  },
+  "orderSuccess": {
+    "title": "Заказ подтверждён",
+    "description": "Спасибо за заказ. Мы начнём его подготовку сразу.",
+    "orderRef": "Номер заказа: {{id}}",
+    "myOrders": "Мои заказы",
+    "continueShopping": "Продолжить покупки"
   }
 }

@@ -21,14 +21,15 @@ export default function PromotionalBanner() {
         decoding="async"
         width={1600}
         height={600}
-        className="absolute inset-0 size-full object-cover"
+        className="absolute inset-0 size-full object-cover rtl:-scale-x-100"
       />
 
       {/* Directional scrim: darker from the reading edge, fading outward.
           Mirrored in RTL so the text side stays the dark side. */}
       <div
         aria-hidden="true"
-        className="absolute inset-0 bg-linear-to-r from-black/60 via-black/30 to-transparent rtl:bg-linear-to-l"
+        className="absolute inset-0 bg-linear-to-r from-black/60 via-black/30 to-transparent rtl:bg-linear-to-l
+        dark:from-indigo-950/80 dark:via-slate-950/45 dark:to-transparent"
       />
 
       <div className="relative flex h-full flex-col justify-center p-6 text-white md:p-8">
@@ -54,7 +55,10 @@ export default function PromotionalBanner() {
         >
           <Link to="/products">
             {t("landing.banner.cta")}
-            <ArrowRight className="size-4 rtl:-scale-x-100" aria-hidden="true" />
+            <ArrowRight
+              className="size-4 rtl:-scale-x-100"
+              aria-hidden="true"
+            />
           </Link>
         </Button>
       </div>

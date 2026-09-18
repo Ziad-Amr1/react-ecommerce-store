@@ -14,7 +14,7 @@ const SORT_LABELS = {
   rating: "Top Rated",
 };
 
-export default function useShopFilters(products) {
+export default function useShopFilters(products, initialCategory = "All") {
   const [searchQuery, setSearchQuery] = useState("");
   const [minPrice, setMinPrice] = useState("");
   const [maxPrice, setMaxPrice] = useState("");
@@ -23,7 +23,10 @@ export default function useShopFilters(products) {
   const [isMobileFilterOpen, setIsMobileFilterOpen] = useState(false);
 
   // Applied filters are the only values that drive server queries.
-  const [applied, setApplied] = useState(EMPTY_APPLIED);
+  const [applied, setApplied] = useState({
+    ...EMPTY_APPLIED,
+    category: initialCategory,
+  });
 
   // Debounce search/price input before committing it as a server query.
   useEffect(() => {

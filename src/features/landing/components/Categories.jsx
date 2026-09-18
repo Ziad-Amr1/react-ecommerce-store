@@ -10,12 +10,12 @@ import fashionImage from "../assets/fashion.webp";
 import CategoryCard from "./CategoryCard";
 
 const categories = [
-  { key: "electronics", image: electronicsImage },
-  { key: "homeLiving", image: livingImage },
-  { key: "accessories", image: accessoriesImage },
-  { key: "sunglasses", image: sunglassesImage },
-  { key: "beauty", image: beautyImage },
-  { key: "fashion", image: fashionImage },
+  { key: "electronics", apiValue: "electronics", image: electronicsImage },
+  { key: "homeLiving", apiValue: "home", image: livingImage },
+  { key: "accessories", apiValue: "accessories", image: accessoriesImage },
+  { key: "sunglasses", apiValue: "sunglasses", image: sunglassesImage },
+  { key: "beauty", apiValue: "beauty", image: beautyImage },
+  { key: "fashion", apiValue: "fashion", image: fashionImage },
 ];
 
 export default function Categories() {
@@ -50,6 +50,7 @@ export default function Categories() {
             <CategoryCard
               image={category.image}
               title={t(`landing.categories.names.${category.key}`)}
+              category={category.apiValue}
             />
           </li>
         ))}

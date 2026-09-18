@@ -3,9 +3,10 @@ import { ArrowRight } from "lucide-react";
 import { useTranslation } from "react-i18next";
 import { Skeleton } from "@/components/ui/skeleton";
 import useFeaturedProducts from "../useFeaturedProducts";
-import FeaturedProductCard from "./FeaturedProductCard";
+// import FeaturedProductCard from "./FeaturedProductCard";
 import SkeletonCard from "./SkeletonCard";
 import { EmptyState, ErrorState } from "./LandingStates";
+import ProductCard from "@/features/products/components/ProductCard";
 
 export default function FeaturedProducts() {
   const { t } = useTranslation();
@@ -85,9 +86,9 @@ export default function FeaturedProducts() {
         </Link>
       </div>
 
-      <div className="grid grid-cols-2 gap-3 sm:gap-6 lg:grid-cols-4">
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-6 lg:grid-cols-4">
         {featuredProducts.map((product) => (
-          <FeaturedProductCard key={product._id} product={product} />
+          <ProductCard key={product._id} product={product} />
         ))}
       </div>
     </section>

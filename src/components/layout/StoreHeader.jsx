@@ -1,6 +1,6 @@
 import { Link, useLocation } from "react-router";
 import { useTranslation } from "react-i18next";
-import { Moon, Sun, ShoppingCart, UserRound } from "lucide-react";
+import { Moon, Sun, ShoppingCart, UserRound, Menu } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import useAuth from "@/hooks/useAuth";
 import useCart from "@/hooks/useCart";
@@ -8,6 +8,8 @@ import useTheme from "@/hooks/useTheme";
 import ComingSoonButton from "@/features/landing/components/ComingSoonButton";
 import { formatItemCount } from "@/features/cart/cartUtils";
 import LanguageSwitcher from "./LanguageSwitcher";
+import MyDrawer from "@/features/landing/components/MyDrawer";
+import { useState } from "react";
 
 export default function StoreHeader() {
   const { t } = useTranslation();
@@ -20,20 +22,43 @@ export default function StoreHeader() {
   const isHomeActive = pathname === "/";
   const isProductsActive = pathname.startsWith("/products");
   const isCartActive = pathname.startsWith("/cart");
+  const [isDrawerOpen, setIsDrawerOpen] = useState(false);
+  const [isDrawerCollapsed, setIsDrawerCollapsed] = useState(false);
+
+  function toggleMobileDrawer() {
+    setIsDrawerCollapsed((prev) => !prev);
+  }
 
   return (
     <header className="sticky top-0 z-(--z-nav) border-b bg-(--color-surface)">
-      <div className="mx-auto flex w-full max-w-7xl items-center justify-between gap-4 px-4 py-3 sm:px-6 lg:px-8">
-        <Link to="/" className="flex shrink-0 items-center gap-2">
-          <img
-            src="/favicon.ico"
-            alt={t("brand.logoAlt")}
-            className="size-8 shrink-0 object-contain"
+      <div className="mx-auto flex flex-col sm:flex-row w-full max-w-7xl items-center justify-between gap-4 px-4 py-3 sm:px-6 lg:px-8">
+        <div className="w-full sm:w-1/2 flex">
+          {/* Drawer for Mobile device (i.e. up to sm Screens) */}
+          <Button
+            size="icon"
+            variant="ghost"
+            className="md:hidden"
+            onClick={() => setIsDrawerOpen(true)}
+          >
+            <Menu size={18} />
+          </Button>
+          <MyDrawer
+            isOpen={isDrawerOpen}
+            isCollapsed={isDrawerCollapsed}
+            onClose={() => setIsDrawerOpen(false)}
+            onToggleCollapse={toggleMobileDrawer}
           />
-          <span className="font-(--font-display) text-lg font-bold text-(--color-text-primary)">
-            {t("brand.name")}
-          </span>
-        </Link>
+          <Link to="/" className="flex shrink-0 items-center gap-2">
+            <img
+              src="/favicon.ico"
+              alt={t("brand.logoAlt")}
+              className="size-8 shrink-0 object-contain"
+            />
+            <span className="font-(--font-display) text-lg font-bold text-(--color-text-primary)">
+              {t("brand.name")}
+            </span>
+          </Link>
+        </div>
 
         <nav
           aria-label={t("store.header.navLabel")}
@@ -47,7 +72,9 @@ export default function StoreHeader() {
           >
             <Link
               to="/"
-              className={isHomeActive ? "font-semibold text-(--color-primary)" : ""}
+              className={
+                isHomeActive ? "font-semibold text-(--color-primary)" : ""
+              }
             >
               {t("store.header.nav.home")}
             </Link>
@@ -134,8 +161,17 @@ export default function StoreHeader() {
             </Link>
           </Button>
 
-          <Button asChild variant="outline" size="icon" className="rounded-full cursor-pointer">
-            <Link to="/profile" aria-label={t("store.header.account")} title={t("store.header.account")}>
+          <Button
+            asChild
+            variant="outline"
+            size="icon"
+            className="rounded-full cursor-pointer"
+          >
+            <Link
+              to="/profile"
+              aria-label={t("store.header.account")}
+              title={t("store.header.account")}
+            >
               <UserRound size={20} aria-hidden="true" />
             </Link>
           </Button>

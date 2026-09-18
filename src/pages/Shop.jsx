@@ -28,7 +28,8 @@ export default function Shop() {
   } = useProducts();
 
   const [searchParams, setSearchParams] = useSearchParams();
-  const filters = useShopFilters(products);
+  const categoryFromUrl = searchParams.get("category") || "All";
+  const filters = useShopFilters(products, categoryFromUrl);
 
   // When the applied filters change (not on first render), go back to
   // page 1 so the user sees the start of the filtered results.
@@ -38,7 +39,12 @@ export default function Shop() {
       didMount.current = true;
       return;
     }
-    setSearchParams({ page: "1" });
+
+    setSearchParams((currentParams) => {
+      const nextParams = new URLSearchParams(currentParams);
+      nextParams.set("page", "1");
+      return nextParams;
+    });
   }, [filters.applied, setSearchParams]);
 
   // Filters run server-side; the page number lives in the URL.
@@ -52,8 +58,7 @@ export default function Shop() {
     setSearchParams({ page: String(page) });
   };
 
-  const resultsCount =
-    totalProducts != null ? totalProducts : products.length;
+  const resultsCount = totalProducts != null ? totalProducts : products.length;
   const resultsLabelKey =
     totalProducts != null ? "shop.results" : "shop.showing";
 

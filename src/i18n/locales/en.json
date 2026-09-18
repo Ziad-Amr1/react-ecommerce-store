@@ -195,7 +195,8 @@
     "filterCategory": "Category:",
     "filterPrice": "Price:",
     "filterSort": "Sort:",
-    "filterSearch": "Search:"
+    "filterSearch": "Search:",
+    "noRatingsYet": "No ratings yet"
   },
 
   "dashboard": {
@@ -471,6 +472,10 @@
         "shop": "Shop",
         "about": "About"
       },
+      "drawer": {
+        "saleTitle": "Flash Sale",
+        "saleDetails": "Up to 30% OFF"
+      },
       "account": "Account",
       "cart": "Cart",
       "cartWithCount": "Cart, {{count}} items",
@@ -548,7 +553,7 @@
       "done": "Done"
     }
   },
-"cart": {
+  "cart": {
     "title": "Your Cart",
     "emptyTitle": "Your cart is empty",
     "emptyDescription": "Browse the store and add something you like to your cart.",
@@ -699,11 +704,11 @@
       "goToPage": "Go to page {{page}}",
       "showing": "Showing {{from}} to {{to}} of {{count}} users"
     },
-"dialogs": {
-  "addTitle": "Add New User",
-  "addDescription": "Create a new user account directly from the admin panel.",
-  "editTitle": "Change Role",
-  "editDescription": "Adjust the access level for {{name}}.",
+    "dialogs": {
+      "addTitle": "Add New User",
+      "addDescription": "Create a new user account directly from the admin panel.",
+      "editTitle": "Change Role",
+      "editDescription": "Adjust the access level for {{name}}.",
       "username": "Username",
       "usernamePlaceholder": "Enter username",
       "usernameRequired": "Username is required",
@@ -712,24 +717,24 @@
       "emailPlaceholder": "admin@example.com",
       "emailRequired": "Email is required",
       "emailInvalid": "Invalid email address",
-"emailValid": "Email is valid.",
-  "password": "Password",
+      "emailValid": "Email is valid.",
+      "password": "Password",
       "passwordPlaceholder": "Enter password",
       "passwordRequired": "Password is required",
       "passwordMinLength": "Password must be at least 6 characters",
-"passwordValid": "Password is valid.",
-  "role": "Role",
+      "passwordValid": "Password is valid.",
+      "role": "Role",
       "rolePlaceholder": "Select role",
       "roleChangeHint": "The user's access level will change on save.",
       "cancel": "Cancel",
       "adding": "Adding...",
-"saving": "Saving...",
-  "saveRole": "Save role",
-  "saveUser": "Save User",
-  "addSuccess": "User has been added successfully.",
-  "addFailed": "Failed to add user.",
-  "roleUpdateSuccess": "Role updated successfully.",
-  "roleChangeFailed": "Role update failed.",
+      "saving": "Saving...",
+      "saveRole": "Save role",
+      "saveUser": "Save User",
+      "addSuccess": "User has been added successfully.",
+      "addFailed": "Failed to add user.",
+      "roleUpdateSuccess": "Role updated successfully.",
+      "roleChangeFailed": "Role update failed.",
       "deleteTitle": "Delete User",
       "deleteDescription": "This action cannot be undone.",
       "deleteQuestion": "Delete {{name}}? This cannot be undone.",
@@ -752,5 +757,32 @@
     "subtitle": "Page Not Found",
     "description": "The page you're looking for doesn't exist or has been moved.",
     "home": "Back to Home"
+  },
+  "settings": {
+    "general": "general",
+    "storeName": "store name",
+    "storeNamePlaceholder": "e.g. Oversea",
+    "orderTracking": "order tracking",
+    "notifiedOrderTracking": "Get notified about new orders and status changes.",
+    "comments": "comments",
+    "notifiedComments": "Get notified about new comments on products.",
+    "ads": "ads",
+    "notifiedAds": "Get notified about ad performance and updates.",
+    "notifications": "notifications",
+    "siteLanguage": "site Language",
+    "maintenanceMode": "maintenance mode",
+    "maintenanceModeDesc": "Turn maintenance mode on or off.",
+    "productComments": "Product Comments",
+    "productCommentsDesc": "Turn comments on or off for store products.",
+    "theme": "theme",
+    "colors": {
+      "emerald": "Emerald",
+      "cherry": "Cherry",
+      "coral": "Coral",
+      "copper": "Copper",
+      "lavender": "Lavender",
+      "twilight": "Twilight",
+      "canary": "Canary"
+    }
   }
 }

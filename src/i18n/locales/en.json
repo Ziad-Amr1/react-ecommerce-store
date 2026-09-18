@@ -557,6 +557,7 @@
     "browseProducts": "Browse Products",
     "loadFailed": "We couldn't load your cart. Please refresh the page or try again in a moment.",
     "itemsCount": "{{count}} items",
+    "name" :"Name",
     "itemsCount_one": "{{count}} item",
     "price": "Price",
     "quantity": "Quantity",

@@ -72,6 +72,7 @@ function App() {
             <Route path="orders" element={<Orders />} />
             <Route path="users" element={<Users />} />
             <Route path="carts" element={<Carts />} />
+           
             <Route path="settings" element={<Settings />} />
           </Route>
         </Route>

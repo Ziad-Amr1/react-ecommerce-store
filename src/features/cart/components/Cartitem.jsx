@@ -91,7 +91,7 @@ export default function CartItem({
           )}
 
           {atMaxAvailable && (
-            <p className="mt-0.5 text-xs text-(--color-text-muted)">
+            <p className="mt-0.5 text-xs text-(--color-error)">
               {t("cart.maxAvailableReached", "Max available quantity reached")}
             </p>
           )}

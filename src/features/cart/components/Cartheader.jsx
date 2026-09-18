@@ -22,10 +22,12 @@ export default function CartHeader({ itemCount, hasItems, onClearClick }) {
       {hasItems && (
         <div className="flex items-center gap-3">
           <span className="text-sm text-(--color-text-muted)">
-            {t("cart.itemsCount", {
+            {t("cart.itemsCount", 
+            {
               count: itemCount,
               defaultValue: pluralize(itemCount, "item"),
-            })}
+            }
+            )}
           </span>
 
           <Button

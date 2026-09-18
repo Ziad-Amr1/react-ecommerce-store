@@ -1,3 +1,4 @@
+
 import { Link } from "react-router";
 import { useTranslation } from "react-i18next";
 import { toast } from "sonner";
@@ -14,6 +15,8 @@ export default function OrderSummaryCard({
   total,
   hasBlockingStockIssue,
   money,
+  items, 
+  coupon, 
 }) {
   const { t } = useTranslation();
 
@@ -21,6 +24,23 @@ export default function OrderSummaryCard({
     "cart.resolveStockIssues",
     "Resolve the stock issues above before checking out.",
   );
+
+ 
+  const checkoutPayload = {
+    items: (items || []).map((item) => ({
+      productId: item.id,
+      name: item.name,
+      price: item.price,
+      quantity: item.quantity,
+      lineTotal: item.price * item.quantity,
+    })),
+    pricing: {
+      subtotal,
+      discount,
+      total,
+    },
+    coupon: coupon || null,
+  };
 
   return (
     <Card className="rounded-2xl border border-(--color-border) bg-(--color-surface) p-5">
@@ -77,6 +97,7 @@ export default function OrderSummaryCard({
         >
           <Link
             to="/checkout"
+            state={checkoutPayload} 
             aria-disabled={hasBlockingStockIssue}
             onClick={(e) => {
               if (!hasBlockingStockIssue) return;

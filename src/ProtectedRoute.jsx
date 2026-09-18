@@ -3,7 +3,7 @@ import { useTranslation } from "react-i18next";
 import { Loader2 } from "lucide-react";
 import useAuth from "./hooks/useAuth";
 
-const ProtectedRoute = ({ requireAdmin = false }) => {
+const ProtectedRoute = () => {
   const { t } = useTranslation();
   const { isAuthenticated, user, isLoading } = useAuth();
   const location = useLocation();
@@ -35,9 +35,9 @@ const ProtectedRoute = ({ requireAdmin = false }) => {
     return <Navigate replace to="/login" state={{ from }} />;
   }
 
-  if (requireAdmin && user?.role !== "admin") {
-  return <Navigate replace to="/" />;
-}
+  if (user?.role !== "admin") {
+    return <Navigate replace to="/" />;
+  }
 
   return <Outlet />;
 };

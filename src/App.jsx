@@ -13,6 +13,11 @@ import StoreProductDetails from "./pages/ProductDetails.jsx";
 import Orders from "./pages/admin/Orders";
 import Users from "./pages/admin/Users";
 import Carts from "./pages/admin/Carts";
+import Categories from "./pages/admin/Categories";
+import Reviews from "./pages/admin/Reviews";
+import Wishlists from "./pages/admin/Wishlists";
+import Coupons from "./pages/admin/Coupons";
+import Reports from "./pages/admin/Reports";
 import Settings from "./pages/admin/Settings";
 import Login from "./pages/auth/Login.jsx";
 import Registration from "./pages/auth/Registration.jsx";
@@ -20,28 +25,38 @@ import ForgetPassword from "./pages/auth/ForgetPassword.jsx";
 import VerifyOtp from "./pages/auth/VerifyOtp.jsx";
 import NotFound from "./pages/NotFound.jsx";
 import ProtectedRoute from "./ProtectedRoute.jsx";
+import RequireAuth from "./RequireAuth.jsx";
 import Shop from "./pages/Shop.jsx";
 import Cart from "./pages/Cart.jsx";
+import About from "./pages/About.jsx";
 import MyOrders from "./pages/MyOrders.jsx";
 import OrderDetails from "./pages/OrderDetails.jsx";
+import Wishlist from "./pages/Wishlist.jsx";
+import Notifications from "./pages/Notifications.jsx";
+import NotificationProvider from "./contexts/NotificationProvider.jsx";
+import { TooltipProvider } from "@/components/ui/tooltip";
 
 const DesignSystem = lazy(() => import("./pages/DesignSystem"));
 
 function App() {
   return (
-    <>
-      <Routes>
+    <TooltipProvider delayDuration={200}>
+      <NotificationProvider>
+        <Routes>
         <Route element={<StoreLayout />}>
           <Route path="/" element={<Landing />} />
           <Route path="/products" element={<Shop />} />
           <Route path="/products/:id" element={<StoreProductDetails />} />
+          <Route path="/about" element={<About />} />
+          <Route element={<RequireAuth />}>
+            <Route path="/my-orders" element={<MyOrders />} />
+            <Route path="/my-orders/:id" element={<OrderDetails />} />
+            <Route path="/wishlist" element={<Wishlist />} />
+            <Route path="/notifications" element={<Notifications />} />
+          </Route>
           <Route path="/cart" element={<Cart />} />
           <Route path="/profile" element={<Profile />} />
-          <Route path="/profile/orders" element={<ProtectedRoute />}>
-            <Route index element={<MyOrders />} />
-            <Route path=":id" element={<OrderDetails />} />
-         </Route> 
-        </Route> 
+        </Route>
         <Route
           path="/design-system"
           element={
@@ -68,23 +83,28 @@ function App() {
         <Route path="/:flow/verify-otp" element={<VerifyOtp />} />
 
         {/* Start of Protected Admin Routes  */}
-        <Route path="/admin/*" element={<ProtectedRoute requireAdmin />}>
+        <Route path="/admin/*" element={<ProtectedRoute />}>
           <Route element={<AdminLayout />}>
             <Route index element={<Dashboard />} />
             <Route path="products" element={<Products />} />
             <Route path="products/add" element={<AddProduct />} />
             <Route path="products/:id/edit" element={<EditProduct />} />
             <Route path="products/:id" element={<AdminProductDetails />} />
+            <Route path="categories" element={<Categories />} />
             <Route path="orders" element={<Orders />} />
             <Route path="users" element={<Users />} />
             <Route path="carts" element={<Carts />} />
+            <Route path="reviews" element={<Reviews />} />
+            <Route path="wishlists" element={<Wishlists />} />
+            <Route path="coupons" element={<Coupons />} />
+            <Route path="reports" element={<Reports />} />
             <Route path="settings" element={<Settings />} />
           </Route>
         </Route>
-        {/* End of Protected Admin Routes  */}
         <Route path="*" element={<NotFound />} />
       </Routes>
-    </>
+    </NotificationProvider>
+    </TooltipProvider>
   );
 }
 

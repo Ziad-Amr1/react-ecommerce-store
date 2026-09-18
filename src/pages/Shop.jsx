@@ -13,6 +13,7 @@ import ShopSearchBar from "@/features/products/components/ShopSearchBar";
 import ShopSidebar from "@/features/products/components/ShopSidebar";
 import ActiveFiltersBar from "@/features/products/components/ActiveFiltersBar";
 import ProductSkeleton from "@/features/products/components/ProductCardSkeleton";
+import useDocumentMeta from "@/hooks/useDocumentMeta";
 
 export default function Shop() {
   const { t } = useTranslation();
@@ -30,23 +31,56 @@ export default function Shop() {
   const [searchParams, setSearchParams] = useSearchParams();
   const filters = useShopFilters(products);
 
+  // Derive the price slider's upper bound from the prices actually returned on
+  // the current page, never by fetching the whole catalog. Always accounting
+  // for an applied max price keeps a user-set value inside the range.
+  const pageMaxPrice = products.length
+    ? Math.max(...products.map((p) => Number(p.price) || 0))
+    : 0;
+  const sliderMax = Math.max(
+    pageMaxPrice,
+    Number(filters.applied.maxPrice) || 0,
+    100,
+  );
+
+  useDocumentMeta({
+    title: t("shop.title"),
+    description: t("shop.subtitle"),
+  });
+
   // When the applied filters change (not on first render), go back to
   // page 1 so the user sees the start of the filtered results.
   const didMount = useRef(false);
+  const prevApplied = useRef(filters.applied);
+  const pendingPageReset = useRef(false);
+  const pageFromUrl = Number(searchParams.get("page")) || 1;
+
   useEffect(() => {
+    const appliedChanged = prevApplied.current !== filters.applied;
+    prevApplied.current = filters.applied;
+
     if (!didMount.current) {
       didMount.current = true;
       return;
     }
-    setSearchParams({ page: "1" });
-  }, [filters.applied, setSearchParams]);
 
-  // Filters run server-side; the page number lives in the URL.
+    if (appliedChanged && pageFromUrl !== 1) {
+      pendingPageReset.current = true;
+      setSearchParams({ page: "1" });
+    }
+  }, [filters.applied, setSearchParams, pageFromUrl]);
+
+  // Filters run server-side; the page number lives in the URL. When a filter
+  // change also resets the page, skip the intermediate fetch so the page is
+  // fetched once, not twice.
   useEffect(() => {
-    const pageFromUrl = Number(searchParams.get("page")) || 1;
+    if (pendingPageReset.current) {
+      pendingPageReset.current = false;
+      return;
+    }
 
     fetchProducts(pageFromUrl, filters.applied);
-  }, [searchParams, filters.applied, fetchProducts]);
+  }, [searchParams, filters.applied, fetchProducts, pageFromUrl]);
 
   const handlePageChange = (page) => {
     setSearchParams({ page: String(page) });
@@ -59,7 +93,7 @@ export default function Shop() {
 
   return (
     <div className="min-h-screen bg-[var(--color-surface-secondary)] text-[var(--color-text-primary)] font-body transition-colors duration-300">
-      <div className="w-full mx-auto px-6 sm:px-8 lg:px-10 py-10 space-y-8">
+      <div className="w-full mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-10 space-y-6 sm:space-y-8">
         {/* Header */}
         <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 pb-4 border-b border-[var(--color-border)]">
           <div>
@@ -79,7 +113,7 @@ export default function Shop() {
             className="md:hidden flex items-center gap-2 rounded-xl border-[var(--color-border)] bg-[var(--color-surface)] text-[var(--color-text-primary)]"
           >
             <SlidersHorizontal className="size-4" />
-            {t("filters", "Filters")}
+            {t("shop.filterTitle", "Filters")}
             {filters.hasActiveFilters && (
               <span className="size-2 rounded-full bg-[var(--color-primary)]" />
             )}
@@ -101,10 +135,14 @@ export default function Shop() {
             categories={filters.categories}
             selectedCategory={filters.applied.category}
             setSelectedCategory={filters.selectCategory}
+            brands={filters.brands}
+            selectedBrand={filters.applied.brand}
+            setSelectedBrand={filters.selectBrand}
             minPrice={filters.minPrice}
             setMinPrice={filters.setMinPrice}
             maxPrice={filters.maxPrice}
             setMaxPrice={filters.setMaxPrice}
+            priceCeiling={sliderMax}
             sortBy={filters.sortBy}
             setSortBy={filters.changeSort}
             clearFilters={filters.clearFilters}
@@ -123,6 +161,7 @@ export default function Shop() {
               hasActiveFilters={filters.hasActiveFilters}
               clearFilters={filters.clearFilters}
               selectCategory={filters.selectCategory}
+              selectBrand={filters.selectBrand}
               setSearchQuery={filters.setSearchQuery}
               setMinPrice={filters.setMinPrice}
               setMaxPrice={filters.setMaxPrice}
@@ -165,7 +204,7 @@ export default function Shop() {
                     size="sm"
                     className="mt-4"
                   >
-                    {t("clear_all_filters", "Clear All Filters")}
+                    {t("shop.clearAllFilters", "Clear All Filters")}
                   </Button>
                 )}
               </div>

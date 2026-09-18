@@ -15,8 +15,14 @@ export const logoutUser = async () => {
   return response.data;
 };
 
-export const getCurrentUser = async () => {
-  const response = await api.get("/auth/me");
+export const getCurrentUser = async (signal) => {
+  const response = await api.get("/auth/me", { signal });
+
+  return response.data;
+};
+
+export const updateCurrentUser = async (userId, data) => {
+  const response = await api.patch(`/users/${userId}`, data);
 
   return response.data;
 };

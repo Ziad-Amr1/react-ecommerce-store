@@ -32,12 +32,12 @@ function OtpField({
     : "mb-1 block text-sm font-bold text-(--color-text-primary)";
 
   const inputClass = compact
-    ? "h-11 rounded-lg border-(--color-border) bg-(--color-surface-secondary) pl-11 text-(--color-text-primary) placeholder:text-(--color-text-secondary) focus-visible:ring-(--color-focus-ring)"
-    : "bg-(--color-surface-secondary) border-(--color-border) rounded-(--radius-lg) py-6 pl-11 text-(--color-text-primary) placeholder:text-(--color-text-secondary) focus-visible:ring-(--color-focus-ring)";
+    ? "h-11 rounded-lg border-(--color-border) bg-(--color-surface-secondary) ps-11 text-(--color-text-primary) placeholder:text-(--color-text-secondary) focus-visible:ring-(--color-focus-ring)"
+    : "bg-(--color-surface-secondary) border-(--color-border) rounded-(--radius-lg) py-6 ps-11 text-(--color-text-primary) placeholder:text-(--color-text-secondary) focus-visible:ring-(--color-focus-ring)";
 
   const iconClass = compact
-    ? "pointer-events-none absolute top-1/2 left-4 size-5 -translate-y-1/2 text-(--color-text-secondary)"
-    : "pointer-events-none absolute left-4 top-1/2 -translate-y-1/2 h-5 w-5 text-(--color-text-secondary)";
+    ? "pointer-events-none absolute top-1/2 start-4 size-5 -translate-y-1/2 text-(--color-text-secondary)"
+    : "pointer-events-none absolute start-4 top-1/2 -translate-y-1/2 h-5 w-5 text-(--color-text-secondary)";
 
   const errorClass = compact
     ? "text-sm text-(--color-error)"

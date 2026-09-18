@@ -5,7 +5,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { formatCurrency } from "@/utils/formatCurrency";
+import { formatCurrency, ORDER_CURRENCY } from "@/utils/formatCurrency";
 
 export default function TopProducts({ products = [] }) {
   const { t, i18n } = useTranslation();
@@ -55,7 +55,7 @@ export default function TopProducts({ products = [] }) {
               </div>
 
               <span className="whitespace-nowrap text-end text-sm font-semibold tabular-nums">
-                {formatCurrency(product.revenue, "USD", i18n.language)}
+                {formatCurrency(product.revenue, ORDER_CURRENCY, i18n.language)}
               </span>
             </div>
           ))

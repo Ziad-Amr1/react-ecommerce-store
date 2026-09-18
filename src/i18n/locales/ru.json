@@ -203,6 +203,9 @@
     "comingSoon": "Эта функция пока недоступна."
   },
   "shop": {
+    "brand": "Бренд",
+    "allBrands": "Все бренды",
+    "filterBrand": "Бренд:",
     "title": "Магазин",
     "off": "% скидка",
     "separator": "·",

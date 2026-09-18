@@ -1,21 +1,35 @@
 import { SlidersHorizontal, ChevronDown, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { Slider } from "@/components/ui/slider";
 
 export default function ShopSidebar({
   categories,
   selectedCategory,
   setSelectedCategory,
+  brands,
+  selectedBrand,
+  setSelectedBrand,
   minPrice,
   setMinPrice,
   maxPrice,
   setMaxPrice,
+  priceCeiling,
   sortBy,
   setSortBy,
   clearFilters,
   isMobileFilterOpen,
   t
 }) {
+  // Keep the range slider thumbs valid: within [0, priceCeiling] and ordered.
+  const rawMin = Number(minPrice) || 0;
+  const rawMax = maxPrice !== "" ? Number(maxPrice) : priceCeiling;
+  const sliderMin = Math.max(0, Math.min(rawMin, priceCeiling));
+  const sliderMax = Math.max(
+    sliderMin,
+    Math.min(Number.isFinite(rawMax) ? rawMax : priceCeiling, priceCeiling),
+  );
+
   return (
     <aside
       className={`w-full flex-shrink-0 space-y-6 md:sticky md:top-20 md:max-h-[calc(100dvh_-_6rem)] md:w-72 md:self-start md:overflow-y-auto md:overscroll-contain ${
@@ -60,6 +74,30 @@ export default function ShopSidebar({
           </div>
         </div>
 
+        {/* Brands */}
+        <div className="space-y-3 pt-3 border-t border-[var(--color-border)]">
+          <label className="text-xs font-semibold text-[var(--color-text-secondary)] uppercase tracking-wider">
+            {t("shop.brand", "Brand")}
+          </label>
+          <div className="relative">
+            <select
+              value={selectedBrand}
+              onChange={(e) => setSelectedBrand(e.target.value)}
+              aria-label={t("shop.brand", "Brand")}
+              className="w-full appearance-none rounded-xl border border-[var(--color-border)] bg-[var(--color-surface-secondary)] px-3.5 py-2.5 text-sm font-medium text-[var(--color-text-primary)] focus:outline-none cursor-pointer font-body"
+            >
+              {brands.map((brand) => (
+                <option key={brand.name} value={brand.name}>
+                  {brand.name === "All"
+                    ? t("shop.allBrands", "All Brands")
+                    : brand.name}
+                </option>
+              ))}
+            </select>
+            <ChevronDown className="absolute end-3 top-1/2 size-4 -translate-y-1/2 text-[var(--color-text-secondary)] pointer-events-none" />
+          </div>
+        </div>
+
         {/* Price Range */}
         <div className="space-y-3 pt-3 border-t border-[var(--color-border)]">
           <label className="text-xs font-semibold text-[var(--color-text-secondary)] uppercase tracking-wider">
@@ -82,6 +120,20 @@ export default function ShopSidebar({
               className="h-10 bg-[var(--color-surface-secondary)] border-[var(--color-border)] text-sm rounded-xl font-mono"
             />
           </div>
+
+          {priceCeiling > 0 && (
+            <Slider
+              min={0}
+              max={priceCeiling}
+              step={Math.max(1, Math.round(priceCeiling / 100))}
+              value={[sliderMin, sliderMax]}
+              onValueChange={([nextMin, nextMax]) => {
+                setMinPrice(String(nextMin));
+                setMaxPrice(String(nextMax));
+              }}
+              aria-label={t("shop.priceRange", "Price Range")}
+            />
+          )}
         </div>
 
         {/* Sort By */}

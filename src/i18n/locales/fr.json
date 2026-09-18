@@ -203,6 +203,9 @@
     "comingSoon": "Cette fonctionnalité n'est pas encore implémentée."
   },
   "shop": {
+    "brand": "Marque",
+    "allBrands": "Toutes les marques",
+    "filterBrand": "Marque :",
     "title": "Boutique",
     "off": "% de réduction",
     "separator": "·",

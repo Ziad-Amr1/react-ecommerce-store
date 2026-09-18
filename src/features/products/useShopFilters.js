@@ -3,6 +3,7 @@ import { useState, useMemo, useEffect } from "react";
 const EMPTY_APPLIED = {
   search: "",
   category: "All",
+  brand: "All",
   minPrice: "",
   maxPrice: "",
   sortBy: "Default",
@@ -48,6 +49,10 @@ export default function useShopFilters(products) {
     setApplied((current) => ({ ...current, category: name }));
   };
 
+  const selectBrand = (name) => {
+    setApplied((current) => ({ ...current, brand: name }));
+  };
+
   const changeSort = (value) => {
     setSortBy(value);
     setApplied((current) => ({ ...current, sortBy: value }));
@@ -77,9 +82,33 @@ export default function useShopFilters(products) {
     return [{ name: "All", count: products.length }, ...dynamicList];
   }, [products]);
 
+  // Brand list reflects only the products returned on the current page, for
+  // the same reason as the category list: the backend exposes no catalog-wide
+  // brand facet endpoint yet, while selecting a brand still applies a real
+  // server-side filter.
+  const brands = useMemo(() => {
+    if (!products || !Array.isArray(products)) {
+      return [{ name: "All", count: 0 }];
+    }
+
+    const counts = {};
+    products.forEach((p) => {
+      if (p.brand) {
+        counts[p.brand] = (counts[p.brand] || 0) + 1;
+      }
+    });
+
+    const dynamicList = Object.keys(counts)
+      .sort((a, b) => a.localeCompare(b))
+      .map((brand) => ({ name: brand, count: counts[brand] }));
+
+    return [{ name: "All", count: products.length }, ...dynamicList];
+  }, [products]);
+
   const hasActiveFilters =
     applied.search !== "" ||
     applied.category !== "All" ||
+    applied.brand !== "All" ||
     applied.minPrice !== "" ||
     applied.maxPrice !== "" ||
     applied.sortBy !== "Default";
@@ -105,6 +134,8 @@ export default function useShopFilters(products) {
     changeSort,
     applied,
     selectCategory,
+    selectBrand,
+    brands,
     viewMode,
     setViewMode,
     isMobileFilterOpen,

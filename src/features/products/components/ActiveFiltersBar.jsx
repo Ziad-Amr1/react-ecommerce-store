@@ -12,6 +12,7 @@ export default function ActiveFiltersBar({
   hasActiveFilters,
   clearFilters,
   selectCategory,
+  selectBrand,
   setSearchQuery,
   setMinPrice,
   setMaxPrice,
@@ -48,6 +49,17 @@ export default function ActiveFiltersBar({
             <X
               className="size-3.5 text-[var(--color-text-secondary)] hover:text-[var(--color-error)] cursor-pointer"
               onClick={() => selectCategory("All")}
+            />
+          </Badge>
+        )}
+
+        {applied.brand !== "All" && (
+          <Badge variant="secondary" className="gap-1.5 py-1 px-2.5 rounded-lg bg-[var(--color-surface-secondary)] text-[var(--color-text-primary)] border border-[var(--color-border)] font-normal text-xs">
+            {t("shop.filterBrand")}{" "}
+            <span className="font-semibold">{applied.brand}</span>
+            <X
+              className="size-3.5 text-[var(--color-text-secondary)] hover:text-[var(--color-error)] cursor-pointer"
+              onClick={() => selectBrand("All")}
             />
           </Badge>
         )}

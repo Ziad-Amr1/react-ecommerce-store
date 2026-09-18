@@ -1,24 +1,35 @@
 import { useState } from "react";
-import { useNavigate } from "react-router";
+import { useNavigate, useLocation, Link } from "react-router";
 import { useTranslation } from "react-i18next";
 
-import {
-  Lock,
-  Mail,
-  Check,
-  Shield,
-  Loader2,
-} from "lucide-react";
+import { Loader2, Mail } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import PasswordInput from "@/components/ui/password-input";
+import BackLink from "@/components/ui/back-link";
+import ApiErrorBanner from "@/features/auth/components/ApiErrorBanner";
+import AuthBenefits from "@/features/auth/components/AuthBenefits";
+import AuthHero from "@/features/auth/components/AuthHero";
+import { getApiErrorMessage } from "@/features/auth/utils/getApiErrorMessage";
+import { validateEmail, validatePassword } from "@/features/auth/utils/validation";
 import useAuth from "@/hooks/useAuth";
 
 export default function Login() {
   const navigate = useNavigate();
+  const location = useLocation();
   const { t } = useTranslation();
 
-  const { login, isLoading } = useAuth();
+  const { login } = useAuth();
+
+  const stateFrom = location.state?.from;
+
+  const from =
+    typeof stateFrom === "string" &&
+    stateFrom.startsWith("/") &&
+    !stateFrom.startsWith("//")
+      ? stateFrom
+      : "/";
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -27,24 +38,21 @@ export default function Login() {
 
   const [apiError, setApiError] = useState("");
 
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
   const validateForm = () => {
     const newErrors = {};
 
     // Email validation
-    if (!email.trim()) {
-      newErrors.email = t("validation.emailRequired");
-    } else if (
-      !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)
-    ) {
-      newErrors.email = t("validation.emailInvalid");
+    const emailError = validateEmail(email, t);
+    if (emailError) {
+      newErrors.email = emailError;
     }
 
     // Password validation
-    if (!password) {
-      newErrors.password = t("validation.passwordRequired");
-    } else if (password.length < 6) {
-      newErrors.password =
-        t("validation.passwordMin", { count: 6 });
+    const passwordError = validatePassword(password, t);
+    if (passwordError) {
+      newErrors.password = passwordError;
     }
 
     setErrors(newErrors);
@@ -69,227 +77,182 @@ export default function Login() {
     }
 
     try {
+      setIsSubmitting(true);
+
       await login(email, password);
 
       // Login successful
-      navigate("/admin");
+      navigate(from === "/" ? "/admin" : from);
     } catch (error) {
-      console.error("Login error:", error);
-
-      const message =
-        error?.response?.data?.message ||
-        error?.response?.data?.error ||
-        t("auth.errors.invalidCredentials");
-
-      setApiError(message);
+      setApiError(getApiErrorMessage(error, t("auth.errors.invalidCredentials")));
+    } finally {
+      setIsSubmitting(false);
     }
   };
 
+  // Built per render so closures bind to the current state,
+  // errors, and handlers without changing any logic.
+  const fields = [
+    {
+      id: "login-email",
+      name: "email",
+      type: "email",
+      autoComplete: "email",
+      labelKey: "auth.login.emailLabel",
+      placeholderKey: "auth.login.emailPlaceholder",
+      icon: Mail,
+      value: email,
+      error: errors.email,
+      onChange: (event) => {
+        setEmail(event.target.value);
+        clearFieldError("email");
+      },
+    },
+    {
+      id: "login-password",
+      name: "password",
+      type: "password",
+      password: true,
+      autoComplete: "current-password",
+      labelKey: "auth.login.passwordLabel",
+      placeholderKey: "auth.login.passwordPlaceholder",
+      value: password,
+      error: errors.password,
+      onChange: (event) => {
+        setPassword(event.target.value);
+        clearFieldError("password");
+      },
+    },
+  ];
+
   return (
-    <main className="flex min-h-screen items-center justify-center bg-[var(--color-background)] p-4">
-
-      <div className="flex w-full max-w-6xl overflow-hidden rounded-[var(--radius-2xl)] bg-[var(--color-surface)] shadow-[var(--shadow-xl)] border border-[var(--color-border)]">
-
+    <main className="flex min-h-screen items-center justify-center bg-background p-4">
+      <div className="flex w-full max-w-6xl overflow-hidden rounded-2xl border border-(--color-border) bg-(--color-surface) shadow-xl">
         {/* LEFT SIDE */}
-        <div className="hidden w-1/2 flex-col justify-between bg-[var(--color-primary)] p-12 text-[var(--color-on-primary)] lg:flex">
+        <div className="hidden w-1/2 flex-col justify-between bg-primary p-12 text-primary-foreground lg:flex">
+          <AuthHero
+            titleKey="auth.login.heroTitle"
+            subtitleKey="auth.login.heroSubtitle"
+            variant="primary"
+          />
 
-          <div>
-
-            <div className="mb-10 flex items-center gap-3">
-
-              <Shield
-                className="h-14 w-14 rounded-[var(--radius-lg)] bg-[var(--color-surface)]/10 p-2 text-[var(--color-on-primary)]"
-                aria-hidden="true"
-              />
-
-              <span className="text-4xl font-display font-bold">
-                {t("brand.name")}
-              </span>
-
-            </div>
-
-            <h1 className="font-display text-4xl font-bold leading-tight">
-              {t("auth.login.heroTitle")}
-            </h1>
-
-            <p className="mt-4 text-lg text-[var(--color-on-primary)]/80">
-              {t("auth.login.heroSubtitle")}
-            </p>
-
-          </div>
-
-          <ul className="space-y-4">
-
-            <li className="flex items-center gap-3 rounded-[var(--radius-xl)] bg-[var(--color-surface)]/10 p-4">
-
-              <Check className="h-6 w-6 shrink-0 text-[var(--color-success)]" aria-hidden="true" />
-
-              <span className="text-base font-medium">
-                {t("auth.benefits.products")}
-              </span>
-
-            </li>
-
-            <li className="flex items-center gap-3 rounded-[var(--radius-xl)] bg-[var(--color-surface)]/10 p-4">
-
-              <Check className="h-6 w-6 shrink-0 text-[var(--color-success)]" aria-hidden="true" />
-
-              <span className="text-base font-medium">
-                {t("auth.benefits.orders")}
-              </span>
-
-            </li>
-
-            <li className="flex items-center gap-3 rounded-[var(--radius-xl)] bg-[var(--color-surface)]/10 p-4">
-
-              <Check className="h-6 w-6 shrink-0 text-[var(--color-success)]" aria-hidden="true" />
-
-              <span className="text-base font-medium">
-                {t("auth.benefits.customers")}
-              </span>
-
-            </li>
-
-          </ul>
-
+          <AuthBenefits variant="success" />
         </div>
 
         {/* RIGHT SIDE */}
-        <div className="flex w-full flex-col justify-center bg-[var(--color-surface)] p-8 lg:w-1/2 lg:p-14">
-
+        <div className="flex w-full flex-col justify-center bg-(--color-surface) p-8 lg:w-1/2 lg:p-14">
           <div className="mx-auto w-full max-w-md space-y-6">
+            {/* BACK */}
+            <BackLink labelKey="auth.back.toPrevious" />
 
             {/* Logo */}
-            <div className="text-center">
-
+            <div className="space-y-2 text-center">
               <img
                 src="/favicon.ico"
                 alt={t("brand.logoAlt")}
-                className="mx-auto h-24 w-24 object-contain"
+                className="mx-auto mb-4 size-24 object-contain"
               />
 
-              <h2 className="font-display text-3xl font-bold text-[var(--color-text-primary)]">
+              <h2 className="font-display text-3xl font-bold text-(--color-text-primary)">
                 {t("auth.login.title")}
               </h2>
 
-              <p className="text-lg text-[var(--color-text-secondary)]">
+              <p className="text-base text-(--color-text-secondary)">
                 {t("auth.login.subtitle")}
               </p>
-
             </div>
 
             {/* API ERROR */}
-            {apiError && (
-              <div
-                role="alert"
-                className="rounded-[var(--radius-lg)] border border-[var(--color-error)]/25 bg-[var(--color-error-bg)] p-3 text-center text-sm font-medium text-[var(--color-error)]"
-              >
-                {apiError}
-              </div>
-            )}
+            {apiError && <ApiErrorBanner message={apiError} variant="default" icon />}
 
             {/* FORM */}
             <form
               onSubmit={handleSubmit}
               noValidate
-              aria-busy={isLoading}
+              aria-busy={isSubmitting}
               className="space-y-4"
             >
+              {fields.map((field) => {
+                const Icon = field.icon;
 
-              {/* EMAIL */}
-              <div>
+                return (
+                  <div key={field.id} className="space-y-2">
+                    <label
+                      htmlFor={field.id}
+                      className="block text-sm font-medium text-(--color-text-primary)"
+                    >
+                      {t(field.labelKey)}
+                    </label>
 
-                <label
-                  htmlFor="login-email"
-                  className="mb-1 block text-sm font-bold text-[var(--color-text-primary)]"
+                    {field.password ? (
+                      <PasswordInput
+                        id={field.id}
+                        name={field.name}
+                        autoComplete={field.autoComplete}
+                        value={field.value}
+                        onChange={field.onChange}
+                        placeholder={t(field.placeholderKey)}
+                        aria-invalid={Boolean(field.error)}
+                        aria-describedby={
+                          field.error ? `${field.id}-error` : undefined
+                        }
+                        className="h-11"
+                      />
+                    ) : (
+                      <div className="relative">
+                        <Input
+                          id={field.id}
+                          name={field.name}
+                          type={field.type}
+                          autoComplete={field.autoComplete}
+                          value={field.value}
+                          onChange={field.onChange}
+                          placeholder={t(field.placeholderKey)}
+                          aria-invalid={Boolean(field.error)}
+                          aria-describedby={
+                            field.error ? `${field.id}-error` : undefined
+                          }
+                          className="h-11 rounded-lg border-(--color-border) bg-(--color-surface-secondary) ps-11 text-(--color-text-primary) placeholder:text-(--color-text-secondary) focus-visible:ring-(--color-focus-ring)"
+                        />
+
+                        <Icon
+                          className="pointer-events-none absolute top-1/2 start-4 size-5 -translate-y-1/2 text-(--color-text-secondary)"
+                          aria-hidden="true"
+                        />
+                      </div>
+                    )}
+
+                    {field.error && (
+                      <p
+                        id={`${field.id}-error`}
+                        className="text-sm text-(--color-error)"
+                      >
+                        {field.error}
+                      </p>
+                    )}
+                  </div>
+                );
+              })}
+
+              {/* FORGOT PASSWORD LINK */}
+              <div className="flex justify-end">
+                <Link
+                  to="/forgot-password"
+                  state={{ from }}
+                  className="rounded-sm text-sm font-medium text-(--color-link) hover:text-(--color-link-hover) hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-(--color-focus-ring)"
                 >
-                  {t("auth.login.emailLabel")}
-                </label>
-
-                <div className="relative">
-
-                  <Input
-                    id="login-email"
-                    name="email"
-                    type="email"
-                    autoComplete="email"
-                    value={email}
-                    onChange={(event) => {
-                      setEmail(event.target.value);
-                      clearFieldError("email");
-                    }}
-                    placeholder={t("auth.login.emailPlaceholder")}
-                    aria-invalid={Boolean(errors.email)}
-                    aria-describedby={errors.email ? "login-email-error" : undefined}
-                    className="bg-[var(--color-surface-secondary)] border-[var(--color-border)] rounded-[var(--radius-lg)] py-6 pl-11 text-[var(--color-text-primary)] placeholder:text-[var(--color-text-secondary)] focus-visible:ring-[var(--color-focus-ring)]"
-                  />
-
-                  <Mail
-                    className="pointer-events-none absolute left-4 top-1/2 -translate-y-1/2 h-5 w-5 text-[var(--color-text-secondary)]"
-                    aria-hidden="true"
-                  />
-
-                </div>
-
-                {errors.email && (
-                  <p id="login-email-error" className="mt-1 text-sm text-[var(--color-error)]">
-                    {errors.email}
-                  </p>
-                )}
-
-              </div>
-
-              {/* PASSWORD */}
-              <div>
-
-                <label
-                  htmlFor="login-password"
-                  className="mb-1 block text-sm font-bold text-[var(--color-text-primary)]"
-                >
-                  {t("auth.login.passwordLabel")}
-                </label>
-
-                <div className="relative">
-
-                  <Input
-                    id="login-password"
-                    name="password"
-                    type="password"
-                    autoComplete="current-password"
-                    value={password}
-                    onChange={(event) => {
-                      setPassword(event.target.value);
-                      clearFieldError("password");
-                    }}
-                    placeholder={t("auth.login.passwordPlaceholder")}
-                    aria-invalid={Boolean(errors.password)}
-                    aria-describedby={errors.password ? "login-password-error" : undefined}
-                    className="bg-[var(--color-surface-secondary)] border-[var(--color-border)] rounded-[var(--radius-lg)] py-6 pl-11 text-[var(--color-text-primary)] placeholder:text-[var(--color-text-secondary)] focus-visible:ring-[var(--color-focus-ring)]"
-                  />
-
-                  <Lock
-                    className="pointer-events-none absolute left-4 top-1/2 -translate-y-1/2 h-5 w-5 text-[var(--color-text-secondary)]"
-                    aria-hidden="true"
-                  />
-
-                </div>
-
-                {errors.password && (
-                  <p id="login-password-error" className="mt-1 text-sm text-[var(--color-error)]">
-                    {errors.password}
-                  </p>
-                )}
-
+                  {t("auth.login.forgotPassword")}
+                </Link>
               </div>
 
               {/* LOGIN BUTTON */}
               <Button
                 type="submit"
                 size="lg"
-                disabled={isLoading}
-                className="w-full rounded-[var(--radius-lg)] text-base font-semibold"
+                disabled={isSubmitting}
+                className="w-full rounded-lg text-base font-semibold"
               >
-                {isLoading ? (
+                {isSubmitting ? (
                   <>
                     <Loader2 className="animate-spin" aria-hidden="true" />
                     {t("auth.login.submitting")}
@@ -298,15 +261,22 @@ export default function Login() {
                   t("auth.login.submit")
                 )}
               </Button>
-
             </form>
 
+            {/* SIGN UP LINK */}
+            <p className="text-center text-sm text-(--color-text-secondary)">
+              {t("auth.login.noAccount")}{" "}
+              <Link
+                to="/register"
+                state={{ from }}
+                className="rounded-sm font-medium text-(--color-link) hover:text-(--color-link-hover) hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-(--color-focus-ring)"
+              >
+                {t("auth.login.signUp")}
+              </Link>
+            </p>
           </div>
-
         </div>
-
       </div>
-
     </main>
   );
 }

@@ -1,4 +1,7 @@
-import { MIN_DESCRIPTION_LENGTH, MIN_SHORT_DESCRIPTION_LENGTH } from "../constants";
+import {
+  MIN_DESCRIPTION_LENGTH,
+  MIN_SHORT_DESCRIPTION_LENGTH,
+} from "../constants";
 
 // Returns an object mapping field name -> i18n key. Callers translate the keys.
 export function validateProduct(formData, options = {}) {
@@ -11,7 +14,10 @@ export function validateProduct(formData, options = {}) {
 
   if (!formData.shortDescription?.trim()) {
     validationErrors.shortDescription = "products.validation.shortDescriptionRequired";
-  } else if (isCreate && formData.shortDescription.trim().length < MIN_SHORT_DESCRIPTION_LENGTH) {
+  } else if (
+    isCreate &&
+    formData.shortDescription.trim().length < MIN_SHORT_DESCRIPTION_LENGTH
+  ) {
     validationErrors.shortDescription = "products.validation.shortDescriptionMin";
   }
 
@@ -37,7 +43,7 @@ export function validateProduct(formData, options = {}) {
 
   if (formData.stock === "" || formData.stock == null) {
     validationErrors.stock = "products.validation.stockRequired";
-  } else if (!Number.isFinite(Number(formData.stock)) || Number(formData.stock) < 0) {
+  } else if (Number(formData.stock) < 0) {
     validationErrors.stock = "products.validation.stockNonNegative";
   }
 

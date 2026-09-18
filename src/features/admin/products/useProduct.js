@@ -1,11 +1,12 @@
 import { useCallback, useEffect, useRef, useState } from "react";
-import { getProduct } from "./product.service";
+import { getProduct } from "@/services/product.service";
 
 export default function useProduct(productId) {
   const [product, setProduct] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
   const [reloadKey, setReloadKey] = useState(0);
+
   const controllerRef = useRef(null);
 
   const fetchProduct = useCallback(() => {

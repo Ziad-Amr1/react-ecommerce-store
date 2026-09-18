@@ -3,7 +3,7 @@ import { useNavigate, useParams } from "react-router";
 import { useTranslation } from "react-i18next";
 import { toast } from "sonner";
 import { MAX_IMAGES } from "./constants";
-import { getProduct, updateProduct } from "./product.service";
+import { getProduct, updateProduct } from "@/services/product.service";
 import { createProductFormData } from "./utils/productFormData";
 import { validateProduct } from "./utils/productValidation";
 
@@ -37,11 +37,10 @@ function toInitialState(item) {
   };
 }
 
-export default function useEditProduct({ productId, onSuccess } = {}) {
+export default function useEditProduct() {
   const navigate = useNavigate();
   const { t } = useTranslation();
-  const { id: routeId } = useParams();
-  const id = productId || routeId;
+  const { id } = useParams();
 
   const [product, setProduct] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
@@ -140,12 +139,16 @@ export default function useEditProduct({ productId, onSuccess } = {}) {
   const handleDeleteExistingImage = (image) => {
     setDeletedImages((current) => [...current, image.public_id]);
     setImages((current) =>
-      current.filter((currentImage) => currentImage.public_id !== image.public_id),
+      current.filter(
+        (currentImage) => currentImage.public_id !== image.public_id,
+      ),
     );
   };
 
   const handleRemoveNewImage = (index) => {
-    setNewImages((current) => current.filter((_, imageIndex) => imageIndex !== index));
+    setNewImages((current) =>
+      current.filter((_, imageIndex) => imageIndex !== index),
+    );
   };
 
   const handleSubmit = async (event) => {
@@ -168,16 +171,8 @@ export default function useEditProduct({ productId, onSuccess } = {}) {
 
     try {
       const data = createProductFormData(formData, newImages, deletedImages);
-      const response = await updateProduct(id, data);
-      const updatedProduct = response?.product;
-
+      await updateProduct(id, data);
       toast.success(t("products.updated"));
-
-      if (onSuccess) {
-        onSuccess(updatedProduct);
-        return;
-      }
-
       navigate("/admin/products");
     } catch (error) {
       const apiMessage = error.response?.data?.message || "";

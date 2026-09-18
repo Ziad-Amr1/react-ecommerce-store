@@ -1,21 +1,18 @@
 import { useTranslation } from "react-i18next";
-import { Card, CardContent } from "@/components/ui/card";
-import { formatCurrency } from "@/utils/formatCurrency";
-import { STOCK_OK_THRESHOLD, STOCK_WARNING_THRESHOLD } from "../constants";
-
-const CURRENCY = "USD";
-
-function stockClass(stock) {
-  if (stock > STOCK_OK_THRESHOLD) return "text-success";
-  if (stock > STOCK_WARNING_THRESHOLD) return "text-warning";
-  return "text-error";
-}
+import {
+  Card,
+  CardContent,
+} from "@/components/ui/card";
+import { formatCurrency, CURRENCIES } from "@/utils/formatCurrency";
+import { stockClass } from "./stockClass";
 
 function discountPercent(product) {
   const price = Number(product.price);
   const discountPrice = Number(product.discountPrice);
 
-  if (!(price > 0) || !(discountPrice > 0) || discountPrice >= price) return null;
+  if (!(price > 0) || !(discountPrice > 0) || discountPrice >= price) {
+    return null;
+  }
 
   return Math.round(((price - discountPrice) / price) * 100);
 }
@@ -26,10 +23,12 @@ export default function ProductDetailsInfo({ product }) {
 
   return (
     <Card>
-      <CardContent>
+      <CardContent className="pt-6">
         <div className="flex flex-col gap-3 border-b border-border pb-5 sm:flex-row sm:items-start sm:justify-between">
           <div>
-            <h2 className="font-display text-2xl font-bold text-foreground">{product.name}</h2>
+            <h2 className="font-display text-2xl font-bold text-foreground">
+              {product.name}
+            </h2>
 
             {product.shortDescription && (
               <p className="mt-2 max-w-2xl text-sm leading-6 text-muted-foreground">
@@ -38,13 +37,17 @@ export default function ProductDetailsInfo({ product }) {
             )}
           </div>
 
-          <div className="flex shrink-0 flex-wrap gap-2">
-            <span className={`rounded-full border px-2.5 py-1 text-xs font-medium ${product.isActive ? "border-success/30 bg-success-bg text-success" : "border-error/30 bg-error-bg text-error"}`}>
+          <div className="flex shrink-0 gap-2">
+            <span
+              className={`rounded-full px-3 py-1 text-xs font-medium ${
+                product.isActive ? "bg-(--color-success-bg) text-(--color-success)" : "bg-(--color-error-bg) text-(--color-error)"
+              }`}
+            >
               {t(product.isActive ? "products.active" : "products.inactive")}
             </span>
 
             {product.featured && (
-              <span className="rounded-full border border-supporting bg-accent px-2.5 py-1 text-xs font-medium text-foreground">
+              <span className="rounded-full border border-(--color-supporting) bg-accent px-3 py-1 text-xs font-medium text-foreground">
                 {t("products.featured")}
               </span>
             )}
@@ -56,15 +59,19 @@ export default function ProductDetailsInfo({ product }) {
 
           <div className="mt-1 flex flex-wrap items-center gap-3">
             <span className="font-display text-3xl font-bold tabular-nums text-foreground">
-              {formatCurrency(product.discountPrice || product.price, CURRENCY, i18n.language)}
+              {formatCurrency(
+                product.discountPrice || product.price,
+                CURRENCIES.EGP,
+                i18n.language,
+              )}
             </span>
 
             {discount !== null && (
               <>
                 <span className="text-base tabular-nums text-muted-foreground line-through">
-                  {formatCurrency(product.price, CURRENCY, i18n.language)}
+                  {formatCurrency(product.price, CURRENCIES.EGP, i18n.language)}
                 </span>
-                <span className="rounded-md bg-success-bg px-2 py-1 text-xs font-semibold tabular-nums text-success">
+                <span className="rounded-md bg-(--color-success-bg) px-2 py-1 text-xs font-semibold tabular-nums text-(--color-success)">
                   {t("products.discountOff", { percent: discount })}
                 </span>
               </>
@@ -75,8 +82,12 @@ export default function ProductDetailsInfo({ product }) {
         <div className="grid gap-5 border-b border-border py-5 sm:grid-cols-2">
           <div>
             <p className="text-sm text-muted-foreground">{t("products.fields.stock")}</p>
-            <p className={`mt-1 text-lg font-semibold tabular-nums ${stockClass(product.stock)}`}>
-              {product.stock == null ? "—" : t("products.stockUnits", { count: product.stock })}
+            <p
+              className={`mt-1 text-lg font-semibold tabular-nums ${stockClass(product.stock)}`}
+            >
+              {product.stock == null
+                ? "—"
+                : t("products.stockUnits", { count: product.stock })}
             </p>
           </div>
 
@@ -91,17 +102,25 @@ export default function ProductDetailsInfo({ product }) {
         <div className="grid gap-5 pt-5 sm:grid-cols-3">
           <div>
             <p className="text-sm text-muted-foreground">{t("products.fields.category")}</p>
-            <p className="mt-1 font-semibold text-foreground">{product.category || "—"}</p>
+            <p className="mt-1 font-semibold text-foreground">
+              {product.category || "—"}
+            </p>
           </div>
 
           <div>
-            <p className="text-sm text-muted-foreground">{t("products.fields.subcategory")}</p>
-            <p className="mt-1 font-semibold text-foreground">{product.subcategory || "—"}</p>
+            <p className="text-sm text-muted-foreground">
+              {t("products.fields.subcategory")}
+            </p>
+            <p className="mt-1 font-semibold text-foreground">
+              {product.subcategory || "—"}
+            </p>
           </div>
 
           <div>
             <p className="text-sm text-muted-foreground">{t("products.fields.brand")}</p>
-            <p className="mt-1 font-semibold text-foreground">{product.brand || "—"}</p>
+            <p className="mt-1 font-semibold text-foreground">
+              {product.brand || "—"}
+            </p>
           </div>
         </div>
       </CardContent>

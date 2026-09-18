@@ -22,9 +22,7 @@ export function createProductFormData(formData, images = [], deletedImages = [])
   appendIfPresent(data, "brand", formData.brand);
 
   if (formData.tags?.length > 0) {
-    formData.tags.forEach((tag) => {
-      data.append("tags", tag);
-    });
+    data.append("tags", JSON.stringify(formData.tags));
   }
 
   images.forEach((image) => {

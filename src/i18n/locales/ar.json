@@ -20,9 +20,14 @@
     "dashboardSubtitle": "لوحة إدارة التجارة الإلكترونية",
     "dashboard": "لوحة التحكم",
     "products": "المنتجات",
+    "categories": "التصنيفات",
     "orders": "الطلبات",
     "users": "المستخدمون",
     "carts": "السلال",
+    "reviews": "المراجعات والتقييمات",
+    "wishlists": "قوائم الرغبات",
+    "coupons": "القسائم والخصومات",
+    "reports": "التقارير والتحليلات",
     "settings": "الإعدادات",
     "notifications": "الإشعارات",
     "notificationsPanel": {
@@ -48,7 +53,39 @@
   "languages": {
     "switcherLabel": "اختر اللغة",
     "en": "الإنجليزية",
-    "ar": "العربية"
+    "ar": "العربية",
+    "fr": "الفرنسية",
+    "ru": "الروسية"
+  },
+  "notifications": {
+    "title": "الإشعارات",
+    "unread": "غير مقروء",
+    "description": "ابقَ على اطلاع بأحدث تحديثات الطلبات والعروض وتنبيهات الحساب.",
+    "markAllRead": "تحديد الكل كُمقروء",
+    "clearAll": "مسح الكل",
+    "empty": "لا توجد إشعارات بعد",
+    "emptyDescription": "عندما تتلقى تحديثات للطلبات أو عروض ترويجية أو تنبيهات أمان، ستظهر هنا.",
+    "markUnread": "تعيين كغير مقروء",
+    "markRead": "تعيين كمقروء",
+    "viewAll": "عرض جميع الإشعارات",
+    "tabs": {
+      "all": "الكل",
+      "unread": "غير مقروءة"
+    },
+    "items": {
+      "orderShipped": "تم شحن الطلب",
+      "orderShippedDesc": "تم شحن الطلب رقم #ORD-8921 وهو في طريقه إليك!",
+      "saleAlert": "عرض التخفيضات الربيعية",
+      "saleAlertDesc": "استمتع بخصم يصل إلى 30% على جميع الإلكترونيات اليوم!",
+      "securityAlert": "تنبيه أمان",
+      "securityAlertDesc": "تم تحديث كلمة مرور حسابك بنجاح.",
+      "welcome": "مكافأة الترحيب",
+      "welcomeDesc": "أهلاً بك في متجرنا! استمتع بشحن مجاني على طلبك الأول.",
+      "orderShippedTime": "منذ ساعتين",
+      "saleAlertTime": "منذ 5 ساعات",
+      "securityAlertTime": "منذ يوم",
+      "welcomeTime": "منذ 3 أيام"
+    }
   },
   "auth": {
     "password": {
@@ -158,7 +195,32 @@
     "usernameMin": "يجب ألا يقل اسم المستخدم عن {{count}} أحرف",
     "phoneInvalid": "يرجى إدخال رقم هاتف صحيح"
   },
+  "home": {
+    "title": "الصفحة الرئيسية للمتجر",
+    "description": "مرحبًا بك في منصة التجارة الإلكترونية. استكشف منتجاتنا وأدر طلباتك.",
+    "login": "تسجيل الدخول",
+    "designSystem": "نظام التصميم",
+    "comingSoon": "هذه الميزة غير منفذة بعد، ومن المقرر إضافتها في إصدار قادم."
+  },
   "shop": {
+    "brand": "العلامة التجارية",
+    "allBrands": "كل العلامات التجارية",
+    "filterBrand": "العلامة التجارية:",
+    "title": "المتجر",
+    "off": "خصم %",
+    "separator": "·",
+    "productRatingLabel": "{{rating}} من أصل 5 نجوم، {{reviewsCount}} من التقييمات",
+    "inStock": "متوفر في المخزون",
+    "runningLow": "متبقي {{count}} قطع فقط",
+    "outOfStock": "نفد المخزون",
+    "addToCart": "إضافة إلى السلة",
+    "details": "التفاصيل",
+    "results": "النتائج ({{count}})",
+    "showing": "عرض {{count}} منتجًا",
+    "untitledProduct": "منتج بدون عنوان",
+    "image": "صورة",
+    "addToWishlist": "إضافة إلى المفضلة",
+    "comingSoon": "سيأتي قريبًا في إصدار قادم.",
     "subtitle": "استكشف منتجاتنا والعروض الحصرية",
     "pagePrevious": "السابق",
     "pageNext": "التالي",
@@ -172,7 +234,19 @@
     "filterCategory": "الفئة:",
     "filterPrice": "السعر:",
     "filterSort": "الترتيب:",
-    "filterSearch": "البحث:"
+    "filterSearch": "البحث:",
+    "filterTitle": "تصفية المنتجات",
+    "category": "الفئات",
+    "priceRange": "نطاق السعر",
+    "minPrice": "الأدنى",
+    "maxPrice": "الأقصى",
+    "sortBy": "الترتيب حسب",
+    "sortDefault": "الافتراضي",
+    "sortLowHigh": "السعر: من الأقل للأعلى",
+    "sortHighLow": "السعر: من الأعلى للأقل",
+    "sortTopRated": "الأعلى تقييمًا",
+    "clearAllFilters": "مسح جميع التصفية",
+    "filterUnlimited": "∞"
   },
   "dashboard": {
     "title": "صفحة لوحة التحكم",
@@ -181,6 +255,7 @@
     "retry": "إعادة المحاولة",
     "noData": "لا توجد بيانات للوحة التحكم.",
     "noProducts": "لا توجد منتجات",
+
     "orderStatus": "حالة الطلبات",
     "recentOrders": "الطلبات الأخيرة",
     "topProducts": "أفضل المنتجات",
@@ -201,25 +276,51 @@
       "cancelled": "ملغي",
       "returned": "مُرجَع"
     },
+
     "adminOverview": "نظرة عامة للمدير",
     "commerceHealth": "صحة التجارة",
     "commerceHealthDescription": "راقب أداء متجرك وإحصاءاته الرئيسية.",
+
     "totalOrders": "إجمالي الطلبات",
     "totalOrdersDescription": "جميع الطلبات المستلمة",
+
     "pendingOrders": "الطلبات قيد الانتظار",
     "pendingOrderDescription": "طلبات بانتظار المعالجة",
+
     "totalRevenue": "إجمالي الإيرادات",
     "totalRevenueDescription": "إجمالي الإيرادات الكلية",
+
     "thisMonthRevenue": "إيرادات هذا الشهر",
     "thisMonthRevenueDescription": "الإيرادات المحققة في الشهر الحالي",
+
     "revenueGrowth": "نمو الإيرادات",
     "revenueGrowthDescription": "معدل التغير في إجمالي الإيرادات",
+
     "totalUsers": "المستخدمون",
-    "totalUsersDescription": "إجمالي العملاء المسجلين"
+    "totalUsersDescription": "إجمالي العملاء المسجلين",
+
+    "dateRange": {
+      "last3": "آخر 3 أيام",
+      "last7": "آخر 7 أيام",
+      "thisMonth": "الشهر الحالي",
+      "prevMonth": "الشهر السابق",
+      "all": "كل الفترات"
+    }
   },
   "products": {
     "title": "المنتجات",
+    "subtitle": "إدارة المخزون",
     "description": "أدر الكتالوج الخاص بك — ابحث، صفِّ، وراقب مستويات المخزون.",
+    "kpis": {
+      "totalProducts": "إجمالي المنتجات",
+      "totalProductsDesc": "عناصر الكتالوج النشطة وغير النشطة",
+      "inStock": "متوفر في المخزون",
+      "inStockDesc": "مخزون جيد (أكثر من 20 قطعة)",
+      "lowStock": "مخزون منخفض",
+      "lowStockDesc": "يوصى بإعادة التزويد (6–20 قطعة)",
+      "outOfStock": "نفد المخزون",
+      "outOfStockDesc": "مخزون مستنفد (5 قطع أو أقل)"
+    },
     "loadErrorTitle": "حدث خطأ ما",
     "loadErrorHint": "تعذر تحميل المنتجات. حاول مرة أخرى.",
     "loadProductFailed": "تعذر تحميل هذا المنتج. حاول مرة أخرى.",
@@ -281,8 +382,6 @@
     "clearQuery": "مسح الاستعلام",
     "noProductsFound": "لا توجد منتجات",
     "noProductsHint": "جرّب تعديل البحث أو عوامل التصفية.",
-    "keepEditing": "متابعة التعديل",
-
     "columns": {
       "product": "المنتج",
       "brand": "العلامة التجارية",
@@ -331,6 +430,12 @@
       "description": "الوصف",
       "tags": "الوسوم"
     },
+    "similarProducts": "منتجات مشابهة",
+    "youMayAlsoLike": "قد يعجبك أيضًا",
+    "similarProductsDescription": "منتجات من نفس الفئة.",
+    "recommended": "مُوصى بها",
+    "recommendedForYou": "مقترحات لك",
+    "recommendedDescription": "المزيد من المنتجات التي تهمك.",
     "validation": {
       "nameRequired": "اسم المنتج مطلوب",
       "shortDescriptionRequired": "الوصف المختصر مطلوب",
@@ -355,7 +460,7 @@
       "apply": "تطبيق التصفية",
       "clear": "مسح"
     },
-    "tagsPlaceholder": "اكتب وسمًا واضغط Enter أو فاصلة",
+    "tagsPlaceholder": "اكتب وسمًا واضغط Enter",
     "removeTag": "إزالة الوسم {{tag}}"
   },
   "landing": {
@@ -439,7 +544,9 @@
       "nav": {
         "home": "الرئيسية",
         "shop": "المتجر",
-        "about": "حول المتجر"
+        "about": "حول المتجر",
+        "myOrders": "طلباتي",
+        "wishlist": "المفضلة"
       },
       "account": "الحساب",
       "cart": "السلة",
@@ -464,6 +571,101 @@
         "contact": "اتصل بنا"
       }
     }
+  },
+  "about": {
+    "title": "عن المتجر",
+    "eyebrow": "قصتنا ورؤيتنا",
+    "heroTitle": "إعادة تعريف التسوق عبر الإنترنت",
+    "heroSubtitle": "نقدم لك منتجات مختارة بعناية صُممت للجودة والأناقة والراحة اليومية.",
+    "missionTitle": "مهمتنا",
+    "missionDescription": "في متجر Oversea Store، نؤمن بأن التسوق عبر الإنترنت يجب أن يكون سلسًا وملهمًا وموثوقًا. يقوم فريقنا باختيار كل منتج في الكتالوج الخاص بنا يدويًا لضمان استيفائه لأعلى معايير الجودة.",
+    "bullet1": "فحص فائق للجودة على كل عنصر في المتجر",
+    "bullet2": "أسعار شفافة بدون أي رسوم خفية",
+    "bullet3": "شحن عالمي سريع مع تتبع كامل للطرد",
+    "valuesTitle": "لماذا تختار متجر Oversea",
+    "values": {
+      "quality": {
+        "title": "جودة عالية",
+        "description": "يخضع كل عنصر في متجرنا لفحص دقيق لضمان رضاك الدائم."
+      },
+      "shipping": {
+        "title": "شحن سريع وموثوق",
+        "description": "نشترك مع أفضل شركات اللوجستيات العالمية لتوصيل طلباتك إلى باب منزلك بسرعة."
+      },
+      "secure": {
+        "title": "إتمام شراء آمن 100%",
+        "description": "معاملات مشفرة ومعالجة دفع آمنة تمنحك راحة البال التامة."
+      },
+      "support": {
+        "title": "دعم مخصص",
+        "description": "فريق خدمة العملاء الودود لدينا متواجد على مدار الساعة لمساعدتك."
+      }
+    },
+    "stats": {
+      "customers": "عميل سعيد",
+      "products": "منتج مميز",
+      "satisfaction": "نسبة الرضا",
+      "support": "دعم عالمي"
+    },
+    "ctaTitle": "هل أنت مستعد لتجربة تسوق أفضل؟",
+    "ctaSubtitle": "تصفح أحدث وصلاتنا والمجموعات الحصرية اليوم.",
+    "exploreProducts": "استكشف الكتالوج"
+  },
+  "myOrders": {
+    "title": "طلباتي",
+    "subtitle": "عرض وتتبع طلباتك الشخصية.",
+    "emptyTitle": "لا توجد طلبات بعد",
+    "emptyDescription": "لم تقم بإجراء أي طلبات بعد. ابدأ التسوق لملء سجل طلباتك!",
+    "browseProducts": "تصفح المنتجات",
+    "viewDetails": "عرض التفاصيل",
+    "placedOn": "تم الطلب في {{date}}",
+    "loading": "جارٍ التحميل...",
+    "loadErrorTitle": "تعذر تحميل طلباتك",
+    "loadErrorDescription": "حدث خطأ أثناء جلب طلباتك. يرجى المحاولة مرة أخرى.",
+    "retry": "إعادة المحاولة",
+    "quantity": "الكمية",
+    "shippingAddress": "عنوان الشحن",
+    "payment": "الدفع",
+    "method": "الطريقة",
+    "paymentMethod": {
+      "cash": "نقدًا",
+      "stripe": "بطاقة"
+    },
+    "backToMyOrders": "العودة إلى طلباتي",
+    "cancelOrder": "إلغاء الطلب",
+    "cancelOrderTitle": "إلغاء الطلب؟",
+    "cancelOrderDescription": "هل أنت متأكد من رغبتك في إلغاء هذا الطلب؟",
+    "keepOrder": "الاحتفاظ بالطلب",
+    "cancelling": "جارٍ الإلغاء...",
+    "cancelFailed": "فشل إلغاء الطلب.",
+    "pagination": {
+      "previous": "السابق",
+      "next": "التالي"
+    }
+  },
+  "wishlist": {
+    "title": "المفضلة",
+    "subtitle": "العناصر التي قمت بحفظها لوقت لاحق.",
+    "emptyTitle": "قائمة المفضلة فارغة",
+    "emptyDescription": "احفظ المنتجات التي تعجبك أثناء التصفح للعثور عليها بسهولة لاحقًا.",
+    "browseProducts": "تصفح المنتجات",
+    "loading": "جارٍ تحميل قائمة المفضلة...",
+    "totalItems": "العناصر المحفوظة: {{total}}",
+    "loadError": "تعذر تحميل قائمة المفضلة.",
+    "retry": "إعادة المحاولة",
+    "addToWishlist": "إضافة إلى المفضلة",
+    "removeFromWishlist": "إزالة من المفضلة",
+    "added": "تمت الإضافة إلى قائمة المفضلة.",
+    "removed": "تمت الإزالة من قائمة المفضلة.",
+    "updateError": "تعذر تحديث قائمة المفضلة. يرجى المحاولة مرة أخرى.",
+    "signInRequired": "سجّل الدخول لحفظ العناصر في قائمة المفضلة.",
+    "clearAll": "إفراغ المفضلة",
+    "clearAllTitle": "إفراغ قائمة المفضلة؟",
+    "clearAllDescription": "سيؤدي هذا إلى إزالة كل العناصر المحفوظة من قائمة المفضلة. لا يمكن التراجع عن هذا الإجراء.",
+    "clearAllConfirm": "إفراغ المفضلة",
+    "cancel": "إلغاء",
+    "clearing": "جارٍ الإفراغ...",
+    "clearError": "تعذر إفراغ قائمة المفضلة. يرجى المحاولة مرة أخرى."
   },
   "profile": {
     "title": "نظرة عامة على الملف الشخصي",
@@ -491,7 +693,8 @@
       "missing": "غير متوفر",
       "copied": "تم نسخ {{field}} إلى الحافظة",
       "copyFailed": "تعذر النسخ إلى الحافظة",
-      "copyValue": "نسخ {{value}}"
+      "copyValue": "نسخ {{value}}",
+      "avatar": "رابط الصورة الشخصية"
     },
     "activity": {
       "title": "نشاط الحساب",
@@ -501,6 +704,18 @@
       "addresses": "العناوين المحفوظة",
       "payments": "طرق الدفع",
       "comingSoon": "غير متوفرة بعد"
+    },
+    "edit": {
+      "edit": "تعديل",
+      "save": "حفظ",
+      "saving": "جارٍ الحفظ...",
+      "cancel": "إلغاء",
+      "success": "تم تحديث الملف الشخصي بنجاح",
+      "error": "فشل تحديث الملف الشخصي"
+    },
+    "validation": {
+      "usernameRequired": "اسم المستخدم مطلوب",
+      "phoneRequired": "رقم الهاتف مطلوب"
     },
     "error": {
       "title": "تعذر تحميل ملفك الشخصي",
@@ -518,7 +733,7 @@
       "done": "مكتمل"
     }
   },
-  "cart": {
+"cart": {
     "title": "سلة التسوق",
     "emptyTitle": "سلة التسوق فارغة",
     "emptyDescription": "تصفح المتجر وأضف ما يعجبك إلى سلة التسوق.",
@@ -555,8 +770,21 @@
   },
   "orders": {
     "title": "الطلبات",
-    "subtitle": "الإدارة • الطلبات",
+    "subtitle": "التنفيذ والعمليات",
+    "description": "تتبع وإدارة مشتريات العملاء وحالات الدفع وسير عمل التنفيذ.",
     "totalOrders": "إجمالي الطلبات",
+    "searchPlaceholder": "البحث حسب العميل أو رقم الطلب...",
+    "clearSearch": "مسح البحث",
+    "kpis": {
+      "totalOrders": "إجمالي الطلبات",
+      "totalOrdersDesc": "جميع المشتريات المسجلة",
+      "pendingOrders": "الطلبات قيد الانتظار",
+      "pendingOrdersDesc": "في انتظار التنفيذ",
+      "activeOrders": "قيد المعالجة / نشطة",
+      "activeOrdersDesc": "قيد الشحن والمعالجة النشطة",
+      "deliveredOrders": "تم التسليم",
+      "deliveredOrdersDesc": "مكتملة بنجاح"
+    },
     "loadErrorTitle": "تعذر تحميل الطلبات",
     "loadErrorHint": "حدث خطأ ما أثناء جلب الطلبات. يرجى المحاولة مرة أخرى.",
     "retry": "إعادة المحاولة",
@@ -566,17 +794,21 @@
       "status": {
         "placeholder": "كل الحالات",
         "all": "كل الحالات",
-        "delivered": "تم التسليم",
-        "shipped": "تم الشحن",
-        "confirmed": "مؤكد",
+        "pending": "قيد الانتظار",
         "processing": "قيد المعالجة",
-        "cancelled": "ملغي"
+        "confirmed": "مؤكد",
+        "shipped": "تم الشحن",
+        "delivered": "تم التسليم",
+        "cancelled": "ملغي",
+        "returned": "مُرجَع"
       },
       "payment": {
         "placeholder": "كل حالات الدفع",
         "all": "كل حالات الدفع",
         "pending": "قيد الدفع",
-        "paid": "مدفوع"
+        "paid": "مدفوع",
+        "failed": "فشل",
+        "refunded": "مُسترد"
       }
     },
     "columns": {
@@ -584,8 +816,10 @@
       "customer": "العميل",
       "date": "التاريخ",
       "status": "الحالة",
+      "paymentMethod": "طريقة الدفع",
       "paymentStatus": "حالة الدفع",
-      "total": "الإجمالي"
+      "total": "الإجمالي",
+      "actions": "إجراءات"
     },
     "status": {
       "delivered": "تم التسليم",
@@ -594,12 +828,21 @@
       "processing": "قيد المعالجة",
       "pending": "قيد الانتظار",
       "cancelled": "ملغي",
+      "returned": "مُرجَع",
       "unknown": "غير معروف"
     },
     "paymentStatus": {
       "paid": "مدفوع",
-      "pending": "قيد الدفع"
+      "pending": "قيد الدفع",
+      "failed": "فشل",
+      "refunded": "مُسترد",
+      "unknown": "غير معروف"
     },
+    "paymentMethods": {
+      "cash": "كاش"
+    },
+    "viewOrder": "عرض التفاصيل",
+    "changeStatus": "تغيير الحالة",
     "pagination": {
       "previous": "السابق",
       "next": "التالي"
@@ -638,12 +881,25 @@
   },
   "users": {
     "title": "المستخدمون",
-    "subtitle": "إدارة جميع المستخدمين",
+    "subtitle": "إدارة الحسابات",
+    "description": "إدارة حسابات المستخدمين المسجلين وأدوار النظام وصلاحيات العملاء.",
+    "kpis": {
+      "totalUsers": "إجمالي المستخدمين",
+      "totalUsersDesc": "جميع الحسابات المسجلة",
+      "customers": "العملاء",
+      "customersDesc": "متسوقو المتجر العاديون",
+      "admins": "المدراء",
+      "adminsDesc": "أصحاب الصلاحيات الإدارية"
+    },
     "loading": "جارٍ تحميل المستخدمين...",
     "loadError": "تعذر تحميل المستخدمين. يرجى المحاولة مرة أخرى.",
     "loadErrorTitle": "تعذر تحميل المستخدمين",
     "retry": "إعادة المحاولة",
     "addUser": "إضافة مستخدم",
+    "searchPlaceholder": "ابحث عن مستخدمين باسم المستخدم أو البريد الإلكتروني...",
+    "clearSearch": "مسح البحث",
+    "roleFilter": "تصفية حسب الدور",
+    "roleFilterAll": "كل الأدوار",
     "emptyTitle": "لا يوجد مستخدمون.",
     "emptyDescription": "لا يوجد حالياً أي مستخدمين للعرض.",
     "roles": {
@@ -669,11 +925,11 @@
       "goToPage": "الانتقال إلى الصفحة {{page}}",
       "showing": "عرض {{from}} إلى {{to}} من أصل {{count}} مستخدم"
     },
-    "dialogs": {
-      "addTitle": "إضافة مستخدم جديد",
-      "addDescription": "إنشاء حساب مستخدم جديد مباشرة من لوحة التحكم.",
-      "editTitle": "تغيير الدور",
-      "editDescription": "تعديل صلاحية الوصول لـ {{name}}.",
+"dialogs": {
+  "addTitle": "إضافة مستخدم جديد",
+  "addDescription": "إنشاء حساب مستخدم جديد مباشرة من لوحة التحكم.",
+  "editTitle": "تغيير الدور",
+  "editDescription": "تعديل صلاحية الوصول لـ {{name}}.",
       "username": "اسم المستخدم",
       "usernamePlaceholder": "أدخل اسم المستخدم",
       "usernameRequired": "اسم المستخدم مطلوب",
@@ -682,24 +938,24 @@
       "emailPlaceholder": "admin@example.com",
       "emailRequired": "البريد الإلكتروني مطلوب",
       "emailInvalid": "بريد إلكتروني غير صحيح",
-      "emailValid": "البريد الإلكتروني صحيح.",
-      "password": "كلمة المرور",
+"emailValid": "البريد الإلكتروني صحيح.",
+  "password": "كلمة المرور",
       "passwordPlaceholder": "أدخل كلمة المرور",
       "passwordRequired": "كلمة المرور مطلوبة",
       "passwordMinLength": "يجب ألا تقل كلمة المرور عن 6 أحرف",
-      "passwordValid": "كلمة المرور صحيحة.",
-      "role": "الدور",
+"passwordValid": "كلمة المرور صحيحة.",
+  "role": "الدور",
       "rolePlaceholder": "اختر الدور",
       "roleChangeHint": "ستتغير صلاحية وصول المستخدم عند الحفظ.",
       "cancel": "إلغاء",
       "adding": "جارٍ الإضافة...",
-      "saving": "جارٍ الحفظ...",
-      "saveRole": "حفظ الدور",
-      "saveUser": "حفظ المستخدم",
-      "addSuccess": "تمت إضافة المستخدم بنجاح.",
-      "addFailed": "تعذر إضافة المستخدم.",
-      "roleUpdateSuccess": "تم تحديث الدور بنجاح.",
-      "roleChangeFailed": "تعذر تحديث الدور.",
+"saving": "جارٍ الحفظ...",
+  "saveRole": "حفظ الدور",
+  "saveUser": "حفظ المستخدم",
+  "addSuccess": "تمت إضافة المستخدم بنجاح.",
+  "addFailed": "تعذر إضافة المستخدم.",
+  "roleUpdateSuccess": "تم تحديث الدور بنجاح.",
+  "roleChangeFailed": "تعذر تحديث الدور.",
       "deleteTitle": "حذف المستخدم",
       "deleteDescription": "لا يمكن التراجع عن هذا الإجراء.",
       "deleteQuestion": "حذف {{name}}؟ لا يمكن التراجع عن هذا الإجراء.",
@@ -716,11 +972,50 @@
       "close": "إغلاق"
     }
   },
+  "adminTable": {
+    "page": "الصفحة",
+    "records": "السجلات",
+    "total": "الإجمالي"
+  },
   "notFound": {
     "title": "عذرًا!",
     "code": "خطأ 404",
     "subtitle": "الصفحة غير موجودة",
     "description": "الصفحة التي تبحث عنها غير موجودة أو تم نقلها.",
     "home": "العودة إلى الرئيسية"
+  },
+  "carts": {
+    "title": "عربات التسوق",
+    "subtitle": "نشاط العملاء",
+    "description": "تصفّح عربات التسوق الخاصة بالعملاء والمنتجات التي تحتويها.",
+    "columns": {
+      "customer": "العميل",
+      "cart": "العربة",
+      "items": "المنتجات",
+      "total": "الإجمالي",
+      "actions": "الإجراءات"
+    },
+    "notAvailable": "غير متاح",
+    "viewDetails": "عرض التفاصيل",
+    "loadErrorTitle": "تعذّر تحميل العربات",
+    "loadErrorHint": "حدث خطأ أثناء تحميل العربات. حاول مرة أخرى.",
+    "retry": "إعادة المحاولة",
+    "noCartsFound": "لا توجد عربات.",
+    "noCartsFoundHint": "ستظهر عربات العملاء الجديدة هنا أثناء تسوّقهم.",
+    "pagination": {
+      "previous": "السابق",
+      "next": "التالي"
+    },
+    "sheet": {
+      "title": "تفاصيل العربة",
+      "customerInformation": "معلومات العميل",
+      "customer": "العميل",
+      "email": "البريد الإلكتروني",
+      "items": "المنتجات",
+      "noItems": "لا توجد منتجات.",
+      "product": "المنتج",
+      "subtotal": "المجموع الفرعي",
+      "total": "الإجمالي"
+    }
   }
 }

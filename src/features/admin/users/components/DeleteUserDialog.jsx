@@ -30,9 +30,9 @@ export default function DeleteUserDialog({
         }
       }}
     >
-      <AlertDialogContent size="sm" className="z-100">
+      <AlertDialogContent size="sm">
         <AlertDialogHeader>
-          <AlertDialogMedia className="bg-error-bg text-error">
+          <AlertDialogMedia className="bg-(--color-error-bg) text-(--color-error)">
             <Trash2 aria-hidden="true" />
           </AlertDialogMedia>
           <AlertDialogTitle className="font-display">
@@ -46,12 +46,11 @@ export default function DeleteUserDialog({
         </AlertDialogHeader>
 
         <AlertDialogFooter>
-          <AlertDialogCancel disabled={isDeleting} className="cursor-pointer">
+          <AlertDialogCancel disabled={isDeleting}>
             {t("users.dialogs.cancel")}
           </AlertDialogCancel>
           <AlertDialogAction
             variant="destructive"
-            className="cursor-pointer"
             onClick={onDelete}
             disabled={isDeleting}
           >

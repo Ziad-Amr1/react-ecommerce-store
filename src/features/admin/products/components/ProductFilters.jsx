@@ -2,10 +2,22 @@ import { useTranslation } from "react-i18next";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import { SORT_OPTIONS } from "../constants";
 
-export default function ProductFilters({ filters, setFilters, onApply, onClear, isFetching }) {
+export default function ProductFilters({
+  filters,
+  setFilters,
+  onApply,
+  onClear,
+  isFetching,
+}) {
   const { t } = useTranslation();
 
   const updateField = (field, value) => {
@@ -13,15 +25,21 @@ export default function ProductFilters({ filters, setFilters, onApply, onClear, 
   };
 
   return (
-    <div className="rounded-xl border bg-card p-4 shadow-sm sm:p-5">
+    <div className="rounded-xl border bg-card p-5 shadow-sm">
       <div>
-        <h2 className="font-display font-semibold text-foreground">{t("products.filtersTitle")}</h2>
-        <p className="text-sm text-muted-foreground">{t("products.filtersSubtitle")}</p>
+        <h2 className="font-display font-semibold text-foreground">
+          {t("products.filtersTitle")}
+        </h2>
+        <p className="text-sm text-muted-foreground">
+          {t("products.filtersSubtitle")}
+        </p>
       </div>
 
-      <div className="mt-4 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+      <div className="mt-4 grid gap-4 md:grid-cols-2 lg:grid-cols-4">
         <div className="space-y-2">
-          <Label htmlFor="filter-category">{t("products.fields.category")}</Label>
+          <Label htmlFor="filter-category">
+            {t("products.fields.category")}
+          </Label>
           <Input
             id="filter-category"
             value={filters.category}
@@ -41,7 +59,9 @@ export default function ProductFilters({ filters, setFilters, onApply, onClear, 
         </div>
 
         <div className="space-y-2">
-          <Label htmlFor="filter-minPrice">{t("products.fields.minPrice")}</Label>
+          <Label htmlFor="filter-minPrice">
+            {t("products.fields.minPrice")}
+          </Label>
           <Input
             id="filter-minPrice"
             type="number"
@@ -54,7 +74,9 @@ export default function ProductFilters({ filters, setFilters, onApply, onClear, 
         </div>
 
         <div className="space-y-2">
-          <Label htmlFor="filter-maxPrice">{t("products.fields.maxPrice")}</Label>
+          <Label htmlFor="filter-maxPrice">
+            {t("products.fields.maxPrice")}
+          </Label>
           <Input
             id="filter-maxPrice"
             type="number"
@@ -65,16 +87,16 @@ export default function ProductFilters({ filters, setFilters, onApply, onClear, 
             className="font-mono"
           />
         </div>
-      </div>
 
-      <div className="mt-4 flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
-        <div className="w-full sm:max-w-xs">
+        <div className="space-y-2">
           <Label>{t("products.fields.sort")}</Label>
-          <Select value={filters.sort || undefined} onValueChange={(value) => updateField("sort", value)}>
-            <SelectTrigger className="mt-2 w-full" aria-label={t("products.fields.sort")}>
+          <Select
+            value={filters.sort || undefined}
+            onValueChange={(value) => updateField("sort", value)}
+          >
+            <SelectTrigger className="w-full" aria-label={t("products.fields.sort")}>
               <SelectValue placeholder={t("products.sort.default")} />
             </SelectTrigger>
-
             <SelectContent>
               {SORT_OPTIONS.map((option) => (
                 <SelectItem key={option.value} value={option.value}>
@@ -85,12 +107,11 @@ export default function ProductFilters({ filters, setFilters, onApply, onClear, 
           </Select>
         </div>
 
-        <div className="flex w-full flex-col gap-2 sm:w-auto sm:flex-row">
-          <Button variant="outline" onClick={onClear} disabled={isFetching} className="w-full cursor-pointer sm:w-auto">
+        <div className="flex items-end justify-end gap-2 lg:col-span-2">
+          <Button variant="outline" onClick={onClear} disabled={isFetching}>
             {t("products.filters.clear")}
           </Button>
-
-          <Button onClick={onApply} disabled={isFetching} className="w-full cursor-pointer sm:w-auto">
+          <Button onClick={onApply} disabled={isFetching}>
             {t("products.filters.apply")}
           </Button>
         </div>

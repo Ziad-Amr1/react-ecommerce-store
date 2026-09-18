@@ -1,15 +1,11 @@
-import { useMemo } from "react";
+import { useEffect, useMemo } from "react";
 
 export default function ProductImagePreview({ file, alt }) {
-  const previewUrl = useMemo(() => {
-    if (!file) return "";
+  const previewUrl = useMemo(() => URL.createObjectURL(file), [file]);
 
-    return URL.createObjectURL(file);
-  }, [file]);
-
-  if (!previewUrl) {
-    return null;
-  }
+  useEffect(() => {
+    return () => URL.revokeObjectURL(previewUrl);
+  }, [previewUrl]);
 
   return <img src={previewUrl} alt={alt} className="h-full w-full object-cover" />;
 }

@@ -15,51 +15,78 @@ keeping reusable infrastructure and UI components centralized.
 ```bash
 src/
 │
-├── assets/
+├── api/
+│   └── axios.js
 │
 ├── components/
 │   ├── layout/
 │   └── ui/
 │
-├── features/
-│   ├── auth/
-│   ├── products/
-│   ├── cart/
-│   ├── wishlist/
-│   ├── checkout/
-│   ├── orders/
-│   ├── profile/
-│   └── admin/
+├── config/
+│   └── navigation.js
 │
 ├── contexts/
+│   ├── AuthContext.jsx
+│   ├── AuthProvider.jsx
+│   ├── CartContext.jsx
+│   ├── CartProvider.jsx
+│   ├── NotificationContext.jsx
+│   └── NotificationProvider.jsx
+│
+├── features/
+│   ├── admin/
+│   │   ├── components/
+│   │   ├── dashboard/
+│   │   ├── orders/
+│   │   ├── products/
+│   │   └── users/
+│   ├── auth/
+│   ├── cart/
+│   ├── landing/
+│   ├── products/
+│   └── profile/
 │
 ├── hooks/
+│   ├── useApiAvailability.js
+│   ├── useAuth.js
+│   ├── useCart.js
+│   ├── useNotifications.js
+│   └── useTheme.js
 │
-├── services/
+├── i18n/
+│   ├── index.js
+│   └── locales/          # en, ar, fr, ru
+│
+├── lib/
+│   └── utils.js
 │
 ├── pages/
-│
-├── routes/
+│   ├── admin/            # Dashboard, Products, Orders, Users, Carts, Categories, Reviews, Wishlists, Coupons, Reports, Settings
+│   └── auth/             # Login, Registration, ForgetPassword, VerifyOtp
 │
 ├── utils/
+│   ├── formatCurrency.js
+│   ├── formatDate.js
+│   └── formatNumber.js
 │
-├── styles/
-│
-└── App.jsx
+├── App.jsx
+├── index.css
+├── main.jsx
+├── ProtectedRoute.jsx   # admin guard (auth + admin role)
+└── RequireAuth.jsx      # customer guard (auth only)
 ```
 
 ## Directory Responsibilities
 
-### `assets/`
+### `api/`
 
-Static assets used by the application.
+The centralized shared HTTP client.
 
-Examples:
+Contains a single Axios instance configured from the environment
+(`VITE_API_URL`) and used for all API communication.
 
-- Images
-- Icons
-- Fonts
-- Other static resources
+Feature code should not create its own Axios instances or scatter
+requests across components.
 
 ---
 
@@ -79,10 +106,9 @@ Application-level layout components.
 
 Examples:
 
-- Header
-- Footer
+- AdminLayout
 - Sidebar
-- Page layout
+- AdminHeader
 
 ---
 
@@ -93,44 +119,24 @@ Reusable generic UI components.
 Examples:
 
 - Button
-- Input
-- Modal
-- Badge
-- Spinner
 - Card
+- Input
+- Badge
+- Skeleton
+- Dialog
 
 Feature-specific components should not be placed here
 unless they are genuinely reusable across features.
 
 ---
 
-### `features/`
+### `config/`
 
-Feature-specific code.
+App-level configuration consumed by components.
 
-Each feature should contain code that primarily belongs
-to that feature.
+Example:
 
-Examples:
-
-```text
-features/
-├── auth/
-├── products/
-├── cart/
-└── checkout/
-```
-
-A feature may contain:
-
-- Components
-- API-related logic
-- Hooks
-- Helpers
-- Types/models if needed
-
-Do not move code into components/ just because it is a component.
-Move it there only when it is shared or reusable.
+- `navigation.js` — admin navigation items used by the sidebar.
 
 ---
 
@@ -138,40 +144,114 @@ Move it there only when it is shared or reusable.
 
 Global application state using React Context API.
 
-Examples:
+Currently contains three contexts used across the application:
 
-- AuthContext
-- CartContext
-- WishlistContext
+- Auth context (AuthProvider / AuthContext), consumed through `useAuth()` in `hooks/`
+- Cart context (CartProvider / CartContext), consumed through `useCart()` in `hooks/`
+- Notification context (NotificationProvider / NotificationContext), consumed through `useNotifications()` in `hooks/`
+
+Each context pairs a context object with a provider component. Shared
+derived logic (for example cart totals and coupon math) lives in the
+feature slice under `features/cart/`, not inside the provider.
 
 Avoid putting local component state into Context unnecessarily.
+Use Context only for state genuinely shared across the tree.
+
+---
+
+### `features/`
+
+Feature-specific code.
+
+Each feature contains code that primarily belongs to that feature,
+including components, hooks, utils, and feature-local services.
+
+Currently implemented features:
+
+```text
+features/
+├── admin/
+│   ├── components/      # shared admin table framework (see below)
+│   ├── dashboard/
+│   ├── orders/
+│   ├── products/
+│   └── users/
+├── auth/
+├── cart/
+├── landing/
+├── products/
+└── profile/
+```
+
+The admin slice has one shared table framework that Products, Orders, and
+Users build on: `useAdminServerTable` (fetch, debounce, params, abort) plus
+`SortableTableHeader`, `AdminTableFooter`, `AdminTableEmptyState`,
+`AdminErrorState`, `TableSkeletonRows`, `RowActionsMenu`, and
+`AdminPageHeader`. Prefer these over new per page table code. The order
+status colors have one source of truth, `ORDER_STATUS_PRESENTATION` in
+`features/admin/orders/constants.js`, used by both the orders badge and the
+dashboard.
+
+Note: the admin Categories, Coupons, Reports, Reviews, and Wishlists pages
+are mock pages that do not yet use this framework. They are pending a
+migration and are out of scope for the current guidelines.
+
+A feature may contain:
+
+- Components
+- Feature-local services (e.g., `auth.service.js`)
+- Hooks (feature-scoped hooks stay here, e.g., `useDashboard`)
+- Constants
+- Utils
+
+Do not move code into components/ just because it is a component.
+Move it there only when it is shared or reusable.
+
+---
 
 ### `hooks/`
 
-Reusable custom React hooks.
+Reusable custom React hooks shared across the application.
 
-Examples:
+Currently:
 
-- useAuth()
-- useCart()
-- useDebounce()
+- `useAuth()` — auth state from the Auth context
+- `useCart()` — cart state from the Cart context
+- `useNotifications()` — notifications from the Notification context
+- `useTheme()` — theme handling
+- `useApiAvailability()` — availability probe used by feature status cards
 
 A hook that is only relevant to one feature should preferably
-remain inside that feature.
+remain inside that feature (e.g., `useDashboard` lives in
+`features/admin/dashboard/`).
 
-### `services/`
+---
 
-Communication with external systems.
+### `i18n/`
 
-Examples:
+Internationalization setup (i18next).
 
-```text
-services/
-├── api/
-└── auth/
-```
+Contains:
 
-API requests should not be scattered randomly across UI components.
+- `index.js` — i18next configuration
+- `locales/` — translation files
+
+The app ships four locales: `en`, `ar`, `fr`, and `ru`. Arabic drives the
+right-to-left layout through the `rtl` custom variant, so new UI must use
+logical utilities (`ps`, `pe`, `text-start`, `text-end`, `ms`, `me`) rather
+than physical ones. Locale key parity is enforced by `src/test/i18nLocales.test.js`.
+
+---
+
+### `lib/`
+
+Small shared helpers.
+
+Currently:
+
+- `utils.js` — `cn()` class-name merge helper for UI components.
+
+---
 
 ### `pages/`
 
@@ -179,53 +259,76 @@ Route-level components.
 
 A page represents a screen that can be reached through routing.
 
-Examples:
+Currently:
 
 ```text
 pages/
-├── auth/
-├── products/
-├── cart/
-├── checkout/
-├── orders/
-├── profile/
-└── admin/
+├── admin/        # Dashboard, Products (+Add/Edit/Details), Orders, Users, Carts, Categories, Reviews, Wishlists, Coupons, Reports, Settings
+├── auth/         # Login, Registration, ForgetPassword, VerifyOtp
+├── About.jsx
+├── Cart.jsx
+├── DesignSystem.jsx
+├── Landing.jsx
+├── MyOrders.jsx
+├── Notifications.jsx
+├── NotFound.jsx
+├── ProductDetails.jsx
+├── Profile.jsx
+├── Shop.jsx
+└── Wishlist.jsx
 ```
 
 Pages should compose features and shared components rather than
 contain large amounts of reusable business logic.
 
-### `routes/`
-
-Application routing and route protection.
-
-Responsibilities include:
-
-- Route definitions
-- Protected routes
-- Admin-only routes
-- Authentication-based redirects
+---
 
 ### `utils/`
 
 Pure reusable helper functions.
 
-Examples:
+Currently:
 
-- Formatting
-- Validation helpers
-- Data transformation
-- Small utility functions
+- `formatCurrency.js`
+- `formatDate.js`
+- `formatNumber.js`
 
 Avoid putting API calls or React components here.
 
-### `styles/`
-
-Global styling and design-system-related styles when needed.
-
-Tailwind CSS remains the primary styling approach.
-
 ---
+
+## Application root and routing
+
+Routing is defined in `src/App.jsx` using React Router v7, with a
+top-level `Routes` tree that includes the `/design-system` route and
+the protected `/admin/*` section.
+
+Route-level lazy loading is used for the Design System page
+(`React.lazy` + `Suspense`) so it is fetched only when navigating to
+`/design-system`.
+
+`src/ProtectedRoute.jsx` guards the `/admin/*` section:
+
+- Redirects unauthenticated visitors to the login page.
+- Blocks non-admin users from admin routes.
+
+`src/RequireAuth.jsx` guards the authenticated customer routes
+(`/my-orders`, `/wishlist`, `/notifications`):
+
+- Redirects unauthenticated visitors to the login page, preserving the
+  intended path so login can return them there.
+- Allows any authenticated user, with no role check.
+
+Public storefront routes (`/`, `/products`, `/products/:id`, `/about`,
+`/cart`, `/profile`) are not guarded. `/profile` renders its own
+login prompt for anonymous visitors instead of redirecting.
+
+`src/main.jsx` is the application entry point: it mounts the auth
+provider and the router.
+
+`src/index.css` holds the global styles (Tailwind CSS v4) and the
+project's design tokens. Tailwind CSS remains the primary styling
+approach.
 
 ## Application Flow
 
@@ -264,13 +367,15 @@ Authenticated?
 ```text
 Component / Feature
         ↓
-Service / Axios
+Feature service (feature-local)
+        ↓
+Shared api client (src/api/axios)
         ↓
 REST API
         ↓
 Response
         ↓
-Feature / Context
+Feature / Hook (local state) or Context (auth)
         ↓
 UI
 ```
@@ -298,29 +403,30 @@ Dashboard
 
 ## Store Features
 
-The Online Store includes:
+### Currently implemented
 
-- Home
-- Authentication
-- Products
-- Product Details
-- Reviews
-- Cart
-- Wishlist
-- Checkout
-- Stripe
-- Orders
-- Profile
-- Admin Features
+- Storefront landing (`/` — hero, featured rail, categories, newsletter)
+- Storefront catalog (`/products` and `/products/:id`)
+- Cart (`/cart`)
+- Profile overview (`/profile` — landing/hero section shows profile header + activity; anonymous visitors get a login-prompt card)
+- Authenticated customer pages (`/my-orders`, `/wishlist`, `/notifications`, guarded by `RequireAuth`)
+- About (`/about`)
+- Authentication (login, registration, forgot-password, OTP verification)
+- Design System reference page (`/design-system`)
+- i18n with four locales (`en`, `ar`, `fr`, `ru`) and RTL support
+- Admin section
+  - Dashboard with real statistics (revenue, orders, customers, top products)
+  - Products with real CRUD + details
+  - Orders (real data, with payment method and payment status), Users, Carts
+  - Mock only admin pages pending real data: Categories, Coupons, Reports, Reviews, Wishlists
 
-The Admin Dashboard includes:
+### Planned / not yet implemented
 
-- Dashboard
-- Products CRUD
-- Product Images
-- Orders
-- Users
-- Charts
+- Checkout and payments
+- Real wishlist and notification backends (the pages currently use local state)
+- Admin: moving the mock pages (Categories, Coupons, Reports, Reviews, Wishlists) onto the shared table framework
+
+Do not document features above as implemented until they exist.
 
 ## Architecture Rules
 

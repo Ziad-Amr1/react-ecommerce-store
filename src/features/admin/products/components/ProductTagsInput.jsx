@@ -8,23 +8,25 @@ export default function ProductTagsInput({ tags = [], onChange }) {
   const { t } = useTranslation();
   const [tagInput, setTagInput] = useState("");
 
+  const addTag = () => {
+    const tag = tagInput.trim();
+
+    if (!tag || tags.includes(tag)) {
+      return;
+    }
+
+    onChange([...tags, tag]);
+    setTagInput("");
+  };
+
   const removeTag = (tagToRemove) => {
     onChange(tags.filter((tag) => tag !== tagToRemove));
   };
 
   const handleKeyDown = (event) => {
-    if (event.key === "," || event.key === "Enter") {
+    if (event.key === "Enter") {
       event.preventDefault();
-
-      const newTags = tagInput
-        .split(",")
-        .map((tag) => tag.trim())
-        .filter((tag) => tag && !tags.includes(tag));
-
-      if (newTags.length > 0) {
-        onChange([...tags, ...newTags]);
-        setTagInput("");
-      }
+      addTag();
     }
   };
 
@@ -45,7 +47,7 @@ export default function ProductTagsInput({ tags = [], onChange }) {
           {tags.map((tag) => (
             <span
               key={tag}
-              className="inline-flex items-center gap-1 rounded-full border border-supporting bg-accent px-3 py-1 text-sm text-foreground"
+              className="inline-flex items-center gap-1 rounded-full border border-(--color-supporting) bg-accent px-3 py-1 text-sm text-foreground"
             >
               {tag}
               <button

@@ -1,0 +1,66 @@
+import api from "@/api/axios";
+
+export const loginUser = async (email, password) => {
+  const response = await api.post("/auth/login", {
+    email,
+    password,
+  });
+
+  return response.data;
+};
+
+export const logoutUser = async () => {
+  const response = await api.post("/auth/logout");
+
+  return response.data;
+};
+
+export const getCurrentUser = async (signal) => {
+  const response = await api.get("/auth/me", { signal });
+
+  return response.data;
+};
+
+export const updateCurrentUser = async (userId, data) => {
+  const response = await api.patch(`/users/${userId}`, data);
+
+  return response.data;
+};
+
+export const sendForgotPasswordOTP = async (email) => {
+  const response = await api.post("/auth/forgot-password/send-otp", {
+    email,
+  });
+
+  return response.data;
+};
+
+export const verifyForgotPasswordOTP = async (email, otp, newPassword) => {
+  const response = await api.post("/auth/forgot-password/verify-otp", {
+    email,
+    otp,
+    newPassword,
+  });
+
+  return response.data;
+};
+
+export const sendRegistrationOTP = async (username, email, password, phone) => {
+  const response = await api.post("/auth/register/send-otp", {
+    username,
+    email,
+    password,
+    phone,
+  });
+
+  return response.data;
+};
+
+export const verifyRegistrationOTP = async (email, otp) => {
+  const response = await api.post("/auth/register/verify-otp", {
+    email,
+    otp,
+  });
+
+  return response.data;
+};

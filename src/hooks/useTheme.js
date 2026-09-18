@@ -1,15 +1,26 @@
-import { useCallback, useLayoutEffect, useState } from "react";
+import { useCallback, useLayoutEffect, useSyncExternalStore } from "react";
 
 const STORAGE_KEY = "theme";
 const DARK = "dark";
 const LIGHT = "light";
 
-function getInitialTheme() {
+const listeners = new Set();
+let currentTheme = getStoredTheme();
+
+function getStoredTheme() {
   const stored = window.localStorage.getItem(STORAGE_KEY);
-  if (stored === DARK || stored === LIGHT) {
-    return stored;
-  }
-  return LIGHT;
+  return stored === DARK ? DARK : LIGHT;
+}
+
+function getSnapshot() {
+  return currentTheme;
+}
+
+function subscribe(listener) {
+  listeners.add(listener);
+  return () => {
+    listeners.delete(listener);
+  };
 }
 
 function applyTheme(theme) {
@@ -22,15 +33,18 @@ function applyTheme(theme) {
 }
 
 export default function useTheme() {
-  const [theme, setTheme] = useState(() => getInitialTheme());
+  const theme = useSyncExternalStore(subscribe, getSnapshot);
 
   useLayoutEffect(() => {
-    applyTheme(theme);
-    window.localStorage.setItem(STORAGE_KEY, theme);
-  }, [theme]);
+    applyTheme(currentTheme);
+  }, []);
 
   const toggleTheme = useCallback(() => {
-    setTheme((current) => (current === DARK ? LIGHT : DARK));
+    const next = currentTheme === DARK ? LIGHT : DARK;
+    currentTheme = next;
+    applyTheme(next);
+    window.localStorage.setItem(STORAGE_KEY, next);
+    listeners.forEach((listener) => listener());
   }, []);
 
   return { theme, toggleTheme };

@@ -1,0 +1,182 @@
+import { useTranslation } from "react-i18next";
+import { lazy, Suspense, useRef, useState } from "react";
+
+import {
+  Card,
+  CardContent,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import { Progress } from "@/components/ui/progress";
+import { Skeleton } from "@/components/ui/skeleton";
+import {
+  ORDER_STATUS_PRESENTATION,
+  ORDER_STATUS_FILL_FALLBACK,
+  ORDER_STATUS_BAR_FALLBACK,
+} from "@/features/admin/orders/constants";
+import { formatNumber } from "@/utils/formatNumber";
+
+const OrderStatusDonut = lazy(() => import("./OrderStatusDonut"));
+
+export default function OrderStatus({ ordersByStatus = [], totalOrders = 0 }) {
+  const { t, i18n } = useTranslation();
+  const chartRef = useRef(null);
+  const [activeIndex, setActiveIndex] = useState(null);
+  const [tooltipPos, setTooltipPos] = useState(null);
+
+  const handleSliceEnter = (index, event) => {
+    setActiveIndex(index);
+    const rect = chartRef.current?.getBoundingClientRect();
+    if (rect) {
+      setTooltipPos({
+        x: event.clientX - rect.left,
+        y: event.clientY - rect.top,
+      });
+    }
+  };
+
+  const handleSliceLeave = () => {
+    setActiveIndex(null);
+    setTooltipPos(null);
+  };
+
+  const total =
+    totalOrders > 0
+      ? totalOrders
+      : ordersByStatus.reduce((sum, item) => sum + item.count, 0);
+
+  const percentFormatter = new Intl.NumberFormat(i18n.language, {
+    style: "percent",
+    maximumFractionDigits: 0,
+  });
+
+  const items = ordersByStatus
+    .map((item) => {
+      const presentation = Object.hasOwn(ORDER_STATUS_PRESENTATION, item._id)
+        ? ORDER_STATUS_PRESENTATION[item._id]
+        : undefined;
+
+      const percent = total > 0 ? Math.min(100, (item.count / total) * 100) : 0;
+
+      return {
+        id: item._id,
+        label: presentation ? t(presentation.labelKey) : item._id,
+        count: item.count,
+        percent,
+        percentLabel: percentFormatter.format(percent / 100),
+        fill: presentation?.fill ?? ORDER_STATUS_FILL_FALLBACK,
+        barClass: presentation?.barClass ?? ORDER_STATUS_BAR_FALLBACK,
+      };
+    })
+    .sort((a, b) => b.count - a.count);
+
+  return (
+    <Card className="h-full">
+      <CardHeader>
+        <CardTitle className="font-display text-base">
+          {t("dashboard.orderStatus")}
+        </CardTitle>
+      </CardHeader>
+
+      <CardContent>
+        {items.length === 0 ? (
+          <p className="py-8 text-center text-sm text-(--color-text-secondary)">
+            {t("dashboard.noStatusData")}
+          </p>
+        ) : (
+          <div className="flex flex-col gap-6">
+            <div ref={chartRef} className="relative mx-auto h-48 w-48">
+              <div aria-hidden="true" className="size-full">
+                <Suspense
+                  fallback={<Skeleton className="size-full rounded-full" />}
+                >
+                  <OrderStatusDonut
+                    items={items}
+                    activeIndex={activeIndex}
+                    onSliceEnter={handleSliceEnter}
+                    onSliceLeave={handleSliceLeave}
+                  />
+                </Suspense>
+              </div>
+
+              <div className="pointer-events-none absolute inset-0 flex flex-col items-center justify-center gap-0.5">
+                <span className="font-display text-2xl font-bold tabular-nums">
+                  {formatNumber(total, i18n.language)}
+                </span>
+                <span className="text-xs text-(--color-text-secondary)">
+                  {t("dashboard.totalOrders")}
+                </span>
+              </div>
+
+              {activeIndex !== null && tooltipPos !== null && (
+                <div
+                  className="pointer-events-none absolute z-30 rounded-lg border border-(--color-border) bg-(--color-surface) px-3 py-2 text-xs shadow-(--shadow-md)"
+                  style={{
+                    left: tooltipPos.x,
+                    top: tooltipPos.y,
+                    transform: "translate(-50%, -120%)",
+                  }}
+                >
+                  <p className="font-semibold text-(--color-text-primary)">
+                    {items[activeIndex].label}
+                  </p>
+                  <p className="mt-0.5 tabular-nums text-(--color-text-secondary)">
+                    {formatNumber(items[activeIndex].count, i18n.language)} ·{" "}
+                    {formatNumber(
+                      Math.round(items[activeIndex].percent),
+                      i18n.language,
+                    )}
+                    %
+                  </p>
+                </div>
+              )}
+            </div>
+
+            <ul className="space-y-3">
+              {items.map((item, index) => (
+                <li
+                  key={item.id}
+                  className={`space-y-1.5 rounded-md px-1 py-0.5 transition-opacity ${
+                    activeIndex === null || index === activeIndex
+                      ? "opacity-100"
+                      : "opacity-45"
+                  }`}
+                  onMouseEnter={() => setActiveIndex(index)}
+                  onMouseLeave={() => setActiveIndex(null)}
+                >
+                  <div className="flex items-center justify-between gap-3">
+                    <span className="flex min-w-0 items-center gap-2">
+                      <span
+                        className="size-2.5 shrink-0 rounded-full"
+                        style={{ backgroundColor: item.fill }}
+                        aria-hidden="true"
+                      />
+                      <span className="truncate text-sm">{item.label}</span>
+                    </span>
+
+                    <span className="flex shrink-0 items-baseline gap-2">
+                      <span className="text-sm font-semibold tabular-nums">
+                        {formatNumber(item.count, i18n.language)}
+                      </span>
+                      <span className="text-xs tabular-nums text-(--color-text-secondary)">
+                        {item.percentLabel}
+                      </span>
+                    </span>
+                  </div>
+
+                  <div className="rtl:-scale-x-100">
+                    <Progress
+                      value={item.percent}
+                      className={item.barClass}
+                      aria-hidden="true"
+                    />
+                  </div>
+                </li>
+              ))}
+            </ul>
+          </div>
+        )}
+      </CardContent>
+    </Card>
+  );
+}

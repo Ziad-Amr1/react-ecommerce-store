@@ -23,7 +23,7 @@ export default function ProductGallery({
   const isFull = totalImages >= MAX_IMAGES;
 
   return (
-    <Card className="mx-auto w-full max-w-sm">
+    <Card className="w-full self-start md:w-80 md:shrink-0">
       <CardHeader>
         <CardTitle className="font-display">
           {t("products.sections.gallery")}
@@ -32,10 +32,11 @@ export default function ProductGallery({
 
       <CardContent className="space-y-4">
         <label
-          className={`flex min-h-24 flex-col items-center justify-center rounded-lg border border-dashed border-border text-center transition ${isFull || isSubmitting
+          className={`flex min-h-45 flex-col items-center justify-center rounded-lg border border-dashed border-border text-center transition ${
+            isFull || isSubmitting
               ? "cursor-not-allowed opacity-50"
               : "cursor-pointer hover:bg-muted"
-            }`}
+          }`}
         >
           <Upload className="mb-3 size-8 text-muted-foreground" aria-hidden="true" />
           <span className="text-sm font-medium text-foreground">
@@ -60,7 +61,7 @@ export default function ProductGallery({
         </p>
 
         {totalImages > 0 && (
-          <div className="grid grid-cols-3 gap-2">
+          <div className="grid grid-cols-2 gap-3">
             {images.map((image) => (
               <div
                 key={image.public_id}
@@ -75,11 +76,11 @@ export default function ProductGallery({
                 <button
                   type="button"
                   disabled={isSubmitting}
-                  className="absolute end-1.5 top-1.5 flex size-6 cursor-pointer items-center justify-center rounded-full border bg-background text-foreground shadow-sm transition-colors hover:bg-muted"
+                  className="absolute end-2 top-2 flex size-7 cursor-pointer items-center justify-center rounded-full border bg-background text-foreground shadow-sm transition-colors hover:bg-muted"
                   onClick={() => onDeleteExistingImage(image)}
                   aria-label={t("products.removeImage")}
                 >
-                  <X className="size-3.5" aria-hidden="true" />
+                  <X className="size-4" aria-hidden="true" />
                 </button>
               </div>
             ))}

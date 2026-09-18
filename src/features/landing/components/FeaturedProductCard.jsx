@@ -4,7 +4,6 @@ import { useTranslation } from "react-i18next";
 
 import { useState } from "react";
 import { toast } from "sonner";
-import { formatCurrency } from "@/utils/formatCurrency";
 
 import { formatCurrency, CURRENCIES } from "@/utils/formatCurrency";
 

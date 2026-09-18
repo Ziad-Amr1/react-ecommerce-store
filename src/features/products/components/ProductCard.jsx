@@ -26,7 +26,18 @@ import {
   TooltipTrigger,
 } from "@/components/ui/tooltip";
 
-export default function ProductCard({ product, viewMode = "grid", showDetailsButton = true }) {
+export const shouldOpenWishlistRemoveModal = ({ event, product, showDetailsButton, onWishlistRemoveRequest }) => {
+  if (!showDetailsButton && typeof onWishlistRemoveRequest === "function") {
+    event?.preventDefault?.();
+    event?.stopPropagation?.();
+    onWishlistRemoveRequest(product);
+    return true;
+  }
+
+  return false;
+};
+
+export default function ProductCard({ product, viewMode = "grid", showDetailsButton = true, onWishlistRemoveRequest = null }) {
   const { t } = useTranslation();
   const navigate = useNavigate();
   const { addItem } = useCart();
@@ -69,6 +80,15 @@ export default function ProductCard({ product, viewMode = "grid", showDetailsBut
   };
 
   const handleWishlistToggle = async (e) => {
+    if (shouldOpenWishlistRemoveModal({
+      event: e,
+      product,
+      showDetailsButton,
+      onWishlistRemoveRequest,
+    })) {
+      return;
+    }
+
     e.preventDefault();
     if (isWishlistLoading) return;
 

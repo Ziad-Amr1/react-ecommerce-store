@@ -658,6 +658,30 @@
       "polishing": "Доработка",
       "doneWaitingPR": "Готово — Ожидает PR",
       "done": "Готово"
+    },
+    "wishlists": {
+      "description": "Отслеживайте популярные сохраненные товары и анализируйте интерес клиентов.",
+      "activeWishlists": "Активные списки избранного",
+      "totalSavedItems": "Всего сохранено товаров",
+      "avgItems": "Среднее число товаров / список",
+      "topSavedCategory": "Самая популярная категория",
+      "topSavedCategoryValue": "Электроника",
+      "searchPlaceholder": "Поиск по имени клиента, электронной почте или сохраненному товару...",
+      "customerWishlists": "Списки избранного клиентов ({{count}})",
+      "customer": "Клиент",
+      "sampleSavedProducts": "Примеры сохраненных товаров",
+      "lastUpdated": "Последнее обновление",
+      "actions": "Действия",
+      "noMatch": "По вашему запросу списки избранного не найдены.",
+      "items": "{{count}} товаров",
+      "viewItems": "Показать товары",
+      "wishlist": "Избранное клиента {{customer}}",
+      "totalSaved": "Всего сохранено: {{count}} товаров",
+      "stock": {
+        "inStock": "В наличии",
+        "lowStock": "Низкий запас",
+        "outOfStock": "Нет в наличии"
+      }
     }
   },
   "cart": {

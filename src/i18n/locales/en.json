@@ -3,7 +3,9 @@
     "loading": "Loading...",
     "checkingSession": "Checking session...",
     "yes": "Yes",
-    "no": "No"
+    "no": "No",
+    "admin": "Administration",
+    "cancel": "Cancel"
   },
   "brand": {
     "logoAlt": "Oversea Store Logo",
@@ -195,7 +197,6 @@
     "usernameMin": "Username must be at least {{count}} characters",
     "phoneInvalid": "Please enter a valid phone number"
   },
-
   "home": {
     "title": "E-commerce Home page",
     "description": "Welcome to the E-commerce platform. Explore our products and manage your orders.",
@@ -218,6 +219,7 @@
     "untitledProduct": "Untitled product",
     "image": "image",
     "addToWishlist": "Add to wishlist",
+    "removeFromWishlist": "Remove from wishlist",
     "comingSoon": "Coming soon in an upcoming release.",
     "subtitle": "Explore our products and exclusive deals",
     "pagePrevious": "Previous",
@@ -246,7 +248,6 @@
     "clearAllFilters": "Clear All Filters",
     "filterUnlimited": "∞"
   },
-
   "dashboard": {
     "title": "Dashboard Page",
     "loading": "Loading dashboard...",
@@ -254,7 +255,6 @@
     "retry": "Retry",
     "noData": "No dashboard data available.",
     "noProducts": "No products",
-
     "orderStatus": "Order Status",
     "recentOrders": "Recent Orders",
     "topProducts": "Top Products",
@@ -275,29 +275,21 @@
       "cancelled": "Cancelled",
       "returned": "Returned"
     },
-
     "adminOverview": "Admin Overview",
     "commerceHealth": "Commerce Health",
     "commerceHealthDescription": "Monitor your store's performance and key statistics.",
-
     "totalOrders": "Total Orders",
     "totalOrdersDescription": "All orders received",
-
     "pendingOrders": "Pending Orders",
     "pendingOrderDescription": "Orders waiting to be processed",
-
     "totalRevenue": "Total Revenue",
     "totalRevenueDescription": "Overall gross revenue",
-
     "thisMonthRevenue": "This Month Revenue",
     "thisMonthRevenueDescription": "Revenue generated in the current month",
-
     "revenueGrowth": "Revenue Growth",
     "revenueGrowthDescription": "Rate of change in total revenue",
-
     "totalUsers": "Users",
     "totalUsersDescription": "Total registered customers",
-
     "dateRange": {
       "last3": "Last 3 days",
       "last7": "Last 7 days",
@@ -612,11 +604,22 @@
     "browseProducts": "Browse Products"
   },
   "wishlist": {
-    "title": "Wishlist",
+    "title": "My Wishlist",
     "subtitle": "Items you've saved for later.",
     "emptyTitle": "Your wishlist is empty",
-    "emptyDescription": "Save items you like while browsing to find them easily later.",
-    "browseProducts": "Browse Products"
+    "emptySubtitle": "Save items you love to your wishlist. They'll be waiting for you here.",
+    "explore": "Explore Products",
+    "backToShop": "Back to Shop",
+    "clearAll": "Clear All",
+    "confirmClear": "Are you sure you want to clear your wishlist?",
+    "cleared": "Wishlist cleared successfully",
+    "clearError": "Failed to clear wishlist",
+    "removed": "Removed from wishlist",
+    "added": "Added to wishlist",
+    "remove": "Remove",
+    "error": "Something went wrong",
+    "removeModalTitle": "Remove from Wishlist?",
+    "removeModalDesc": "Do you want to remove this item from your saved list?"
   },
   "profile": {
     "title": "Profile Overview",
@@ -669,9 +672,33 @@
       "polishing": "Polishing",
       "doneWaitingPR": "Done — Waiting for PR",
       "done": "Done"
+    },
+    "wishlists": {
+      "description": "Track high-demand saved products and analyze customer interest trends.",
+      "activeWishlists": "Active Wishlists",
+      "totalSavedItems": "Total Saved Items",
+      "avgItems": "Avg Items / Wishlist",
+      "topSavedCategory": "Top Saved Category",
+      "topSavedCategoryValue": "Electronics",
+      "searchPlaceholder": "Search by customer name, email, or saved product...",
+      "customerWishlists": "Customer Wishlists ({{count}})",
+      "customer": "Customer",
+      "sampleSavedProducts": "Sample Saved Products",
+      "lastUpdated": "Last Updated",
+      "actions": "Actions",
+      "noMatch": "No wishlists match your search.",
+      "items": "{{count}} items",
+      "viewItems": "View Items",
+      "wishlist": "{{customer}}'s Wishlist",
+      "totalSaved": "Total Saved: {{count}} items",
+      "stock": {
+        "inStock": "In Stock",
+        "lowStock": "Low Stock",
+        "outOfStock": "Out of Stock"
+      }
     }
   },
-"cart": {
+  "cart": {
     "title": "Your Cart",
     "emptyTitle": "Your cart is empty",
     "emptyDescription": "Browse the store and add something you like to your cart.",
@@ -863,11 +890,11 @@
       "goToPage": "Go to page {{page}}",
       "showing": "Showing {{from}} to {{to}} of {{count}} users"
     },
-"dialogs": {
-  "addTitle": "Add New User",
-  "addDescription": "Create a new user account directly from the admin panel.",
-  "editTitle": "Change Role",
-  "editDescription": "Adjust the access level for {{name}}.",
+    "dialogs": {
+      "addTitle": "Add New User",
+      "addDescription": "Create a new user account directly from the admin panel.",
+      "editTitle": "Change Role",
+      "editDescription": "Adjust the access level for {{name}}.",
       "username": "Username",
       "usernamePlaceholder": "Enter username",
       "usernameRequired": "Username is required",
@@ -876,24 +903,24 @@
       "emailPlaceholder": "admin@example.com",
       "emailRequired": "Email is required",
       "emailInvalid": "Invalid email address",
-"emailValid": "Email is valid.",
-  "password": "Password",
+      "emailValid": "Email is valid.",
+      "password": "Password",
       "passwordPlaceholder": "Enter password",
       "passwordRequired": "Password is required",
       "passwordMinLength": "Password must be at least 6 characters",
-"passwordValid": "Password is valid.",
-  "role": "Role",
+      "passwordValid": "Password is valid.",
+      "role": "Role",
       "rolePlaceholder": "Select role",
       "roleChangeHint": "The user's access level will change on save.",
       "cancel": "Cancel",
       "adding": "Adding...",
-"saving": "Saving...",
-  "saveRole": "Save role",
-  "saveUser": "Save User",
-  "addSuccess": "User has been added successfully.",
-  "addFailed": "Failed to add user.",
-  "roleUpdateSuccess": "Role updated successfully.",
-  "roleChangeFailed": "Role update failed.",
+      "saving": "Saving...",
+      "saveRole": "Save role",
+      "saveUser": "Save User",
+      "addSuccess": "User has been added successfully.",
+      "addFailed": "Failed to add user.",
+      "roleUpdateSuccess": "Role updated successfully.",
+      "roleChangeFailed": "Role update failed.",
       "deleteTitle": "Delete User",
       "deleteDescription": "This action cannot be undone.",
       "deleteQuestion": "Delete {{name}}? This cannot be undone.",

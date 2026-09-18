@@ -3,7 +3,9 @@
     "loading": "جارٍ التحميل...",
     "checkingSession": "جارٍ التحقق من الجلسة...",
     "yes": "نعم",
-    "no": "لا"
+    "no": "لا",
+    "admin": "الإدارة",
+    "cancel": "إلغاء"
   },
   "brand": {
     "logoAlt": "شعار متجر Oversea Store",
@@ -243,6 +245,7 @@
     "sortHighLow": "السعر: من الأعلى للأقل",
     "sortTopRated": "الأعلى تقييمًا",
     "clearAllFilters": "مسح جميع التصفية",
+    "removeFromWishlist": "إزالة من المفضلة",
     "filterUnlimited": "∞"
   },
   "dashboard": {
@@ -252,7 +255,6 @@
     "retry": "إعادة المحاولة",
     "noData": "لا توجد بيانات للوحة التحكم.",
     "noProducts": "لا توجد منتجات",
-
     "orderStatus": "حالة الطلبات",
     "recentOrders": "الطلبات الأخيرة",
     "topProducts": "أفضل المنتجات",
@@ -273,29 +275,21 @@
       "cancelled": "ملغي",
       "returned": "مُرجَع"
     },
-
     "adminOverview": "نظرة عامة للمدير",
     "commerceHealth": "صحة التجارة",
     "commerceHealthDescription": "راقب أداء متجرك وإحصاءاته الرئيسية.",
-
     "totalOrders": "إجمالي الطلبات",
     "totalOrdersDescription": "جميع الطلبات المستلمة",
-
     "pendingOrders": "الطلبات قيد الانتظار",
     "pendingOrderDescription": "طلبات بانتظار المعالجة",
-
     "totalRevenue": "إجمالي الإيرادات",
     "totalRevenueDescription": "إجمالي الإيرادات الكلية",
-
     "thisMonthRevenue": "إيرادات هذا الشهر",
     "thisMonthRevenueDescription": "الإيرادات المحققة في الشهر الحالي",
-
     "revenueGrowth": "نمو الإيرادات",
     "revenueGrowthDescription": "معدل التغير في إجمالي الإيرادات",
-
     "totalUsers": "المستخدمون",
     "totalUsersDescription": "إجمالي العملاء المسجلين",
-
     "dateRange": {
       "last3": "آخر 3 أيام",
       "last7": "آخر 7 أيام",
@@ -613,8 +607,19 @@
     "title": "المفضلة",
     "subtitle": "العناصر التي قمت بحفظها لوقت لاحق.",
     "emptyTitle": "قائمة المفضلة فارغة",
-    "emptyDescription": "احفظ المنتجات التي تعجبك أثناء التصفح للعثور عليها بسهولة لاحقًا.",
-    "browseProducts": "تصفح المنتجات"
+    "emptySubtitle": "احفظ المنتجات التي تعجبك في قائمة المفضلة لتجدها هنا لاحقًا.",
+    "explore": "تصفح المنتجات",
+    "backToShop": "العودة إلى المتجر",
+    "clearAll": "مسح الكل",
+    "confirmClear": "هل أنت متأكد أنك تريد مسح قائمة المفضلة بالكامل؟",
+    "cleared": "تم مسح قائمة المفضلة بنجاح",
+    "clearError": "فشل مسح قائمة المفضلة",
+    "removed": "تمت إزالة المنتج من المفضلة",
+    "added": "تمت إضافة المنتج إلى المفضلة",
+    "remove": "إزالة",
+    "error": "حدث خطأ ما",
+    "removeModalTitle": "إزالة من المفضلة؟",
+    "removeModalDesc": "هل تريد إزالة هذا المنتج من قائمة العناصر المحفوظة؟"
   },
   "profile": {
     "title": "نظرة عامة على الملف الشخصي",
@@ -660,16 +665,40 @@
     }
   },
   "admin": {
-    "comingSoon": "هذه الميزة غير منفذة بعد، ومن المقرر إضافتها في إصدار قادم.",
+    "comingSoon": "هذه الميزة غير متاحة حاليًا، ومن المخطط إضافتها في إصدار قادم.",
     "status": {
-      "planned": "مخطط له",
+      "planned": "مخطط لها",
       "inProgress": "قيد التنفيذ",
-      "polishing": "قيد التحسين",
-      "doneWaitingPR": "مكتمل — بانتظار طلب السحب",
-      "done": "مكتمل"
+      "polishing": "التحسينات النهائية",
+      "doneWaitingPR": "مكتملة — في انتظار PR",
+      "done": "مكتملة"
+    },
+    "wishlists": {
+      "description": "تتبع المنتجات المحفوظة ذات الطلب المرتفع وحلل اتجاهات اهتمام العملاء.",
+      "activeWishlists": "قوائم المفضلة النشطة",
+      "totalSavedItems": "إجمالي العناصر المحفوظة",
+      "avgItems": "متوسط العناصر / قائمة",
+      "topSavedCategory": "الفئة الأكثر حفظًا",
+      "topSavedCategoryValue": "الإلكترونيات",
+      "searchPlaceholder": "البحث باسم العميل أو البريد الإلكتروني أو المنتج المحفوظ...",
+      "customerWishlists": "قوائم مفضلة العملاء ({{count}})",
+      "customer": "العميل",
+      "sampleSavedProducts": "نماذج من المنتجات المحفوظة",
+      "lastUpdated": "آخر تحديث",
+      "actions": "الإجراءات",
+      "noMatch": "لا توجد قوائم مفضلة تطابق بحثك.",
+      "items": "{{count}} عناصر",
+      "viewItems": "عرض العناصر",
+      "wishlist": "قائمة مفضلة {{customer}}",
+      "totalSaved": "إجمالي المحفوظ: {{count}} عناصر",
+      "stock": {
+        "inStock": "متوفر في المخزون",
+        "lowStock": "مخزون منخفض",
+        "outOfStock": "نفد المخزون"
+      }
     }
   },
-"cart": {
+  "cart": {
     "title": "سلة التسوق",
     "emptyTitle": "سلة التسوق فارغة",
     "emptyDescription": "تصفح المتجر وأضف ما يعجبك إلى سلة التسوق.",
@@ -861,11 +890,11 @@
       "goToPage": "الانتقال إلى الصفحة {{page}}",
       "showing": "عرض {{from}} إلى {{to}} من أصل {{count}} مستخدم"
     },
-"dialogs": {
-  "addTitle": "إضافة مستخدم جديد",
-  "addDescription": "إنشاء حساب مستخدم جديد مباشرة من لوحة التحكم.",
-  "editTitle": "تغيير الدور",
-  "editDescription": "تعديل صلاحية الوصول لـ {{name}}.",
+    "dialogs": {
+      "addTitle": "إضافة مستخدم جديد",
+      "addDescription": "إنشاء حساب مستخدم جديد مباشرة من لوحة التحكم.",
+      "editTitle": "تغيير الدور",
+      "editDescription": "تعديل صلاحية الوصول لـ {{name}}.",
       "username": "اسم المستخدم",
       "usernamePlaceholder": "أدخل اسم المستخدم",
       "usernameRequired": "اسم المستخدم مطلوب",
@@ -874,24 +903,24 @@
       "emailPlaceholder": "admin@example.com",
       "emailRequired": "البريد الإلكتروني مطلوب",
       "emailInvalid": "بريد إلكتروني غير صحيح",
-"emailValid": "البريد الإلكتروني صحيح.",
-  "password": "كلمة المرور",
+      "emailValid": "البريد الإلكتروني صحيح.",
+      "password": "كلمة المرور",
       "passwordPlaceholder": "أدخل كلمة المرور",
       "passwordRequired": "كلمة المرور مطلوبة",
       "passwordMinLength": "يجب ألا تقل كلمة المرور عن 6 أحرف",
-"passwordValid": "كلمة المرور صحيحة.",
-  "role": "الدور",
+      "passwordValid": "كلمة المرور صحيحة.",
+      "role": "الدور",
       "rolePlaceholder": "اختر الدور",
       "roleChangeHint": "ستتغير صلاحية وصول المستخدم عند الحفظ.",
       "cancel": "إلغاء",
       "adding": "جارٍ الإضافة...",
-"saving": "جارٍ الحفظ...",
-  "saveRole": "حفظ الدور",
-  "saveUser": "حفظ المستخدم",
-  "addSuccess": "تمت إضافة المستخدم بنجاح.",
-  "addFailed": "تعذر إضافة المستخدم.",
-  "roleUpdateSuccess": "تم تحديث الدور بنجاح.",
-  "roleChangeFailed": "تعذر تحديث الدور.",
+      "saving": "جارٍ الحفظ...",
+      "saveRole": "حفظ الدور",
+      "saveUser": "حفظ المستخدم",
+      "addSuccess": "تمت إضافة المستخدم بنجاح.",
+      "addFailed": "تعذر إضافة المستخدم.",
+      "roleUpdateSuccess": "تم تحديث الدور بنجاح.",
+      "roleChangeFailed": "تعذر تحديث الدور.",
       "deleteTitle": "حذف المستخدم",
       "deleteDescription": "لا يمكن التراجع عن هذا الإجراء.",
       "deleteQuestion": "حذف {{name}}؟ لا يمكن التراجع عن هذا الإجراء.",

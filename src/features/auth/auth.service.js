@@ -21,6 +21,12 @@ export const getCurrentUser = async (signal) => {
   return response.data;
 };
 
+export const updateCurrentUser = async (userId, data) => {
+  const response = await api.patch(`/users/${userId}`, data);
+
+  return response.data;
+};
+
 export const sendForgotPasswordOTP = async (email) => {
   const response = await api.post("/auth/forgot-password/send-otp", {
     email,

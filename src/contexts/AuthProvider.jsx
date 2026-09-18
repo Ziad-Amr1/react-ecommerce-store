@@ -3,6 +3,7 @@ import {
   loginUser,
   logoutUser,
   getCurrentUser,
+  updateCurrentUser,
 } from "@/features/auth/auth.service";
 import AuthContext from "./AuthContext";
 
@@ -80,6 +81,22 @@ const AuthProvider = ({ children }) => {
         }
     }, []);
 
+    // update the authenticated user's own profile; the context stays the
+    // single source of truth so every consumer sees the new data immediately
+    const updateUser = useCallback(async (data) => {
+        if (!user) {
+            throw new Error("No authenticated user to update");
+        }
+
+        const response = await updateCurrentUser(user._id, data);
+
+        const updatedUser = response.user ?? response;
+
+        setUser((current) => ({ ...current, ...updatedUser }));
+
+        return updatedUser;
+    }, [user]);
+
     // clear the session when the API reports an unauthorized response
     useEffect(() => {
         const clearSession = () => {
@@ -102,6 +119,7 @@ const AuthProvider = ({ children }) => {
             isLoading,
             restoreError,
             refresh,
+            updateUser,
             login,
             logout,
         }}>

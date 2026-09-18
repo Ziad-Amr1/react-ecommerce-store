@@ -607,7 +607,32 @@
     "subtitle": "Просматривайте и отслеживайте ваши заказы.",
     "emptyTitle": "У вас пока нет заказов",
     "emptyDescription": "Вы еще не совершали покупок. Начните шопинг прямо сейчас!",
-    "browseProducts": "Перейти к товарам"
+    "browseProducts": "Перейти к товарам",
+    "viewDetails": "Просмотреть детали",
+    "placedOn": "Оформлен {{date}}",
+    "loading": "Загрузка...",
+    "loadErrorTitle": "Не удалось загрузить ваши заказы",
+    "loadErrorDescription": "Произошла ошибка при загрузке ваших заказов. Попробуйте снова.",
+    "retry": "Повторить",
+    "quantity": "Количество",
+    "shippingAddress": "Адрес доставки",
+    "payment": "Оплата",
+    "method": "Способ",
+    "paymentMethod": {
+      "cash": "Наличными",
+      "stripe": "Картой"
+    },
+    "backToMyOrders": "Назад к моим заказам",
+    "cancelOrder": "Отменить заказ",
+    "cancelOrderTitle": "Отменить заказ?",
+    "cancelOrderDescription": "Вы уверены, что хотите отменить этот заказ?",
+    "keepOrder": "Оставить заказ",
+    "cancelling": "Отмена...",
+    "cancelFailed": "Не удалось отменить заказ.",
+    "pagination": {
+      "previous": "Назад",
+      "next": "Вперед"
+    }
   },
   "wishlist": {
     "title": "Избранное",
@@ -642,7 +667,8 @@
       "missing": "Не указано",
       "copied": "Скопировано в буфер обмена",
       "copyFailed": "Не удалось скопировать",
-      "copyValue": "Скопировать {{value}}"
+      "copyValue": "Скопировать {{value}}",
+      "avatar": "URL аватара"
     },
     "activity": {
       "title": "Активность аккаунта",
@@ -652,6 +678,18 @@
       "addresses": "Сохраненные адреса",
       "payments": "Способы оплаты",
       "comingSoon": "Скоро появится"
+    },
+    "edit": {
+      "edit": "Изменить",
+      "save": "Сохранить",
+      "saving": "Сохранение...",
+      "cancel": "Отмена",
+      "success": "Профиль успешно обновлен",
+      "error": "Не удалось обновить профиль"
+    },
+    "validation": {
+      "usernameRequired": "Требуется имя пользователя",
+      "phoneRequired": "Требуется номер телефона"
     },
     "error": {
       "title": "Произошла ошибка",

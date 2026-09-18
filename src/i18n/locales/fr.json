@@ -607,7 +607,32 @@
     "subtitle": "Affichez et suivez vos commandes personnelles.",
     "emptyTitle": "Aucune commande pour le moment",
     "emptyDescription": "Vous n'avez encore passé aucune commande. Commencez vos achats dès maintenant !",
-    "browseProducts": "Parcourir les produits"
+    "browseProducts": "Parcourir les produits",
+    "viewDetails": "Voir les détails",
+    "placedOn": "Commandé le {{date}}",
+    "loading": "Chargement...",
+    "loadErrorTitle": "Impossible de charger vos commandes",
+    "loadErrorDescription": "Une erreur est survenue lors du chargement de vos commandes. Veuillez réessayer.",
+    "retry": "Réessayer",
+    "quantity": "Quantité",
+    "shippingAddress": "Adresse de livraison",
+    "payment": "Paiement",
+    "method": "Méthode",
+    "paymentMethod": {
+      "cash": "Espèces",
+      "stripe": "Carte"
+    },
+    "backToMyOrders": "Retour à mes commandes",
+    "cancelOrder": "Annuler la commande",
+    "cancelOrderTitle": "Annuler la commande ?",
+    "cancelOrderDescription": "Êtes-vous sûr de vouloir annuler cette commande ?",
+    "keepOrder": "Conserver la commande",
+    "cancelling": "Annulation...",
+    "cancelFailed": "Échec de l'annulation de la commande.",
+    "pagination": {
+      "previous": "Précédent",
+      "next": "Suivant"
+    }
   },
   "wishlist": {
     "title": "Liste de souhaits",
@@ -642,7 +667,8 @@
       "missing": "Non renseigné",
       "copied": "Copié dans le presse-papier",
       "copyFailed": "Échec de la copie",
-      "copyValue": "Copier {{value}}"
+      "copyValue": "Copier {{value}}",
+      "avatar": "URL de l'avatar"
     },
     "activity": {
       "title": "Activité du compte",
@@ -652,6 +678,18 @@
       "addresses": "Adresses enregistrées",
       "payments": "Moyens de paiement",
       "comingSoon": "Bientôt disponible"
+    },
+    "edit": {
+      "edit": "Modifier",
+      "save": "Enregistrer",
+      "saving": "Enregistrement...",
+      "cancel": "Annuler",
+      "success": "Profil mis à jour avec succès",
+      "error": "Échec de la mise à jour du profil"
+    },
+    "validation": {
+      "usernameRequired": "Le nom d'utilisateur est requis",
+      "phoneRequired": "Le numéro de téléphone est requis"
     },
     "error": {
       "title": "Une erreur est survenue",

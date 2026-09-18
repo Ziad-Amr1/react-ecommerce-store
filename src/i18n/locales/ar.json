@@ -616,7 +616,32 @@
     "subtitle": "عرض وتتبع طلباتك الشخصية.",
     "emptyTitle": "لا توجد طلبات بعد",
     "emptyDescription": "لم تقم بإجراء أي طلبات بعد. ابدأ التسوق لملء سجل طلباتك!",
-    "browseProducts": "تصفح المنتجات"
+    "browseProducts": "تصفح المنتجات",
+    "viewDetails": "عرض التفاصيل",
+    "placedOn": "تم الطلب في {{date}}",
+    "loading": "جارٍ التحميل...",
+    "loadErrorTitle": "تعذر تحميل طلباتك",
+    "loadErrorDescription": "حدث خطأ أثناء جلب طلباتك. يرجى المحاولة مرة أخرى.",
+    "retry": "إعادة المحاولة",
+    "quantity": "الكمية",
+    "shippingAddress": "عنوان الشحن",
+    "payment": "الدفع",
+    "method": "الطريقة",
+    "paymentMethod": {
+      "cash": "نقدًا",
+      "stripe": "بطاقة"
+    },
+    "backToMyOrders": "العودة إلى طلباتي",
+    "cancelOrder": "إلغاء الطلب",
+    "cancelOrderTitle": "إلغاء الطلب؟",
+    "cancelOrderDescription": "هل أنت متأكد من رغبتك في إلغاء هذا الطلب؟",
+    "keepOrder": "الاحتفاظ بالطلب",
+    "cancelling": "جارٍ الإلغاء...",
+    "cancelFailed": "فشل إلغاء الطلب.",
+    "pagination": {
+      "previous": "السابق",
+      "next": "التالي"
+    }
   },
   "wishlist": {
     "title": "المفضلة",
@@ -651,7 +676,8 @@
       "missing": "غير متوفر",
       "copied": "تم نسخ {{field}} إلى الحافظة",
       "copyFailed": "تعذر النسخ إلى الحافظة",
-      "copyValue": "نسخ {{value}}"
+      "copyValue": "نسخ {{value}}",
+      "avatar": "رابط الصورة الشخصية"
     },
     "activity": {
       "title": "نشاط الحساب",
@@ -661,6 +687,18 @@
       "addresses": "العناوين المحفوظة",
       "payments": "طرق الدفع",
       "comingSoon": "غير متوفرة بعد"
+    },
+    "edit": {
+      "edit": "تعديل",
+      "save": "حفظ",
+      "saving": "جارٍ الحفظ...",
+      "cancel": "إلغاء",
+      "success": "تم تحديث الملف الشخصي بنجاح",
+      "error": "فشل تحديث الملف الشخصي"
+    },
+    "validation": {
+      "usernameRequired": "اسم المستخدم مطلوب",
+      "phoneRequired": "رقم الهاتف مطلوب"
     },
     "error": {
       "title": "تعذر تحميل ملفك الشخصي",

@@ -9,7 +9,7 @@ import ErrorState from "@/features/profile/ErrorState";
 
 export default function Profile() {
   const { t } = useTranslation();
-  const { user, isLoading, restoreError, logout, refresh } = useAuth();
+  const { user, isLoading, restoreError, logout, refresh, updateUser } = useAuth();
 
   return (
     <main className="mx-auto w-full max-w-7xl px-4 py-6 sm:px-6 sm:py-10 lg:px-8">
@@ -27,7 +27,7 @@ export default function Profile() {
       ) : user ? (
         <div className="space-y-4 sm:space-y-6">
           <ProfileHeader user={user} logout={logout} />
-          <PersonalInformation user={user} />
+          <PersonalInformation user={user} updateUser={updateUser} />
           <AccountActivity />
         </div>
       ) : restoreError ? (

@@ -30,6 +30,7 @@ import Shop from "./pages/Shop.jsx";
 import Cart from "./pages/Cart.jsx";
 import About from "./pages/About.jsx";
 import MyOrders from "./pages/MyOrders.jsx";
+import OrderDetails from "./pages/OrderDetails.jsx";
 import Wishlist from "./pages/Wishlist.jsx";
 import Notifications from "./pages/Notifications.jsx";
 import NotificationProvider from "./contexts/NotificationProvider.jsx";
@@ -49,6 +50,7 @@ function App() {
           <Route path="/about" element={<About />} />
           <Route element={<RequireAuth />}>
             <Route path="/my-orders" element={<MyOrders />} />
+            <Route path="/my-orders/:id" element={<OrderDetails />} />
             <Route path="/wishlist" element={<Wishlist />} />
             <Route path="/notifications" element={<Notifications />} />
           </Route>

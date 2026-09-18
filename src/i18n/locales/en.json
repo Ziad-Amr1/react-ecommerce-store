@@ -618,7 +618,32 @@
     "subtitle": "View and track your personal orders.",
     "emptyTitle": "No orders yet",
     "emptyDescription": "You haven't placed any orders yet. Start shopping to fill your order history!",
-    "browseProducts": "Browse Products"
+    "browseProducts": "Browse Products",
+    "viewDetails": "View Details",
+    "placedOn": "Placed on {{date}}",
+    "loading": "Loading...",
+    "loadErrorTitle": "We couldn't load your orders",
+    "loadErrorDescription": "Something went wrong while fetching your orders. Please try again.",
+    "retry": "Try Again",
+    "quantity": "Quantity",
+    "shippingAddress": "Shipping Address",
+    "payment": "Payment",
+    "method": "Method",
+    "paymentMethod": {
+      "cash": "Cash",
+      "stripe": "Stripe"
+    },
+    "backToMyOrders": "Back to My Orders",
+    "cancelOrder": "Cancel Order",
+    "cancelOrderTitle": "Cancel order?",
+    "cancelOrderDescription": "Are you sure you want to cancel this order?",
+    "keepOrder": "Keep order",
+    "cancelling": "Cancelling...",
+    "cancelFailed": "Failed to cancel order.",
+    "pagination": {
+      "previous": "Previous",
+      "next": "Next"
+    }
   },
   "wishlist": {
     "title": "Wishlist",
@@ -653,7 +678,8 @@
       "missing": "Not provided",
       "copied": "Copied {{field}} to clipboard",
       "copyFailed": "Couldn't copy to clipboard",
-      "copyValue": "Copy {{value}}"
+      "copyValue": "Copy {{value}}",
+      "avatar": "Avatar URL"
     },
     "activity": {
       "title": "Account Activity",
@@ -663,6 +689,18 @@
       "addresses": "Saved Addresses",
       "payments": "Payment Methods",
       "comingSoon": "Not available yet"
+    },
+    "edit": {
+      "edit": "Edit",
+      "save": "Save",
+      "saving": "Saving...",
+      "cancel": "Cancel",
+      "success": "Profile updated successfully",
+      "error": "Failed to update profile"
+    },
+    "validation": {
+      "usernameRequired": "Username is required",
+      "phoneRequired": "Phone is required"
     },
     "error": {
       "title": "Something went wrong",

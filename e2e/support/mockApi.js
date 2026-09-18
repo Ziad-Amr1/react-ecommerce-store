@@ -58,6 +58,23 @@ export const USERS = [
   { _id: "u12", username: "leodavis", email: "leo@example.com", role: "customer" },
 ];
 
+// Enough carts for 2 pages (CARTS_LIMIT=10). Mirrors the documented
+// GET /orders/admin/carts payload: user, items, subtotal and itemCount only.
+export const CARTS = Array.from({ length: 12 }, (_, index) => {
+  const n = index + 1;
+  const items = [
+    { _id: `ci${n}-1`, product: `p${n}`, name: `Product ${n}`, image: null, price: 100 * n, quantity: 2 },
+    { _id: `ci${n}-2`, product: `p${n}b`, name: `Product ${n}B`, image: null, price: 50, quantity: 1 },
+  ];
+  return {
+    _id: `cart${n}`,
+    user: { username: `customer${n}`, email: `customer${n}@example.com` },
+    items,
+    subtotal: items.reduce((sum, item) => sum + item.price * item.quantity, 0),
+    itemCount: items.reduce((sum, item) => sum + item.quantity, 0),
+  };
+});
+
 // Daily-revenue keys are generated relative to "today" using local-midnight
 // dates matching the client-side `dateRange.js` toDateKey logic so the
 // dashboard chart shows the expected number of points.
@@ -123,11 +140,13 @@ export function createApiState(overrides = {}) {
     products: [...PRODUCTS],
     orders: [...ORDERS],
     users: [...USERS],
+    carts: CARTS.map((cart) => ({ ...cart })),
     dashboard: createDashboard(),
     delayMs: 0,
     productStatus: 200,
     orderStatus: 200,
     userStatus: 200,
+    cartStatus: 200,
     ...overrides,
   };
 }
@@ -153,7 +172,7 @@ export function installMockApi(page, state) {
       return json(route, { user: ADMIN_USER });
 
     // Cart (mounted globally; respond with empty cart)
-    if (path.endsWith("/carts") && method === "GET")
+    if (path === "/api/carts" && method === "GET")
       return json(route, { cart: { items: [] } });
 
     // ── Products ──────────────────────────────────────────────────────────
@@ -208,6 +227,22 @@ export function installMockApi(page, state) {
       if (state.orderStatus !== 200)
         return error(route, state.orderStatus, "Server error", state.delayMs);
       return json(route, { dashboard: state.dashboard }, state.delayMs);
+    }
+
+    if (path === "/api/orders/admin/carts" && method === "GET") {
+      if (state.cartStatus !== 200)
+        return error(route, state.cartStatus, "Server error", state.delayMs);
+
+      const limit = Math.min(Math.max(Number(url.searchParams.get("limit")) || 10, 1), 100);
+      const page = Math.max(Number(url.searchParams.get("page")) || 1, 1);
+      const totalPages = Math.max(1, Math.ceil(state.carts.length / limit));
+      const sliced = state.carts.slice((page - 1) * limit, (page - 1) * limit + limit);
+
+      return json(
+        route,
+        { success: true, carts: sliced, total: state.carts.length, currentPage: page, totalPages },
+        state.delayMs,
+      );
     }
 
     if (path === "/api/orders/admin" && method === "GET") {

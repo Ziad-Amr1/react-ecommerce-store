@@ -927,5 +927,39 @@
     "subtitle": "Page Not Found",
     "description": "The page you're looking for doesn't exist or has been moved.",
     "home": "Back to Home"
+  },
+  "carts": {
+    "title": "Carts",
+    "subtitle": "Customer Activity",
+    "description": "Browse customer carts and the items they currently hold.",
+    "columns": {
+      "customer": "Customer",
+      "cart": "Cart",
+      "items": "Items",
+      "total": "Total",
+      "actions": "Actions"
+    },
+    "notAvailable": "N/A",
+    "viewDetails": "View details",
+    "loadErrorTitle": "Could not load carts",
+    "loadErrorHint": "Something went wrong while loading carts. Please try again.",
+    "retry": "Retry",
+    "noCartsFound": "No carts found.",
+    "noCartsFoundHint": "New customer carts will appear here as they shop.",
+    "pagination": {
+      "previous": "Previous",
+      "next": "Next"
+    },
+    "sheet": {
+      "title": "Cart Details",
+      "customerInformation": "Customer Information",
+      "customer": "Customer",
+      "email": "Email",
+      "items": "Items",
+      "noItems": "No items found.",
+      "product": "Product",
+      "subtotal": "Subtotal",
+      "total": "Total"
+    }
   }
 }

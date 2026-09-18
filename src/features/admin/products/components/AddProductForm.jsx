@@ -180,10 +180,10 @@ export default function AddProductForm({
           </div>
 
           <div className="flex justify-end gap-3 pt-2">
-            <Button variant="outline" onClick={onCancel} disabled={isSubmitting}>
+            <Button variant="outline" onClick={onCancel} disabled={isSubmitting} className="cursor-pointer">
               {t("products.cancel")}
             </Button>
-            <Button type="submit" disabled={isSubmitting}>
+            <Button type="submit" disabled={isSubmitting} className="cursor-pointer">
               {isSubmitting ? t("products.creating") : t("products.createProduct")}
             </Button>
           </div>

@@ -30,13 +30,14 @@ export default function SortableTableHeader({
         {columns.map((column) => {
           const sortable = Boolean(column.sortable);
           const active = sortable && column.sortKey === sortKey;
+          const alignEnd = column.align === "end";
 
           return (
             <TableHead
               key={column.key}
               className={cn(
                 sortable && "cursor-pointer select-none",
-                column.align === "end" && "text-end",
+                alignEnd ? "text-end" : "text-start",
                 column.className,
               )}
               aria-sort={
@@ -51,13 +52,17 @@ export default function SortableTableHeader({
                 <button
                   type="button"
                   onClick={() => onSort(column.sortKey)}
-                  className="inline-flex items-center gap-0.5 rounded-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-(--color-focus-ring)"
+                  className={cn(
+                    "inline-flex w-full items-center gap-0.5 rounded-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-(--color-focus-ring)",
+                    alignEnd ? "justify-end text-end" : "justify-start text-start",
+                    "cursor-pointer",
+                  )}
                 >
-                  {column.label}
+                  <span>{column.label}</span>
                   <SortIcon active={active} direction={sortDirection} />
                 </button>
               ) : (
-                column.label
+                <span className={cn(alignEnd ? "flex justify-end" : "flex justify-start")}>{column.label}</span>
               )}
             </TableHead>
           );

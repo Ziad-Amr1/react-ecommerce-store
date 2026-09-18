@@ -9,7 +9,6 @@ export const ACCEPTED_IMAGE_TYPES = "image/png,image/jpeg,image/webp";
 export const SORT_OPTIONS = [
   { value: "price_asc", labelKey: "products.sort.priceAsc" },
   { value: "price_desc", labelKey: "products.sort.priceDesc" },
-  { value: "rating", labelKey: "products.sort.rating" },
 ];
 
 export const MIN_SHORT_DESCRIPTION_LENGTH = 10;

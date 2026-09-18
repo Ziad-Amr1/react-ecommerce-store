@@ -4,14 +4,23 @@ import axios from "axios";
 const API_BASE_URL =
   import.meta.env.VITE_API_URL || "https://e-commerce-api-3wara.vercel.app";
 
+// const api = axios.create({
+//   baseURL: import.meta.env.PROD ? "/api" : API_BASE_URL,
+//   headers: {
+//     "Content-Type": "application/json",
+//     Accept: "application/json",
+//   },
+//   withCredentials: true,
+// });
+
 const api = axios.create({
   baseURL: import.meta.env.PROD ? "/api" : API_BASE_URL,
   headers: {
-    "Content-Type": "application/json",
     Accept: "application/json",
   },
   withCredentials: true,
 });
+
 
 api.interceptors.response.use(
   (response) => response,

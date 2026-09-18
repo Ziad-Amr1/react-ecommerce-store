@@ -120,6 +120,13 @@ export default function EditProduct() {
         className="flex flex-col gap-6"
       >
         <div className="flex flex-col items-stretch gap-6 md:flex-row md:items-start">
+          <ProductForm
+            formData={formData}
+            errors={errors}
+            onChange={handleChange}
+            onTagsChange={handleTagsChange}
+          />
+
           <ProductGallery
             images={images}
             newImages={newImages}
@@ -129,21 +136,14 @@ export default function EditProduct() {
             onDeleteExistingImage={handleDeleteExistingImage}
             onRemoveNewImage={handleRemoveNewImage}
           />
-
-          <ProductForm
-            formData={formData}
-            errors={errors}
-            onChange={handleChange}
-            onTagsChange={handleTagsChange}
-          />
         </div>
 
         <div className="flex flex-col-reverse gap-3 sm:flex-row sm:justify-end">
-          <Button variant="outline" onClick={handleBack} disabled={isSubmitting}>
+          <Button variant="outline" onClick={handleBack} disabled={isSubmitting} className="cursor-pointer">
             {t("products.cancel")}
           </Button>
 
-          <Button type="submit" disabled={isSubmitting}>
+          <Button type="submit" disabled={isSubmitting} className="cursor-pointer">
             {isSubmitting ? t("products.saving") : t("products.saveChanges")}
           </Button>
         </div>

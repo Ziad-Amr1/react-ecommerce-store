@@ -354,6 +354,7 @@
     "cancel": "إلغاء",
     "discard": "التخلي عن التغييرات",
     "saveNow": "حفظ الآن",
+    "keepEditing": "الاستمرار في التعديل",
     "unsavedTitle": "تغييرات غير محفوظة",
     "unsavedDescription": "لديك تغييرات غير محفوظة. هل تريد المغادرة دون حفظها؟",
     "validationNotice": "يرجى تصحيح الحقول المظللة والمحاولة مرة أخرى.",
@@ -452,8 +453,13 @@
       "imageRequired": "مطلوب صورة واحدة على الأقل"
     },
     "sort": {
-      "default": "الترتيب الافتراضي"
+      "default": "الترتيب الافتراضي",
+      "priceAsc": "السعر: من الأرخص إلى الأغلى",
+      "priceDesc": "السعر: من الأغلى إلى الأرخص"
     },
+    "defaultSort": "الترتيب الافتراضي",
+    "priceLowToHigh": "السعر: من الأرخص إلى الأغلى",
+    "priceHighToLow": "السعر: من الأغلى إلى الأرخص",
     "filters": {
       "categoryPlaceholder": "أي فئة",
       "brandPlaceholder": "أي علامة تجارية",

@@ -41,11 +41,11 @@ export default function DeleteProductDialog({
         </AlertDialogHeader>
 
         <AlertDialogFooter>
-          <AlertDialogCancel disabled={isDeleting}>
+          <AlertDialogCancel disabled={isDeleting} className="cursor-pointer">
             {t("products.cancel")}
           </AlertDialogCancel>
           <AlertDialogAction
-            className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
+            className="cursor-pointer bg-destructive text-destructive-foreground hover:bg-destructive/90"
             onClick={onDelete}
             disabled={isDeleting}
           >

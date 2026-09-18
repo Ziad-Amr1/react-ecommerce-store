@@ -34,6 +34,7 @@ import OrderDetails from "./pages/OrderDetails.jsx";
 import Wishlist from "./pages/Wishlist.jsx";
 import Notifications from "./pages/Notifications.jsx";
 import NotificationProvider from "./contexts/NotificationProvider.jsx";
+import WishlistProvider from "./contexts/WishlistProvider.jsx";
 import { TooltipProvider } from "@/components/ui/tooltip";
 
 const DesignSystem = lazy(() => import("./pages/DesignSystem"));
@@ -42,6 +43,7 @@ function App() {
   return (
     <TooltipProvider delayDuration={200}>
       <NotificationProvider>
+        <WishlistProvider>
         <Routes>
         <Route element={<StoreLayout />}>
           <Route path="/" element={<Landing />} />
@@ -103,6 +105,7 @@ function App() {
         </Route>
         <Route path="*" element={<NotFound />} />
       </Routes>
+        </WishlistProvider>
     </NotificationProvider>
     </TooltipProvider>
   );

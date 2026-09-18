@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useNavigate } from "react-router";
+import { useLocation, useNavigate } from "react-router";
 import { toast } from "sonner";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -18,6 +18,8 @@ import { formatCurrency } from "@/utils/formatCurrency";
 import { formatNumber } from "@/utils/formatNumber";
 import { useTranslation } from "react-i18next";
 import useCart from "@/hooks/useCart";
+import useAuth from "@/hooks/useAuth";
+import useWishlist from "@/hooks/useWishlist";
 import Stars from "@/features/products/components/ProductRating";
 import {
   Tooltip,
@@ -28,10 +30,17 @@ import {
 export default function ProductCard({ product, viewMode = "grid" }) {
   const { t } = useTranslation();
   const navigate = useNavigate();
+  const location = useLocation();
   const { addItem } = useCart();
+  const { isAuthenticated } = useAuth();
+  const { isInWishlist, addToWishlist, removeFromWishlist } = useWishlist();
   const [isAdding, setIsAdding] = useState(false);
+  const [isWishlistLoading, setIsWishlistLoading] = useState(false);
   const images = product.images?.filter((image) => image?.url) ?? [];
   const mainImage = images[0]?.url;
+
+  const productId = product._id || product.id;
+  const isFavorite = productId ? isInWishlist(productId) : false;
 
   const productName = product.name || t("shop.untitledProduct");
 
@@ -73,6 +82,37 @@ export default function ProductCard({ product, viewMode = "grid" }) {
     }
   };
 
+  const handleWishlistToggle = async (event) => {
+    event.preventDefault();
+    event.stopPropagation();
+
+    if (isWishlistLoading || !productId) return;
+
+    if (!isAuthenticated) {
+      toast.info(t("wishlist.signInRequired"));
+      navigate("/login", {
+        state: { from: location.pathname + location.search },
+      });
+      return;
+    }
+
+    setIsWishlistLoading(true);
+
+    try {
+      if (isFavorite) {
+        await removeFromWishlist(productId);
+        toast.success(t("wishlist.removed"));
+      } else {
+        await addToWishlist(product);
+        toast.success(t("wishlist.added"));
+      }
+    } catch {
+      toast.error(t("wishlist.updateError"));
+    } finally {
+      setIsWishlistLoading(false);
+    }
+  };
+
   const stockStatusClass =
     isOutOfStock
       ? "text-[var(--color-error)]"
@@ -88,17 +128,38 @@ export default function ProductCard({ product, viewMode = "grid" }) {
             type="button"
             variant="ghost"
             size="icon-sm"
-            disabled
-            aria-label={t("shop.addToWishlist")}
-            className="cursor-not-allowed bg-[var(--color-surface)]/80 opacity-60 hover:bg-[var(--color-surface)]"
+            onClick={handleWishlistToggle}
+            disabled={isWishlistLoading}
+            aria-label={
+              isFavorite
+                ? t("wishlist.removeFromWishlist")
+                : t("wishlist.addToWishlist")
+            }
+            aria-pressed={isFavorite}
+            className={`bg-[var(--color-surface)]/80 backdrop-blur-sm hover:bg-[var(--color-surface)] ${
+              isFavorite
+                ? "text-[var(--color-error)]"
+                : "text-[var(--color-text-primary)]"
+            }`}
           >
-            <Heart aria-hidden="true" />
+            {isWishlistLoading ? (
+              <LoaderCircle className="size-4 animate-spin" aria-hidden="true" />
+            ) : (
+              <Heart
+                aria-hidden="true"
+                className={isFavorite ? "fill-current" : ""}
+              />
+            )}
           </Button>
         </span>
       </TooltipTrigger>
 
       <TooltipContent side="top">
-        <p className="text-xs">{t("shop.comingSoon")}</p>
+        <p className="text-xs">
+          {isFavorite
+            ? t("wishlist.removeFromWishlist")
+            : t("wishlist.addToWishlist")}
+        </p>
       </TooltipContent>
     </Tooltip>
   );

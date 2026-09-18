@@ -47,7 +47,7 @@ export default function ProductTagsInput({ tags = [], onChange }) {
           {tags.map((tag) => (
             <span
               key={tag}
-              className="inline-flex items-center gap-1 rounded-full border border-supporting bg-accent px-3 py-1 text-sm text-foreground"
+              className="inline-flex items-center gap-1 rounded-full border border-(--color-supporting) bg-accent px-3 py-1 text-sm text-foreground"
             >
               {tag}
               <button

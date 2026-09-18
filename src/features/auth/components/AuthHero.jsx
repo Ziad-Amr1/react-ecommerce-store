@@ -4,7 +4,7 @@ import { useTranslation } from "react-i18next";
 const shieldVariants = {
   primary:
     "size-14 rounded-lg border border-(--color-supporting) bg-primary-foreground/10 p-2",
-  surface: "h-14 w-14 rounded-lg bg-surface/10 p-2",
+  surface: "h-14 w-14 rounded-lg bg-(--color-surface)/10 p-2",
 };
 
 export default function AuthHero({

@@ -8,6 +8,7 @@
     "build": "vite build",
     "lint": "eslint .",
     "test": "vitest",
+    "test:e2e": "playwright test",
     "preview": "vite preview",
     "demo:validate": "node scripts/validate-dataset.mjs",
     "demo:serve": "node scripts/serve-demo.mjs"
@@ -33,6 +34,7 @@
   },
   "devDependencies": {
     "@eslint/js": "^10.0.1",
+    "@playwright/test": "^1.63.0",
     "@testing-library/jest-dom": "^7.0.1",
     "@testing-library/react": "^16.3.3",
     "@types/react": "^19.2.18",

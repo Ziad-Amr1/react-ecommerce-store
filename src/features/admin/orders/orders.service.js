@@ -1,6 +1,6 @@
 import api from "@/api/axios";
 
-export function getOrders({ page, limit, status, paymentStatus, sortBy, sortDir, signal }) {
+export function getOrders({ page, limit, status, paymentStatus, sortBy, sortDir, search, signal }) {
   return api.get("/orders/admin", {
     signal,
     params: {
@@ -10,6 +10,7 @@ export function getOrders({ page, limit, status, paymentStatus, sortBy, sortDir,
       paymentStatus,
       sortBy,
       sortDir,
+      search: search || undefined,
     },
   });
 }

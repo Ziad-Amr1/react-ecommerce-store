@@ -261,12 +261,12 @@ export default function Cart() {
 
                 {isSignedIn && cart.discountAmount > 0 && (
                   <div className="flex items-center justify-between text-sm">
-                    <span className="flex items-center gap-1.5 text-success">
+                    <span className="flex items-center gap-1.5 text-(--color-success)">
                       <BadgePercent className="size-4" aria-hidden="true" />
                       {t("cart.discount")}
                       {cart.coupon ? ` · ${cart.coupon}` : ""}
                     </span>
-                    <span className="tabular-nums text-success">
+                    <span className="tabular-nums text-(--color-success)">
                       -{money(cart.discountAmount)}
                     </span>
                   </div>
@@ -309,7 +309,7 @@ export default function Cart() {
       >
         <AlertDialogContent size="sm">
           <AlertDialogHeader>
-            <AlertDialogMedia className="bg-error-bg text-error">
+            <AlertDialogMedia className="bg-(--color-error-bg) text-(--color-error)">
               <Trash2 aria-hidden="true" />
             </AlertDialogMedia>
             <AlertDialogTitle className="font-display">

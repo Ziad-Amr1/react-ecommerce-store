@@ -24,4 +24,9 @@ export default defineConfig([
     files: ['src/components/ui/**/*.{js,jsx}'],
     rules: { 'react-refresh/only-export-components': 'off' },
   },
+  {
+    // Node.js entry points (Playwright config and E2E fixtures/specs)
+    files: ['playwright.config.js', 'e2e/**/*.{js,mjs}'],
+    languageOptions: { globals: globals.node },
+  },
 ])

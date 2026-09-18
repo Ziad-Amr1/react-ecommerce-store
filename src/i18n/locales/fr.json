@@ -916,5 +916,39 @@
     "subtitle": "Page non trouvée",
     "description": "La page que vous recherchez n'existe pas.",
     "home": "Retour à l'accueil"
+  },
+  "carts": {
+    "title": "Paniers",
+    "subtitle": "Activité clients",
+    "description": "Parcourez les paniers des clients et les articles qu'ils contiennent.",
+    "columns": {
+      "customer": "Client",
+      "cart": "Panier",
+      "items": "Articles",
+      "total": "Total",
+      "actions": "Actions"
+    },
+    "notAvailable": "N/A",
+    "viewDetails": "Voir les détails",
+    "loadErrorTitle": "Impossible de charger les paniers",
+    "loadErrorHint": "Une erreur s'est produite lors du chargement des paniers. Veuillez réessayer.",
+    "retry": "Réessayer",
+    "noCartsFound": "Aucun panier trouvé.",
+    "noCartsFoundHint": "Les nouveaux paniers des clients apparaîtront ici au fil de leurs achats.",
+    "pagination": {
+      "previous": "Précédent",
+      "next": "Suivant"
+    },
+    "sheet": {
+      "title": "Détails du panier",
+      "customerInformation": "Informations client",
+      "customer": "Client",
+      "email": "E-mail",
+      "items": "Articles",
+      "noItems": "Aucun article trouvé.",
+      "product": "Produit",
+      "subtotal": "Sous-total",
+      "total": "Total"
+    }
   }
 }

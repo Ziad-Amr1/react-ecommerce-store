@@ -21,6 +21,7 @@ const ADMIN_NAMESPACES = [
   "products",
   "orders",
   "users",
+  "carts",
 ];
 
 describe("i18n locale parity (admin-relevant namespaces)", () => {
@@ -60,5 +61,7 @@ describe("i18n locale parity (admin-relevant namespaces)", () => {
     expect(arLocales.orders.pagination.next).toBeTruthy();
     expect(enLocales.users.pagination.previous).toBeTruthy();
     expect(arLocales.users.pagination.next).toBeTruthy();
+    expect(enLocales.carts.pagination.previous).toBeTruthy();
+    expect(arLocales.carts.pagination.next).toBeTruthy();
   });
 });

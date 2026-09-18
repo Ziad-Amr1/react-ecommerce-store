@@ -35,7 +35,7 @@ export default function ProductFilters({
         </p>
       </div>
 
-      <div className="mt-4 grid gap-4 md:grid-cols-2 lg:grid-cols-4">
+      <div className="mt-4 grid gap-4 md:grid-cols-2 xl:grid-cols-4">
         <div className="space-y-2">
           <Label htmlFor="filter-category">
             {t("products.fields.category")}
@@ -87,14 +87,19 @@ export default function ProductFilters({
             className="font-mono"
           />
         </div>
+      </div>
 
-        <div className="space-y-2">
+      <div className="mt-4 flex flex-col gap-3 lg:flex-row lg:items-end lg:justify-between">
+        <div className="w-full space-y-2 lg:max-w-[340px]">
           <Label>{t("products.fields.sort")}</Label>
           <Select
             value={filters.sort || undefined}
             onValueChange={(value) => updateField("sort", value)}
           >
-            <SelectTrigger className="w-full" aria-label={t("products.fields.sort")}>
+            <SelectTrigger
+              className="w-full cursor-pointer"
+              aria-label={t("products.fields.sort")}
+            >
               <SelectValue placeholder={t("products.sort.default")} />
             </SelectTrigger>
             <SelectContent>
@@ -107,11 +112,20 @@ export default function ProductFilters({
           </Select>
         </div>
 
-        <div className="flex items-end justify-end gap-2 lg:col-span-2">
-          <Button variant="outline" onClick={onClear} disabled={isFetching}>
+        <div className="flex items-center justify-end gap-2">
+          <Button
+            variant="outline"
+            onClick={onClear}
+            disabled={isFetching}
+            className="cursor-pointer"
+          >
             {t("products.filters.clear")}
           </Button>
-          <Button onClick={onApply} disabled={isFetching}>
+          <Button
+            onClick={onApply}
+            disabled={isFetching}
+            className="cursor-pointer"
+          >
             {t("products.filters.apply")}
           </Button>
         </div>

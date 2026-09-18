@@ -69,7 +69,7 @@ export default function ProductDetailsDrawer({ productId, open, onClose }) {
   return (
     <>
       <Sheet open={open} onOpenChange={handleOpenChange}>
-        <SheetContent className="z-[var(--z-dropdown)] w-full overflow-y-auto px-6 sm:max-w-2xl">
+        <SheetContent className="z-[var(--z-dropdown)] w-[80vw] overflow-y-auto px-6 sm:max-w-2xl">
           <SheetHeader className="-mx-2 border-b px-2 pb-4">
             <div className="flex items-center justify-between gap-3">
               <SheetTitle className="font-display">

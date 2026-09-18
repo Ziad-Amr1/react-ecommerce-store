@@ -27,6 +27,7 @@ export default function RowActionsMenu({
               disabled={disabled}
               aria-label={ariaLabel}
               onClick={onTriggerClick}
+              className="cursor-pointer"
             >
               <MoreHorizontal className="size-4" aria-hidden="true" />
             </Button>
@@ -37,6 +38,7 @@ export default function RowActionsMenu({
                 {item.separator && <DropdownMenuSeparator />}
                 <DropdownMenuItem
                   variant={item.variant}
+                  className="cursor-pointer"
                   onClick={(event) => {
                     event.stopPropagation();
                     item.onClick();

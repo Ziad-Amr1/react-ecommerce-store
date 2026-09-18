@@ -3,6 +3,7 @@ import {
   Card,
   CardContent,
 } from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge";
 import { formatCurrency, CURRENCIES } from "@/utils/formatCurrency";
 import { stockClass } from "./stockClass";
 
@@ -37,19 +38,25 @@ export default function ProductDetailsInfo({ product }) {
             )}
           </div>
 
-          <div className="flex shrink-0 gap-2">
-            <span
-              className={`rounded-full px-3 py-1 text-xs font-medium ${
-                product.isActive ? "bg-(--color-success-bg) text-(--color-success)" : "bg-(--color-error-bg) text-(--color-error)"
-              }`}
+          <div className="flex shrink-0 flex-wrap gap-2">
+            <Badge
+              variant={product.isActive ? "outline" : "destructive"}
+              className={
+                product.isActive
+                  ? "border-(--color-success)/40 bg-(--color-success-bg) px-2.5 py-1 text-[11px] font-semibold uppercase tracking-wide text-(--color-success)"
+                  : "px-2.5 py-1 text-[11px] font-semibold uppercase tracking-wide"
+              }
             >
               {t(product.isActive ? "products.active" : "products.inactive")}
-            </span>
+            </Badge>
 
             {product.featured && (
-              <span className="rounded-full border border-(--color-supporting) bg-accent px-3 py-1 text-xs font-medium text-foreground">
+              <Badge
+                variant="secondary"
+                className="border border-(--color-supporting)/60 bg-(--color-supporting)/10 px-2.5 py-1 text-[11px] font-semibold uppercase tracking-wide text-foreground"
+              >
                 {t("products.featured")}
-              </span>
+              </Badge>
             )}
           </div>
         </div>

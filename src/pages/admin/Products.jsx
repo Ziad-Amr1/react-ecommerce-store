@@ -1,26 +1,19 @@
-import { useMemo } from "react";
+import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router";
-import { AlertTriangle, CheckCircle2, Package, PackageX, Plus, SlidersHorizontal } from "lucide-react";
+import { SlidersHorizontal, TriangleAlert } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { formatNumber } from "@/utils/formatNumber";
 import useProducts from "@/features/admin/products/useProducts";
 import ProductSearch from "@/features/admin/products/components/ProductSearch";
 import ProductFilters from "@/features/admin/products/components/ProductFilters";
 import ProductsTable from "@/features/admin/products/components/ProductsTable";
 import DeleteProductDialog from "@/features/admin/products/components/DeleteProductDialog";
-import AdminPageHeader from "@/features/admin/components/AdminPageHeader";
-import AdminErrorState from "@/features/admin/components/AdminErrorState";
-import StatCard from "@/features/admin/dashboard/components/StatCard";
-import {
-  STOCK_OK_THRESHOLD,
-  STOCK_WARNING_THRESHOLD,
-} from "@/features/admin/products/constants";
+import ProductDetailsDrawer from "@/features/admin/products/components/ProductDetailsDrawer";
 
 export default function Products() {
-  const { t, i18n } = useTranslation();
+  const { t } = useTranslation();
   const navigate = useNavigate();
-  const locale = i18n.language || "en-US";
+  const [selectedProductId, setSelectedProductId] = useState(null);
 
   const {
     products,
@@ -28,21 +21,20 @@ export default function Products() {
     isFetching,
     error,
     search,
-    appliedSearch,
     filters,
     setFilters,
-    sortKey,
-    sortDirection,
     showFilters,
     setShowFilters,
+    sortKey,
+    sortDirection,
     currentPage,
     totalPages,
+    totalProducts,
     productToDelete,
     setProductToDelete,
     deletingProductId,
     hasActiveQuery,
     handleSearchChange,
-    handleSelectSearchResult,
     handleApplyFilters,
     handleSort,
     handlePageChange,
@@ -52,124 +44,114 @@ export default function Products() {
     handleDelete,
   } = useProducts();
 
-  const inStockCount = useMemo(
-    () => products.filter((p) => Number(p?.stock) > STOCK_OK_THRESHOLD).length,
-    [products],
-  );
-  const lowStockCount = useMemo(
-    () =>
-      products.filter((p) => {
-        const stock = Number(p?.stock);
-        return stock > STOCK_WARNING_THRESHOLD && stock <= STOCK_OK_THRESHOLD;
-      }).length,
-    [products],
-  );
-  const outOfStockCount = useMemo(
-    () => products.filter((p) => Number(p?.stock) <= STOCK_WARNING_THRESHOLD).length,
-    [products],
-  );
+  const handlePriceSort = () => {
+    const nextSort =
+      filters.sort === ""
+        ? "price_asc"
+        : filters.sort === "price_asc"
+          ? "price_desc"
+          : "";
 
-  const kpis = [
-    {
-      id: "total",
-      title: t("products.kpis.totalProducts", { defaultValue: "Total Products" }),
-      description: t("products.kpis.totalProductsDesc", { defaultValue: "Active & inactive catalog items" }),
-      value: formatNumber(products.length, locale),
-      icon: Package,
-    },
-    {
-      id: "inStock",
-      title: t("products.kpis.inStock", { defaultValue: "In Stock" }),
-      description: t("products.kpis.inStockDesc", { defaultValue: "Well supplied (>20 units)" }),
-      value: formatNumber(inStockCount, locale),
-      icon: CheckCircle2,
-    },
-    {
-      id: "lowStock",
-      title: t("products.kpis.lowStock", { defaultValue: "Low Stock" }),
-      description: t("products.kpis.lowStockDesc", { defaultValue: "Restock recommended (6–20 units)" }),
-      value: formatNumber(lowStockCount, locale),
-      icon: AlertTriangle,
-    },
-    {
-      id: "outOfStock",
-      title: t("products.kpis.outOfStock", { defaultValue: "Out of Stock" }),
-      description: t("products.kpis.outOfStockDesc", { defaultValue: "Depleted stock (≤5 units)" }),
-      value: formatNumber(outOfStockCount, locale),
-      icon: PackageX,
-    },
-  ];
+    const nextFilters = {
+      ...filters,
+      sort: nextSort,
+    };
+
+    setFilters(nextFilters);
+    handleApplyFilters(nextFilters);
+  };
 
   if (error && !isLoading) {
     return (
       <div className="p-4">
-        <AdminErrorState
-          title={t("products.loadErrorTitle")}
-          hint={t("products.loadErrorHint")}
-          onRetry={retry}
-          retryLabel={t("products.retry")}
-          className="min-h-75 rounded-lg border bg-card shadow-sm"
-        />
+        <div className="flex min-h-75 flex-col items-center justify-center rounded-lg border bg-card shadow-sm">
+          <div className="mb-3 flex size-14 items-center justify-center rounded-full bg-error-bg">
+            <TriangleAlert className="size-7 text-error" aria-hidden="true" />
+          </div>
+
+          <h2 className="font-display text-lg font-semibold text-foreground">
+            {t("products.loadErrorTitle")}
+          </h2>
+          <p className="mt-1 text-sm text-muted-foreground">
+            {t("products.loadErrorHint")}
+          </p>
+
+          <Button className="mt-4" onClick={retry}>
+            {t("products.retry")}
+          </Button>
+        </div>
       </div>
     );
   }
 
   return (
-    <div className="space-y-6">
-      <AdminPageHeader
-        kicker={t("products.subtitle", { defaultValue: "Inventory Management" })}
-        title={t("products.title")}
-        description={t("products.description", { defaultValue: "Manage your product catalog, stock levels, categories, and pricing." })}
-        action={
-          <Button onClick={() => navigate("/admin/products/add")} className="gap-2">
-            <Plus className="size-4" aria-hidden="true" />
-            {t("products.addProduct")}
-          </Button>
-        }
-      />
+    <div>
+      <div className="mb-4 flex flex-wrap items-start justify-between gap-3">
+        <div>
+          <div className="flex items-center gap-2">
+            <h1 className="font-display text-2xl font-bold text-foreground">
+              {t("products.title")}
+            </h1>
 
-      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
-        {kpis.map((kpi) => (
-          <StatCard
-            key={kpi.id}
-            title={kpi.title}
-            description={kpi.description}
-            value={kpi.value}
-            icon={kpi.icon}
-            className="gap-0 py-4"
-          />
-        ))}
+            <span className="inline-flex items-center rounded-full border border-primary/20 bg-primary/10 px-2.5 py-1 text-xs font-bold tabular-nums text-primary shadow-sm">
+              {totalProducts}
+            </span>
+          </div>
+
+          <p className="mt-1 text-sm text-muted-foreground">
+            {t("products.description")}
+          </p>
+        </div>
+
+        <Button
+          onClick={() => navigate("/admin/products/add")}
+          className="cursor-pointer"
+        >
+          {t("products.addProduct")}
+        </Button>
       </div>
 
-      <div className="space-y-4">
+      <div className="mb-6 space-y-4">
         <div className="flex w-full flex-col gap-3 md:flex-row">
-          <ProductSearch
-            search={search}
-            appliedSearch={appliedSearch}
-            products={products}
-            onChange={handleSearchChange}
-            onSelect={handleSelectSearchResult}
-          />
+          <ProductSearch search={search} onChange={handleSearchChange} />
 
           <Button
             variant="outline"
             onClick={() => setShowFilters((current) => !current)}
             disabled={isFetching}
+            className="cursor-pointer"
           >
-            <SlidersHorizontal className="size-4 rtl:-scale-x-100" aria-hidden="true" />
+            <SlidersHorizontal
+              className="size-4 rtl:-scale-x-100"
+              aria-hidden="true"
+            />
             {t("products.filtersButton")}
           </Button>
         </div>
 
-        {showFilters && (
-          <ProductFilters
-            filters={filters}
-            setFilters={setFilters}
-            onApply={handleApplyFilters}
-            onClear={clearFilters}
-            isFetching={isFetching}
-          />
-        )}
+        <div
+          className={`grid transition-[grid-template-rows] duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] ${
+            showFilters ? "grid-rows-[1fr]" : "grid-rows-[0fr]"
+          }`}
+        >
+          <div className="overflow-hidden">
+            <div
+              className={`transform transition-all duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] ${
+                showFilters
+                  ? "translate-y-0 scale-100 opacity-100"
+                  : "-translate-y-4 scale-[0.98] opacity-0"
+              }`}
+            >
+              <ProductFilters
+                filters={filters}
+                setFilters={setFilters}
+                onApply={handleApplyFilters}
+                onClear={clearFilters}
+                isFetching={isFetching}
+              />
+            </div>
+          </div>
+        </div>
       </div>
 
       <ProductsTable
@@ -184,10 +166,13 @@ export default function Products() {
         currentPage={currentPage}
         totalPages={totalPages}
         onPageChange={handlePageChange}
-        onView={(id) => navigate(`/admin/products/${id}`)}
+        onProductClick={setSelectedProductId}
+        onView={(id) => setSelectedProductId(id)}
         onEdit={(id) => navigate(`/admin/products/${id}/edit`)}
         onDelete={setProductToDelete}
         onClearQuery={clearQuery}
+        onPriceSort={handlePriceSort}
+        priceSort={filters.sort}
       />
 
       <DeleteProductDialog
@@ -195,6 +180,12 @@ export default function Products() {
         deletingProductId={deletingProductId}
         onClose={() => setProductToDelete(null)}
         onDelete={handleDelete}
+      />
+
+      <ProductDetailsDrawer
+        productId={selectedProductId}
+        open={!!selectedProductId}
+        onClose={() => setSelectedProductId(null)}
       />
     </div>
   );

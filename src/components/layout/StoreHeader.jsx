@@ -1,8 +1,6 @@
 import { Link, useLocation } from "react-router";
 import { useTranslation } from "react-i18next";
 
-import { Moon, Sun, ShoppingCart, UserRound, Heart } from "lucide-react";
-
 import {
   Moon,
   Sun,
@@ -65,7 +63,6 @@ export default function StoreHeader() {
   const isWishlistActive = pathname.startsWith("/wishlist");
   const isNotificationsActive = pathname.startsWith("/notifications");
   const isCartActive = pathname.startsWith("/cart");
-  const isWishlistActive = pathname.startsWith("/wishlist");
 
   const wishlistCount = Array.isArray(wishlistItems) ? wishlistItems.length : 0;
 
@@ -328,7 +325,7 @@ export default function StoreHeader() {
                   : t("store.header.wishlist", { defaultValue: "Wishlist" })
               }
               title={t("store.header.wishlist", { defaultValue: "Wishlist" })}
-              className={`relative ${isWishlistActive ? "text-(--color-primary)" : ""}`}
+              className={`relative cursor-pointer ${isWishlistActive ? "text-(--color-primary)" : ""}`}
             >
               <Heart size={20} aria-hidden="true" />
               {wishlistCount > 0 && (

@@ -101,6 +101,19 @@ export default function Wishlists() {
   const totalSavedItems = wishlists.reduce((acc, w) => acc + w.itemCount, 0);
   const avgItems = (totalSavedItems / (wishlists.length || 1)).toFixed(1);
 
+  const stockLabel = (value) => {
+    switch (value) {
+      case "In Stock":
+        return t("admin.wishlists.stock.inStock", "In Stock");
+      case "Low Stock":
+        return t("admin.wishlists.stock.lowStock", "Low Stock");
+      case "Out of Stock":
+        return t("admin.wishlists.stock.outOfStock", "Out of Stock");
+      default:
+        return value;
+    }
+  };
+
   return (
     <div className="space-y-6">
       {/* Header */}
@@ -112,7 +125,7 @@ export default function Wishlists() {
           {t("navigation.wishlists", "Manage Customer Wishlists")}
         </h1>
         <p className="mt-1 text-sm text-muted-foreground">
-          Track high-demand saved products and analyze customer interest trends.
+          {t("admin.wishlists.description", "Track high-demand saved products and analyze customer interest trends.")}
         </p>
       </div>
 
@@ -124,7 +137,7 @@ export default function Wishlists() {
               <Heart className="size-6 fill-current" />
             </div>
             <div>
-              <p className="text-xs text-muted-foreground font-medium">Active Wishlists</p>
+              <p className="text-xs text-muted-foreground font-medium">{t("admin.wishlists.activeWishlists", "Active Wishlists")}</p>
               <p className="text-2xl font-bold font-display text-foreground">{wishlists.length}</p>
             </div>
           </CardContent>
@@ -136,7 +149,7 @@ export default function Wishlists() {
               <Package className="size-6" />
             </div>
             <div>
-              <p className="text-xs text-muted-foreground font-medium">Total Saved Items</p>
+              <p className="text-xs text-muted-foreground font-medium">{t("admin.wishlists.totalSavedItems", "Total Saved Items")}</p>
               <p className="text-2xl font-bold font-display text-foreground">{totalSavedItems}</p>
             </div>
           </CardContent>
@@ -148,7 +161,7 @@ export default function Wishlists() {
               <Users className="size-6" />
             </div>
             <div>
-              <p className="text-xs text-muted-foreground font-medium">Avg Items / Wishlist</p>
+              <p className="text-xs text-muted-foreground font-medium">{t("admin.wishlists.avgItems", "Avg Items / Wishlist")}</p>
               <p className="text-2xl font-bold font-display text-foreground">{avgItems}</p>
             </div>
           </CardContent>
@@ -160,9 +173,9 @@ export default function Wishlists() {
               <Sparkles className="size-6" />
             </div>
             <div>
-              <p className="text-xs text-muted-foreground font-medium">Top Saved Category</p>
+              <p className="text-xs text-muted-foreground font-medium">{t("admin.wishlists.topSavedCategory", "Top Saved Category")}</p>
               <p className="text-base font-bold font-display text-foreground truncate max-w-[130px]">
-                Electronics
+                {t("admin.wishlists.topSavedCategoryValue", "Electronics")}
               </p>
             </div>
           </CardContent>
@@ -176,7 +189,7 @@ export default function Wishlists() {
           <Input
             value={search}
             onChange={(e) => setSearch(e.target.value)}
-            placeholder="Search by customer name, email, or saved product..."
+            placeholder={t("admin.wishlists.searchPlaceholder", "Search by customer name, email, or saved product...")}
             className="pl-9 rounded-xl"
           />
         </div>
@@ -186,7 +199,7 @@ export default function Wishlists() {
       <Card className="rounded-2xl border overflow-hidden">
         <CardHeader className="p-4 border-b bg-muted/20">
           <CardTitle className="text-base font-bold font-display">
-            Customer Wishlists ({filtered.length})
+            {t("admin.wishlists.customerWishlists", { count: filtered.length })}
           </CardTitle>
         </CardHeader>
 
@@ -194,18 +207,18 @@ export default function Wishlists() {
           <Table>
             <TableHeader>
               <TableRow className="bg-muted/30">
-                <TableHead>Customer</TableHead>
-                <TableHead>Total Saved Items</TableHead>
-                <TableHead>Sample Saved Products</TableHead>
-                <TableHead>Last Updated</TableHead>
-                <TableHead className="text-right">Actions</TableHead>
+                <TableHead>{t("admin.wishlists.customer", "Customer")}</TableHead>
+                <TableHead>{t("admin.wishlists.totalSavedItems", "Total Saved Items")}</TableHead>
+                <TableHead>{t("admin.wishlists.sampleSavedProducts", "Sample Saved Products")}</TableHead>
+                <TableHead>{t("admin.wishlists.lastUpdated", "Last Updated")}</TableHead>
+                <TableHead className="text-right">{t("admin.wishlists.actions", "Actions")}</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
               {filtered.length === 0 ? (
                 <TableRow>
                   <TableCell colSpan={5} className="text-center py-10 text-muted-foreground text-sm">
-                    No wishlists match your search.
+                    {t("admin.wishlists.noMatch", "No wishlists match your search.")}
                   </TableCell>
                 </TableRow>
               ) : (
@@ -227,7 +240,7 @@ export default function Wishlists() {
 
                     <TableCell>
                       <Badge variant="outline" className="bg-rose-500/10 text-rose-600 dark:text-rose-400 border-rose-500/20 text-xs font-bold">
-                        {w.itemCount} items
+                        {t("admin.wishlists.items", { count: w.itemCount })}
                       </Badge>
                     </TableCell>
 
@@ -247,7 +260,7 @@ export default function Wishlists() {
                         className="h-8 text-xs rounded-lg cursor-pointer gap-1"
                       >
                         <Eye className="size-3.5" />
-                        <span>View Items</span>
+                        <span>{t("admin.wishlists.viewItems", "View Items")}</span>
                       </Button>
                     </TableCell>
                   </TableRow>
@@ -266,14 +279,14 @@ export default function Wishlists() {
               <SheetHeader className="p-4 border-b">
                 <SheetTitle className="flex items-center gap-2 font-display text-base font-bold">
                   <Heart className="size-5 text-rose-500 fill-current" />
-                  <span>{selectedWishlist.customer}'s Wishlist</span>
+                  <span>{t("admin.wishlists.wishlist", { customer: selectedWishlist.customer })}</span>
                 </SheetTitle>
               </SheetHeader>
 
               <div className="p-4 border-b bg-muted/20">
                 <p className="text-xs text-muted-foreground">{selectedWishlist.email}</p>
                 <p className="text-xs font-medium text-foreground mt-1">
-                  Total Saved: {selectedWishlist.itemCount} items
+                  {t("admin.wishlists.totalSaved", { count: selectedWishlist.itemCount })}
                 </p>
               </div>
 
@@ -286,13 +299,12 @@ export default function Wishlists() {
                     </div>
                     <Badge
                       variant="secondary"
-                      className={`text-[10px] font-bold ${
-                        item.stock === "In Stock"
+                      className={`text-[10px] font-bold ${item.stock === "In Stock"
                           ? "bg-emerald-500/15 text-emerald-600 dark:text-emerald-400"
                           : item.stock === "Low Stock"
-                          ? "bg-amber-500/15 text-amber-600 dark:text-amber-400"
-                          : "bg-destructive/15 text-destructive"
-                      }`}
+                            ? "bg-amber-500/15 text-amber-600 dark:text-amber-400"
+                            : "bg-destructive/15 text-destructive"
+                        }`}
                     >
                       {item.stock}
                     </Badge>

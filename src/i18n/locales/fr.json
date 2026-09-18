@@ -658,6 +658,30 @@
       "polishing": "Finition",
       "doneWaitingPR": "Terminé — En attente",
       "done": "Terminé"
+    },
+    "wishlists": {
+      "description": "Suivez les produits enregistrés les plus demandés et analysez les tendances d'intérêt des clients.",
+      "activeWishlists": "Listes de souhaits actives",
+      "totalSavedItems": "Total des articles enregistrés",
+      "avgItems": "Moyenne des articles / liste",
+      "topSavedCategory": "Catégorie la plus enregistrée",
+      "topSavedCategoryValue": "Électronique",
+      "searchPlaceholder": "Rechercher par nom du client, e-mail ou produit enregistré...",
+      "customerWishlists": "Listes de souhaits clients ({{count}})",
+      "customer": "Client",
+      "sampleSavedProducts": "Exemples de produits enregistrés",
+      "lastUpdated": "Dernière mise à jour",
+      "actions": "Actions",
+      "noMatch": "Aucune liste de souhaits ne correspond à votre recherche.",
+      "items": "{{count}} articles",
+      "viewItems": "Voir les articles",
+      "wishlist": "Liste de souhaits de {{customer}}",
+      "totalSaved": "Total enregistré : {{count}} articles",
+      "stock": {
+        "inStock": "En stock",
+        "lowStock": "Stock faible",
+        "outOfStock": "Rupture de stock"
+      }
     }
   },
   "cart": {

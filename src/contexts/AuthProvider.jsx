@@ -4,6 +4,7 @@ import {
   logoutUser,
   getCurrentUser,
   updateCurrentUser,
+  deleteCurrentUser,
 } from "@/features/auth/auth.service";
 import AuthContext from "./AuthContext";
 
@@ -112,6 +113,22 @@ const AuthProvider = ({ children }) => {
         };
     }, [])
 
+    // delete current authenticated user's account
+    const deleteAccount = useCallback(async () => {
+        if (!user?._id) {
+            throw new Error("No authenticated user to delete");
+        }
+
+        // Confirm the session is still valid right before the destructive
+        // call, so an expired cookie fails here instead of mid-deletion.
+        await getCurrentUser();
+
+        await deleteCurrentUser(user._id);
+
+        setRestoreError(false);
+        setUser(null);
+    }, [user]);
+
     return (
         <AuthContext.Provider value={{
             user,
@@ -120,6 +137,7 @@ const AuthProvider = ({ children }) => {
             restoreError,
             refresh,
             updateUser,
+            deleteAccount,
             login,
             logout,
         }}>

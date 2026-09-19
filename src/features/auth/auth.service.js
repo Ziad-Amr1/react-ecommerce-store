@@ -64,3 +64,9 @@ export const verifyRegistrationOTP = async (email, otp) => {
 
   return response.data;
 };
+
+export const deleteCurrentUser = async (userId) => {
+  const response = await api.delete(`/users/${userId}`);
+
+  return response.data;
+};

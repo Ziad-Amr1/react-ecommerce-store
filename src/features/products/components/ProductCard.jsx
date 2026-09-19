@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useNavigate } from "react-router";
+import { useLocation, useNavigate } from "react-router";
 import { toast } from "sonner";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -12,13 +12,14 @@ import {
   LoaderCircle,
   PackageOpen,
   ShoppingCart,
-  Star,
 } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
 import { formatCurrency } from "@/utils/formatCurrency";
 import { formatNumber } from "@/utils/formatNumber";
 import { useTranslation } from "react-i18next";
 import useCart from "@/hooks/useCart";
+import useAuth from "@/hooks/useAuth";
+import useWishlist from "@/hooks/useWishlist";
 import Stars from "@/features/products/components/ProductRating";
 import {
   Tooltip,
@@ -29,10 +30,17 @@ import {
 export default function ProductCard({ product, viewMode = "grid" }) {
   const { t } = useTranslation();
   const navigate = useNavigate();
+  const location = useLocation();
   const { addItem } = useCart();
+  const { isAuthenticated } = useAuth();
+  const { isInWishlist, addToWishlist, removeFromWishlist } = useWishlist();
   const [isAdding, setIsAdding] = useState(false);
+  const [isWishlistLoading, setIsWishlistLoading] = useState(false);
   const images = product.images?.filter((image) => image?.url) ?? [];
   const mainImage = images[0]?.url;
+
+  const productId = product._id || product.id;
+  const isFavorite = productId ? isInWishlist(productId) : false;
 
   const productName = product.name || t("shop.untitledProduct");
 
@@ -46,9 +54,7 @@ export default function ProductCard({ product, viewMode = "grid" }) {
   const displayPrice = product.discountPrice || product.price;
 
   const salePercentage = hasDiscount
-    ? Math.round(
-        ((product.price - product.discountPrice) / product.price) * 100,
-      )
+    ? Math.round(((product.price - product.discountPrice) / product.price) * 100)
     : null;
 
   // The catalog API exposes no rating fields yet, so only surface a rating
@@ -76,11 +82,43 @@ export default function ProductCard({ product, viewMode = "grid" }) {
     }
   };
 
-  const stockStatusClass = isOutOfStock
-    ? "text-[var(--color-error)]"
-    : product.stock < 5
-      ? "text-[var(--color-warning)]"
-      : "text-[var(--color-success)]";
+  const handleWishlistToggle = async (event) => {
+    event.preventDefault();
+    event.stopPropagation();
+
+    if (isWishlistLoading || !productId) return;
+
+    if (!isAuthenticated) {
+      toast.info(t("wishlist.signInRequired"));
+      navigate("/login", {
+        state: { from: location.pathname + location.search },
+      });
+      return;
+    }
+
+    setIsWishlistLoading(true);
+
+    try {
+      if (isFavorite) {
+        await removeFromWishlist(productId);
+        toast.success(t("wishlist.removed"));
+      } else {
+        await addToWishlist(product);
+        toast.success(t("wishlist.added"));
+      }
+    } catch {
+      toast.error(t("wishlist.updateError"));
+    } finally {
+      setIsWishlistLoading(false);
+    }
+  };
+
+  const stockStatusClass =
+    isOutOfStock
+      ? "text-(--color-error)"
+      : product.stock < 5
+        ? "text-(--color-warning)"
+        : "text-(--color-success)";
 
   const renderWishlist = (className) => (
     <Tooltip>
@@ -90,27 +128,48 @@ export default function ProductCard({ product, viewMode = "grid" }) {
             type="button"
             variant="ghost"
             size="icon-sm"
-            disabled
-            aria-label={t("shop.addToWishlist")}
-            className="cursor-not-allowed bg-[var(--color-surface)]/80 opacity-60 hover:bg-[var(--color-surface)]"
+onClick={handleWishlistToggle}
+            disabled={isWishlistLoading}
+            aria-label={
+              isFavorite
+                ? t("wishlist.removeFromWishlist")
+                : t("wishlist.addToWishlist")
+            }
+            aria-pressed={isFavorite}
+            className={`bg-(--color-surface)/80 backdrop-blur-sm hover:bg-(--color-surface) ${
+              isFavorite
+                ? "text-(--color-error)"
+                : "text-(--color-text-primary)"
+            }`}
           >
-            <Heart aria-hidden="true" />
+            {isWishlistLoading ? (
+              <LoaderCircle className="size-4 animate-spin" aria-hidden="true" />
+            ) : (
+              <Heart
+                aria-hidden="true"
+                className={isFavorite ? "fill-current" : ""}
+              />
+            )}
           </Button>
         </span>
       </TooltipTrigger>
 
       <TooltipContent side="top">
-        <p className="text-xs">{t("shop.comingSoon")}</p>
+        <p className="text-xs">
+          {isFavorite
+            ? t("wishlist.removeFromWishlist")
+            : t("wishlist.addToWishlist")}
+        </p>
       </TooltipContent>
     </Tooltip>
   );
 
   if (viewMode === "list") {
     return (
-      <div className="isolate flex items-center gap-3 rounded-xl border border-[var(--color-border)] bg-card p-3 shadow-[var(--shadow-md)] sm:gap-5 sm:p-4">
+      <div className="isolate flex items-center gap-3 rounded-xl border border-(--color-border) bg-card p-3 shadow-(--shadow-md) sm:gap-5 sm:p-4">
         {/* Small fixed-size thumbnail (not the 4:3 grid image) */}
         <div className="relative shrink-0">
-          <div className="size-16 overflow-hidden rounded-lg bg-[var(--color-surface-secondary)] sm:size-20 sm:rounded-xl">
+          <div className="size-16 overflow-hidden rounded-lg bg-(--color-surface-secondary) sm:size-20 sm:rounded-xl">
             {mainImage ? (
               <img
                 src={mainImage}
@@ -119,9 +178,9 @@ export default function ProductCard({ product, viewMode = "grid" }) {
                 className="h-full w-full object-cover"
               />
             ) : (
-              <div className="flex h-full w-full items-center justify-center bg-[var(--color-surface-secondary)]">
+              <div className="flex h-full w-full items-center justify-center bg-(--color-surface-secondary)">
                 <PackageOpen
-                  className="size-5 text-[var(--color-text-disabled)]"
+                  className="size-5 text-(--color-text-disabled)"
                   aria-hidden="true"
                 />
               </div>
@@ -131,7 +190,7 @@ export default function ProductCard({ product, viewMode = "grid" }) {
           {hasBrand && (
             <Badge
               variant="outline"
-              className="absolute -bottom-2 start-1 z-30 border-transparent bg-[var(--color-info)] px-1.5 text-[10px] text-[var(--color-on-error)]"
+              className="absolute -bottom-2 start-1 z-30 border-transparent bg-(--color-info) px-1.5 text-[10px] text-(--color-on-error)"
             >
               {product.brand}
             </Badge>
@@ -142,46 +201,35 @@ export default function ProductCard({ product, viewMode = "grid" }) {
 
         {/* Product information — main horizontal space */}
         <div className="min-w-0 flex-1 space-y-0.5 sm:space-y-1">
-          <p className="hidden truncate font-mono text-[10px] tracking-wide text-[var(--color-text-secondary)] uppercase sm:block">
+          <p className="hidden truncate font-mono text-[10px] tracking-wide text-(--color-text-secondary) uppercase sm:block">
             {product.category} {t("shop.separator")} {product.subcategory}
           </p>
           <h3
-            className="truncate font-display text-sm font-semibold text-[var(--color-text-primary)] sm:text-lg"
+            className="truncate font-display text-sm font-semibold text-(--color-text-primary) sm:text-lg"
             title={productName}
           >
             {productName}
           </h3>
 
-          <div className="flex items-center gap-1.5 text-xs text-[var(--color-text-secondary)]">
-            {hasRating ? (
-              <>
-                <Stars
-                  value={rating}
-                  label={t("shop.productRatingLabel", { rating, reviewsCount })}
-                />
-                <span className="text-xs text-[var(--color-text-secondary)]">
-                  {rating.toFixed(1)}
-                  <span className="text-[var(--color-text-disabled)]">
-                    {" "}
-                    ({formatNumber(reviewsCount)})
-                  </span>
+          {hasRating && (
+            <div className="flex items-center gap-1.5">
+              <Stars
+                value={rating}
+                label={t("shop.productRatingLabel", { rating, reviewsCount })}
+              />
+              <span className="text-xs text-(--color-text-secondary)">
+                {rating.toFixed(1)}
+                <span className="text-(--color-text-disabled)">
+                  {" "}
+                  ({formatNumber(reviewsCount)})
                 </span>
-              </>
-            ) : (
-              <>
-                {/* <span className="font-medium">{t("shop.rating")}</span> */}
+              </span>
+            </div>
+          )}
 
-                <Star
-                  className="size-3.5 text-[var(--color-border-strong)]"
-                  aria-hidden="true"
-                />
-
-                <span>{t("shop.noRatingsYet")}</span>
-              </>
-            )}
-          </div>
-
-          <p className={`flex items-center gap-1 text-xs ${stockStatusClass}`}>
+          <p
+            className={`flex items-center gap-1 text-xs ${stockStatusClass}`}
+          >
             {product.stock > 0 && product.stock < 5 ? (
               <>
                 <TriangleAlert className="size-3.5" aria-hidden="true" />
@@ -204,12 +252,12 @@ export default function ProductCard({ product, viewMode = "grid" }) {
         {/* Price / metadata + action — right side, mirrors left in RTL */}
         <div className="flex shrink-0 flex-col items-end gap-1.5 sm:gap-2">
           <div className="flex flex-wrap items-baseline justify-end gap-1.5 sm:gap-2">
-            <p className="min-w-0 max-w-full truncate font-display text-sm font-bold text-[var(--color-text-primary)] sm:text-base">
+            <p className="font-display text-base font-bold text-(--color-text-primary) sm:text-xl">
               {formatCurrency(displayPrice)}
             </p>
 
             {hasDiscount && (
-              <p className="hidden truncate text-[10px] text-[var(--color-text-secondary)] line-through sm:block">
+              <p className="hidden text-xs text-(--color-text-secondary) line-through sm:block">
                 {formatCurrency(product.price)}
               </p>
             )}
@@ -217,7 +265,7 @@ export default function ProductCard({ product, viewMode = "grid" }) {
             {hasDiscount && (
               <Badge
                 variant="outline"
-                className="hidden border-transparent bg-[var(--color-error)] px-1.5 text-[10px] text-[var(--color-on-error)] sm:inline-flex"
+                className="hidden border-transparent bg-(--color-error) px-1.5 text-[10px] text-(--color-on-error) sm:inline-flex"
               >
                 {salePercentage} {t("shop.off")}
               </Badge>
@@ -227,7 +275,7 @@ export default function ProductCard({ product, viewMode = "grid" }) {
           <div className="flex gap-2">
             <Button
               size="sm"
-              className="bg-[var(--color-primary)] text-primary-foreground hover:bg-[var(--color-secondary)]"
+              className="bg-(--color-primary) text-primary-foreground hover:bg-(--color-secondary)"
               onClick={handleAddToCart}
               disabled={isAdding || isOutOfStock}
               aria-label={
@@ -235,10 +283,7 @@ export default function ProductCard({ product, viewMode = "grid" }) {
               }
             >
               {isAdding ? (
-                <LoaderCircle
-                  className="size-4 animate-spin"
-                  aria-hidden="true"
-                />
+                <LoaderCircle className="size-4 animate-spin" aria-hidden="true" />
               ) : (
                 <ShoppingCart className="size-4" aria-hidden="true" />
               )}
@@ -262,8 +307,8 @@ export default function ProductCard({ product, viewMode = "grid" }) {
   }
 
   return (
-    <Card className="isolate h-full gap-4 overflow-hidden border-[var(--color-border)] py-0 shadow-[var(--shadow-md)]">
-      <div className="relative m-4 aspect-[4/3] overflow-hidden rounded-xl bg-[var(--color-surface-secondary)] lg:h-60 xl:h-72">
+    <Card className="isolate h-full gap-4 overflow-hidden border-(--color-border) py-0 shadow-(--shadow-md)">
+      <div className="relative m-4 aspect-[4/3] overflow-hidden rounded-xl bg-(--color-surface-secondary)">
         {mainImage ? (
           <img
             src={mainImage}
@@ -272,9 +317,9 @@ export default function ProductCard({ product, viewMode = "grid" }) {
             className="h-full w-full object-cover"
           />
         ) : (
-          <div className="flex h-full w-full items-center justify-center bg-[var(--color-surface-secondary)]">
+          <div className="flex h-full w-full items-center justify-center bg-(--color-surface-secondary)">
             <PackageOpen
-              className="size-10 text-[var(--color-text-disabled)]"
+              className="size-10 text-(--color-text-disabled)"
               aria-hidden="true"
             />
           </div>
@@ -284,82 +329,49 @@ export default function ProductCard({ product, viewMode = "grid" }) {
         {hasBrand && (
           <Badge
             variant="outline"
-            className="absolute start-3 top-3 z-30 border-transparent bg-[var(--color-info)] px-2.5 text-[var(--color-on-error)]"
+            className="absolute start-3 top-3 z-30 border-transparent bg-(--color-info) px-2.5 text-(--color-on-error)"
           >
             {product.brand}
           </Badge>
         )}
 
-        {/* Wishlist — disabled until the real wishlist API exists. A heart
-            that toggles locally but never persists would mislead users. */}
         {renderWishlist("absolute end-3 top-3 z-40")}
       </div>
 
-      <CardContent className="flex flex-1 flex-col px-5 pb-5">
-        {/* Product information */}
-        <div className="min-w-0">
-          {/* Category / Subcategory */}
-          <div className="h-5 overflow-hidden">
-            <p
-              className="w-full truncate whitespace-nowrap font-mono text-[10px] leading-5 tracking-wide text-[var(--color-text-secondary)] uppercase"
-              title={`${product.category} ${t("shop.separator")} ${product.subcategory}`}
-            >
-              {product.category} {t("shop.separator")} {product.subcategory}
-            </p>
-          </div>
-
-          {/* Product name */}
+      <CardContent className="flex flex-1 flex-col gap-1.5 px-5 pb-5">
+        <div>
+          <p className="font-mono text-[11px] tracking-wide text-(--color-text-secondary) uppercase">
+            {product.category} {t("shop.separator")} {product.subcategory}
+          </p>
           <h3
-            className="mt-1 line-clamp-1 h-7 font-display accordion text-base sm:text-lg xl:text-xl font-semibold leading-7 text-[var(--color-text-primary)] xl:line-clamp-2 lg:h-14"
+            className="mt-1 truncate font-display text-lg font-semibold text-(--color-text-primary)"
             title={productName}
           >
             {productName}
           </h3>
 
-          {/* Rating */}
-          <div className="mt-1.5 flex h-5 items-center gap-2">
-            {hasRating ? (
-              <>
-                <Stars
-                  value={rating}
-                  label={t("shop.productRatingLabel", {
-                    rating,
-                    reviewsCount,
-                  })}
-                />
-
-                <span className="text-sm text-[var(--color-text-secondary)]">
-                  {rating.toFixed(1)}{" "}
-                  <span className="text-[var(--color-text-disabled)]">
-                    ({formatNumber(reviewsCount)})
-                  </span>
+          {hasRating && (
+            <div className="mt-1.5 flex items-center gap-2">
+              <Stars
+                value={rating}
+                label={t("shop.productRatingLabel", { rating, reviewsCount })}
+              />
+              <span className="text-sm text-(--color-text-secondary)">
+                {rating.toFixed(1)}{" "}
+                <span className="text-(--color-text-disabled)">
+                  ({formatNumber(reviewsCount)})
                 </span>
-              </>
-            ) : (
-              <>
-                {/* <span className="font-base text-sm">{t("shop.rating")}</span> */}
-
-                <span className="text-sm" aria-hidden="true">
-                  <Star
-                    className="size-3.5 text-[var(--color-border-strong)]"
-                    aria-hidden="true"
-                  />
-                </span>
-
-                <span className="text-sm">{t("shop.noRatingsYet")}</span>
-              </>
-            )}
-          </div>
+              </span>
+            </div>
+          )}
         </div>
-
-        {/* Price */}
-        <div className="mt-3 flex min-h-9 flex-wrap items-center gap-2">
-          <p className="font-display text-lg font-bold text-[var(--color-text-primary)] sm:text-xl">
+        <div className="flex flex-wrap items-baseline gap-2">
+          <p className="font-display text-2xl font-bold text-(--color-text-primary)">
             {formatCurrency(displayPrice)}
           </p>
 
           {hasDiscount && (
-            <p className="text-xs text-[var(--color-text-secondary)] line-through sm:text-sm">
+            <p className="text-sm text-(--color-text-secondary) line-through">
               {formatCurrency(product.price)}
             </p>
           )}
@@ -367,41 +379,37 @@ export default function ProductCard({ product, viewMode = "grid" }) {
           {hasDiscount && (
             <Badge
               variant="outline"
-              className="border-transparent bg-[var(--color-error)] px-1.5 text-[10px] text-[var(--color-on-error)]"
+              className="border-transparent bg-(--color-error) text-(--color-on-error)"
             >
               {salePercentage} {t("shop.off")}
             </Badge>
           )}
         </div>
 
-        {/* Stock */}
-        <div className="mt-2 flex h-5 items-center">
-          <p
-            className={`flex items-center gap-1.5 text-sm ${stockStatusClass}`}
-          >
-            {product.stock > 0 && product.stock < 5 ? (
-              <>
-                <TriangleAlert className="size-4" aria-hidden="true" />
-                {t("shop.runningLow", { count: product.stock })}
-              </>
-            ) : product.stock === 0 ? (
-              <>
-                <CircleX className="size-4" aria-hidden="true" />
-                {t("shop.outOfStock")}
-              </>
-            ) : (
-              <>
-                <CircleCheck className="size-4" aria-hidden="true" />
-                {t("shop.inStock")}
-              </>
-            )}
-          </p>
-        </div>
+        <p
+          className={`flex items-center gap-1.5 text-sm min-h-5 ${stockStatusClass}`}
+        >
+          {product.stock > 0 && product.stock < 5 ? (
+            <>
+              <TriangleAlert className="size-4" aria-hidden="true" />
+              {t("shop.runningLow", { count: product.stock })}
+            </>
+          ) : product.stock === 0 ? (
+            <>
+              <CircleX className="size-4" aria-hidden="true" />
+              {t("shop.outOfStock")}
+            </>
+          ) : (
+            <>
+              <CircleCheck className="size-4" aria-hidden="true" />
+              {t("shop.inStock")}
+            </>
+          )}
+        </p>
 
-        {/* Buttons */}
-        <div className="mt-auto flex gap-2 pt-4">
+        <div className="mt-auto flex gap-2 pt-2">
           <Button
-            className="min-w-0 flex-1 bg-[var(--color-primary)] text-primary-foreground hover:bg-[var(--color-secondary)] cursor-pointer"
+            className="flex-1 bg-(--color-primary) text-primary-foreground hover:bg-(--color-secondary)"
             onClick={handleAddToCart}
             disabled={isAdding || isOutOfStock}
             aria-label={
@@ -409,27 +417,18 @@ export default function ProductCard({ product, viewMode = "grid" }) {
             }
           >
             {isAdding ? (
-              <LoaderCircle
-                className="size-4 shrink-0 animate-spin"
-                aria-hidden="true"
-              />
+              <LoaderCircle className="size-4 animate-spin" aria-hidden="true" />
             ) : (
-              <ShoppingCart className="size-4 shrink-0" aria-hidden="true" />
+              <ShoppingCart aria-hidden="true" />
             )}
-
-            <span className="truncate">
-              {isOutOfStock ? t("shop.outOfStock") : t("shop.addToCart")}
-            </span>
+            {isOutOfStock ? t("shop.outOfStock") : t("shop.addToCart")}
           </Button>
-
           <Button
             variant="outline"
-            className="shrink-0 cursor-pointer"
             aria-label={t("shop.viewDetails", { name: productName })}
             onClick={() => navigate(`/products/${product._id}`)}
           >
-            <span className="hidden sm:inline ">{t("shop.details")}</span>
-            <ArrowUpRight className="size-4 sm:hidden" aria-hidden="true" />
+            {t("shop.details")}
           </Button>
         </div>
       </CardContent>

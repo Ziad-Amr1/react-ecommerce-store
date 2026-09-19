@@ -36,7 +36,7 @@ export default function ProductDetailsSections({ product }) {
               {product.tags.map((tag) => (
                 <span
                   key={tag}
-                  className="rounded-full border border-supporting bg-accent px-3 py-1 text-sm text-foreground"
+                  className="rounded-full border border-(--color-supporting) bg-accent px-3 py-1 text-sm text-foreground"
                 >
                   {tag}
                 </span>
@@ -80,7 +80,7 @@ export default function ProductDetailsSections({ product }) {
               </p>
               <p
                 className={`mt-1 text-sm font-medium ${
-                  product.isActive ? "text-success" : "text-error"
+                  product.isActive ? "text-(--color-success)" : "text-(--color-error)"
                 }`}
               >
                 {t(product.isActive ? "products.active" : "products.inactive")}

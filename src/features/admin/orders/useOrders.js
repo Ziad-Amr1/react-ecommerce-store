@@ -1,99 +1,46 @@
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useState } from "react";
+import useAdminServerTable from "@/features/admin/components/useAdminServerTable";
 import { getOrders } from "./orders.service";
 import { ORDERS_LIMIT, SORT_COLUMNS } from "./constants";
 
 const ALL = "all";
 
+// Normalize the axios response into the shared controller's row shape so the
+// controller stays free of the orders API's response envelope.
+const mapResponse = (response) => ({
+  rows: response?.data?.orders ?? [],
+  total: response?.data?.total ?? 0,
+  totalPages: response?.data?.totalPages ?? 1,
+});
+
 export default function useOrders() {
-  const [orders, setOrders] = useState([]);
-  const [totalOrders, setTotalOrders] = useState(0);
-  const [totalPages, setTotalPages] = useState(1);
-  const [currentPage, setCurrentPage] = useState(1);
-
-  const [status, setStatus] = useState(ALL);
-  const [payment, setPayment] = useState(ALL);
-
-  const [sortKey, setSortKey] = useState("");
-  const [sortDirection, setSortDirection] = useState("asc");
-
-  const [reloadKey, setReloadKey] = useState(0);
-  const [isLoading, setIsLoading] = useState(true);
-  const [loadError, setLoadError] = useState(null);
-
   const [selectedOrder, setSelectedOrder] = useState(null);
   const [isDetailsOpen, setIsDetailsOpen] = useState(false);
 
-  const controllerRef = useRef(null);
+  const table = useAdminServerTable({
+    fetchData: ({ page, search, sortKey, sortDirection, filters, signal }) =>
+      getOrders({
+        page,
+        limit: ORDERS_LIMIT,
+        status: filters.status === ALL ? undefined : filters.status,
+        paymentStatus: filters.payment === ALL ? undefined : filters.payment,
+        sortBy: sortKey ? SORT_COLUMNS[sortKey] : undefined,
+        sortDir: sortKey ? sortDirection : undefined,
+        search,
+        signal,
+      }),
+    mapResponse,
+    pageSize: ORDERS_LIMIT,
+    initialFilters: { status: ALL, payment: ALL },
+  });
 
-  const fetchOrders = useCallback(() => {
-    const controller = new AbortController();
-    controllerRef.current?.abort();
-    controllerRef.current = controller;
-
-    getOrders({
-      page: currentPage,
-      limit: ORDERS_LIMIT,
-      status: status === ALL ? undefined : status,
-      paymentStatus: payment === ALL ? undefined : payment,
-      sortBy: sortKey ? SORT_COLUMNS[sortKey] : undefined,
-      sortDir: sortKey ? sortDirection : undefined,
-      signal: controller.signal,
-    })
-      .then((response) => {
-        if (controller.signal.aborted) {
-          return;
-        }
-
-        const data = response.data;
-        setOrders(data?.orders || []);
-        setTotalOrders(data?.total || 0);
-        setTotalPages(data?.totalPages || 1);
-      })
-      .catch((error) => {
-        if (!controller.signal.aborted) {
-          setLoadError(error);
-        }
-      })
-      .finally(() => {
-        if (!controller.signal.aborted) {
-          setIsLoading(false);
-        }
-      });
-  }, [currentPage, payment, sortDirection, sortKey, status]);
-
-  useEffect(() => {
-    fetchOrders();
-
-    return () => controllerRef.current?.abort();
-  }, [fetchOrders, reloadKey]);
-
-  const handleStatusChange = (value) => {
-    setStatus(value);
-    setCurrentPage(1);
-    setIsLoading(true);
-  };
-
-  const handlePaymentChange = (value) => {
-    setPayment(value);
-    setCurrentPage(1);
-    setIsLoading(true);
-  };
-
-  const handleSort = (key) => {
-    setCurrentPage(1);
-    setIsLoading(true);
-    if (sortKey === key) {
-      setSortDirection((direction) => (direction === "asc" ? "desc" : "asc"));
-    } else {
-      setSortKey(key);
-      setSortDirection("asc");
-    }
-  };
-
-  const handlePageChange = (page) => {
-    setIsLoading(true);
-    setCurrentPage(page);
-  };
+  const handleStatusChange = (value) => table.changeFilter("status", value);
+  const handlePaymentChange = (value) => table.changeFilter("payment", value);
+  const handleSearchChange = (value) => table.handleSearchChange(value);
+  const handleSort = (key) => table.handleSort(key);
+  const handlePageChange = (page) => table.handlePageChange(page);
+  const clearQuery = () => table.clearQuery();
+  const retry = () => table.retry();
 
   const handleOpenDetails = useCallback((order) => {
     setSelectedOrder(order);
@@ -104,35 +51,33 @@ export default function useOrders() {
     setIsDetailsOpen(false);
   }, []);
 
-  const updateOrder = useCallback((orderId, changes) => {
-    setOrders((current) =>
-      current.map((order) =>
-        order._id === orderId ? { ...order, ...changes } : order,
-      ),
-    );
-  }, []);
+  const { updateRowById } = table;
 
-  const retry = () => {
-    setLoadError(null);
-    setIsLoading(true);
-    setReloadKey((key) => key + 1);
-  };
+  const updateOrder = useCallback(
+    (orderId, changes) => updateRowById(orderId, changes),
+    [updateRowById],
+  );
 
   return {
-    orders,
-    totalOrders,
-    totalPages,
-    currentPage,
-    isLoading,
-    loadError,
-    status,
-    payment,
-    sortKey,
-    sortDirection,
+    orders: table.rows,
+    totalOrders: table.total,
+    totalPages: table.totalPages,
+    currentPage: table.currentPage,
+    isLoading: table.isLoading,
+    isFetching: table.isFetching,
+    loadError: table.error,
+    search: table.search,
+    appliedSearch: table.appliedSearch,
+    status: table.filters.status,
+    payment: table.filters.payment,
+    sortKey: table.sortKey,
+    sortDirection: table.sortDirection,
     selectedOrder,
     isDetailsOpen,
     handleStatusChange,
     handlePaymentChange,
+    handleSearchChange,
+    clearQuery,
     handleSort,
     handlePageChange,
     handleOpenDetails,

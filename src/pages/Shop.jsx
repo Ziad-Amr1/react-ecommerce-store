@@ -13,6 +13,7 @@ import ShopSearchBar from "@/features/products/components/ShopSearchBar";
 import ShopSidebar from "@/features/products/components/ShopSidebar";
 import ActiveFiltersBar from "@/features/products/components/ActiveFiltersBar";
 import ProductSkeleton from "@/features/products/components/ProductCardSkeleton";
+import useDocumentMeta from "@/hooks/useDocumentMeta";
 
 export default function Shop() {
   const { t } = useTranslation();
@@ -28,50 +29,78 @@ export default function Shop() {
   } = useProducts();
 
   const [searchParams, setSearchParams] = useSearchParams();
-  const categoryFromUrl = searchParams.get("category") || "All";
-  const filters = useShopFilters(products, categoryFromUrl);
+  const filters = useShopFilters(products);
+
+  // Derive the price slider's upper bound from the prices actually returned on
+  // the current page, never by fetching the whole catalog. Always accounting
+  // for an applied max price keeps a user-set value inside the range.
+  const pageMaxPrice = products.length
+    ? Math.max(...products.map((p) => Number(p.price) || 0))
+    : 0;
+  const sliderMax = Math.max(
+    pageMaxPrice,
+    Number(filters.applied.maxPrice) || 0,
+    100,
+  );
+
+  useDocumentMeta({
+    title: t("shop.title"),
+    description: t("shop.subtitle"),
+  });
 
   // When the applied filters change (not on first render), go back to
   // page 1 so the user sees the start of the filtered results.
   const didMount = useRef(false);
+  const prevApplied = useRef(filters.applied);
+  const pendingPageReset = useRef(false);
+  const pageFromUrl = Number(searchParams.get("page")) || 1;
+
   useEffect(() => {
+    const appliedChanged = prevApplied.current !== filters.applied;
+    prevApplied.current = filters.applied;
+
     if (!didMount.current) {
       didMount.current = true;
       return;
     }
 
-    setSearchParams((currentParams) => {
-      const nextParams = new URLSearchParams(currentParams);
-      nextParams.set("page", "1");
-      return nextParams;
-    });
-  }, [filters.applied, setSearchParams]);
+    if (appliedChanged && pageFromUrl !== 1) {
+      pendingPageReset.current = true;
+      setSearchParams({ page: "1" });
+    }
+  }, [filters.applied, setSearchParams, pageFromUrl]);
 
-  // Filters run server-side; the page number lives in the URL.
+  // Filters run server-side; the page number lives in the URL. When a filter
+  // change also resets the page, skip the intermediate fetch so the page is
+  // fetched once, not twice.
   useEffect(() => {
-    const pageFromUrl = Number(searchParams.get("page")) || 1;
+    if (pendingPageReset.current) {
+      pendingPageReset.current = false;
+      return;
+    }
 
     fetchProducts(pageFromUrl, filters.applied);
-  }, [searchParams, filters.applied, fetchProducts]);
+  }, [searchParams, filters.applied, fetchProducts, pageFromUrl]);
 
   const handlePageChange = (page) => {
     setSearchParams({ page: String(page) });
   };
 
-  const resultsCount = totalProducts != null ? totalProducts : products.length;
+  const resultsCount =
+    totalProducts != null ? totalProducts : products.length;
   const resultsLabelKey =
     totalProducts != null ? "shop.results" : "shop.showing";
 
   return (
-    <div className="min-h-screen bg-[var(--color-surface-secondary)] text-[var(--color-text-primary)] font-body transition-colors duration-300">
-      <div className="w-full mx-auto px-6 sm:px-8 lg:px-10 py-10 space-y-8">
+    <div className="min-h-screen bg-(--color-surface-secondary) text-(--color-text-primary) font-body transition-colors duration-300">
+      <div className="w-full mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-10 space-y-6 sm:space-y-8">
         {/* Header */}
-        <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 pb-4 border-b border-[var(--color-border)]">
+        <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 pb-4 border-b border-(--color-border)">
           <div>
-            <h1 className="text-3xl font-bold font-display tracking-tight text-[var(--color-text-primary)]">
+            <h1 className="text-3xl font-bold font-display tracking-tight text-(--color-text-primary)">
               {t("shop.title", "Shop")}
             </h1>
-            <p className="text-sm text-[var(--color-text-secondary)] mt-1">
+            <p className="text-sm text-(--color-text-secondary) mt-1">
               {t("shop.subtitle")}
             </p>
           </div>
@@ -81,12 +110,12 @@ export default function Shop() {
             onClick={() =>
               filters.setIsMobileFilterOpen(!filters.isMobileFilterOpen)
             }
-            className="md:hidden flex items-center gap-2 rounded-xl border-[var(--color-border)] bg-[var(--color-surface)] text-[var(--color-text-primary)]"
+            className="md:hidden flex items-center gap-2 rounded-xl border-(--color-border) bg-(--color-surface) text-(--color-text-primary)"
           >
             <SlidersHorizontal className="size-4" />
-            {t("filters", "Filters")}
+            {t("shop.filterTitle", "Filters")}
             {filters.hasActiveFilters && (
-              <span className="size-2 rounded-full bg-[var(--color-primary)]" />
+              <span className="size-2 rounded-full bg-(--color-primary)" />
             )}
           </Button>
         </div>
@@ -104,14 +133,19 @@ export default function Shop() {
           {/* Sidebar Component */}
           <ShopSidebar
             categories={filters.categories}
-            selectedCategory={filters.applied.category}
+            selectedCategory={filters.draft.category}
             setSelectedCategory={filters.selectCategory}
+            brands={filters.brands}
+            selectedBrand={filters.draft.brand}
+            setSelectedBrand={filters.selectBrand}
             minPrice={filters.minPrice}
             setMinPrice={filters.setMinPrice}
             maxPrice={filters.maxPrice}
             setMaxPrice={filters.setMaxPrice}
+            priceCeiling={sliderMax}
             sortBy={filters.sortBy}
             setSortBy={filters.changeSort}
+            applyFilters={filters.applyFilters}
             clearFilters={filters.clearFilters}
             isMobileFilterOpen={filters.isMobileFilterOpen}
             t={t}
@@ -127,11 +161,11 @@ export default function Shop() {
               getSortLabel={filters.getSortLabel}
               hasActiveFilters={filters.hasActiveFilters}
               clearFilters={filters.clearFilters}
-              selectCategory={filters.selectCategory}
-              setSearchQuery={filters.setSearchQuery}
-              setMinPrice={filters.setMinPrice}
-              setMaxPrice={filters.setMaxPrice}
-              changeSort={filters.changeSort}
+              clearCategory={filters.clearCategory}
+              clearBrand={filters.clearBrand}
+              clearPrice={filters.clearPrice}
+              clearSort={filters.clearSort}
+              clearSearch={filters.clearSearch}
             />
 
             {/* Product Feed */}
@@ -144,8 +178,8 @@ export default function Shop() {
                 ))}
               </div>
             ) : apiError ? (
-              <div className="text-center py-16 bg-[var(--color-surface)] rounded-2xl border border-[var(--color-border)]">
-                <h3 className="text-base font-semibold text-[var(--color-error)]">
+              <div className="text-center py-16 bg-(--color-surface) rounded-2xl border border-(--color-border)">
+                <h3 className="text-base font-semibold text-(--color-error)">
                   {t("products.loadErrorTitle")}
                 </h3>
                 <Button
@@ -158,9 +192,9 @@ export default function Shop() {
                 </Button>
               </div>
             ) : products.length === 0 ? (
-              <div className="text-center py-16 bg-[var(--color-surface)] rounded-2xl border border-[var(--color-border)]">
-                <ShoppingBag className="size-12 text-[var(--color-text-secondary)] opacity-40 mx-auto mb-3" />
-                <h3 className="text-lg font-semibold text-[var(--color-text-primary)]">
+              <div className="text-center py-16 bg-(--color-surface) rounded-2xl border border-(--color-border)">
+                <ShoppingBag className="size-12 text-(--color-text-secondary) opacity-40 mx-auto mb-3" />
+                <h3 className="text-lg font-semibold text-(--color-text-primary)">
                   {t("products.noProductsFound")}
                 </h3>
                 {filters.hasActiveFilters && (
@@ -170,7 +204,7 @@ export default function Shop() {
                     size="sm"
                     className="mt-4"
                   >
-                    {t("clear_all_filters", "Clear All Filters")}
+                    {t("shop.clearAllFilters", "Clear All Filters")}
                   </Button>
                 )}
               </div>

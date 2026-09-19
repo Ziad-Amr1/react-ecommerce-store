@@ -1,5 +1,8 @@
+import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import useDashboard from "@/features/admin/dashboard/useDashboard";
+import { filterDailyRevenue } from "@/features/admin/dashboard/dateRange";
+import { DATE_RANGE_OPTIONS } from "@/features/admin/dashboard/constants";
 
 import { Card, CardHeader, CardDescription } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -28,6 +31,7 @@ function resolveErrorMessage(error, t) {
 export default function Dashboard() {
   const { t, i18n } = useTranslation();
   const { dashboard, loading, error, fetchDashboard } = useDashboard();
+  const [dateRange, setDateRange] = useState("all");
 
   if (loading && !dashboard) return <DashboardSkeleton />;
 
@@ -123,7 +127,10 @@ export default function Dashboard() {
         <div className="lg:col-span-8">
           <RevenueOverview
             revenue={dashboard.revenue}
-            dailyRevenue={dashboard.dailyRevenue}
+            filteredDailyRevenue={filterDailyRevenue(dashboard.dailyRevenue, dateRange)}
+            dateRange={dateRange}
+            onDateRangeChange={setDateRange}
+            dateRangeOptions={DATE_RANGE_OPTIONS}
           />
         </div>
 

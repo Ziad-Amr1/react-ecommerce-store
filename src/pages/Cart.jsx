@@ -3,6 +3,7 @@ import { Link } from "react-router";
 import { useTranslation } from "react-i18next";
 import { toast } from "sonner";
 import {
+  ArrowRight,
   BadgePercent,
   LogIn,
   Minus,
@@ -261,12 +262,12 @@ export default function Cart() {
 
                 {isSignedIn && cart.discountAmount > 0 && (
                   <div className="flex items-center justify-between text-sm">
-                    <span className="flex items-center gap-1.5 text-success">
+                    <span className="flex items-center gap-1.5 text-(--color-success)">
                       <BadgePercent className="size-4" aria-hidden="true" />
                       {t("cart.discount")}
                       {cart.coupon ? ` · ${cart.coupon}` : ""}
                     </span>
-                    <span className="tabular-nums text-success">
+                    <span className="tabular-nums text-(--color-success)">
                       -{money(cart.discountAmount)}
                     </span>
                   </div>
@@ -284,6 +285,15 @@ export default function Cart() {
                     asChild
                     className="bg-(--color-primary) text-primary-foreground hover:bg-(--color-secondary)"
                   >
+                    <Link to="/checkout" className="gap-2">
+                      {t("cart.proceedToCheckout")}
+                      <ArrowRight
+                        className="size-4 rtl:-scale-x-100"
+                        aria-hidden="true"
+                      />
+                    </Link>
+                  </Button>
+                  <Button asChild variant="outline">
                     <Link to="/products">{t("cart.continueShopping")}</Link>
                   </Button>
                   <Button
@@ -309,7 +319,7 @@ export default function Cart() {
       >
         <AlertDialogContent size="sm">
           <AlertDialogHeader>
-            <AlertDialogMedia className="bg-error-bg text-error">
+            <AlertDialogMedia className="bg-(--color-error-bg) text-(--color-error)">
               <Trash2 aria-hidden="true" />
             </AlertDialogMedia>
             <AlertDialogTitle className="font-display">

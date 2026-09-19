@@ -19,8 +19,8 @@ export default function Stars({ value, label }) {
             aria-hidden="true"
             className={
               active
-                ? "size-4 fill-[var(--color-warning)] text-[var(--color-warning)]"
-                : "size-4 text-[var(--color-border-strong)]"
+                ? "size-4 fill-(--color-warning) text-(--color-warning)"
+                : "size-4 text-(--color-border-strong)"
             }
           />
         );

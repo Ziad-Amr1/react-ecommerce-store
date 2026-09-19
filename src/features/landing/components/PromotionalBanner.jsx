@@ -51,7 +51,7 @@ export default function PromotionalBanner() {
         <Button
           asChild
           variant="outline"
-          className="mt-5 w-fit border-white/60 bg-white/0 text-white hover:bg-white/10 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
+          className="mt-5 w-fit border-white/60 bg-white/0 text-white hover:bg-white/20 hover:text-white focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
         >
           <Link to="/products">
             {t("landing.banner.cta")}

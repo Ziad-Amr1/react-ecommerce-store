@@ -3,7 +3,6 @@ import { useNavigate } from "react-router";
 import { useTranslation } from "react-i18next";
 import { Button } from "@/components/ui/button";
 import {
-  BellDot,
   Sun,
   Moon,
   ChevronDown,
@@ -23,6 +22,7 @@ import {
 import useAuth from "@/hooks/useAuth";
 import useTheme from "@/hooks/useTheme";
 import { getUserIdentity } from "@/features/auth/utils/userIdentity";
+import NotificationDropdown from "./NotificationDropdown";
 
 export default function HeaderActionButtons() {
   const { t } = useTranslation();
@@ -66,42 +66,7 @@ export default function HeaderActionButtons() {
     <>
       <div className="relative flex items-center gap-1.5 sm:gap-2 md:gap-3">
         {/* Notifications */}
-        <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <Button
-              variant="outline"
-              size="icon"
-              className="shrink-0 cursor-pointer rounded-full"
-              aria-label={t("navigation.notifications")}
-            >
-              <BellDot size={20} aria-hidden="true" />
-            </Button>
-          </DropdownMenuTrigger>
-
-          <DropdownMenuContent align="end" className="w-72">
-            <DropdownMenuGroup>
-              <DropdownMenuLabel className="px-4 py-2">
-                {t("navigation.notificationsPanel.title")}
-              </DropdownMenuLabel>
-
-              <div className="flex flex-col items-center justify-center gap-2 px-4 py-10 text-center">
-                <BellDot
-                  size={28}
-                  className="text-(--color-supporting-decorative)"
-                  aria-hidden="true"
-                />
-
-                <p className="text-sm font-medium text-(--color-text-primary)">
-                  {t("navigation.notificationsPanel.emptyTitle")}
-                </p>
-
-                <p className="text-xs text-(--color-text-secondary)">
-                  {t("navigation.notificationsPanel.emptyMessage")}
-                </p>
-              </div>
-            </DropdownMenuGroup>
-          </DropdownMenuContent>
-        </DropdownMenu>
+        <NotificationDropdown />
 
         {/* Theme */}
         <Button

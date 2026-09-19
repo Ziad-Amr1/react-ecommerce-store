@@ -72,7 +72,7 @@ export default function AddProductGallery({
                 />
 
                 {index === 0 && (
-                  <span className="absolute start-2 top-2 rounded-md border border-supporting bg-background px-2 py-1 text-xs font-medium text-foreground shadow-sm">
+                  <span className="absolute start-2 top-2 rounded-md border border-(--color-supporting) bg-background px-2 py-1 text-xs font-medium text-foreground shadow-sm">
                     {t("products.mainImage")}
                   </span>
                 )}

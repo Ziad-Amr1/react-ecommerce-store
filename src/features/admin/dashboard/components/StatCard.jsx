@@ -5,9 +5,11 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 
-export default function StatCard({ title, description, value, icon: Icon }) {
+import { cn } from "@/lib/utils";
+
+export default function StatCard({ title, description, value, icon: Icon, className }) {
   return (
-    <Card className="h-full">
+    <Card className={cn("h-full", className)}>
       <CardHeader>
         <div className="flex items-start justify-between gap-3">
           <CardTitle className="font-display text-xs font-semibold uppercase tracking-[0.14em] text-(--color-text-secondary)">

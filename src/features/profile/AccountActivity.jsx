@@ -15,7 +15,7 @@ const sections = [
     key: "orders",
     labelKey: "profile.activity.orders",
     icon: Package,
-    to : null
+    to: "/profile/orders",
   },
   {
     key: "wishlist",

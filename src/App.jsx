@@ -28,6 +28,8 @@ import ProtectedRoute from "./ProtectedRoute.jsx";
 import RequireAuth from "./RequireAuth.jsx";
 import Shop from "./pages/Shop.jsx";
 import Cart from "./pages/Cart.jsx";
+import Checkout from "./pages/Checkout/Checkout.jsx";
+import OrderSuccess from "./pages/OrderSuccess.jsx";
 import About from "./pages/About.jsx";
 import MyOrders from "./pages/MyOrders.jsx";
 import OrderDetails from "./pages/OrderDetails.jsx";
@@ -36,6 +38,8 @@ import Notifications from "./pages/Notifications.jsx";
 import NotificationProvider from "./contexts/NotificationProvider.jsx";
 import WishlistProvider from "./contexts/WishlistProvider.jsx";
 import { TooltipProvider } from "@/components/ui/tooltip";
+
+import PrivacyPolicy from "./pages/PrivacyPolicy.jsx";
 
 const DesignSystem = lazy(() => import("./pages/DesignSystem"));
 
@@ -50,10 +54,13 @@ function App() {
           <Route path="/products" element={<Shop />} />
           <Route path="/products/:id" element={<StoreProductDetails />} />
           <Route path="/about" element={<About />} />
+          <Route path="/privacy" element={<PrivacyPolicy />} />
           <Route element={<RequireAuth />}>
             <Route path="/my-orders" element={<MyOrders />} />
             <Route path="/my-orders/:id" element={<OrderDetails />} />
             <Route path="/wishlist" element={<Wishlist />} />
+            <Route path="/checkout" element={<Checkout />} />
+            <Route path="/order-success" element={<OrderSuccess />} />
             <Route path="/notifications" element={<Notifications />} />
           </Route>
           <Route path="/cart" element={<Cart />} />

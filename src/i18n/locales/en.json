@@ -195,7 +195,6 @@
     "usernameMin": "Username must be at least {{count}} characters",
     "phoneInvalid": "Please enter a valid phone number"
   },
-
   "home": {
     "title": "E-commerce Home page",
     "description": "Welcome to the E-commerce platform. Explore our products and manage your orders.",
@@ -249,7 +248,6 @@
     "clearAllFilters": "Clear All Filters",
     "filterUnlimited": "∞"
   },
-
   "dashboard": {
     "title": "Dashboard Page",
     "loading": "Loading dashboard...",
@@ -257,7 +255,6 @@
     "retry": "Retry",
     "noData": "No dashboard data available.",
     "noProducts": "No products",
-
     "orderStatus": "Order Status",
     "recentOrders": "Recent Orders",
     "topProducts": "Top Products",
@@ -278,29 +275,21 @@
       "cancelled": "Cancelled",
       "returned": "Returned"
     },
-
     "adminOverview": "Admin Overview",
     "commerceHealth": "Commerce Health",
     "commerceHealthDescription": "Monitor your store's performance and key statistics.",
-
     "totalOrders": "Total Orders",
     "totalOrdersDescription": "All orders received",
-
     "pendingOrders": "Pending Orders",
     "pendingOrderDescription": "Orders waiting to be processed",
-
     "totalRevenue": "Total Revenue",
     "totalRevenueDescription": "Overall gross revenue",
-
     "thisMonthRevenue": "This Month Revenue",
     "thisMonthRevenueDescription": "Revenue generated in the current month",
-
     "revenueGrowth": "Revenue Growth",
     "revenueGrowthDescription": "Rate of change in total revenue",
-
     "totalUsers": "Users",
     "totalUsersDescription": "Total registered customers",
-
     "dateRange": {
       "last3": "Last 3 days",
       "last7": "Last 7 days",
@@ -576,7 +565,8 @@
         "sale": "Sale",
         "helpCenter": "Help Center",
         "shippingReturns": "Shipping & Returns",
-        "contact": "Contact Us"
+        "contact": "Contact Us",
+        "privacy": "Privacy Policy"
       }
     }
   },
@@ -675,6 +665,41 @@
     "clearing": "Clearing...",
     "clearError": "We couldn't clear your wishlist. Please try again."
   },
+  "privacy": {
+    "title": "Privacy Policy",
+    "description": "Read Oversea Store's privacy policy and data collection practices.",
+    "badge": "Data Transparency & Security",
+    "headline": "Privacy Policy",
+    "lastUpdated": "Last updated: September 18, 2026",
+    "legalNotice": "Requires formal legal review before production deployment.",
+    "overview": {
+      "heading": "1. Overview & Data Collected",
+      "body": "Oversea Store respects your privacy and is committed to protecting personal data. We collect only the data necessary to fulfill e-commerce transactions, secure account access, and maintain service availability:",
+      "items": {
+        "account": "Account Data: Username, email address, hashed password, phone number, and optional avatar URL upon registration.",
+        "order": "Order & Fulfillment Data: Shipping address, customer name, contact phone number, items purchased, line-item pricing, and order status tracking.",
+        "session": "Session & Security Data: HttpOnly session authentication cookies (no raw passwords or access tokens are stored in browser local storage)."
+      }
+    },
+    "usage": {
+      "heading": "2. How We Use Your Information",
+      "body": "Personal data collected by Oversea Store is strictly utilized for operational, fulfillment, and account governance purposes:",
+      "items": {
+        "orders": "Processing, fulfilling, and delivering customer orders.",
+        "security": "Sending critical transactional order updates and OTP security codes for password reset or email verification.",
+        "governance": "Enforcing role-based admin governance and protecting platform security.",
+        "compliance": "Maintaining required legal and audit records for past commercial sales."
+      }
+    },
+    "cookies": {
+      "heading": "3. Cookies & Session Storage",
+      "body": "Oversea Store uses essential cookies solely to maintain authenticated sessions via HttpOnly attributes. We do not use third-party tracking or advertising cookies."
+    },
+    "rights": {
+      "heading": "4. User Rights & Account Deletion",
+      "body": "Users retain full rights to update their personal profile or request account deletion via the Profile page. When an account is deleted, the authentication credential record is permanently removed, while past order receipts are archived for legal accounting compliance."
+    }
+  },
   "profile": {
     "title": "Profile Overview",
     "description": "Your account information at a glance.",
@@ -725,6 +750,16 @@
       "usernameRequired": "Username is required",
       "phoneRequired": "Phone is required"
     },
+    "deleteAccount": {
+      "button": "Delete Account",
+      "dialogTitle": "Delete Account",
+      "dialogDescription": "This action is permanent and cannot be undone. Your user account will be removed, but past order history records will be retained for business and compliance requirements.",
+      "confirmPrompt": "To confirm, type \"DELETE\" in the box below:",
+      "success": "Account deleted successfully.",
+      "failed": "Failed to delete account. Please try again.",
+      "deleting": "Deleting...",
+      "confirmButton": "Permanently Delete"
+    },
     "error": {
       "title": "Something went wrong",
       "description": "We couldn't load your profile. Please try again.",
@@ -741,7 +776,7 @@
       "done": "Done"
     }
   },
-"cart": {
+  "cart": {
     "title": "Your Cart",
     "emptyTitle": "Your cart is empty",
     "emptyDescription": "Browse the store and add something you like to your cart.",
@@ -771,6 +806,7 @@
     "quantity": "Quantity",
     "removeItem": "Remove {{name}}",
     "continueShopping": "Continue Shopping",
+    "proceedToCheckout": "Proceed to Checkout",
     "unitPrice": "{{price}} each",
     "loading": "Loading your cart...",
     "guestNote": "You're browsing as a guest. Sign in to keep your cart synced across devices.",
@@ -933,11 +969,11 @@
       "goToPage": "Go to page {{page}}",
       "showing": "Showing {{from}} to {{to}} of {{count}} users"
     },
-"dialogs": {
-  "addTitle": "Add New User",
-  "addDescription": "Create a new user account directly from the admin panel.",
-  "editTitle": "Change Role",
-  "editDescription": "Adjust the access level for {{name}}.",
+    "dialogs": {
+      "addTitle": "Add New User",
+      "addDescription": "Create a new user account directly from the admin panel.",
+      "editTitle": "Change Role",
+      "editDescription": "Adjust the access level for {{name}}.",
       "username": "Username",
       "usernamePlaceholder": "Enter username",
       "usernameRequired": "Username is required",
@@ -946,24 +982,24 @@
       "emailPlaceholder": "admin@example.com",
       "emailRequired": "Email is required",
       "emailInvalid": "Invalid email address",
-"emailValid": "Email is valid.",
-  "password": "Password",
+      "emailValid": "Email is valid.",
+      "password": "Password",
       "passwordPlaceholder": "Enter password",
       "passwordRequired": "Password is required",
       "passwordMinLength": "Password must be at least 6 characters",
-"passwordValid": "Password is valid.",
-  "role": "Role",
+      "passwordValid": "Password is valid.",
+      "role": "Role",
       "rolePlaceholder": "Select role",
       "roleChangeHint": "The user's access level will change on save.",
       "cancel": "Cancel",
       "adding": "Adding...",
-"saving": "Saving...",
-  "saveRole": "Save role",
-  "saveUser": "Save User",
-  "addSuccess": "User has been added successfully.",
-  "addFailed": "Failed to add user.",
-  "roleUpdateSuccess": "Role updated successfully.",
-  "roleChangeFailed": "Role update failed.",
+      "saving": "Saving...",
+      "saveRole": "Save role",
+      "saveUser": "Save User",
+      "addSuccess": "User has been added successfully.",
+      "addFailed": "Failed to add user.",
+      "roleUpdateSuccess": "Role updated successfully.",
+      "roleChangeFailed": "Role update failed.",
       "deleteTitle": "Delete User",
       "deleteDescription": "This action cannot be undone.",
       "deleteQuestion": "Delete {{name}}? This cannot be undone.",
@@ -1024,6 +1060,100 @@
       "product": "Product",
       "subtotal": "Subtotal",
       "total": "Total"
+    }
+  },
+  "checkout": {
+    "title": "Checkout",
+    "subtitle": "Complete your shipping details to place your order.",
+    "optional": "optional",
+    "emptyCartTitle": "Your cart is empty",
+    "emptyCartDescription": "Add items to your cart before checking out.",
+    "backToCart": "Back to cart",
+    "validationError": "Please fix the highlighted fields.",
+    "emptyCartError": "Your cart is empty.",
+    "genericError": "We couldn't place your order. Please try again.",
+    "orderSuccessToast": "Order placed successfully.",
+    "shipping": {
+      "title": "Shipping information",
+      "subtitle": "Where should we deliver your order?",
+      "fullNameLabel": "Full name",
+      "fullNamePlaceholder": "Jane Smith",
+      "phoneLabel": "Phone number",
+      "phonePlaceholder": "+20 100 000 0000",
+      "countryLabel": "Country",
+      "countryPlaceholder": "Egypt",
+      "cityLabel": "City",
+      "cityPlaceholder": "Cairo",
+      "addressLabel": "Street address",
+      "addressPlaceholder": "123 Nile Street, Apt 4",
+      "postalCodeLabel": "Postal code",
+      "postalCodePlaceholder": "11511",
+      "customerNoteLabel": "Order note",
+      "customerNotePlaceholder": "Delivery instructions, landmarks, etc."
+    },
+    "payment": {
+      "title": "Payment method",
+      "subtitle": "Cash on delivery is available today.",
+      "cash": "Cash on delivery",
+      "cashDescription": "Pay in cash when your order arrives.",
+      "stripe": "Card payment",
+      "stripeUnavailable": "Coming soon",
+      "secureNote": "Your details are only used to deliver this order.",
+      "placeOrder": "Place order",
+      "placingOrder": "Placing order..."
+    },
+    "summary": {
+      "title": "Order summary",
+      "subtitle": "Review the items in your order.",
+      "subtotal": "Subtotal",
+      "discount": "Discount",
+      "total": "Total",
+      "quantity": "Quantity: {{quantity}}"
+    },
+    "validation": {
+      "fullNameRequired": "Full name is required",
+      "fullNameMin": "Full name must be at least 3 characters",
+      "phoneRequired": "Phone number is required",
+      "countryRequired": "Country is required",
+      "cityRequired": "City is required",
+      "addressRequired": "Address is required",
+      "addressMin": "Address must be at least 5 characters",
+      "postalCodeInvalid": "Enter a valid postal code",
+      "paymentMethodRequired": "Select a payment method"
+    }
+  },
+  "orderSuccess": {
+    "title": "Order confirmed",
+    "description": "Thanks for your order. We'll start preparing it right away.",
+    "orderRef": "Order reference: {{id}}",
+    "myOrders": "My orders",
+    "continueShopping": "Continue shopping"
+  },
+  "settings": {
+    "general": "General",
+    "storeName": "Store name",
+    "storeNamePlaceholder": "e.g. Oversea",
+    "orderTracking": "Order tracking",
+    "notifiedOrderTracking": "Get notified about new orders and status changes.",
+    "comments": "Comments",
+    "notifiedComments": "Get notified about new comments on products.",
+    "ads": "Ads",
+    "notifiedAds": "Get notified about ad performance and updates.",
+    "notifications": "Notifications",
+    "siteLanguage": "Site language",
+    "maintenanceMode": "Maintenance mode",
+    "maintenanceModeDesc": "Turn maintenance mode on or off.",
+    "productComments": "Product comments",
+    "productCommentsDesc": "Turn comments on or off for store products.",
+    "theme": "Theme",
+    "colors": {
+      "emerald": "Emerald",
+      "cherry": "Cherry",
+      "coral": "Coral",
+      "copper": "Copper",
+      "lavender": "Lavender",
+      "twilight": "Twilight",
+      "canary": "Canary"
     }
   }
 }

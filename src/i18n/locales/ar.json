@@ -255,7 +255,6 @@
     "retry": "إعادة المحاولة",
     "noData": "لا توجد بيانات للوحة التحكم.",
     "noProducts": "لا توجد منتجات",
-
     "orderStatus": "حالة الطلبات",
     "recentOrders": "الطلبات الأخيرة",
     "topProducts": "أفضل المنتجات",
@@ -276,29 +275,21 @@
       "cancelled": "ملغي",
       "returned": "مُرجَع"
     },
-
     "adminOverview": "نظرة عامة للمدير",
     "commerceHealth": "صحة التجارة",
     "commerceHealthDescription": "راقب أداء متجرك وإحصاءاته الرئيسية.",
-
     "totalOrders": "إجمالي الطلبات",
     "totalOrdersDescription": "جميع الطلبات المستلمة",
-
     "pendingOrders": "الطلبات قيد الانتظار",
     "pendingOrderDescription": "طلبات بانتظار المعالجة",
-
     "totalRevenue": "إجمالي الإيرادات",
     "totalRevenueDescription": "إجمالي الإيرادات الكلية",
-
     "thisMonthRevenue": "إيرادات هذا الشهر",
     "thisMonthRevenueDescription": "الإيرادات المحققة في الشهر الحالي",
-
     "revenueGrowth": "نمو الإيرادات",
     "revenueGrowthDescription": "معدل التغير في إجمالي الإيرادات",
-
     "totalUsers": "المستخدمون",
     "totalUsersDescription": "إجمالي العملاء المسجلين",
-
     "dateRange": {
       "last3": "آخر 3 أيام",
       "last7": "آخر 7 أيام",
@@ -574,7 +565,8 @@
         "sale": "التخفيضات",
         "helpCenter": "مركز المساعدة",
         "shippingReturns": "الشحن والإرجاع",
-        "contact": "اتصل بنا"
+        "contact": "اتصل بنا",
+        "privacy": "سياسة الخصوصية"
       }
     }
   },
@@ -673,6 +665,41 @@
     "clearing": "جارٍ الإفراغ...",
     "clearError": "تعذر إفراغ قائمة المفضلة. يرجى المحاولة مرة أخرى."
   },
+  "privacy": {
+    "title": "سياسة الخصوصية",
+    "description": "اطّلع على سياسة الخصوصية لمتجر Oversea وممارسات جمع البيانات.",
+    "badge": "شفافية البيانات والأمان",
+    "headline": "سياسة الخصوصية",
+    "lastUpdated": "آخر تحديث: 18 سبتمبر 2026",
+    "legalNotice": "يتطلب مراجعة قانونية رسمية قبل النشر في الإنتاج.",
+    "overview": {
+      "heading": "١. نظرة عامة والبيانات المجمّعة",
+      "body": "يُحترم متجر Oversea خصوصيتك ويلتزم بحماية البيانات الشخصية. نجمع فقط البيانات اللازمة لإتمام المعاملات التجارية، وتأمين الوصول إلى الحساب، والحفاظ على توفر الخدمة:",
+      "items": {
+        "account": "بيانات الحساب: اسم المستخدم، البريد الإلكتروني، كلمة مرور مُشفّرة، رقم الهاتف، ورابط صورة رمزية اختياري عند التسجيل.",
+        "order": "بيانات الطلبات والتسليم: عنوان الشحن، اسم العميل، رقم هاتف التواصل، المنتجات المشتراة، تسعير العناصر، وتتبّع حالة الطلب.",
+        "session": "بيانات الجلسة والأمان: ملفات تعريف ارتباط مصادقة للجلسة عبر HttpOnly (لا تُخزَّن كلمات المرور أو رموز الوصول في التخزين المحلي للمتصفح)."
+      }
+    },
+    "usage": {
+      "heading": "٢. كيف نستخدم معلوماتك",
+      "body": "تُستخدم البيانات الشخصية التي يجمعها متجر Oversea بشكل صارم للأغراض التشغيلية ولتلبية الطلبات وإدارة الحسابات:",
+      "items": {
+        "orders": "معالجة طلبات العملاء وتنفيذها وتسليمها.",
+        "security": "إرسال تحديثات الطلبات الحرجة ورموز OTP لاستعادة كلمة المرور أو التحقق من البريد الإلكتروني.",
+        "governance": "فرض إدارة الأدوار والحفاظ على أمان المنصة.",
+        "compliance": "الاحتفاظ بالسجلات القانونية والتدقيقية للمبيعات السابقة."
+      }
+    },
+    "cookies": {
+      "heading": "٣. ملفات تعريف الارتباط وتخزين الجلسة",
+      "body": "يستخدم متجر Oversea ملفات تعريف الارتباط الأساسية فقط للحفاظ على الجلسات المصادقة عبر سمات HttpOnly. لا نستخدم ملفات تتبّع أو إعلانات من جهات خارجية."
+    },
+    "rights": {
+      "heading": "٤. حقوق المستخدم وحذف الحساب",
+      "body": "يحتفظ المستخدمون بكامل الحق في تحديث ملفهم الشخصي أو طلب حذف الحساب من صفحة الملف. عند حذف الحساب، تُحذف بيانات الاعتماد نهائيًا، بينما تُؤرشف إيصالات الطلبات السابقة للامتثال المحاسبي القانوني."
+    }
+  },
   "profile": {
     "title": "نظرة عامة على الملف الشخصي",
     "description": "معلومات حسابك في لمحة واحدة.",
@@ -723,6 +750,16 @@
       "usernameRequired": "اسم المستخدم مطلوب",
       "phoneRequired": "رقم الهاتف مطلوب"
     },
+    "deleteAccount": {
+      "button": "حذف الحساب",
+      "dialogTitle": "حذف الحساب",
+      "dialogDescription": "هذا الإجراء دائم ولا يمكن التراجع عنه. سيتم حذف حسابك، مع الاحتفاظ بسجلات الطلبات السابقة لأغراض العمل والامتثال.",
+      "confirmPrompt": "للتأكيد، اكتب DELETE في المربع أدناه:",
+      "success": "تم حذف الحساب بنجاح.",
+      "failed": "تعذّر حذف الحساب. يرجى المحاولة مرة أخرى.",
+      "deleting": "جارٍ الحذف...",
+      "confirmButton": "حذف نهائي"
+    },
     "error": {
       "title": "تعذر تحميل ملفك الشخصي",
       "description": "حدث خطأ ما أثناء جلب ملفك الشخصي. يرجى المحاولة مرة أخرى.",
@@ -739,7 +776,7 @@
       "done": "مكتمل"
     }
   },
-"cart": {
+  "cart": {
     "title": "سلة التسوق",
     "emptyTitle": "سلة التسوق فارغة",
     "emptyDescription": "تصفح المتجر وأضف ما يعجبك إلى سلة التسوق.",
@@ -769,6 +806,7 @@
     "quantity": "الكمية",
     "removeItem": "إزالة {{name}}",
     "continueShopping": "مواصلة التسوق",
+    "proceedToCheckout": "المتابعة إلى الدفع",
     "unitPrice": "{{price}} للقطعة",
     "loading": "جارٍ تحميل السلة...",
     "guestNote": "أنت تتصفح كضيف. سجّل الدخول للحفاظ على مزامنة سلة التسوق عبر الأجهزة.",
@@ -931,11 +969,11 @@
       "goToPage": "الانتقال إلى الصفحة {{page}}",
       "showing": "عرض {{from}} إلى {{to}} من أصل {{count}} مستخدم"
     },
-"dialogs": {
-  "addTitle": "إضافة مستخدم جديد",
-  "addDescription": "إنشاء حساب مستخدم جديد مباشرة من لوحة التحكم.",
-  "editTitle": "تغيير الدور",
-  "editDescription": "تعديل صلاحية الوصول لـ {{name}}.",
+    "dialogs": {
+      "addTitle": "إضافة مستخدم جديد",
+      "addDescription": "إنشاء حساب مستخدم جديد مباشرة من لوحة التحكم.",
+      "editTitle": "تغيير الدور",
+      "editDescription": "تعديل صلاحية الوصول لـ {{name}}.",
       "username": "اسم المستخدم",
       "usernamePlaceholder": "أدخل اسم المستخدم",
       "usernameRequired": "اسم المستخدم مطلوب",
@@ -944,24 +982,24 @@
       "emailPlaceholder": "admin@example.com",
       "emailRequired": "البريد الإلكتروني مطلوب",
       "emailInvalid": "بريد إلكتروني غير صحيح",
-"emailValid": "البريد الإلكتروني صحيح.",
-  "password": "كلمة المرور",
+      "emailValid": "البريد الإلكتروني صحيح.",
+      "password": "كلمة المرور",
       "passwordPlaceholder": "أدخل كلمة المرور",
       "passwordRequired": "كلمة المرور مطلوبة",
       "passwordMinLength": "يجب ألا تقل كلمة المرور عن 6 أحرف",
-"passwordValid": "كلمة المرور صحيحة.",
-  "role": "الدور",
+      "passwordValid": "كلمة المرور صحيحة.",
+      "role": "الدور",
       "rolePlaceholder": "اختر الدور",
       "roleChangeHint": "ستتغير صلاحية وصول المستخدم عند الحفظ.",
       "cancel": "إلغاء",
       "adding": "جارٍ الإضافة...",
-"saving": "جارٍ الحفظ...",
-  "saveRole": "حفظ الدور",
-  "saveUser": "حفظ المستخدم",
-  "addSuccess": "تمت إضافة المستخدم بنجاح.",
-  "addFailed": "تعذر إضافة المستخدم.",
-  "roleUpdateSuccess": "تم تحديث الدور بنجاح.",
-  "roleChangeFailed": "تعذر تحديث الدور.",
+      "saving": "جارٍ الحفظ...",
+      "saveRole": "حفظ الدور",
+      "saveUser": "حفظ المستخدم",
+      "addSuccess": "تمت إضافة المستخدم بنجاح.",
+      "addFailed": "تعذر إضافة المستخدم.",
+      "roleUpdateSuccess": "تم تحديث الدور بنجاح.",
+      "roleChangeFailed": "تعذر تحديث الدور.",
       "deleteTitle": "حذف المستخدم",
       "deleteDescription": "لا يمكن التراجع عن هذا الإجراء.",
       "deleteQuestion": "حذف {{name}}؟ لا يمكن التراجع عن هذا الإجراء.",
@@ -1022,6 +1060,100 @@
       "product": "المنتج",
       "subtotal": "المجموع الفرعي",
       "total": "الإجمالي"
+    }
+  },
+  "checkout": {
+    "title": "إتمام الشراء",
+    "subtitle": "أكمل بيانات الشحن لتأكيد طلبك.",
+    "optional": "اختياري",
+    "emptyCartTitle": "سلتك فارغة",
+    "emptyCartDescription": "أضف منتجات إلى سلتك قبل إتمام الشراء.",
+    "backToCart": "العودة إلى السلة",
+    "validationError": "يرجى تصحيح الحقول المميّزة.",
+    "emptyCartError": "سلتك فارغة.",
+    "genericError": "تعذّر إتمام طلبك. يرجى المحاولة مرة أخرى.",
+    "orderSuccessToast": "تم إنشاء الطلب بنجاح.",
+    "shipping": {
+      "title": "بيانات الشحن",
+      "subtitle": "إلى أين نوصل طلبك؟",
+      "fullNameLabel": "الاسم الكامل",
+      "fullNamePlaceholder": "محمد أحمد",
+      "phoneLabel": "رقم الهاتف",
+      "phonePlaceholder": "+20 100 000 0000",
+      "countryLabel": "الدولة",
+      "countryPlaceholder": "مصر",
+      "cityLabel": "المدينة",
+      "cityPlaceholder": "القاهرة",
+      "addressLabel": "العنوان",
+      "addressPlaceholder": "١٢٣ شارع النيل، شقة ٤",
+      "postalCodeLabel": "الرمز البريدي",
+      "postalCodePlaceholder": "11511",
+      "customerNoteLabel": "ملاحظة الطلب",
+      "customerNotePlaceholder": "تعليمات التوصيل أو علامات مميزة."
+    },
+    "payment": {
+      "title": "طريقة الدفع",
+      "subtitle": "الدفع عند الاستلام متاح الآن.",
+      "cash": "الدفع عند الاستلام",
+      "cashDescription": "ادفع نقدًا عند وصول طلبك.",
+      "stripe": "الدفع بالبطاقة",
+      "stripeUnavailable": "قريبًا",
+      "secureNote": "تُستخدم بياناتك فقط لتوصيل هذا الطلب.",
+      "placeOrder": "تأكيد الطلب",
+      "placingOrder": "جارٍ تأكيد الطلب..."
+    },
+    "summary": {
+      "title": "ملخص الطلب",
+      "subtitle": "راجع المنتجات في طلبك.",
+      "subtotal": "المجموع الفرعي",
+      "discount": "الخصم",
+      "total": "الإجمالي",
+      "quantity": "الكمية: {{quantity}}"
+    },
+    "validation": {
+      "fullNameRequired": "الاسم الكامل مطلوب",
+      "fullNameMin": "يجب أن يتكون الاسم الكامل من 3 أحرف على الأقل",
+      "phoneRequired": "رقم الهاتف مطلوب",
+      "countryRequired": "الدولة مطلوبة",
+      "cityRequired": "المدينة مطلوبة",
+      "addressRequired": "العنوان مطلوب",
+      "addressMin": "يجب أن يتكون العنوان من 5 أحرف على الأقل",
+      "postalCodeInvalid": "أدخل رمزًا بريديًا صالحًا",
+      "paymentMethodRequired": "اختر طريقة دفع"
+    }
+  },
+  "orderSuccess": {
+    "title": "تم تأكيد الطلب",
+    "description": "شكرًا لطلبك. سنبدأ في تجهيزه فورًا.",
+    "orderRef": "رقم الطلب: {{id}}",
+    "myOrders": "طلباتي",
+    "continueShopping": "مواصلة التسوق"
+  },
+  "settings": {
+    "general": "عام",
+    "storeName": "اسم المتجر",
+    "storeNamePlaceholder": "مثال: Oversea",
+    "orderTracking": "تتبع الطلبات",
+    "notifiedOrderTracking": "احصل على إشعارات عند الطلبات الجديدة وتغيرات الحالة.",
+    "comments": "التعليقات",
+    "notifiedComments": "احصل على إخطارات عند وجود تعليقات جديدة على المنتجات.",
+    "ads": "الإعلانات",
+    "notifiedAds": "احصل على إشعارات حول أداء الإعلانات والتحديثات.",
+    "notifications": "الإشعارات",
+    "siteLanguage": "لغة الموقع",
+    "maintenanceMode": "وضع الصيانة",
+    "maintenanceModeDesc": "تشغيل أو إيقاف وضع الصيانة.",
+    "productComments": "تعليقات المنتجات",
+    "productCommentsDesc": "تشغيل أو إيقاف التعليقات على منتجات المتجر.",
+    "theme": "المظهر",
+    "colors": {
+      "emerald": "الزمرد",
+      "cherry": "الكرز",
+      "coral": "المرجان",
+      "copper": "النحاس",
+      "lavender": "اللافندر",
+      "twilight": "الشفق",
+      "canary": "الكناري"
     }
   }
 }

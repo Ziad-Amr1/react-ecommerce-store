@@ -3,6 +3,7 @@ import { Link } from "react-router";
 import { useTranslation } from "react-i18next";
 import { toast } from "sonner";
 import {
+  ArrowRight,
   BadgePercent,
   LogIn,
   Minus,
@@ -284,6 +285,15 @@ export default function Cart() {
                     asChild
                     className="bg-(--color-primary) text-primary-foreground hover:bg-(--color-secondary)"
                   >
+                    <Link to="/checkout" className="gap-2">
+                      {t("cart.proceedToCheckout")}
+                      <ArrowRight
+                        className="size-4 rtl:-scale-x-100"
+                        aria-hidden="true"
+                      />
+                    </Link>
+                  </Button>
+                  <Button asChild variant="outline">
                     <Link to="/products">{t("cart.continueShopping")}</Link>
                   </Button>
                   <Button

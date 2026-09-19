@@ -115,10 +115,10 @@ export default function ProductCard({ product, viewMode = "grid" }) {
 
   const stockStatusClass =
     isOutOfStock
-      ? "text-[var(--color-error)]"
+      ? "text-(--color-error)"
       : product.stock < 5
-        ? "text-[var(--color-warning)]"
-        : "text-[var(--color-success)]";
+        ? "text-(--color-warning)"
+        : "text-(--color-success)";
 
   const renderWishlist = (className) => (
     <Tooltip>
@@ -128,7 +128,7 @@ export default function ProductCard({ product, viewMode = "grid" }) {
             type="button"
             variant="ghost"
             size="icon-sm"
-            onClick={handleWishlistToggle}
+onClick={handleWishlistToggle}
             disabled={isWishlistLoading}
             aria-label={
               isFavorite
@@ -136,10 +136,10 @@ export default function ProductCard({ product, viewMode = "grid" }) {
                 : t("wishlist.addToWishlist")
             }
             aria-pressed={isFavorite}
-            className={`bg-[var(--color-surface)]/80 backdrop-blur-sm hover:bg-[var(--color-surface)] ${
+            className={`bg-(--color-surface)/80 backdrop-blur-sm hover:bg-(--color-surface) ${
               isFavorite
-                ? "text-[var(--color-error)]"
-                : "text-[var(--color-text-primary)]"
+                ? "text-(--color-error)"
+                : "text-(--color-text-primary)"
             }`}
           >
             {isWishlistLoading ? (
@@ -166,10 +166,10 @@ export default function ProductCard({ product, viewMode = "grid" }) {
 
   if (viewMode === "list") {
     return (
-      <div className="isolate flex items-center gap-3 rounded-xl border border-[var(--color-border)] bg-card p-3 shadow-[var(--shadow-md)] sm:gap-5 sm:p-4">
+      <div className="isolate flex items-center gap-3 rounded-xl border border-(--color-border) bg-card p-3 shadow-(--shadow-md) sm:gap-5 sm:p-4">
         {/* Small fixed-size thumbnail (not the 4:3 grid image) */}
         <div className="relative shrink-0">
-          <div className="size-16 overflow-hidden rounded-lg bg-[var(--color-surface-secondary)] sm:size-20 sm:rounded-xl">
+          <div className="size-16 overflow-hidden rounded-lg bg-(--color-surface-secondary) sm:size-20 sm:rounded-xl">
             {mainImage ? (
               <img
                 src={mainImage}
@@ -178,9 +178,9 @@ export default function ProductCard({ product, viewMode = "grid" }) {
                 className="h-full w-full object-cover"
               />
             ) : (
-              <div className="flex h-full w-full items-center justify-center bg-[var(--color-surface-secondary)]">
+              <div className="flex h-full w-full items-center justify-center bg-(--color-surface-secondary)">
                 <PackageOpen
-                  className="size-5 text-[var(--color-text-disabled)]"
+                  className="size-5 text-(--color-text-disabled)"
                   aria-hidden="true"
                 />
               </div>
@@ -190,7 +190,7 @@ export default function ProductCard({ product, viewMode = "grid" }) {
           {hasBrand && (
             <Badge
               variant="outline"
-              className="absolute -bottom-2 start-1 z-30 border-transparent bg-[var(--color-info)] px-1.5 text-[10px] text-[var(--color-on-error)]"
+              className="absolute -bottom-2 start-1 z-30 border-transparent bg-(--color-info) px-1.5 text-[10px] text-(--color-on-error)"
             >
               {product.brand}
             </Badge>
@@ -201,11 +201,11 @@ export default function ProductCard({ product, viewMode = "grid" }) {
 
         {/* Product information — main horizontal space */}
         <div className="min-w-0 flex-1 space-y-0.5 sm:space-y-1">
-          <p className="hidden truncate font-mono text-[10px] tracking-wide text-[var(--color-text-secondary)] uppercase sm:block">
+          <p className="hidden truncate font-mono text-[10px] tracking-wide text-(--color-text-secondary) uppercase sm:block">
             {product.category} {t("shop.separator")} {product.subcategory}
           </p>
           <h3
-            className="truncate font-display text-sm font-semibold text-[var(--color-text-primary)] sm:text-lg"
+            className="truncate font-display text-sm font-semibold text-(--color-text-primary) sm:text-lg"
             title={productName}
           >
             {productName}
@@ -217,9 +217,9 @@ export default function ProductCard({ product, viewMode = "grid" }) {
                 value={rating}
                 label={t("shop.productRatingLabel", { rating, reviewsCount })}
               />
-              <span className="text-xs text-[var(--color-text-secondary)]">
+              <span className="text-xs text-(--color-text-secondary)">
                 {rating.toFixed(1)}
-                <span className="text-[var(--color-text-disabled)]">
+                <span className="text-(--color-text-disabled)">
                   {" "}
                   ({formatNumber(reviewsCount)})
                 </span>
@@ -252,12 +252,12 @@ export default function ProductCard({ product, viewMode = "grid" }) {
         {/* Price / metadata + action — right side, mirrors left in RTL */}
         <div className="flex shrink-0 flex-col items-end gap-1.5 sm:gap-2">
           <div className="flex flex-wrap items-baseline justify-end gap-1.5 sm:gap-2">
-            <p className="font-display text-base font-bold text-[var(--color-text-primary)] sm:text-xl">
+            <p className="font-display text-base font-bold text-(--color-text-primary) sm:text-xl">
               {formatCurrency(displayPrice)}
             </p>
 
             {hasDiscount && (
-              <p className="hidden text-xs text-[var(--color-text-secondary)] line-through sm:block">
+              <p className="hidden text-xs text-(--color-text-secondary) line-through sm:block">
                 {formatCurrency(product.price)}
               </p>
             )}
@@ -265,7 +265,7 @@ export default function ProductCard({ product, viewMode = "grid" }) {
             {hasDiscount && (
               <Badge
                 variant="outline"
-                className="hidden border-transparent bg-[var(--color-error)] px-1.5 text-[10px] text-[var(--color-on-error)] sm:inline-flex"
+                className="hidden border-transparent bg-(--color-error) px-1.5 text-[10px] text-(--color-on-error) sm:inline-flex"
               >
                 {salePercentage} {t("shop.off")}
               </Badge>
@@ -275,7 +275,7 @@ export default function ProductCard({ product, viewMode = "grid" }) {
           <div className="flex gap-2">
             <Button
               size="sm"
-              className="bg-[var(--color-primary)] text-primary-foreground hover:bg-[var(--color-secondary)]"
+              className="bg-(--color-primary) text-primary-foreground hover:bg-(--color-secondary)"
               onClick={handleAddToCart}
               disabled={isAdding || isOutOfStock}
               aria-label={
@@ -307,8 +307,8 @@ export default function ProductCard({ product, viewMode = "grid" }) {
   }
 
   return (
-    <Card className="isolate h-full gap-4 overflow-hidden border-[var(--color-border)] py-0 shadow-[var(--shadow-md)]">
-      <div className="relative m-4 aspect-[4/3] overflow-hidden rounded-xl bg-[var(--color-surface-secondary)]">
+    <Card className="isolate h-full gap-4 overflow-hidden border-(--color-border) py-0 shadow-(--shadow-md)">
+      <div className="relative m-4 aspect-[4/3] overflow-hidden rounded-xl bg-(--color-surface-secondary)">
         {mainImage ? (
           <img
             src={mainImage}
@@ -317,9 +317,9 @@ export default function ProductCard({ product, viewMode = "grid" }) {
             className="h-full w-full object-cover"
           />
         ) : (
-          <div className="flex h-full w-full items-center justify-center bg-[var(--color-surface-secondary)]">
+          <div className="flex h-full w-full items-center justify-center bg-(--color-surface-secondary)">
             <PackageOpen
-              className="size-10 text-[var(--color-text-disabled)]"
+              className="size-10 text-(--color-text-disabled)"
               aria-hidden="true"
             />
           </div>
@@ -329,24 +329,22 @@ export default function ProductCard({ product, viewMode = "grid" }) {
         {hasBrand && (
           <Badge
             variant="outline"
-            className="absolute start-3 top-3 z-30 border-transparent bg-[var(--color-info)] px-2.5 text-[var(--color-on-error)]"
+            className="absolute start-3 top-3 z-30 border-transparent bg-(--color-info) px-2.5 text-(--color-on-error)"
           >
             {product.brand}
           </Badge>
         )}
 
-        {/* Wishlist — disabled until the real wishlist API exists. A heart
-            that toggles locally but never persists would mislead users. */}
         {renderWishlist("absolute end-3 top-3 z-40")}
       </div>
 
       <CardContent className="flex flex-1 flex-col gap-1.5 px-5 pb-5">
         <div>
-          <p className="font-mono text-[11px] tracking-wide text-[var(--color-text-secondary)] uppercase">
+          <p className="font-mono text-[11px] tracking-wide text-(--color-text-secondary) uppercase">
             {product.category} {t("shop.separator")} {product.subcategory}
           </p>
           <h3
-            className="mt-1 truncate font-display text-lg font-semibold text-[var(--color-text-primary)]"
+            className="mt-1 truncate font-display text-lg font-semibold text-(--color-text-primary)"
             title={productName}
           >
             {productName}
@@ -358,9 +356,9 @@ export default function ProductCard({ product, viewMode = "grid" }) {
                 value={rating}
                 label={t("shop.productRatingLabel", { rating, reviewsCount })}
               />
-              <span className="text-sm text-[var(--color-text-secondary)]">
+              <span className="text-sm text-(--color-text-secondary)">
                 {rating.toFixed(1)}{" "}
-                <span className="text-[var(--color-text-disabled)]">
+                <span className="text-(--color-text-disabled)">
                   ({formatNumber(reviewsCount)})
                 </span>
               </span>
@@ -368,12 +366,12 @@ export default function ProductCard({ product, viewMode = "grid" }) {
           )}
         </div>
         <div className="flex flex-wrap items-baseline gap-2">
-          <p className="font-display text-2xl font-bold text-[var(--color-text-primary)]">
+          <p className="font-display text-2xl font-bold text-(--color-text-primary)">
             {formatCurrency(displayPrice)}
           </p>
 
           {hasDiscount && (
-            <p className="text-sm text-[var(--color-text-secondary)] line-through">
+            <p className="text-sm text-(--color-text-secondary) line-through">
               {formatCurrency(product.price)}
             </p>
           )}
@@ -381,7 +379,7 @@ export default function ProductCard({ product, viewMode = "grid" }) {
           {hasDiscount && (
             <Badge
               variant="outline"
-              className="border-transparent bg-[var(--color-error)] text-[var(--color-on-error)]"
+              className="border-transparent bg-(--color-error) text-(--color-on-error)"
             >
               {salePercentage} {t("shop.off")}
             </Badge>
@@ -411,7 +409,7 @@ export default function ProductCard({ product, viewMode = "grid" }) {
 
         <div className="mt-auto flex gap-2 pt-2">
           <Button
-            className="flex-1 bg-[var(--color-primary)] text-primary-foreground hover:bg-[var(--color-secondary)]"
+            className="flex-1 bg-(--color-primary) text-primary-foreground hover:bg-(--color-secondary)"
             onClick={handleAddToCart}
             disabled={isAdding || isOutOfStock}
             aria-label={

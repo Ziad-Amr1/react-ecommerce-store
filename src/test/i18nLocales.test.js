@@ -14,7 +14,7 @@ function flattenKeys(obj, prefix = "") {
   });
 }
 
-const ADMIN_NAMESPACES = [
+const SHARED_NAMESPACES = [
   "adminTable",
   "common",
   "dashboard",
@@ -22,11 +22,13 @@ const ADMIN_NAMESPACES = [
   "orders",
   "users",
   "carts",
+  "checkout",
+  "orderSuccess",
   "wishlist",
 ];
 
-describe("i18n locale parity (admin-relevant namespaces)", () => {
-  it.each(ADMIN_NAMESPACES)(
+describe("i18n locale parity (shared namespaces)", () => {
+  it.each(SHARED_NAMESPACES)(
     "provides the same set of keys for the %s namespace in en, ar, fr, and ru",
     (namespace) => {
       const enKeys = flattenKeys(enLocales[namespace]).sort();

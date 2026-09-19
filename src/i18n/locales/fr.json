@@ -565,7 +565,8 @@
         "sale": "Soldes",
         "helpCenter": "Centre d'aide",
         "shippingReturns": "Livraison & Retours",
-        "contact": "Contactez-nous"
+        "contact": "Contactez-nous",
+        "privacy": "Politique de confidentialité"
       }
     }
   },
@@ -664,6 +665,41 @@
     "clearing": "Suppression...",
     "clearError": "Impossible de vider votre liste de souhaits. Veuillez réessayer."
   },
+  "privacy": {
+    "title": "Politique de confidentialité",
+    "description": "Consultez la politique de confidentialité d'Oversea Store et ses pratiques en matière de collecte de données.",
+    "badge": "Transparence des données et sécurité",
+    "headline": "Politique de confidentialité",
+    "lastUpdated": "Dernière mise à jour : 18 septembre 2026",
+    "legalNotice": "Nécessite un examen juridique formel avant le déploiement en production.",
+    "overview": {
+      "heading": "1. Vue d'ensemble et données collectées",
+      "body": "Oversea Store respecte votre vie privée et s'engage à protéger les données personnelles. Nous ne collectons que les données nécessaires pour exécuter les transactions, sécuriser l'accès au compte et maintenir la disponibilité du service :",
+      "items": {
+        "account": "Données du compte : nom d'utilisateur, adresse e-mail, mot de passe haché, numéro de téléphone et URL d'avatar facultative lors de l'inscription.",
+        "order": "Données de commande et d'exécution : adresse de livraison, nom du client, numéro de téléphone de contact, articles achetés, prix détaillés et suivi du statut des commandes.",
+        "session": "Données de session et de sécurité : cookies d'authentification de session HttpOnly (aucun mot de passe ni jeton d'accès n'est stocké dans le stockage local du navigateur)."
+      }
+    },
+    "usage": {
+      "heading": "2. Utilisation de vos informations",
+      "body": "Les données personnelles collectées par Oversea Store sont strictement utilisées à des fins opérationnelles, d'exécution des commandes et de gouvernance des comptes :",
+      "items": {
+        "orders": "Traiter, exécuter et livrer les commandes des clients.",
+        "security": "Envoyer des mises à jour transactionnelles critiques et des codes de sécurité OTP pour la réinitialisation du mot de passe ou la vérification de l'e-mail.",
+        "governance": "Appliquer la gouvernance par rôles et protéger la sécurité de la plateforme.",
+        "compliance": "Conserver les enregistrements juridiques et d'audit des ventes passées."
+      }
+    },
+    "cookies": {
+      "heading": "3. Cookies et stockage des sessions",
+      "body": "Oversea Store n'utilise que des cookies essentiels pour maintenir les sessions authentifiées via les attributs HttpOnly. Nous n'utilisons ni cookies de suivi tiers ni cookies publicitaires."
+    },
+    "rights": {
+      "heading": "4. Droits de l'utilisateur et suppression du compte",
+      "body": "Les utilisateurs conservent le droit de mettre à jour leur profil ou de demander la suppression de leur compte depuis la page Profil. Lorsqu'un compte est supprimé, l'enregistrement d'authentification est supprimé définitivement, tandis que les reçus des commandes passées sont archivés pour la conformité comptable légale."
+    }
+  },
   "profile": {
     "title": "Aperçu du profil",
     "description": "Informations de votre compte.",
@@ -714,6 +750,16 @@
       "usernameRequired": "Le nom d'utilisateur est requis",
       "phoneRequired": "Le numéro de téléphone est requis"
     },
+    "deleteAccount": {
+      "button": "Supprimer le compte",
+      "dialogTitle": "Supprimer le compte",
+      "dialogDescription": "Cette action est définitive et irréversible. Votre compte utilisateur sera supprimé, mais l'historique des commandes passées sera conservé à des fins commerciales et de conformité.",
+      "confirmPrompt": "Pour confirmer, saisissez DELETE dans le champ ci-dessous :",
+      "success": "Compte supprimé avec succès.",
+      "failed": "Échec de la suppression du compte. Veuillez réessayer.",
+      "deleting": "Suppression…",
+      "confirmButton": "Supprimer définitivement"
+    },
     "error": {
       "title": "Une erreur est survenue",
       "description": "Impossible de charger votre profil.",
@@ -760,6 +806,7 @@
     "quantity": "Quantité",
     "removeItem": "Retirer {{name}}",
     "continueShopping": "Continuer les achats",
+    "proceedToCheckout": "Passer à la caisse",
     "unitPrice": "{{price}} l'unité",
     "loading": "Chargement de votre panier...",
     "guestNote": "Vous naviguez en tant qu'invité.",
@@ -1013,6 +1060,100 @@
       "product": "Produit",
       "subtotal": "Sous-total",
       "total": "Total"
+    }
+  },
+  "checkout": {
+    "title": "Paiement",
+    "subtitle": "Complétez vos informations de livraison pour passer commande.",
+    "optional": "facultatif",
+    "emptyCartTitle": "Votre panier est vide",
+    "emptyCartDescription": "Ajoutez des articles à votre panier avant de passer commande.",
+    "backToCart": "Retour au panier",
+    "validationError": "Veuillez corriger les champs en surbrillance.",
+    "emptyCartError": "Votre panier est vide.",
+    "genericError": "Impossible de passer votre commande. Veuillez réessayer.",
+    "orderSuccessToast": "Commande passée avec succès.",
+    "shipping": {
+      "title": "Informations de livraison",
+      "subtitle": "Où devons-nous livrer votre commande ?",
+      "fullNameLabel": "Nom complet",
+      "fullNamePlaceholder": "Marie Dupont",
+      "phoneLabel": "Numéro de téléphone",
+      "phonePlaceholder": "+20 100 000 0000",
+      "countryLabel": "Pays",
+      "countryPlaceholder": "Égypte",
+      "cityLabel": "Ville",
+      "cityPlaceholder": "Le Caire",
+      "addressLabel": "Adresse",
+      "addressPlaceholder": "123 rue du Nil, appt 4",
+      "postalCodeLabel": "Code postal",
+      "postalCodePlaceholder": "11511",
+      "customerNoteLabel": "Note de commande",
+      "customerNotePlaceholder": "Instructions de livraison, points de repère, etc."
+    },
+    "payment": {
+      "title": "Mode de paiement",
+      "subtitle": "Le paiement à la livraison est disponible dès maintenant.",
+      "cash": "Paiement à la livraison",
+      "cashDescription": "Payez en espèces à la réception de votre commande.",
+      "stripe": "Paiement par carte",
+      "stripeUnavailable": "Bientôt disponible",
+      "secureNote": "Vos informations servent uniquement à livrer cette commande.",
+      "placeOrder": "Passer la commande",
+      "placingOrder": "Commande en cours..."
+    },
+    "summary": {
+      "title": "Récapitulatif",
+      "subtitle": "Vérifiez les articles de votre commande.",
+      "subtotal": "Sous-total",
+      "discount": "Remise",
+      "total": "Total",
+      "quantity": "Quantité : {{quantity}}"
+    },
+    "validation": {
+      "fullNameRequired": "Le nom complet est requis",
+      "fullNameMin": "Le nom complet doit comporter au moins 3 caractères",
+      "phoneRequired": "Le numéro de téléphone est requis",
+      "countryRequired": "Le pays est requis",
+      "cityRequired": "La ville est requise",
+      "addressRequired": "L'adresse est requise",
+      "addressMin": "L'adresse doit comporter au moins 5 caractères",
+      "postalCodeInvalid": "Saisissez un code postal valide",
+      "paymentMethodRequired": "Sélectionnez un mode de paiement"
+    }
+  },
+  "orderSuccess": {
+    "title": "Commande confirmée",
+    "description": "Merci pour votre commande. Nous commençons sa préparation immédiatement.",
+    "orderRef": "Référence de commande : {{id}}",
+    "myOrders": "Mes commandes",
+    "continueShopping": "Continuer les achats"
+  },
+  "settings": {
+    "general": "Général",
+    "storeName": "Nom du magasin",
+    "storeNamePlaceholder": "ex. Oversea",
+    "orderTracking": "Suivi des commandes",
+    "notifiedOrderTracking": "Soyez notifié des nouvelles commandes et des changements de statut.",
+    "comments": "Commentaires",
+    "notifiedComments": "Soyez notifié des nouveaux commentaires sur les produits.",
+    "ads": "Publicités",
+    "notifiedAds": "Soyez notifié des performances publicitaires et des mises à jour.",
+    "notifications": "Notifications",
+    "siteLanguage": "Langue du site",
+    "maintenanceMode": "Mode maintenance",
+    "maintenanceModeDesc": "Activez ou désactivez le mode maintenance.",
+    "productComments": "Commentaires produits",
+    "productCommentsDesc": "Activez ou désactivez les commentaires sur les produits du magasin.",
+    "theme": "Thème",
+    "colors": {
+      "emerald": "Émeraude",
+      "cherry": "Cerise",
+      "coral": "Corail",
+      "copper": "Cuivre",
+      "lavender": "Lavande",
+      "twilight": "Crépuscule",
+      "canary": "Canari"
     }
   }
 }

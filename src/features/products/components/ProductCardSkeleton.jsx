@@ -4,7 +4,7 @@ import { Skeleton } from "@/components/ui/skeleton";
 export default function ProductCardSkeleton({ viewMode = "grid" }) {
   if (viewMode === "list") {
     return (
-      <div className="isolate flex items-center gap-3 rounded-xl border border-[var(--color-border)] bg-card p-3 shadow-[var(--shadow-md)] sm:gap-5 sm:p-4">
+      <div className="isolate flex items-center gap-3 rounded-xl border border-(--color-border) bg-card p-3 shadow-(--shadow-md) sm:gap-5 sm:p-4">
         <Skeleton className="size-16 shrink-0 rounded-lg sm:size-20 sm:rounded-xl" />
 
         <div className="min-w-0 flex-1 space-y-2">
@@ -25,7 +25,7 @@ export default function ProductCardSkeleton({ viewMode = "grid" }) {
   }
 
   return (
-    <Card className="isolate h-full gap-4 overflow-hidden border-[var(--color-border)] py-0 shadow-[var(--shadow-md)]">
+    <Card className="isolate h-full gap-4 overflow-hidden border-(--color-border) py-0 shadow-(--shadow-md)">
       {/* Image */}
       <div className="relative m-4 aspect-[4/3] overflow-hidden rounded-xl">
         <Skeleton className="h-full w-full" />

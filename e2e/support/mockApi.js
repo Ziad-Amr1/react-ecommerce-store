@@ -134,6 +134,32 @@ export function createDashboard() {
   };
 }
 
+export const EMPTY_CART = {
+  items: [],
+  itemCount: 0,
+  subtotal: 0,
+  discountAmount: 0,
+  total: 0,
+  coupon: null,
+};
+
+// Build the shared cart payload shape (GET /carts and every mutation) from a
+// list of line items so checkout specs can seed a realistic server cart.
+export function createCart(items = []) {
+  const subtotal = items.reduce(
+    (sum, item) => sum + item.price * item.quantity,
+    0,
+  );
+  return {
+    items,
+    itemCount: items.reduce((sum, item) => sum + item.quantity, 0),
+    subtotal,
+    discountAmount: 0,
+    total: subtotal,
+    coupon: null,
+  };
+}
+
 // Per-test mutable state controlling mock API behaviour.
 export function createApiState(overrides = {}) {
   return {
@@ -141,12 +167,18 @@ export function createApiState(overrides = {}) {
     orders: [...ORDERS],
     users: [...USERS],
     carts: CARTS.map((cart) => ({ ...cart })),
+    cart: { ...EMPTY_CART },
     dashboard: createDashboard(),
+    wishlist: [],
     delayMs: 0,
     productStatus: 200,
     orderStatus: 200,
     userStatus: 200,
     cartStatus: 200,
+    wishlistStatus: 200,
+    authUser: ADMIN_USER,
+    authStatus: 200,
+    lastOrder: null,
     ...overrides,
   };
 }
@@ -168,12 +200,23 @@ export function installMockApi(page, state) {
     const method = request.method();
 
     // Auth
-    if (path.endsWith("/auth/me") && method === "GET")
-      return json(route, { user: ADMIN_USER });
+    if (path.endsWith("/auth/me") && method === "GET") {
+      if (state.authStatus !== 200)
+        return error(route, state.authStatus, "Unauthorized", state.delayMs);
+      if (!state.authUser)
+        return error(route, 401, "Unauthorized", state.delayMs);
+      return json(route, { user: state.authUser }, state.delayMs);
+    }
 
-    // Cart (mounted globally; respond with empty cart)
+    // Cart (mounted globally). The storefront reads the payload from the
+    // response body directly, so return the cart object, not `{ cart }`.
     if (path === "/api/carts" && method === "GET")
-      return json(route, { cart: { items: [] } });
+      return json(route, state.cart, state.delayMs);
+
+    if (path === "/api/carts/clear" && method === "DELETE") {
+      state.cart = { ...EMPTY_CART };
+      return json(route, state.cart, state.delayMs);
+    }
 
     // ── Products ──────────────────────────────────────────────────────────
     if (path === "/api/products" && method === "GET") {
@@ -281,6 +324,28 @@ export function installMockApi(page, state) {
       return json(route, { order }, state.delayMs);
     }
 
+    // Customer checkout (POST /orders). Mirrors the real backend: creates the
+    // order from the body and clears the signed-in user's cart server-side.
+    if (path === "/api/orders" && method === "POST") {
+      if (state.orderStatus !== 200)
+        return error(route, state.orderStatus, "Server error", state.delayMs);
+
+      const body = JSON.parse(request.postData() || "{}");
+      const order = {
+        _id: `ord-new-${Date.now()}`,
+        ...body,
+        status: "pending",
+        paymentStatus: "pending",
+        totalPrice: state.cart.total,
+        createdAt: new Date().toISOString(),
+      };
+      state.orders.push(order);
+      state.lastOrder = order;
+      state.cart = { ...EMPTY_CART };
+
+      return json(route, { success: true, message: "Order created", order }, state.delayMs);
+    }
+
     // ── Users ─────────────────────────────────────────────────────────────
     if (path === "/api/users/all" && method === "GET") {
       if (state.userStatus !== 200) return error(route, state.userStatus, "Server error", state.delayMs);
@@ -303,6 +368,69 @@ export function installMockApi(page, state) {
       const user = state.users.find((u) => u._id === body.userId);
       if (user) user.role = body.role;
       return json(route, { user });
+    }
+
+    // ── Wishlist ──────────────────────────────────────────────────────────
+    if (path === "/api/wishlists/my" && method === "GET") {
+      if (state.wishlistStatus !== 200)
+        return error(route, state.wishlistStatus, "Server error", state.delayMs);
+      return json(
+        route,
+        {
+          success: true,
+          totalProducts: state.wishlist.length,
+          wishlist: { products: state.wishlist },
+        },
+        state.delayMs,
+      );
+    }
+
+    const wishlistAddMatch = path.match(/^\/api\/wishlists\/add\/([^/]+)$/);
+    if (wishlistAddMatch && method === "POST") {
+      if (state.wishlistStatus !== 200)
+        return error(route, state.wishlistStatus, "Server error", state.delayMs);
+      const product = state.products.find((p) => p._id === wishlistAddMatch[1]);
+      if (product && !state.wishlist.some((p) => p._id === product._id)) {
+        state.wishlist = [...state.wishlist, product];
+      }
+      return json(
+        route,
+        {
+          success: true,
+          message: "Product added to wishlist",
+          wishlist: { products: state.wishlist },
+        },
+        state.delayMs,
+      );
+    }
+
+    const wishlistRemoveMatch = path.match(/^\/api\/wishlists\/remove\/([^/]+)$/);
+    if (wishlistRemoveMatch && method === "DELETE") {
+      if (state.wishlistStatus !== 200)
+        return error(route, state.wishlistStatus, "Server error", state.delayMs);
+      state.wishlist = state.wishlist.filter(
+        (p) => p._id !== wishlistRemoveMatch[1],
+      );
+      return json(
+        route,
+        {
+          success: true,
+          message: "Product removed from wishlist",
+          wishlist: { products: state.wishlist },
+        },
+        state.delayMs,
+      );
+    }
+
+    if (path === "/api/wishlists/clear" && method === "DELETE") {
+      if (state.wishlistStatus !== 200)
+        return error(route, state.wishlistStatus, "Server error", state.delayMs);
+      state.wishlist = [];
+      return json(
+        route,
+        { success: true, message: "Wishlist cleared" },
+        state.delayMs,
+      );
     }
 
     // Fallback

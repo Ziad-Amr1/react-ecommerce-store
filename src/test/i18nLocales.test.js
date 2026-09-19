@@ -24,6 +24,7 @@ const SHARED_NAMESPACES = [
   "carts",
   "checkout",
   "orderSuccess",
+  "wishlist",
 ];
 
 describe("i18n locale parity (shared namespaces)", () => {

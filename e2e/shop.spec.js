@@ -25,7 +25,9 @@ test.describe("Shop storefront", () => {
         req.url().includes("/api/products") &&
         new URL(req.url()).searchParams.get("brand") === "TechNova",
     );
-    await page.getByLabel("Brand").selectOption("TechNova");
+    await page.getByLabel("Brand").click();
+    await page.getByRole("option", { name: "TechNova" }).click();
+    await page.getByRole("button", { name: "Apply Filters" }).click();
     await requestPromise;
 
     await expect(page.getByText("Wireless Headphones", { exact: true })).toBeVisible();
@@ -44,6 +46,7 @@ test.describe("Shop storefront", () => {
     });
     await page.getByPlaceholder("Min").fill("1000");
     await page.getByPlaceholder("Max").fill("2000");
+    await page.getByRole("button", { name: "Apply Filters" }).click();
     await requestPromise;
 
     await expect(page.getByText("Running Shoes", { exact: true })).toBeVisible();

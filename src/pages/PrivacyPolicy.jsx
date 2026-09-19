@@ -32,51 +32,63 @@ export default function PrivacyPolicy() {
         <section className="space-y-3 rounded-2xl border border-(--color-border) bg-(--color-surface) p-5 sm:p-7 shadow-xs">
           <h2 className="font-display text-lg sm:text-xl font-bold flex items-center gap-2 text-foreground">
             <Lock className="size-5 text-primary" />
-            1. Overview & Data Collected
+            {t("privacy.overview.heading", { defaultValue: "1. Overview & Data Collected" })}
           </h2>
           <p className="text-muted-foreground text-xs sm:text-sm">
-            Oversea Store respects your privacy and is committed to protecting personal data. We collect only data necessary to fulfill e-commerce transactions, secure account access, and maintain service availability:
+            {t("privacy.overview.body", {
+              defaultValue:
+                "Oversea Store respects your privacy and is committed to protecting personal data. We collect only the data necessary to fulfill e-commerce transactions, secure account access, and maintain service availability:",
+            })}
           </p>
           <ul className="list-disc ps-5 space-y-1.5 text-xs sm:text-sm text-muted-foreground">
-            <li><strong>Account Data:</strong> Username, email address, hashed password, phone number, and optional avatar URL upon registration.</li>
-            <li><strong>Order & Fulfillment Data:</strong> Shipping address, customer name, contact phone number, items purchased, line-item pricing, and order status tracking.</li>
-            <li><strong>Session & Security Data:</strong> HttpOnly session authentication cookies (no raw passwords or access tokens are stored in browser local storage).</li>
+            <li>{t("privacy.overview.items.account", { defaultValue: "Account Data: Username, email address, hashed password, phone number, and optional avatar URL upon registration." })}</li>
+            <li>{t("privacy.overview.items.order", { defaultValue: "Order & Fulfillment Data: Shipping address, customer name, contact phone number, items purchased, line-item pricing, and order status tracking." })}</li>
+            <li>{t("privacy.overview.items.session", { defaultValue: "Session & Security Data: HttpOnly session authentication cookies (no raw passwords or access tokens are stored in browser local storage)." })}</li>
           </ul>
         </section>
 
         <section className="space-y-3 rounded-2xl border border-(--color-border) bg-(--color-surface) p-5 sm:p-7 shadow-xs">
           <h2 className="font-display text-lg sm:text-xl font-bold flex items-center gap-2 text-foreground">
             <Database className="size-5 text-primary" />
-            2. How We Use Your Information
+            {t("privacy.usage.heading", { defaultValue: "2. How We Use Your Information" })}
           </h2>
           <p className="text-muted-foreground text-xs sm:text-sm">
-            Personal data collected by Oversea Store is strictly utilized for operational, fulfillment, and account governance purposes:
+            {t("privacy.usage.body", {
+              defaultValue:
+                "Personal data collected by Oversea Store is strictly utilized for operational, fulfillment, and account governance purposes:",
+            })}
           </p>
           <ul className="list-disc ps-5 space-y-1.5 text-xs sm:text-sm text-muted-foreground">
-            <li>Processing, fulfilling, and delivering customer orders.</li>
-            <li>Sending critical transactional order updates and OTP security codes for password reset or email verification.</li>
-            <li>Enforcing role-based admin governance and protecting platform security.</li>
-            <li>Maintaining required legal and audit records for past commercial sales.</li>
+            <li>{t("privacy.usage.items.orders", { defaultValue: "Processing, fulfilling, and delivering customer orders." })}</li>
+            <li>{t("privacy.usage.items.security", { defaultValue: "Sending critical transactional order updates and OTP security codes for password reset or email verification." })}</li>
+            <li>{t("privacy.usage.items.governance", { defaultValue: "Enforcing role-based admin governance and protecting platform security." })}</li>
+            <li>{t("privacy.usage.items.compliance", { defaultValue: "Maintaining required legal and audit records for past commercial sales." })}</li>
           </ul>
         </section>
 
         <section className="space-y-3 rounded-2xl border border-(--color-border) bg-(--color-surface) p-5 sm:p-7 shadow-xs">
           <h2 className="font-display text-lg sm:text-xl font-bold flex items-center gap-2 text-foreground">
             <Eye className="size-5 text-primary" />
-            3. Cookies & Session Storage
+            {t("privacy.cookies.heading", { defaultValue: "3. Cookies & Session Storage" })}
           </h2>
           <p className="text-muted-foreground text-xs sm:text-sm">
-            Oversea Store uses essential cookies solely to maintain authenticated sessions via HttpOnly attributes. We do not use third-party tracking or advertising cookies.
+            {t("privacy.cookies.body", {
+              defaultValue:
+                "Oversea Store uses essential cookies solely to maintain authenticated sessions via HttpOnly attributes. We do not use third-party tracking or advertising cookies.",
+            })}
           </p>
         </section>
 
         <section className="space-y-3 rounded-2xl border border-(--color-border) bg-(--color-surface) p-5 sm:p-7 shadow-xs">
           <h2 className="font-display text-lg sm:text-xl font-bold flex items-center gap-2 text-foreground">
             <FileText className="size-5 text-primary" />
-            4. User Rights & Account Deletion
+            {t("privacy.rights.heading", { defaultValue: "4. User Rights & Account Deletion" })}
           </h2>
           <p className="text-muted-foreground text-xs sm:text-sm">
-            Users retain full rights to update their personal profile or request account deletion via the Profile page. When an account is deleted, the authentication credential record is permanently removed, while past order receipts are archived for legal accounting compliance.
+            {t("privacy.rights.body", {
+              defaultValue:
+                "Users retain full rights to update their personal profile or request account deletion via the Profile page. When an account is deleted, the authentication credential record is permanently removed, while past order receipts are archived for legal accounting compliance.",
+            })}
           </p>
         </section>
       </div>

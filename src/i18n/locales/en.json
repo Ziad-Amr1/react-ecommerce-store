@@ -570,7 +570,8 @@
         "sale": "Sale",
         "helpCenter": "Help Center",
         "shippingReturns": "Shipping & Returns",
-        "contact": "Contact Us"
+        "contact": "Contact Us",
+        "privacy": "Privacy Policy"
       }
     }
   },
@@ -669,6 +670,41 @@
     "clearing": "Clearing...",
     "clearError": "We couldn't clear your wishlist. Please try again."
   },
+  "privacy": {
+    "title": "Privacy Policy",
+    "description": "Read Oversea Store's privacy policy and data collection practices.",
+    "badge": "Data Transparency & Security",
+    "headline": "Privacy Policy",
+    "lastUpdated": "Last updated: September 18, 2026",
+    "legalNotice": "Requires formal legal review before production deployment.",
+    "overview": {
+      "heading": "1. Overview & Data Collected",
+      "body": "Oversea Store respects your privacy and is committed to protecting personal data. We collect only the data necessary to fulfill e-commerce transactions, secure account access, and maintain service availability:",
+      "items": {
+        "account": "Account Data: Username, email address, hashed password, phone number, and optional avatar URL upon registration.",
+        "order": "Order & Fulfillment Data: Shipping address, customer name, contact phone number, items purchased, line-item pricing, and order status tracking.",
+        "session": "Session & Security Data: HttpOnly session authentication cookies (no raw passwords or access tokens are stored in browser local storage)."
+      }
+    },
+    "usage": {
+      "heading": "2. How We Use Your Information",
+      "body": "Personal data collected by Oversea Store is strictly utilized for operational, fulfillment, and account governance purposes:",
+      "items": {
+        "orders": "Processing, fulfilling, and delivering customer orders.",
+        "security": "Sending critical transactional order updates and OTP security codes for password reset or email verification.",
+        "governance": "Enforcing role-based admin governance and protecting platform security.",
+        "compliance": "Maintaining required legal and audit records for past commercial sales."
+      }
+    },
+    "cookies": {
+      "heading": "3. Cookies & Session Storage",
+      "body": "Oversea Store uses essential cookies solely to maintain authenticated sessions via HttpOnly attributes. We do not use third-party tracking or advertising cookies."
+    },
+    "rights": {
+      "heading": "4. User Rights & Account Deletion",
+      "body": "Users retain full rights to update their personal profile or request account deletion via the Profile page. When an account is deleted, the authentication credential record is permanently removed, while past order receipts are archived for legal accounting compliance."
+    }
+  },
   "profile": {
     "title": "Profile Overview",
     "description": "Your account information at a glance.",
@@ -718,6 +754,16 @@
     "validation": {
       "usernameRequired": "Username is required",
       "phoneRequired": "Phone is required"
+    },
+    "deleteAccount": {
+      "button": "Delete Account",
+      "dialogTitle": "Delete Account",
+      "dialogDescription": "This action is permanent and cannot be undone. Your user account will be removed, but past order history records will be retained for business and compliance requirements.",
+      "confirmPrompt": "To confirm, type \"DELETE\" in the box below:",
+      "success": "Account deleted successfully.",
+      "failed": "Failed to delete account. Please try again.",
+      "deleting": "Deleting...",
+      "confirmButton": "Permanently Delete"
     },
     "error": {
       "title": "Something went wrong",

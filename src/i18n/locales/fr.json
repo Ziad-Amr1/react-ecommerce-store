@@ -559,7 +559,8 @@
         "sale": "Soldes",
         "helpCenter": "Centre d'aide",
         "shippingReturns": "Livraison & Retours",
-        "contact": "Contactez-nous"
+        "contact": "Contactez-nous",
+        "privacy": "Politique de confidentialité"
       }
     }
   },
@@ -658,6 +659,41 @@
     "clearing": "Suppression...",
     "clearError": "Impossible de vider votre liste de souhaits. Veuillez réessayer."
   },
+  "privacy": {
+    "title": "Politique de confidentialité",
+    "description": "Consultez la politique de confidentialité d'Oversea Store et ses pratiques en matière de collecte de données.",
+    "badge": "Transparence des données et sécurité",
+    "headline": "Politique de confidentialité",
+    "lastUpdated": "Dernière mise à jour : 18 septembre 2026",
+    "legalNotice": "Nécessite un examen juridique formel avant le déploiement en production.",
+    "overview": {
+      "heading": "1. Vue d'ensemble et données collectées",
+      "body": "Oversea Store respecte votre vie privée et s'engage à protéger les données personnelles. Nous ne collectons que les données nécessaires pour exécuter les transactions, sécuriser l'accès au compte et maintenir la disponibilité du service :",
+      "items": {
+        "account": "Données du compte : nom d'utilisateur, adresse e-mail, mot de passe haché, numéro de téléphone et URL d'avatar facultative lors de l'inscription.",
+        "order": "Données de commande et d'exécution : adresse de livraison, nom du client, numéro de téléphone de contact, articles achetés, prix détaillés et suivi du statut des commandes.",
+        "session": "Données de session et de sécurité : cookies d'authentification de session HttpOnly (aucun mot de passe ni jeton d'accès n'est stocké dans le stockage local du navigateur)."
+      }
+    },
+    "usage": {
+      "heading": "2. Utilisation de vos informations",
+      "body": "Les données personnelles collectées par Oversea Store sont strictement utilisées à des fins opérationnelles, d'exécution des commandes et de gouvernance des comptes :",
+      "items": {
+        "orders": "Traiter, exécuter et livrer les commandes des clients.",
+        "security": "Envoyer des mises à jour transactionnelles critiques et des codes de sécurité OTP pour la réinitialisation du mot de passe ou la vérification de l'e-mail.",
+        "governance": "Appliquer la gouvernance par rôles et protéger la sécurité de la plateforme.",
+        "compliance": "Conserver les enregistrements juridiques et d'audit des ventes passées."
+      }
+    },
+    "cookies": {
+      "heading": "3. Cookies et stockage des sessions",
+      "body": "Oversea Store n'utilise que des cookies essentiels pour maintenir les sessions authentifiées via les attributs HttpOnly. Nous n'utilisons ni cookies de suivi tiers ni cookies publicitaires."
+    },
+    "rights": {
+      "heading": "4. Droits de l'utilisateur et suppression du compte",
+      "body": "Les utilisateurs conservent le droit de mettre à jour leur profil ou de demander la suppression de leur compte depuis la page Profil. Lorsqu'un compte est supprimé, l'enregistrement d'authentification est supprimé définitivement, tandis que les reçus des commandes passées sont archivés pour la conformité comptable légale."
+    }
+  },
   "profile": {
     "title": "Aperçu du profil",
     "description": "Informations de votre compte.",
@@ -707,6 +743,16 @@
     "validation": {
       "usernameRequired": "Le nom d'utilisateur est requis",
       "phoneRequired": "Le numéro de téléphone est requis"
+    },
+    "deleteAccount": {
+      "button": "Supprimer le compte",
+      "dialogTitle": "Supprimer le compte",
+      "dialogDescription": "Cette action est définitive et irréversible. Votre compte utilisateur sera supprimé, mais l'historique des commandes passées sera conservé à des fins commerciales et de conformité.",
+      "confirmPrompt": "Pour confirmer, saisissez DELETE dans le champ ci-dessous :",
+      "success": "Compte supprimé avec succès.",
+      "failed": "Échec de la suppression du compte. Veuillez réessayer.",
+      "deleting": "Suppression…",
+      "confirmButton": "Supprimer définitivement"
     },
     "error": {
       "title": "Une erreur est survenue",

@@ -273,7 +273,6 @@ export default function Sidebar({ id, isOpen, isCollapsed, onClose, onToggleColl
                       className="rounded-full hover:bg-(--color-surface-secondary)"
                       onClick={onToggleCollapse}
                       aria-label={t("navigation.expandSidebar")}
-                      title={t("navigation.expandSidebar")}
                     >
                       <PanelLeftOpen
                         className="size-4 rtl:rotate-180"
@@ -315,7 +314,6 @@ export default function Sidebar({ id, isOpen, isCollapsed, onClose, onToggleColl
                   className="shrink-0 rounded-full hover:bg-(--color-surface-secondary)"
                   onClick={onToggleCollapse}
                   aria-label={t("navigation.collapseSidebar")}
-                  title={t("navigation.collapseSidebar")}
                 >
                   <PanelLeftClose
                     className="size-5 rtl:rotate-180"

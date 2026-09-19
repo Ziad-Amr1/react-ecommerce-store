@@ -27,7 +27,7 @@ export default function ProductSearch({
         value={search}
         onChange={(event) => onChange(event.target.value)}
         placeholder={t("products.searchPlaceholder")}
-        className="h-10 ps-9 pe-9"
+        className="h-10 ps-9 pe-9 bg-card text-foreground"
       />
       {search !== "" && (
         <button

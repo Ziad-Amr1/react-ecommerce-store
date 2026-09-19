@@ -246,17 +246,17 @@ function Section({ eyebrow, title, description, children }) {
     <section className="space-y-6">
       <div className="space-y-1">
         {eyebrow && (
-          <p className="text-xs font-semibold uppercase tracking-[0.18em] text-[var(--color-text-secondary)]">
+          <p className="text-xs font-semibold uppercase tracking-[0.18em] text-(--color-text-secondary)">
             {eyebrow}
           </p>
         )}
 
-        <h2 className="font-display text-2xl font-bold text-[var(--color-text-primary)]">
+        <h2 className="font-display text-2xl font-bold text-(--color-text-primary)">
           {title}
         </h2>
 
         {description && (
-          <p className="max-w-3xl text-sm leading-6 text-[var(--color-text-secondary)]">
+          <p className="max-w-3xl text-sm leading-6 text-(--color-text-secondary)">
             {description}
           </p>
         )}
@@ -269,24 +269,24 @@ function Section({ eyebrow, title, description, children }) {
 
 function TokenTable({ tokens }) {
   return (
-    <div className="overflow-hidden rounded-xl border border-[var(--color-border)] bg-[var(--color-surface)]">
-      <div className="grid grid-cols-[1.4fr_100px_1fr] border-b border-[var(--color-border)] bg-[var(--color-surface-secondary)] px-4 py-3 text-xs font-semibold uppercase tracking-wide text-[var(--color-text-secondary)]">
+    <div className="overflow-hidden rounded-xl border border-(--color-border) bg-(--color-surface)">
+      <div className="grid grid-cols-[1.4fr_100px_1fr] border-b border-(--color-border) bg-(--color-surface-secondary) px-4 py-3 text-xs font-semibold uppercase tracking-wide text-(--color-text-secondary)">
         <span>Token</span>
         <span>Value</span>
         <span>Visual</span>
       </div>
 
-      <div className="divide-y divide-[var(--color-border)]">
+      <div className="divide-y divide-(--color-border)">
         {tokens.map(([name, value]) => (
           <div
             key={name}
             className="grid grid-cols-[1.4fr_100px_1fr] items-center gap-4 px-4 py-4"
           >
-            <code className="font-mono text-sm text-[var(--color-text-primary)]">
+            <code className="font-mono text-sm text-(--color-text-primary)">
               {name}
             </code>
 
-            <span className="font-mono text-xs text-[var(--color-text-secondary)]">
+            <span className="font-mono text-xs text-(--color-text-secondary)">
               {value}
             </span>
 
@@ -320,7 +320,7 @@ function TokenTable({ tokens }) {
 
               {name.startsWith("--radius") && (
                 <div
-                  className="h-10 w-20 border-2 border-[var(--color-primary)] bg-[var(--color-accent)]"
+                  className="h-10 w-20 border-2 border-(--color-primary) bg-(--color-accent)"
                   style={{ borderRadius: value }}
                 />
               )}
@@ -336,7 +336,7 @@ function ColorSwatch({ token }) {
   const resolved = resolveCssVar(token.name);
 
   return (
-    <Card className="overflow-hidden border-[var(--color-border)] bg-[var(--color-surface)] shadow-[var(--shadow-sm)]">
+    <Card className="overflow-hidden border-(--color-border) bg-(--color-surface) shadow-(--shadow-sm)">
       <div
         className="h-28 border-b border-black/10"
         style={{
@@ -367,16 +367,16 @@ function ColorSwatch({ token }) {
 
       <CardContent className="space-y-2 p-4">
         <div>
-          <p className="font-mono text-xs text-[var(--color-text-secondary)]">
+          <p className="font-mono text-xs text-(--color-text-secondary)">
             {token.name}
           </p>
 
-          <h3 className="mt-1 font-display text-base font-semibold text-[var(--color-text-primary)]">
+          <h3 className="mt-1 font-display text-base font-semibold text-(--color-text-primary)">
             {token.role}
           </h3>
         </div>
 
-        <p className="text-sm leading-5 text-[var(--color-text-secondary)]">
+        <p className="text-sm leading-5 text-(--color-text-secondary)">
           {token.description}
         </p>
       </CardContent>
@@ -389,13 +389,13 @@ function FeedbackCard({ token }) {
   const soft = resolveCssVar(`${token.token}-bg`);
 
   return (
-    <Card className="border-[var(--color-border)] bg-[var(--color-surface)]">
+    <Card className="border-(--color-border) bg-(--color-surface)">
       <CardHeader className="pb-3">
         <CardTitle className="font-display text-lg">
           {token.name}
         </CardTitle>
 
-        <p className="font-mono text-xs text-[var(--color-text-secondary)]">
+        <p className="font-mono text-xs text-(--color-text-secondary)">
           {token.token}
         </p>
       </CardHeader>
@@ -429,7 +429,7 @@ function FeedbackCard({ token }) {
           </div>
         </div>
 
-        <p className="text-sm text-[var(--color-text-secondary)]">
+        <p className="text-sm text-(--color-text-secondary)">
           {token.description}
         </p>
       </CardContent>
@@ -443,7 +443,7 @@ function ComponentPlayground() {
   return (
     <div className="grid gap-6 lg:grid-cols-2">
       {/* Buttons */}
-      <Card className="border-[var(--color-border)] bg-[var(--color-surface)]">
+      <Card className="border-(--color-border) bg-(--color-surface)">
         <CardHeader>
           <CardTitle className="font-display">
             Buttons
@@ -452,24 +452,24 @@ function ComponentPlayground() {
 
         <CardContent className="space-y-6">
           <div className="flex flex-wrap gap-3">
-            <Button className="bg-[var(--color-primary)] text-primary-foreground hover:bg-[var(--color-secondary)]">
+            <Button className="bg-(--color-primary) text-primary-foreground hover:bg-(--color-secondary)">
               Primary
             </Button>
 
             <Button
               variant="outline"
-              className="border-[var(--color-supporting)] text-[var(--color-primary)] hover:bg-[var(--color-accent)]"
+              className="border-(--color-supporting) text-(--color-primary) hover:bg-(--color-accent)"
             >
               Secondary
             </Button>
 
-            <Button className="bg-[var(--color-secondary)] text-secondary-foreground hover:bg-[var(--color-primary)]">
+            <Button className="bg-(--color-secondary) text-secondary-foreground hover:bg-(--color-primary)">
               Secondary Filled
             </Button>
 
             <Button
               variant="ghost"
-              className="text-[var(--color-primary)] hover:bg-[var(--color-accent)]"
+              className="text-(--color-primary) hover:bg-(--color-accent)"
             >
               Ghost
             </Button>
@@ -480,17 +480,17 @@ function ComponentPlayground() {
           <Separator />
 
           <div className="space-y-2">
-            <p className="text-xs font-medium text-[var(--color-text-secondary)]">
+            <p className="text-xs font-medium text-(--color-text-secondary)">
               Focus
             </p>
 
             <Button
               className="
-                bg-[var(--color-primary)]
+                bg-(--color-primary)
                 text-primary-foreground
                 ring-2
                 ring-offset-2
-                ring-[var(--color-focus-ring)]
+                ring-(--color-focus-ring)
               "
             >
               Focused Button
@@ -500,7 +500,7 @@ function ComponentPlayground() {
       </Card>
 
       {/* Inputs */}
-      <Card className="border-[var(--color-border)] bg-[var(--color-surface)]">
+      <Card className="border-(--color-border) bg-(--color-surface)">
         <CardHeader>
           <CardTitle className="font-display">
             Inputs
@@ -509,38 +509,38 @@ function ComponentPlayground() {
 
         <CardContent className="space-y-6">
           <div className="space-y-2">
-            <label className="text-sm font-medium text-[var(--color-text-primary)]">
+            <label className="text-sm font-medium text-(--color-text-primary)">
               Product search
             </label>
 
             <Input
               placeholder="Search products..."
               className="
-                border-[var(--color-border)]
-                bg-[var(--color-surface)]
-                text-[var(--color-text-primary)]
-                placeholder:text-[var(--color-text-secondary)]
-                focus-visible:ring-[var(--color-focus-ring)]
+                border-(--color-border)
+                bg-(--color-surface)
+                text-(--color-text-primary)
+                placeholder:text-(--color-text-secondary)
+                focus-visible:ring-(--color-focus-ring)
               "
             />
           </div>
 
           <div className="space-y-2">
-            <label className="text-sm font-medium text-[var(--color-text-primary)]">
+            <label className="text-sm font-medium text-(--color-text-primary)">
               Disabled
             </label>
 
             <Input
               disabled
               placeholder="Disabled input"
-              className="border-[var(--color-border)]"
+              className="border-(--color-border)"
             />
           </div>
         </CardContent>
       </Card>
 
       {/* Badges */}
-      <Card className="border-[var(--color-border)] bg-[var(--color-surface)]">
+      <Card className="border-(--color-border) bg-(--color-surface)">
         <CardHeader>
           <CardTitle className="font-display">
             E-commerce Badges
@@ -605,7 +605,7 @@ function ComponentPlayground() {
       </Card>
 
       {/* Selection */}
-      <Card className="border-[var(--color-border)] bg-[var(--color-surface)]">
+      <Card className="border-(--color-border) bg-(--color-surface)">
         <CardHeader>
           <CardTitle className="font-display">
             Selection State
@@ -621,17 +621,17 @@ function ComponentPlayground() {
               transition
               ${
                 selected
-                  ? "border-[var(--color-primary)] bg-[var(--color-accent)]"
-                  : "border-[var(--color-border)] bg-[var(--color-surface)] hover:border-[var(--color-supporting)]"
+                  ? "border-(--color-primary) bg-(--color-accent)"
+                  : "border-(--color-border) bg-(--color-surface) hover:border-(--color-supporting)"
               }
             `}
           >
             <div>
-              <p className="font-display font-semibold text-[var(--color-text-primary)]">
+              <p className="font-display font-semibold text-(--color-text-primary)">
                 Product option
               </p>
 
-              <p className="mt-1 text-sm text-[var(--color-text-secondary)]">
+              <p className="mt-1 text-sm text-(--color-text-secondary)">
                 Click to test selected / default state
               </p>
             </div>
@@ -641,14 +641,14 @@ function ComponentPlayground() {
                 h-5 w-5 rounded-full border
                 ${
                   selected
-                    ? "border-[var(--color-primary)] bg-[var(--color-primary)]"
-                    : "border-[var(--color-border-strong)]"
+                    ? "border-(--color-primary) bg-(--color-primary)"
+                    : "border-(--color-border-strong)"
                 }
               `}
             />
           </button>
 
-          <p className="font-mono text-xs text-[var(--color-text-secondary)]">
+          <p className="font-mono text-xs text-(--color-text-secondary)">
             State: {selected ? "selected" : "default"}
           </p>
         </CardContent>
@@ -693,37 +693,37 @@ const commerceBadges = [
     label: "SALE −20%",
     note: "solid error · high emphasis",
     className:
-      "border-transparent bg-[var(--color-error)] text-[var(--color-on-error)]",
+      "border-transparent bg-(--color-error) text-(--color-on-error)",
   },
   {
     label: "NEW",
     note: "accent · soft brand tint",
     className:
-      "border-[var(--color-supporting)] bg-[var(--color-accent)] text-[var(--color-text-primary)]",
+      "border-(--color-supporting) bg-(--color-accent) text-(--color-text-primary)",
   },
   {
     label: "FEATURED",
     note: "solid primary · brand emphasis",
     className:
-      "border-transparent bg-[var(--color-primary)] text-[var(--color-on-primary)]",
+      "border-transparent bg-(--color-primary) text-(--color-on-primary)",
   },
   {
     label: "BESTSELLER",
     note: "soft warning · popularity",
     className:
-      "border-transparent bg-[var(--color-warning-bg)] text-[var(--color-warning)]",
+      "border-transparent bg-(--color-warning-bg) text-(--color-warning)",
   },
   {
     label: "LIMITED",
     note: "outline · restrained",
     className:
-      "border-[var(--color-border-strong)] bg-transparent text-[var(--color-text-secondary)]",
+      "border-(--color-border-strong) bg-transparent text-(--color-text-secondary)",
   },
   {
     label: "FREE SHIPPING",
     note: "soft info · service tone",
     className:
-      "border-transparent bg-[var(--color-info-bg)] text-[var(--color-info)]",
+      "border-transparent bg-(--color-info-bg) text-(--color-info)",
   },
 ];
 
@@ -778,7 +778,7 @@ const miniCartItems = [
 function GroupHeading({ label }) {
   return (
     <div className="flex items-center gap-4">
-      <h2 className="font-mono text-xs font-semibold uppercase tracking-[0.18em] text-[var(--color-text-secondary)]">
+      <h2 className="font-mono text-xs font-semibold uppercase tracking-[0.18em] text-(--color-text-secondary)">
         {label}
       </h2>
       <Separator className="flex-1" />
@@ -805,8 +805,8 @@ function Stars({ value, label }) {
             aria-hidden="true"
             className={
               active
-                ? "size-4 fill-[var(--color-warning)] text-[var(--color-warning)]"
-                : "size-4 text-[var(--color-border-strong)]"
+                ? "size-4 fill-(--color-warning) text-(--color-warning)"
+                : "size-4 text-(--color-border-strong)"
             }
           />
         );
@@ -821,7 +821,7 @@ function StatusBadgesDemo() {
       {statusBadges.map((badge) => (
         <Card
           key={badge.label}
-          className="gap-3 border-[var(--color-border)] py-5 shadow-[var(--shadow-sm)]"
+          className="gap-3 border-(--color-border) py-5 shadow-(--shadow-sm)"
         >
           <CardContent className="flex flex-col items-start gap-4 px-5">
             <Badge
@@ -836,7 +836,7 @@ function StatusBadgesDemo() {
               {badge.label}
             </Badge>
 
-            <p className="font-mono text-[11px] leading-5 text-[var(--color-text-secondary)]">
+            <p className="font-mono text-[11px] leading-5 text-(--color-text-secondary)">
               {badge.token}
               <br />
               {`${badge.token}-bg`}
@@ -850,7 +850,7 @@ function StatusBadgesDemo() {
 
 function CommerceBadgesDemo() {
   return (
-    <Card className="border-[var(--color-border)] py-6">
+    <Card className="border-(--color-border) py-6">
       <CardContent className="flex flex-wrap items-start gap-x-8 gap-y-6 px-6">
         {commerceBadges.map((badge) => (
           <div key={badge.label} className="flex flex-col items-start gap-2">
@@ -858,7 +858,7 @@ function CommerceBadgesDemo() {
               {badge.label}
             </Badge>
 
-            <span className="font-mono text-[11px] text-[var(--color-text-secondary)]">
+            <span className="font-mono text-[11px] text-(--color-text-secondary)">
               {badge.note}
             </span>
           </div>
@@ -874,7 +874,7 @@ function AlertsDemo() {
       {alertExamples.map((example) => (
         <div key={example.key} className="space-y-2">
           <Alert
-            className="border bg-[var(--color-surface)]"
+            className="border bg-(--color-surface)"
             style={{ backgroundColor: example.bg, borderColor: example.color }}
           >
             <example.Icon aria-hidden="true" style={{ color: example.color }} />
@@ -884,7 +884,7 @@ function AlertsDemo() {
             <AlertDescription>{example.description}</AlertDescription>
           </Alert>
 
-          <p className="pl-1 font-mono text-[11px] text-[var(--color-text-secondary)]">
+          <p className="pl-1 font-mono text-[11px] text-(--color-text-secondary)">
             {example.token} · {`${example.token}-bg`}
           </p>
         </div>
@@ -898,7 +898,7 @@ function FormControlsDemo() {
 
   return (
     <div className="grid gap-5 md:grid-cols-2 xl:grid-cols-3">
-      <Card className="gap-4 border-[var(--color-border)] py-6">
+      <Card className="gap-4 border-(--color-border) py-6">
         <CardHeader className="pb-2">
           <CardTitle className="font-display text-base">Text &amp; Search</CardTitle>
         </CardHeader>
@@ -907,14 +907,14 @@ function FormControlsDemo() {
             <Label htmlFor="product-search">Search products</Label>
             <div className="relative">
               <Search
-                className="pointer-events-none absolute top-1/2 left-3 size-4 -translate-y-1/2 text-[var(--color-text-secondary)]"
+                className="pointer-events-none absolute top-1/2 left-3 size-4 -translate-y-1/2 text-(--color-text-secondary)"
                 aria-hidden="true"
               />
               <Input
                 id="product-search"
                 type="search"
                 placeholder="Search headphones, desks..."
-                className="bg-[var(--color-surface)] pl-9 text-[var(--color-text-primary)] placeholder:text-[var(--color-text-secondary)]"
+                className="bg-(--color-surface) pl-9 text-(--color-text-primary) placeholder:text-(--color-text-secondary)"
               />
             </div>
           </div>
@@ -924,13 +924,13 @@ function FormControlsDemo() {
             <Input
               id="full-name"
               placeholder="Alex Morgan"
-              className="bg-[var(--color-surface)] text-[var(--color-text-primary)] placeholder:text-[var(--color-text-secondary)]"
+              className="bg-(--color-surface) text-(--color-text-primary) placeholder:text-(--color-text-secondary)"
             />
           </div>
         </CardContent>
       </Card>
 
-      <Card className="gap-4 border-[var(--color-border)] py-6">
+      <Card className="gap-4 border-(--color-border) py-6">
         <CardHeader className="pb-2">
           <CardTitle className="font-display text-base">Dropdown &amp; Multiline</CardTitle>
         </CardHeader>
@@ -940,7 +940,7 @@ function FormControlsDemo() {
             <Select defaultValue="headphones">
               <SelectTrigger
                 id="category-select"
-                className="w-full bg-[var(--color-surface)]"
+                className="w-full bg-(--color-surface)"
               >
                 <SelectValue placeholder="Select a category" />
               </SelectTrigger>
@@ -959,13 +959,13 @@ function FormControlsDemo() {
               id="delivery-notes"
               rows={3}
               placeholder="Leave at the front door..."
-              className="bg-[var(--color-surface)] text-[var(--color-text-primary)] placeholder:text-[var(--color-text-secondary)]"
+              className="bg-(--color-surface) text-(--color-text-primary) placeholder:text-(--color-text-secondary)"
             />
           </div>
         </CardContent>
       </Card>
 
-      <Card className="gap-4 border-[var(--color-border)] py-6">
+      <Card className="gap-4 border-(--color-border) py-6">
         <CardHeader className="pb-2">
           <CardTitle className="font-display text-base">Numeric &amp; Date</CardTitle>
         </CardHeader>
@@ -979,7 +979,7 @@ function FormControlsDemo() {
               min={1}
               max={5}
               defaultValue={2}
-              className="bg-[var(--color-surface)] text-[var(--color-text-primary)]"
+              className="bg-(--color-surface) text-(--color-text-primary)"
             />
           </div>
 
@@ -988,13 +988,13 @@ function FormControlsDemo() {
             <Input
               id="delivery-date"
               type="date"
-              className="bg-[var(--color-surface)] text-[var(--color-text-primary)]"
+              className="bg-(--color-surface) text-(--color-text-primary)"
             />
           </div>
         </CardContent>
       </Card>
 
-      <Card className="gap-4 border-[var(--color-border)] py-6">
+      <Card className="gap-4 border-(--color-border) py-6">
         <CardHeader className="pb-2">
           <CardTitle className="font-display text-base">Booleans</CardTitle>
         </CardHeader>
@@ -1007,7 +1007,7 @@ function FormControlsDemo() {
           <div className="flex items-center justify-between gap-4">
             <div className="space-y-0.5">
               <Label htmlFor="restock-alert">Restock reminder</Label>
-              <p className="text-xs text-[var(--color-text-secondary)]">
+              <p className="text-xs text-(--color-text-secondary)">
                 Email me when this item is back in stock
               </p>
             </div>
@@ -1016,13 +1016,13 @@ function FormControlsDemo() {
         </CardContent>
       </Card>
 
-      <Card className="gap-4 border-[var(--color-border)] py-6">
+      <Card className="gap-4 border-(--color-border) py-6">
         <CardHeader className="pb-2">
           <CardTitle className="font-display text-base">Radio &amp; Quantity</CardTitle>
         </CardHeader>
         <CardContent className="space-y-5 px-6">
           <fieldset className="space-y-2">
-            <legend className="text-sm leading-none font-medium text-[var(--color-text-primary)]">
+            <legend className="text-sm leading-none font-medium text-(--color-text-primary)">
               Shipping speed
             </legend>
             <RadioGroup defaultValue="standard" className="gap-2">
@@ -1031,7 +1031,7 @@ function FormControlsDemo() {
                 { value: "express", label: "Express", hint: "1-2 days · $14.00" },
                 { value: "priority", label: "Priority", hint: "Next day · $29.00" },
               ].map((option) => (
-                <div key={option.value} className="flex items-center justify-between gap-3 rounded-lg border border-[var(--color-border)] px-3 py-2.5">
+                <div key={option.value} className="flex items-center justify-between gap-3 rounded-lg border border-(--color-border) px-3 py-2.5">
                   <label
                     htmlFor={`speed-${option.value}`}
                     className="flex cursor-pointer items-center gap-3"
@@ -1039,7 +1039,7 @@ function FormControlsDemo() {
                     <RadioGroupItem value={option.value} id={`speed-${option.value}`} />
                     <span className="text-sm font-medium">{option.label}</span>
                   </label>
-                  <span className="text-xs text-[var(--color-text-secondary)]">
+                  <span className="text-xs text-(--color-text-secondary)">
                     {option.hint}
                   </span>
                 </div>
@@ -1065,7 +1065,7 @@ function FormControlsDemo() {
                 inputMode="numeric"
                 aria-live="polite"
                 value={quantity}
-                className="h-9 w-14 bg-[var(--color-surface)] text-center text-[var(--color-text-primary)]"
+                className="h-9 w-14 bg-(--color-surface) text-center text-(--color-text-primary)"
               />
               <Button
                 type="button"
@@ -1087,50 +1087,50 @@ function FormControlsDemo() {
 function InputStatesDemo() {
   return (
     <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-3">
-      <div className="space-y-2 rounded-xl border border-[var(--color-border)] bg-[var(--color-surface)] p-4">
+      <div className="space-y-2 rounded-xl border border-(--color-border) bg-(--color-surface) p-4">
         <div className="flex items-center justify-between gap-3">
-          <p className="text-sm font-medium text-[var(--color-text-primary)]">Default</p>
-          <span className="font-mono text-[10px] text-[var(--color-text-secondary)]">border-input</span>
+          <p className="text-sm font-medium text-(--color-text-primary)">Default</p>
+          <span className="font-mono text-[10px] text-(--color-text-secondary)">border-input</span>
         </div>
         <Input
           placeholder="Aurora Wireless Headset"
-          className="bg-[var(--color-surface)] text-[var(--color-text-primary)] placeholder:text-[var(--color-text-secondary)]"
+          className="bg-(--color-surface) text-(--color-text-primary) placeholder:text-(--color-text-secondary)"
         />
-        <p className="text-xs text-[var(--color-text-secondary)]">Standard resting state.</p>
+        <p className="text-xs text-(--color-text-secondary)">Standard resting state.</p>
       </div>
 
-      <div className="space-y-2 rounded-xl border border-[var(--color-border)] bg-[var(--color-surface)] p-4">
+      <div className="space-y-2 rounded-xl border border-(--color-border) bg-(--color-surface) p-4">
         <div className="flex items-center justify-between gap-3">
-          <p className="text-sm font-medium text-[var(--color-text-primary)]">Hover</p>
-          <span className="font-mono text-[10px] text-[var(--color-text-secondary)]">border-supporting</span>
+          <p className="text-sm font-medium text-(--color-text-primary)">Hover</p>
+          <span className="font-mono text-[10px] text-(--color-text-secondary)">border-supporting</span>
         </div>
         <Input
           placeholder="Aurora Wireless Headset"
-          className="border-[var(--color-supporting)] bg-[var(--color-surface)] text-[var(--color-text-primary)] placeholder:text-[var(--color-text-secondary)]"
+          className="border-(--color-supporting) bg-(--color-surface) text-(--color-text-primary) placeholder:text-(--color-text-secondary)"
         />
-        <p className="text-xs text-[var(--color-text-secondary)]">Hovered border uses --color-supporting.</p>
+        <p className="text-xs text-(--color-text-secondary)">Hovered border uses --color-supporting.</p>
       </div>
 
-      <div className="space-y-2 rounded-xl border border-[var(--color-border)] bg-[var(--color-surface)] p-4">
+      <div className="space-y-2 rounded-xl border border-(--color-border) bg-(--color-surface) p-4">
         <div className="flex items-center justify-between gap-3">
-          <p className="text-sm font-medium text-[var(--color-text-primary)]">Focused</p>
-          <span className="font-mono text-[10px] text-[var(--color-text-secondary)]">focus-ring</span>
+          <p className="text-sm font-medium text-(--color-text-primary)">Focused</p>
+          <span className="font-mono text-[10px] text-(--color-text-secondary)">focus-ring</span>
         </div>
         <Input
           placeholder="Aurora Wireless Headset"
-          className="border-ring bg-[var(--color-surface)] text-[var(--color-text-primary)] ring-[3px] ring-ring/50"
+          className="border-ring bg-(--color-surface) text-(--color-text-primary) ring-[3px] ring-ring/50"
         />
-        <p className="text-xs text-[var(--color-text-secondary)]">
+        <p className="text-xs text-(--color-text-secondary)">
           Focus ring draws from --color-focus-ring.
         </p>
       </div>
 
-      <div className="space-y-2 rounded-xl border border-[var(--color-border)] bg-[var(--color-surface)] p-4">
+      <div className="space-y-2 rounded-xl border border-(--color-border) bg-(--color-surface) p-4">
         <div className="flex items-center justify-between gap-3">
           <Label htmlFor="input-error-state" className="text-sm font-medium">
             Error
           </Label>
-          <span className="font-mono text-[10px] text-[var(--color-text-secondary)]">aria-invalid · destructive</span>
+          <span className="font-mono text-[10px] text-(--color-text-secondary)">aria-invalid · destructive</span>
         </div>
         <Input
           id="input-error-state"
@@ -1139,53 +1139,53 @@ function InputStatesDemo() {
           placeholder="you@example.com"
           aria-invalid="true"
           aria-describedby="email-error"
-          className="bg-[var(--color-surface)] text-[var(--color-text-primary)]"
+          className="bg-(--color-surface) text-(--color-text-primary)"
         />
         <p
           id="email-error"
           role="alert"
-          className="text-xs text-[var(--color-error)]"
+          className="text-xs text-(--color-error)"
         >
           Please enter a valid email address.
         </p>
       </div>
 
-      <div className="space-y-2 rounded-xl border border-[var(--color-border)] bg-[var(--color-surface)] p-4">
+      <div className="space-y-2 rounded-xl border border-(--color-border) bg-(--color-surface) p-4">
         <div className="flex items-center justify-between gap-3">
           <Label htmlFor="input-success-state" className="text-sm font-medium">
             Success
           </Label>
-          <span className="font-mono text-[10px] text-[var(--color-text-secondary)]">success border</span>
+          <span className="font-mono text-[10px] text-(--color-text-secondary)">success border</span>
         </div>
         <Input
           id="input-success-state"
           type="email"
           defaultValue="alex@example.com"
-          className="border-[var(--color-success)] bg-[var(--color-surface)] text-[var(--color-text-primary)]"
+          className="border-(--color-success) bg-(--color-surface) text-(--color-text-primary)"
         />
-        <p className="flex items-center gap-1.5 text-xs text-[var(--color-success)]">
+        <p className="flex items-center gap-1.5 text-xs text-(--color-success)">
           <CircleCheck className="size-3.5" aria-hidden="true" />
           Email verified.
         </p>
       </div>
 
-      <div className="space-y-2 rounded-xl border border-[var(--color-border)] bg-[var(--color-surface)] p-4">
+      <div className="space-y-2 rounded-xl border border-(--color-border) bg-(--color-surface) p-4">
         <div className="flex items-center justify-between gap-3">
           <Label
             htmlFor="input-disabled-state"
-            className="text-sm font-medium text-[var(--color-text-disabled)]"
+            className="text-sm font-medium text-(--color-text-disabled)"
           >
             Disabled
           </Label>
-          <span className="font-mono text-[10px] text-[var(--color-text-disabled)]">opacity-50</span>
+          <span className="font-mono text-[10px] text-(--color-text-disabled)">opacity-50</span>
         </div>
         <Input
           id="input-disabled-state"
           disabled
           placeholder="Unavailable"
-          className="bg-[var(--color-surface-muted)]"
+          className="bg-(--color-surface-muted)"
         />
-        <p className="text-xs text-[var(--color-text-disabled)]">
+        <p className="text-xs text-(--color-text-disabled)">
           This option is not selectable.
         </p>
       </div>
@@ -1195,7 +1195,7 @@ function InputStatesDemo() {
 
 function PaginationDemo() {
   return (
-    <Card className="border-[var(--color-border)] py-6">
+    <Card className="border-(--color-border) py-6">
       <CardContent className="flex flex-col items-start gap-4 px-6">
         <nav aria-label="Pagination">
           <ul className="flex flex-wrap items-center gap-2">
@@ -1209,7 +1209,7 @@ function PaginationDemo() {
               <Button
                 size="sm"
                 aria-current="page"
-                className="bg-[var(--color-primary)] text-[var(--color-on-primary)] hover:bg-[var(--color-secondary)]"
+                className="bg-(--color-primary) text-(--color-on-primary) hover:bg-(--color-secondary)"
               >
                 1
               </Button>
@@ -1229,7 +1229,7 @@ function PaginationDemo() {
           </ul>
         </nav>
 
-        <p className="font-mono text-[11px] leading-5 text-[var(--color-text-secondary)]">
+        <p className="font-mono text-[11px] leading-5 text-(--color-text-secondary)">
           Active page: var(--color-primary) with aria-current="page".
           Previous is disabled on the first page.
         </p>
@@ -1243,7 +1243,7 @@ function BreadcrumbsDemo() {
 
   return (
     <div className="grid gap-4 lg:grid-cols-2">
-      <Card className="gap-3 border-[var(--color-border)] py-6">
+      <Card className="gap-3 border-(--color-border) py-6">
         <CardHeader className="pb-2">
           <CardTitle className="font-display text-base">Product trail</CardTitle>
           <CardDescription>Home / Electronics / Laptops / Product</CardDescription>
@@ -1254,39 +1254,39 @@ function BreadcrumbsDemo() {
               <li>
                 <a
                   href="#"
-                  className="text-[var(--color-link)] underline-offset-4 hover:text-[var(--color-link-hover)] hover:underline"
+                  className="text-(--color-link) underline-offset-4 hover:text-(--color-link-hover) hover:underline"
                 >
                   Home
                 </a>
               </li>
-              <li aria-hidden="true" className="flex items-center text-[var(--color-text-disabled)]">
+              <li aria-hidden="true" className="flex items-center text-(--color-text-disabled)">
                 <ChevronRight className="size-4" />
               </li>
               <li>
                 <a
                   href="#"
-                  className="text-[var(--color-link)] underline-offset-4 hover:text-[var(--color-link-hover)] hover:underline"
+                  className="text-(--color-link) underline-offset-4 hover:text-(--color-link-hover) hover:underline"
                 >
                   Electronics
                 </a>
               </li>
-              <li aria-hidden="true" className="flex items-center text-[var(--color-text-disabled)]">
+              <li aria-hidden="true" className="flex items-center text-(--color-text-disabled)">
                 <ChevronRight className="size-4" />
               </li>
               <li>
                 <a
                   href="#"
-                  className="text-[var(--color-link)] underline-offset-4 hover:text-[var(--color-link-hover)] hover:underline"
+                  className="text-(--color-link) underline-offset-4 hover:text-(--color-link-hover) hover:underline"
                 >
                   Laptops
                 </a>
               </li>
-              <li aria-hidden="true" className="flex items-center text-[var(--color-text-disabled)]">
+              <li aria-hidden="true" className="flex items-center text-(--color-text-disabled)">
                 <ChevronRight className="size-4" />
               </li>
               <li
                 aria-current="page"
-                className="font-medium text-[var(--color-text-primary)]"
+                className="font-medium text-(--color-text-primary)"
               >
                 Aurora Notebook 15
               </li>
@@ -1295,7 +1295,7 @@ function BreadcrumbsDemo() {
         </CardContent>
       </Card>
 
-      <Card className="gap-3 border-[var(--color-border)] py-6">
+      <Card className="gap-3 border-(--color-border) py-6">
         <CardHeader className="pb-2">
           <CardTitle className="font-display text-base">Long trail</CardTitle>
           <CardDescription>Wraps to multiple lines on narrow viewports.</CardDescription>
@@ -1308,7 +1308,7 @@ function BreadcrumbsDemo() {
                   {index > 0 && (
                     <span
                       aria-hidden="true"
-                      className="flex items-center text-[var(--color-text-disabled)]"
+                      className="flex items-center text-(--color-text-disabled)"
                     >
                       <ChevronRight className="size-4" />
                     </span>
@@ -1316,14 +1316,14 @@ function BreadcrumbsDemo() {
                   {index === longTrail.length - 1 ? (
                     <span
                       aria-current="page"
-                      className="font-medium text-[var(--color-text-primary)]"
+                      className="font-medium text-(--color-text-primary)"
                     >
                       {item}
                     </span>
                   ) : (
                     <a
                       href="#"
-                      className="text-[var(--color-link)] underline-offset-4 hover:text-[var(--color-link-hover)] hover:underline"
+                      className="text-(--color-link) underline-offset-4 hover:text-(--color-link-hover) hover:underline"
                     >
                       {item}
                     </a>
@@ -1340,7 +1340,7 @@ function BreadcrumbsDemo() {
 
 function ProductTabsDemo() {
   return (
-    <Card className="gap-4 border-[var(--color-border)] py-6">
+    <Card className="gap-4 border-(--color-border) py-6">
       <CardContent className="space-y-5 px-6">
         <Tabs defaultValue="description" className="w-full">
           <TabsList variant="line" className="w-full justify-start">
@@ -1354,7 +1354,7 @@ function ProductTabsDemo() {
             <h3 className="font-display text-lg font-semibold">
               Aurora Notebook 15
             </h3>
-            <p className="max-w-2xl text-sm leading-6 text-[var(--color-text-secondary)]">
+            <p className="max-w-2xl text-sm leading-6 text-(--color-text-secondary)">
               A 15-inch productivity laptop with a matte display, all-day battery
               and a full-size keyboard. Built for quiet coworking spaces and long
               coffee-shop sessions.
@@ -1363,20 +1363,20 @@ function ProductTabsDemo() {
 
           <TabsContent value="specs" className="mt-6">
             <dl className="grid gap-x-8 gap-y-2 sm:grid-cols-2">
-              <div className="flex justify-between gap-4 border-b border-[var(--color-border)] py-2">
-                <dt className="text-sm text-[var(--color-text-secondary)]">Display</dt>
+              <div className="flex justify-between gap-4 border-b border-(--color-border) py-2">
+                <dt className="text-sm text-(--color-text-secondary)">Display</dt>
                 <dd className="text-sm font-medium">15.6" FHD</dd>
               </div>
-              <div className="flex justify-between gap-4 border-b border-[var(--color-border)] py-2">
-                <dt className="text-sm text-[var(--color-text-secondary)]">Processor</dt>
+              <div className="flex justify-between gap-4 border-b border-(--color-border) py-2">
+                <dt className="text-sm text-(--color-text-secondary)">Processor</dt>
                 <dd className="text-sm font-medium">Octa-core</dd>
               </div>
-              <div className="flex justify-between gap-4 border-b border-[var(--color-border)] py-2">
-                <dt className="text-sm text-[var(--color-text-secondary)]">Memory</dt>
+              <div className="flex justify-between gap-4 border-b border-(--color-border) py-2">
+                <dt className="text-sm text-(--color-text-secondary)">Memory</dt>
                 <dd className="text-sm font-medium">16 GB</dd>
               </div>
-              <div className="flex justify-between gap-4 border-b border-[var(--color-border)] py-2">
-                <dt className="text-sm text-[var(--color-text-secondary)]">Battery</dt>
+              <div className="flex justify-between gap-4 border-b border-(--color-border) py-2">
+                <dt className="text-sm text-(--color-text-secondary)">Battery</dt>
                 <dd className="text-sm font-medium">Up to 12 h</dd>
               </div>
             </dl>
@@ -1385,11 +1385,11 @@ function ProductTabsDemo() {
           <TabsContent value="reviews" className="mt-6 space-y-4">
             <div className="flex items-center gap-3">
               <Stars value={4.8} label="Average customer rating 4.8 out of 5" />
-              <p className="text-sm text-[var(--color-text-secondary)]">
+              <p className="text-sm text-(--color-text-secondary)">
                 4.8 · 124 reviews
               </p>
             </div>
-            <blockquote className="border-l-2 border-[var(--color-supporting)] pl-4 text-sm leading-6 text-[var(--color-text-secondary)]">
+            <blockquote className="border-l-2 border-(--color-supporting) pl-4 text-sm leading-6 text-(--color-text-secondary)">
               “The keyboard is the best part — quiet, backlit and comfortable for
               full work days.”
             </blockquote>
@@ -1398,10 +1398,10 @@ function ProductTabsDemo() {
           <TabsContent value="shipping" className="mt-6 space-y-3">
             <div className="flex items-start gap-3">
               <Truck
-                className="mt-0.5 size-5 shrink-0 text-[var(--color-success)]"
+                className="mt-0.5 size-5 shrink-0 text-(--color-success)"
                 aria-hidden="true"
               />
-              <p className="text-sm leading-6 text-[var(--color-text-secondary)]">
+              <p className="text-sm leading-6 text-(--color-text-secondary)">
                 Ships in 1-2 business days. Free standard shipping over $75,
                 express options available at checkout.
               </p>
@@ -1409,7 +1409,7 @@ function ProductTabsDemo() {
           </TabsContent>
         </Tabs>
 
-        <p className="font-mono text-[11px] leading-5 text-[var(--color-text-secondary)]">
+        <p className="font-mono text-[11px] leading-5 text-(--color-text-secondary)">
           Tab states: default · hover · active underline · focus-visible ring
           (all handled by the shadcn Tabs primitive).
         </p>
@@ -1423,15 +1423,15 @@ function ProductCardExample() {
 
   return (
     <div className="grid gap-5 lg:grid-cols-2">
-      <Card className="gap-4 overflow-hidden border-[var(--color-border)] py-0 shadow-[var(--shadow-md)]">
-        <div className="relative m-4 flex aspect-[4/3] items-center justify-center overflow-hidden rounded-xl bg-[var(--color-surface-secondary)]">
+      <Card className="gap-4 overflow-hidden border-(--color-border) py-0 shadow-(--shadow-md)">
+        <div className="relative m-4 flex aspect-[4/3] items-center justify-center overflow-hidden rounded-xl bg-(--color-surface-secondary)">
           <Headphones
-            className="size-20 text-[var(--color-supporting-decorative)]"
+            className="size-20 text-(--color-supporting-decorative)"
             aria-hidden="true"
           />
           <Badge
             variant="outline"
-            className="absolute top-3 left-3 border-transparent bg-[var(--color-error)] px-2.5 text-[var(--color-on-error)]"
+            className="absolute top-3 left-3 border-transparent bg-(--color-error) px-2.5 text-(--color-on-error)"
           >
             Sale −20%
           </Badge>
@@ -1442,13 +1442,13 @@ function ProductCardExample() {
             aria-label="Add to wishlist"
             aria-pressed={wishlisted}
             onClick={() => setWishlisted((value) => !value)}
-            className="absolute top-3 right-3 bg-[var(--color-surface)]/80 hover:bg-[var(--color-surface)]"
+            className="absolute top-3 right-3 bg-(--color-surface)/80 hover:bg-(--color-surface)"
           >
             <Heart
               aria-hidden="true"
               className={
                 wishlisted
-                  ? "fill-[var(--color-error)] text-[var(--color-error)]"
+                  ? "fill-(--color-error) text-(--color-error)"
                   : undefined
               }
             />
@@ -1457,43 +1457,43 @@ function ProductCardExample() {
 
         <CardContent className="space-y-4 px-5 pb-5">
           <div>
-            <p className="font-mono text-[11px] tracking-wide text-[var(--color-text-secondary)] uppercase">
+            <p className="font-mono text-[11px] tracking-wide text-(--color-text-secondary) uppercase">
               Electronics · Audio
             </p>
-            <h3 className="mt-1 font-display text-lg font-semibold text-[var(--color-text-primary)]">
+            <h3 className="mt-1 font-display text-lg font-semibold text-(--color-text-primary)">
               Aurora Wireless Headset
             </h3>
             <div className="mt-1.5 flex items-center gap-2">
               <Stars value={4.8} label="4.8 out of 5 stars, 124 reviews" />
-              <span className="text-sm text-[var(--color-text-secondary)]">
-                4.8 <span className="text-[var(--color-text-disabled)]">(124)</span>
+              <span className="text-sm text-(--color-text-secondary)">
+                4.8 <span className="text-(--color-text-disabled)">(124)</span>
               </span>
             </div>
           </div>
 
           <div className="flex flex-wrap items-baseline gap-2">
-            <p className="font-display text-2xl font-bold text-[var(--color-text-primary)]">
+            <p className="font-display text-2xl font-bold text-(--color-text-primary)">
               $99.00
             </p>
-            <p className="text-sm text-[var(--color-text-secondary)] line-through">
+            <p className="text-sm text-(--color-text-secondary) line-through">
               $129.00
             </p>
             <Badge
               variant="outline"
-              className="border-transparent bg-[var(--color-error)] text-[var(--color-on-error)]"
+              className="border-transparent bg-(--color-error) text-(--color-on-error)"
             >
               −23%
             </Badge>
           </div>
 
-          <p className="flex items-center gap-1.5 text-sm text-[var(--color-success)]">
+          <p className="flex items-center gap-1.5 text-sm text-(--color-success)">
             <CircleCheck className="size-4" aria-hidden="true" />
             In Stock
           </p>
 
           <div className="flex gap-2 pt-1">
             <Button
-              className="flex-1 bg-[var(--color-primary)] text-primary-foreground hover:bg-[var(--color-secondary)]"
+              className="flex-1 bg-(--color-primary) text-primary-foreground hover:bg-(--color-secondary)"
             >
               <ShoppingCart aria-hidden="true" />
               Add to Cart
@@ -1505,7 +1505,7 @@ function ProductCardExample() {
         </CardContent>
       </Card>
 
-      <Card className="gap-4 border-[var(--color-border)] py-0">
+      <Card className="gap-4 border-(--color-border) py-0">
         <CardHeader className="pb-2">
           <CardTitle className="font-display text-base">Loading state</CardTitle>
           <CardDescription>Skeleton placeholder while product data loads.</CardDescription>
@@ -1541,14 +1541,14 @@ function GalleryDemo() {
 
   return (
     <div className="grid gap-4 md:grid-cols-[1fr_auto]">
-      <div className="relative flex aspect-[4/3] items-center justify-center rounded-xl bg-[var(--color-surface-secondary)]">
+      <div className="relative flex aspect-[4/3] items-center justify-center rounded-xl bg-(--color-surface-secondary)">
         <Item
-          className="size-24 text-[var(--color-supporting-decorative)]"
+          className="size-24 text-(--color-supporting-decorative)"
           aria-hidden="true"
         />
         <Badge
           variant="outline"
-          className="absolute top-3 left-3 bg-[var(--color-surface)]"
+          className="absolute top-3 left-3 bg-(--color-surface)"
         >
           {active + 1} / {galleryItems.length}
         </Badge>
@@ -1557,7 +1557,7 @@ function GalleryDemo() {
           size="icon"
           onClick={previous}
           aria-label="Previous image"
-          className="absolute top-1/2 left-3 -translate-y-1/2 bg-[var(--color-surface)]"
+          className="absolute top-1/2 left-3 -translate-y-1/2 bg-(--color-surface)"
         >
           <ChevronLeft aria-hidden="true" />
         </Button>
@@ -1566,7 +1566,7 @@ function GalleryDemo() {
           size="icon"
           onClick={next}
           aria-label="Next image"
-          className="absolute top-1/2 right-3 -translate-y-1/2 bg-[var(--color-surface)]"
+          className="absolute top-1/2 right-3 -translate-y-1/2 bg-(--color-surface)"
         >
           <ChevronRight aria-hidden="true" />
         </Button>
@@ -1582,12 +1582,12 @@ function GalleryDemo() {
             aria-pressed={index === active}
             className={`flex aspect-square w-20 items-center justify-center rounded-lg border-2 transition ${
               index === active
-                ? "border-[var(--color-primary)] bg-[var(--color-accent)]"
-                : "border-[var(--color-border)] bg-[var(--color-surface)] hover:border-[var(--color-supporting)]"
+                ? "border-(--color-primary) bg-(--color-accent)"
+                : "border-(--color-border) bg-(--color-surface) hover:border-(--color-supporting)"
             }`}
           >
             <item.Icon
-              className="size-6 text-[var(--color-supporting-decorative)]"
+              className="size-6 text-(--color-supporting-decorative)"
               aria-hidden="true"
             />
           </button>
@@ -1606,25 +1606,25 @@ function RatingDemo() {
   ];
 
   return (
-    <Card className="border-[var(--color-border)] py-6">
+    <Card className="border-(--color-border) py-6">
       <CardContent className="space-y-6 px-6">
-        <div className="flex flex-wrap items-center gap-6 rounded-xl border border-[var(--color-border)] bg-[var(--color-surface-secondary)] p-5">
+        <div className="flex flex-wrap items-center gap-6 rounded-xl border border-(--color-border) bg-(--color-surface-secondary) p-5">
           <div className="text-center">
-            <p className="font-mono text-xs text-[var(--color-text-secondary)]">
+            <p className="font-mono text-xs text-(--color-text-secondary)">
               Average rating
             </p>
-            <p className="font-display text-4xl font-bold text-[var(--color-text-primary)]">
+            <p className="font-display text-4xl font-bold text-(--color-text-primary)">
               4.8
             </p>
             <div className="mt-2">
               <Stars value={4.8} label="Overall rating 4.8 out of 5" />
             </div>
-            <p className="mt-2 text-xs text-[var(--color-text-secondary)]">
+            <p className="mt-2 text-xs text-(--color-text-secondary)">
               124 reviews
             </p>
           </div>
 
-          <p className="max-w-56 text-sm leading-6 text-[var(--color-text-secondary)]">
+          <p className="max-w-56 text-sm leading-6 text-(--color-text-secondary)">
             Partial values render a half-filled star using --color-warning for
             the filled portion and --color-border-strong for empty stars.
           </p>
@@ -1637,10 +1637,10 @@ function RatingDemo() {
                 value={rating.value}
                 label={`${rating.label}: ${rating.value} out of 5`}
               />
-              <span className="text-sm font-medium text-[var(--color-text-primary)]">
+              <span className="text-sm font-medium text-(--color-text-primary)">
                 {rating.value.toFixed(1)}
               </span>
-              <span className="text-sm text-[var(--color-text-secondary)]">
+              <span className="text-sm text-(--color-text-secondary)">
                 ({rating.count} reviews)
               </span>
             </li>
@@ -1653,28 +1653,28 @@ function RatingDemo() {
 
 function PriceDemo() {
   return (
-    <Card className="border-[var(--color-border)] py-6">
+    <Card className="border-(--color-border) py-6">
       <CardContent className="space-y-4 px-6">
         <div className="grid gap-4 sm:grid-cols-2">
-          <div className="rounded-xl border border-[var(--color-border)] bg-[var(--color-surface-secondary)] p-5">
-            <p className="font-mono text-xs text-[var(--color-text-secondary)]">Standard</p>
-            <p className="mt-2 font-display text-2xl font-bold text-[var(--color-text-primary)]">
+          <div className="rounded-xl border border-(--color-border) bg-(--color-surface-secondary) p-5">
+            <p className="font-mono text-xs text-(--color-text-secondary)">Standard</p>
+            <p className="mt-2 font-display text-2xl font-bold text-(--color-text-primary)">
               $129.00
             </p>
           </div>
 
-          <div className="rounded-xl border border-[var(--color-border)] bg-[var(--color-surface-secondary)] p-5">
-            <p className="font-mono text-xs text-[var(--color-text-secondary)]">Discounted</p>
+          <div className="rounded-xl border border-(--color-border) bg-(--color-surface-secondary) p-5">
+            <p className="font-mono text-xs text-(--color-text-secondary)">Discounted</p>
             <div className="mt-2 flex flex-wrap items-baseline gap-2">
-              <p className="font-display text-3xl font-bold text-[var(--color-primary)]">
+              <p className="font-display text-3xl font-bold text-(--color-primary)">
                 $99.00
               </p>
-              <p className="text-sm text-[var(--color-text-secondary)] line-through">
+              <p className="text-sm text-(--color-text-secondary) line-through">
                 $129.00
               </p>
               <Badge
                 variant="outline"
-                className="border-transparent bg-[var(--color-error)] text-[var(--color-on-error)]"
+                className="border-transparent bg-(--color-error) text-(--color-on-error)"
               >
                 −23%
               </Badge>
@@ -1682,15 +1682,15 @@ function PriceDemo() {
           </div>
         </div>
 
-        <div className="rounded-xl border border-[var(--color-border)] bg-[var(--color-surface)] p-5">
-          <p className="font-mono text-xs text-[var(--color-text-secondary)]">Range</p>
-          <p className="mt-2 font-body text-lg font-medium text-[var(--color-text-primary)]">
-            $80.00 <span className="text-[var(--color-text-secondary)]">–</span>{" "}
+        <div className="rounded-xl border border-(--color-border) bg-(--color-surface) p-5">
+          <p className="font-mono text-xs text-(--color-text-secondary)">Range</p>
+          <p className="mt-2 font-body text-lg font-medium text-(--color-text-primary)">
+            $80.00 <span className="text-(--color-text-secondary)">–</span>{" "}
             $120.00
           </p>
         </div>
 
-        <p className="font-mono text-[11px] leading-5 text-[var(--color-text-secondary)]">
+        <p className="font-mono text-[11px] leading-5 text-(--color-text-secondary)">
           Hierarchy: current price (font-display, largest) · original price
           (muted, line-through) · discount (--color-error).
         </p>
@@ -1703,24 +1703,24 @@ function CartItemDemo() {
   const [headsetQty, setHeadsetQty] = useState(2);
 
   return (
-    <Card className="border-[var(--color-border)] py-6">
+    <Card className="border-(--color-border) py-6">
       <CardContent className="space-y-3 px-6">
         <div className="flex flex-wrap items-center gap-x-4 gap-y-3">
-          <div className="flex size-20 items-center justify-center rounded-lg bg-[var(--color-surface-secondary)]">
+          <div className="flex size-20 items-center justify-center rounded-lg bg-(--color-surface-secondary)">
             <Headphones
-              className="size-8 text-[var(--color-supporting-decorative)]"
+              className="size-8 text-(--color-supporting-decorative)"
               aria-hidden="true"
             />
           </div>
 
           <div className="min-w-0 flex-1 basis-40">
-            <p className="font-medium leading-tight text-[var(--color-text-primary)]">
+            <p className="font-medium leading-tight text-(--color-text-primary)">
               Aurora Wireless Headset
             </p>
-            <p className="mt-0.5 text-xs text-[var(--color-text-secondary)]">
+            <p className="mt-0.5 text-xs text-(--color-text-secondary)">
               Color: Midnight · Bluetooth 5.3
             </p>
-            <p className="mt-1 text-sm text-[var(--color-text-secondary)]">
+            <p className="mt-1 text-sm text-(--color-text-secondary)">
               $49.00 / unit
             </p>
           </div>
@@ -1747,7 +1747,7 @@ function CartItemDemo() {
             </Button>
           </div>
 
-          <p className="min-w-16 text-right font-display font-semibold text-[var(--color-text-primary)]">
+          <p className="min-w-16 text-right font-display font-semibold text-(--color-text-primary)">
             ${49 * headsetQty}.00
           </p>
 
@@ -1755,7 +1755,7 @@ function CartItemDemo() {
             variant="ghost"
             size="icon-sm"
             aria-label="Remove Aurora Wireless Headset from cart"
-            className="text-[var(--color-text-secondary)] hover:text-[var(--color-error)]"
+            className="text-(--color-text-secondary) hover:text-(--color-error)"
           >
             <X aria-hidden="true" />
           </Button>
@@ -1764,21 +1764,21 @@ function CartItemDemo() {
         <Separator />
 
         <div className="flex flex-wrap items-center gap-x-4 gap-y-3">
-          <div className="flex size-20 items-center justify-center rounded-lg bg-[var(--color-surface-secondary)]">
+          <div className="flex size-20 items-center justify-center rounded-lg bg-(--color-surface-secondary)">
             <Package
-              className="size-8 text-[var(--color-supporting-decorative)]"
+              className="size-8 text-(--color-supporting-decorative)"
               aria-hidden="true"
             />
           </div>
 
           <div className="min-w-0 flex-1 basis-40">
-            <p className="font-medium leading-tight text-[var(--color-text-primary)]">
+            <p className="font-medium leading-tight text-(--color-text-primary)">
               Nord Foldable Desk
             </p>
-            <p className="mt-0.5 text-xs text-[var(--color-text-secondary)]">
+            <p className="mt-0.5 text-xs text-(--color-text-secondary)">
               Finish: Natural Oak
             </p>
-            <p className="mt-1 text-sm text-[var(--color-text-secondary)]">
+            <p className="mt-1 text-sm text-(--color-text-secondary)">
               $129.00 / unit
             </p>
           </div>
@@ -1793,7 +1793,7 @@ function CartItemDemo() {
             </Button>
           </div>
 
-          <p className="min-w-16 text-right font-display font-semibold text-[var(--color-text-primary)]">
+          <p className="min-w-16 text-right font-display font-semibold text-(--color-text-primary)">
             $129.00
           </p>
 
@@ -1801,7 +1801,7 @@ function CartItemDemo() {
             variant="ghost"
             size="icon-sm"
             aria-label="Remove Nord Foldable Desk from cart"
-            className="text-[var(--color-text-secondary)] hover:text-[var(--color-error)]"
+            className="text-(--color-text-secondary) hover:text-(--color-error)"
           >
             <X aria-hidden="true" />
           </Button>
@@ -1816,21 +1816,21 @@ function MiniCartItems({ items }) {
     <ul className="space-y-4">
       {items.map((item) => (
         <li key={item.name} className="flex items-center gap-3">
-          <span className="flex size-12 shrink-0 items-center justify-center rounded-md bg-[var(--color-surface-secondary)]">
+          <span className="flex size-12 shrink-0 items-center justify-center rounded-md bg-(--color-surface-secondary)">
             <item.Icon
-              className="size-5 text-[var(--color-supporting-decorative)]"
+              className="size-5 text-(--color-supporting-decorative)"
               aria-hidden="true"
             />
           </span>
           <span className="min-w-0 flex-1">
-            <span className="block truncate text-sm font-medium text-[var(--color-text-primary)]">
+            <span className="block truncate text-sm font-medium text-(--color-text-primary)">
               {item.name}
             </span>
-            <span className="block text-xs text-[var(--color-text-secondary)]">
+            <span className="block text-xs text-(--color-text-secondary)">
               Qty {item.qty} · ${item.unit}.00
             </span>
           </span>
-          <span className="font-display text-sm font-semibold text-[var(--color-text-primary)]">
+          <span className="font-display text-sm font-semibold text-(--color-text-primary)">
             ${item.qty * item.unit}.00
           </span>
         </li>
@@ -1847,7 +1847,7 @@ function MiniCartDemo() {
 
   return (
     <div className="grid gap-5 lg:grid-cols-2">
-      <Card className="gap-4 border-[var(--color-border)] py-6">
+      <Card className="gap-4 border-(--color-border) py-6">
         <CardHeader className="pb-2">
           <div className="flex items-center justify-between gap-4">
             <CardTitle className="font-display text-base">Mini Cart</CardTitle>
@@ -1858,8 +1858,8 @@ function MiniCartDemo() {
           <MiniCartItems items={miniCartItems} />
           <Separator />
           <div className="flex items-center justify-between">
-            <span className="text-sm text-[var(--color-text-secondary)]">Subtotal</span>
-            <span className="font-display font-semibold text-[var(--color-text-primary)]">
+            <span className="text-sm text-(--color-text-secondary)">Subtotal</span>
+            <span className="font-display font-semibold text-(--color-text-primary)">
               ${subtotal}.00
             </span>
           </div>
@@ -1873,7 +1873,7 @@ function MiniCartDemo() {
         </CardContent>
       </Card>
 
-      <Card className="gap-4 border-[var(--color-border)] py-6">
+      <Card className="gap-4 border-(--color-border) py-6">
         <CardHeader className="pb-2">
           <CardTitle className="font-display text-base">Cart Drawer</CardTitle>
           <CardDescription>
@@ -1883,7 +1883,7 @@ function MiniCartDemo() {
         <CardContent className="px-6">
           <Sheet>
             <SheetTrigger asChild>
-              <Button className="w-full bg-[var(--color-primary)] text-primary-foreground hover:bg-[var(--color-secondary)]">
+              <Button className="w-full bg-(--color-primary) text-primary-foreground hover:bg-(--color-secondary)">
                 <ShoppingCart aria-hidden="true" />
                 Open cart drawer
               </Button>
@@ -1895,7 +1895,7 @@ function MiniCartDemo() {
               <MiniCartItems items={miniCartItems} />
               <SheetFooter className="mt-auto gap-2">
                 <div className="flex w-full items-center justify-between">
-                  <span className="text-sm text-[var(--color-text-secondary)]">Subtotal</span>
+                  <span className="text-sm text-(--color-text-secondary)">Subtotal</span>
                   <span className="font-display font-semibold">${subtotal}.00</span>
                 </div>
                 <Button variant="outline" className="w-full">View Cart</Button>
@@ -1906,15 +1906,15 @@ function MiniCartDemo() {
         </CardContent>
       </Card>
 
-      <div className="flex flex-col items-center rounded-2xl border border-dashed border-[var(--color-border-strong)] bg-[var(--color-surface)] px-6 py-12 text-center lg:col-span-2">
+      <div className="flex flex-col items-center rounded-2xl border border-dashed border-(--color-border-strong) bg-(--color-surface) px-6 py-12 text-center lg:col-span-2">
         <Inbox
-          className="size-10 text-[var(--color-supporting-decorative)]"
+          className="size-10 text-(--color-supporting-decorative)"
           aria-hidden="true"
         />
-        <h3 className="mt-4 font-display text-lg font-semibold text-[var(--color-text-primary)]">
+        <h3 className="mt-4 font-display text-lg font-semibold text-(--color-text-primary)">
           Your cart is empty
         </h3>
-        <p className="mt-1 max-w-md text-sm leading-6 text-[var(--color-text-secondary)]">
+        <p className="mt-1 max-w-md text-sm leading-6 text-(--color-text-secondary)">
           Empty state: --color-surface with a dashed --color-border-strong
           container and muted supporting icon.
         </p>
@@ -1934,7 +1934,7 @@ function CouponDemo() {
 
   return (
     <div className="grid gap-5 lg:grid-cols-2">
-      <Card className="gap-4 border-[var(--color-border)] py-6">
+      <Card className="gap-4 border-(--color-border) py-6">
         <CardHeader className="pb-2">
           <CardTitle className="font-display text-base">Prompt</CardTitle>
           <CardDescription>Default field, applied and invalid outcomes.</CardDescription>
@@ -1956,18 +1956,18 @@ function CouponDemo() {
                       ? "coupon-applied"
                       : undefined
                 }
-                className="bg-[var(--color-surface)] text-[var(--color-text-primary)] placeholder:text-[var(--color-text-secondary)]"
+                className="bg-(--color-surface) text-(--color-text-primary) placeholder:text-(--color-text-secondary)"
               />
               <Button
                 onClick={applyCoupon}
-                className="shrink-0 bg-[var(--color-primary)] text-primary-foreground hover:bg-[var(--color-secondary)]"
+                className="shrink-0 bg-(--color-primary) text-primary-foreground hover:bg-(--color-secondary)"
               >
                 Apply
               </Button>
             </div>
 
             {status === "idle" && (
-              <p className="text-xs text-[var(--color-text-secondary)]">
+              <p className="text-xs text-(--color-text-secondary)">
                 Tip: use code SAVE20.
               </p>
             )}
@@ -1976,9 +1976,9 @@ function CouponDemo() {
               <div
                 id="coupon-applied"
                 role="status"
-                className="flex items-center justify-between gap-3 rounded-lg border border-[var(--color-success)] bg-[var(--color-success-bg)] px-4 py-3"
+                className="flex items-center justify-between gap-3 rounded-lg border border-(--color-success) bg-(--color-success-bg) px-4 py-3"
               >
-                <span className="flex items-center gap-2 text-sm text-[var(--color-success)]">
+                <span className="flex items-center gap-2 text-sm text-(--color-success)">
                   <CircleCheck className="size-4 shrink-0" aria-hidden="true" />
                   <span>
                     <span className="font-mono font-semibold">SAVE20</span> applied
@@ -1991,7 +1991,7 @@ function CouponDemo() {
                     setStatus("idle");
                     setCode("");
                   }}
-                  className="text-xs text-[var(--color-text-secondary)] underline-offset-4 hover:underline"
+                  className="text-xs text-(--color-text-secondary) underline-offset-4 hover:underline"
                 >
                   Remove
                 </button>
@@ -2002,7 +2002,7 @@ function CouponDemo() {
               <p
                 id="coupon-invalid"
                 role="alert"
-                className="text-xs text-[var(--color-error)]"
+                className="text-xs text-(--color-error)"
               >
                 Invalid coupon code.
               </p>
@@ -2011,27 +2011,27 @@ function CouponDemo() {
         </CardContent>
       </Card>
 
-      <Card className="gap-4 border-[var(--color-border)] py-6">
+      <Card className="gap-4 border-(--color-border) py-6">
         <CardHeader className="pb-2">
           <CardTitle className="font-display text-base">Applied example</CardTitle>
           <CardDescription>Static demonstration of the applied state.</CardDescription>
         </CardHeader>
         <CardContent className="space-y-3 px-6">
-          <div className="flex items-center justify-between gap-3 rounded-xl border border-[var(--color-success)] bg-[var(--color-success-bg)] px-4 py-3">
-            <span className="flex items-center gap-2 text-sm text-[var(--color-success)]">
+          <div className="flex items-center justify-between gap-3 rounded-xl border border-(--color-success) bg-(--color-success-bg) px-4 py-3">
+            <span className="flex items-center gap-2 text-sm text-(--color-success)">
               <Tag className="size-4 shrink-0" aria-hidden="true" />
               <span className="font-mono font-semibold">SAVE20</span>
               <span>· −20%</span>
             </span>
             <Badge
               variant="outline"
-              className="border-[var(--color-success)] text-[var(--color-success)]"
+              className="border-(--color-success) text-(--color-success)"
             >
               Applied
             </Badge>
           </div>
 
-          <p className="font-mono text-[11px] leading-5 text-[var(--color-text-secondary)]">
+          <p className="font-mono text-[11px] leading-5 text-(--color-text-secondary)">
             Applied: --color-success + --color-success-bg. Invalid uses
             --color-error surfaced through aria-invalid.
           </p>
@@ -2072,7 +2072,7 @@ function PaymentsDemo() {
   ];
 
   return (
-    <Card className="border-[var(--color-border)] py-6">
+    <Card className="border-(--color-border) py-6">
       <CardContent className="space-y-4 px-6">
         <RadioGroup
           value={method}
@@ -2085,8 +2085,8 @@ function PaymentsDemo() {
               htmlFor={`payment-${option.value}`}
               className={`flex cursor-pointer items-center gap-3 rounded-xl border p-4 transition ${
                 method === option.value
-                  ? "border-[var(--color-primary)] bg-[var(--color-accent)]"
-                  : "border-[var(--color-border)] bg-[var(--color-surface)] hover:border-[var(--color-supporting)]"
+                  ? "border-(--color-primary) bg-(--color-accent)"
+                  : "border-(--color-border) bg-(--color-surface) hover:border-(--color-supporting)"
               }`}
             >
               <RadioGroupItem
@@ -2095,14 +2095,14 @@ function PaymentsDemo() {
                 aria-labelledby={`payment-${option.value}-label`}
               />
               <option.Icon
-                className="size-5 shrink-0 text-[var(--color-text-secondary)]"
+                className="size-5 shrink-0 text-(--color-text-secondary)"
                 aria-hidden="true"
               />
               <span id={`payment-${option.value}-label`}>
-                <span className="block text-sm font-medium text-[var(--color-text-primary)]">
+                <span className="block text-sm font-medium text-(--color-text-primary)">
                   {option.label}
                 </span>
-                <span className="block text-xs text-[var(--color-text-secondary)]">
+                <span className="block text-xs text-(--color-text-secondary)">
                   {option.hint}
                 </span>
               </span>
@@ -2110,7 +2110,7 @@ function PaymentsDemo() {
           ))}
         </RadioGroup>
 
-        <p className="font-mono text-[11px] text-[var(--color-text-secondary)]">
+        <p className="font-mono text-[11px] text-(--color-text-secondary)">
           Selected: {method} · radios expose state via role="radio" +
           aria-checked; containers highlight with --color-primary /
           --color-accent.
@@ -2122,9 +2122,9 @@ function PaymentsDemo() {
 
 export default function DesignSystem() {
   return (
-    <main className="min-h-screen bg-[var(--color-background)] text-[var(--color-text-primary)]">
+    <main className="min-h-screen bg-(--color-background) text-(--color-text-primary)">
       {/* Hero */}
-      <header className="border-b border-[var(--color-border)] bg-[var(--color-surface)]">
+      <header className="border-b border-(--color-border) bg-(--color-surface)">
         <div className="mx-auto max-w-7xl px-6 py-16 lg:px-8">
           <div className="max-w-3xl space-y-6">
             <div className="flex flex-wrap items-center gap-2">
@@ -2141,31 +2141,31 @@ export default function DesignSystem() {
 
               <Badge
                 variant="outline"
-                className="border-[var(--color-border)] text-[var(--color-text-secondary)]"
+                className="border-(--color-border) text-(--color-text-secondary)"
               >
                 Design System v1
               </Badge>
             </div>
 
             <div className="space-y-4">
-              <h1 className="font-display text-4xl font-bold tracking-tight text-[var(--color-text-primary)] sm:text-5xl">
+              <h1 className="font-display text-4xl font-bold tracking-tight text-(--color-text-primary) sm:text-5xl">
                 E-commerce Design System
               </h1>
 
-              <p className="text-base leading-7 text-[var(--color-text-secondary)] sm:text-lg">
+              <p className="text-base leading-7 text-(--color-text-secondary) sm:text-lg">
                 Visual playground for colors, typography, spacing, radius,
                 shadows, states and shadcn/ui components.
               </p>
             </div>
 
             <div className="flex flex-wrap gap-3">
-              <Button className="bg-[var(--color-primary)] text-primary-foreground hover:bg-[var(--color-secondary)]">
+              <Button className="bg-(--color-primary) text-primary-foreground hover:bg-(--color-secondary)">
                 Shop Now
               </Button>
 
               <Button
                 variant="outline"
-                className="border-[var(--color-supporting)] hover:bg-[var(--color-accent)]"
+                className="border-(--color-supporting) hover:bg-(--color-accent)"
               >
                 Explore Tokens
               </Button>
@@ -2208,9 +2208,9 @@ export default function DesignSystem() {
           description="Three font families are used according to hierarchy and content type."
         >
           <div className="grid gap-5 lg:grid-cols-3">
-            <Card className="border-[var(--color-border)] bg-[var(--color-surface)]">
+            <Card className="border-(--color-border) bg-(--color-surface)">
               <CardContent className="space-y-4 p-6">
-                <p className="font-mono text-xs text-[var(--color-text-secondary)]">
+                <p className="font-mono text-xs text-(--color-text-secondary)">
                   --font-display
                 </p>
 
@@ -2218,15 +2218,15 @@ export default function DesignSystem() {
                   Space Grotesk
                 </h3>
 
-                <p className="font-display text-sm text-[var(--color-text-secondary)]">
+                <p className="font-display text-sm text-(--color-text-secondary)">
                   Headings, display text, strong visual hierarchy.
                 </p>
               </CardContent>
             </Card>
 
-            <Card className="border-[var(--color-border)] bg-[var(--color-surface)]">
+            <Card className="border-(--color-border) bg-(--color-surface)">
               <CardContent className="space-y-4 p-6">
-                <p className="font-mono text-xs text-[var(--color-text-secondary)]">
+                <p className="font-mono text-xs text-(--color-text-secondary)">
                   --font-body
                 </p>
 
@@ -2234,15 +2234,15 @@ export default function DesignSystem() {
                   Inter
                 </h3>
 
-                <p className="font-body text-sm text-[var(--color-text-secondary)]">
+                <p className="font-body text-sm text-(--color-text-secondary)">
                   Body copy, controls, forms and general UI.
                 </p>
               </CardContent>
             </Card>
 
-            <Card className="border-[var(--color-border)] bg-[var(--color-surface)]">
+            <Card className="border-(--color-border) bg-(--color-surface)">
               <CardContent className="space-y-4 p-6">
-                <p className="font-mono text-xs text-[var(--color-text-secondary)]">
+                <p className="font-mono text-xs text-(--color-text-secondary)">
                   --font-mono
                 </p>
 
@@ -2250,16 +2250,16 @@ export default function DesignSystem() {
                   IBM Plex Mono
                 </h3>
 
-                <p className="font-body text-sm text-[var(--color-text-secondary)]">
+                <p className="font-body text-sm text-(--color-text-secondary)">
                   SKU, order IDs, coupon codes and technical metadata.
                 </p>
               </CardContent>
             </Card>
           </div>
 
-          <Card className="mt-5 border-[var(--color-border)] bg-[var(--color-surface)]">
+          <Card className="mt-5 border-(--color-border) bg-(--color-surface)">
             <CardContent className="space-y-5 p-6">
-              <p className="font-mono text-xs text-[var(--color-text-secondary)]">
+              <p className="font-mono text-xs text-(--color-text-secondary)">
                 Type Scale Preview
               </p>
 
@@ -2275,7 +2275,7 @@ export default function DesignSystem() {
                 Heading 3
               </h3>
 
-              <p className="max-w-2xl text-base leading-7 text-[var(--color-text-secondary)]">
+              <p className="max-w-2xl text-base leading-7 text-(--color-text-secondary)">
                 This is body text using Inter. It demonstrates the relationship
                 between the primary and secondary text colors and the page
                 background.
@@ -2473,12 +2473,12 @@ export default function DesignSystem() {
             {shadowTokens.map((name) => (
               <div
                 key={name}
-                className="rounded-xl border border-[var(--color-border)] bg-[var(--color-surface)] p-6"
+                className="rounded-xl border border-(--color-border) bg-(--color-surface) p-6"
                 style={{
                   boxShadow: `var(${name})`,
                 }}
               >
-                <p className="font-mono text-xs text-[var(--color-text-secondary)]">
+                <p className="font-mono text-xs text-(--color-text-secondary)">
                   {name}
                 </p>
 
@@ -2486,7 +2486,7 @@ export default function DesignSystem() {
                   Elevation
                 </p>
 
-                <p className="mt-2 text-xs leading-5 text-[var(--color-text-secondary)]">
+                <p className="mt-2 text-xs leading-5 text-(--color-text-secondary)">
                   {`var(${name})`}
                 </p>
               </div>
@@ -2500,15 +2500,15 @@ export default function DesignSystem() {
           title="Breakpoints"
           description="Responsive thresholds used by the application layout."
         >
-          <div className="overflow-hidden rounded-xl border border-[var(--color-border)] bg-[var(--color-surface)]">
+          <div className="overflow-hidden rounded-xl border border-(--color-border) bg-(--color-surface)">
             {breakpointTokens.map(([name, value]) => (
               <div
                 key={name}
-                className="flex items-center justify-between border-b border-[var(--color-border)] px-5 py-4 last:border-b-0"
+                className="flex items-center justify-between border-b border-(--color-border) px-5 py-4 last:border-b-0"
               >
                 <code className="font-mono text-sm">{name}</code>
 
-                <span className="rounded-full bg-[var(--color-surface-secondary)] px-3 py-1 font-mono text-xs text-[var(--color-text-secondary)]">
+                <span className="rounded-full bg-(--color-surface-secondary) px-3 py-1 font-mono text-xs text-(--color-text-secondary)">
                   {value}
                 </span>
               </div>
@@ -2526,10 +2526,10 @@ export default function DesignSystem() {
             {zIndexTokens.map(([name, value]) => (
               <Card
                 key={name}
-                className="border-[var(--color-border)] bg-[var(--color-surface)]"
+                className="border-(--color-border) bg-(--color-surface)"
               >
                 <CardContent className="space-y-2 p-5">
-                  <code className="font-mono text-xs text-[var(--color-text-secondary)]">
+                  <code className="font-mono text-xs text-(--color-text-secondary)">
                     {name}
                   </code>
 
@@ -2543,26 +2543,26 @@ export default function DesignSystem() {
         </Section>
 
         {/* Token summary */}
-        <section className="rounded-2xl border border-[var(--color-supporting)] bg-[var(--color-accent)] p-8">
+        <section className="rounded-2xl border border-(--color-supporting) bg-(--color-accent) p-8">
           <div className="grid gap-8 lg:grid-cols-[1fr_auto] lg:items-center">
             <div className="space-y-3">
-              <p className="font-mono text-xs uppercase tracking-[0.18em] text-[var(--color-secondary)]">
+              <p className="font-mono text-xs uppercase tracking-[0.18em] text-(--color-secondary)">
                 Token Architecture
               </p>
 
-              <h2 className="font-display text-2xl font-bold text-[var(--color-primary)]">
+              <h2 className="font-display text-2xl font-bold text-(--color-primary)">
                 Primitive → Semantic → Components
               </h2>
 
-              <p className="max-w-2xl text-sm leading-6 text-[var(--color-secondary)]">
+              <p className="max-w-2xl text-sm leading-6 text-(--color-secondary)">
                 Components consume semantic tokens rather than hard-coded
                 colors. This keeps the UI consistent and makes the future dark
                 theme much easier to introduce.
               </p>
             </div>
 
-            {/* border-[var(--color-supporting)] or border-(--color-supporting) */}
-            <div className="rounded-xl border border-(--color-supporting) bg-[var(--color-surface)] p-5 font-mono text-xs leading-6 text-(--color-primary)">
+            {/* border-(--color-supporting) or border-(--color-supporting) */}
+            <div className="rounded-xl border border-(--color-supporting) bg-(--color-surface) p-5 font-mono text-xs leading-6 text-(--color-primary)">
               <div>--palette-jet-black</div>
               <div className="pl-4">↓</div>
               <div className="pl-4">--color-primary</div>

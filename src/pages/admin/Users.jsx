@@ -133,7 +133,7 @@ export default function Users() {
             onChange={(event) => handleSearchChange(event.target.value)}
             placeholder={t("users.searchPlaceholder")}
             aria-label={t("users.searchPlaceholder")}
-            className="ps-9"
+            className="ps-9 bg-card text-foreground"
           />
           {searchTerm && (
             <Button

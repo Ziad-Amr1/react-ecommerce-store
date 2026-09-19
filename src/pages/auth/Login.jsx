@@ -79,10 +79,19 @@ export default function Login() {
     try {
       setIsSubmitting(true);
 
-      await login(email, password);
+      const res = await login(email, password);
 
-      // Login successful
-      navigate(from === "/" ? "/admin" : from);
+      // Login successful: redirect to stateFrom if present, otherwise role-based default
+      const target =
+        typeof stateFrom === "string" &&
+        stateFrom.startsWith("/") &&
+        !stateFrom.startsWith("//")
+          ? stateFrom
+          : res?.user?.role === "admin"
+            ? "/admin"
+            : "/profile";
+
+      navigate(target);
     } catch (error) {
       setApiError(getApiErrorMessage(error, t("auth.errors.invalidCredentials")));
     } finally {

@@ -195,7 +195,7 @@ export default function Orders() {
             aria-label={t("orders.searchPlaceholder", {
               defaultValue: "Search by customer or order ID...",
             })}
-            className="ps-9"
+            className="ps-9 bg-card text-foreground"
           />
           {search && (
             <Button

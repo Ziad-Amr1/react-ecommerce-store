@@ -24,7 +24,9 @@ export default function AnonymousPrompt() {
         </div>
 
         <Button asChild className="w-full sm:w-auto">
-          <Link to="/login">{t("profile.anonymous.signIn")}</Link>
+          <Link to="/login" state={{ from: "/profile" }}>
+            {t("profile.anonymous.signIn")}
+          </Link>
         </Button>
       </CardContent>
     </Card>

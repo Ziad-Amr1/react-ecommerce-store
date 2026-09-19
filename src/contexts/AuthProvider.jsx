@@ -119,12 +119,14 @@ const AuthProvider = ({ children }) => {
             throw new Error("No authenticated user to delete");
         }
 
-        try {
-            await deleteCurrentUser(user._id);
-        } finally {
-            setRestoreError(false);
-            setUser(null);
-        }
+        // Confirm the session is still valid right before the destructive
+        // call, so an expired cookie fails here instead of mid-deletion.
+        await getCurrentUser();
+
+        await deleteCurrentUser(user._id);
+
+        setRestoreError(false);
+        setUser(null);
     }, [user]);
 
     return (

@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useNavigate, useParams } from "react-router";
+import { useLocation, useNavigate, useParams } from "react-router";
 import { useTranslation } from "react-i18next";
 import { toast } from "sonner";
 import {
@@ -22,6 +22,8 @@ import { formatNumber } from "@/utils/formatNumber";
 import useProductDetails from "@/features/products/useProductDetails";
 import useRelatedProducts from "@/features/products/useRelatedProducts";
 import useCart from "@/hooks/useCart";
+import useAuth from "@/hooks/useAuth";
+import useWishlist from "@/hooks/useWishlist";
 
 import Stars from "@/features/products/components/ProductRating";
 import ProductSkeleton from "@/features/products/components/ProductCardSkeleton";
@@ -40,16 +42,51 @@ export default function ProductDetails() {
 
   const { product, isLoading, error, retry } = useProductDetails(id);
 
+  const location = useLocation();
   const { addItem } = useCart();
+  const { isAuthenticated } = useAuth();
+  const { isInWishlist, addToWishlist, removeFromWishlist } = useWishlist();
 
   const [selectedImage, setSelectedImage] = useState(0);
   const [isAdding, setIsAdding] = useState(false);
+  const [isWishlistLoading, setIsWishlistLoading] = useState(false);
 
   const {
     similarProducts,
     recommendedProducts,
     isLoading: isRelatedLoading,
   } = useRelatedProducts(product);
+
+  const productId = product?._id || product?.id || id;
+  const isFavorite = productId ? isInWishlist(productId) : false;
+
+  const handleWishlistToggle = async () => {
+    if (isWishlistLoading || !productId) return;
+
+    if (!isAuthenticated) {
+      toast.info(t("wishlist.signInRequired"));
+      navigate("/login", {
+        state: { from: location.pathname + location.search },
+      });
+      return;
+    }
+
+    setIsWishlistLoading(true);
+
+    try {
+      if (isFavorite) {
+        await removeFromWishlist(productId);
+        toast.success(t("wishlist.removed"));
+      } else {
+        await addToWishlist(product);
+        toast.success(t("wishlist.added"));
+      }
+    } catch {
+      toast.error(t("wishlist.updateError"));
+    } finally {
+      setIsWishlistLoading(false);
+    }
+  };
 
   if (isLoading) {
     return (
@@ -427,18 +464,40 @@ export default function ProductDetails() {
                         type="button"
                         variant="outline"
                         size="icon"
-                        disabled
-                        aria-label={t("shop.addToWishlist")}
-                        className="cursor-not-allowed rounded-xl border-(--color-border) bg-(--color-surface) text-(--color-text-primary) opacity-60 hover:bg-(--color-surface-secondary)"
+                        onClick={handleWishlistToggle}
+                        disabled={isWishlistLoading}
+                        aria-label={
+                          isFavorite
+                            ? t("wishlist.removeFromWishlist")
+                            : t("wishlist.addToWishlist")
+                        }
+                        aria-pressed={isFavorite}
+                        className={`rounded-xl border-(--color-border) bg-(--color-surface) hover:bg-(--color-surface-secondary) ${
+                          isFavorite
+                            ? "text-(--color-error)"
+                            : "text-(--color-text-primary)"
+                        }`}
                       >
-                        <Heart aria-hidden="true" />
+                        {isWishlistLoading ? (
+                          <LoaderCircle
+                            className="size-4 animate-spin"
+                            aria-hidden="true"
+                          />
+                        ) : (
+                          <Heart
+                            aria-hidden="true"
+                            className={isFavorite ? "fill-current" : ""}
+                          />
+                        )}
                       </Button>
                     </span>
                   </TooltipTrigger>
 
                   <TooltipContent side="top">
                     <p className="text-xs">
-                      {t("shop.comingSoon")}
+                      {isFavorite
+                        ? t("wishlist.removeFromWishlist")
+                        : t("wishlist.addToWishlist")}
                     </p>
                   </TooltipContent>
                 </Tooltip>

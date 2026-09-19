@@ -169,12 +169,14 @@ export function createApiState(overrides = {}) {
     carts: CARTS.map((cart) => ({ ...cart })),
     cart: { ...EMPTY_CART },
     dashboard: createDashboard(),
+    wishlist: [],
     delayMs: 0,
     productStatus: 200,
     orderStatus: 200,
     userStatus: 200,
-    cartStatus: 200,
-    authUser: ADMIN_USER,
+cartStatus: 200,
+     wishlistStatus: 200,
+     authUser: ADMIN_USER,
     authStatus: 200,
     lastOrder: null,
     ...overrides,
@@ -366,6 +368,69 @@ export function installMockApi(page, state) {
       const user = state.users.find((u) => u._id === body.userId);
       if (user) user.role = body.role;
       return json(route, { user });
+    }
+
+    // ── Wishlist ──────────────────────────────────────────────────────────
+    if (path === "/api/wishlists/my" && method === "GET") {
+      if (state.wishlistStatus !== 200)
+        return error(route, state.wishlistStatus, "Server error", state.delayMs);
+      return json(
+        route,
+        {
+          success: true,
+          totalProducts: state.wishlist.length,
+          wishlist: { products: state.wishlist },
+        },
+        state.delayMs,
+      );
+    }
+
+    const wishlistAddMatch = path.match(/^\/api\/wishlists\/add\/([^/]+)$/);
+    if (wishlistAddMatch && method === "POST") {
+      if (state.wishlistStatus !== 200)
+        return error(route, state.wishlistStatus, "Server error", state.delayMs);
+      const product = state.products.find((p) => p._id === wishlistAddMatch[1]);
+      if (product && !state.wishlist.some((p) => p._id === product._id)) {
+        state.wishlist = [...state.wishlist, product];
+      }
+      return json(
+        route,
+        {
+          success: true,
+          message: "Product added to wishlist",
+          wishlist: { products: state.wishlist },
+        },
+        state.delayMs,
+      );
+    }
+
+    const wishlistRemoveMatch = path.match(/^\/api\/wishlists\/remove\/([^/]+)$/);
+    if (wishlistRemoveMatch && method === "DELETE") {
+      if (state.wishlistStatus !== 200)
+        return error(route, state.wishlistStatus, "Server error", state.delayMs);
+      state.wishlist = state.wishlist.filter(
+        (p) => p._id !== wishlistRemoveMatch[1],
+      );
+      return json(
+        route,
+        {
+          success: true,
+          message: "Product removed from wishlist",
+          wishlist: { products: state.wishlist },
+        },
+        state.delayMs,
+      );
+    }
+
+    if (path === "/api/wishlists/clear" && method === "DELETE") {
+      if (state.wishlistStatus !== 200)
+        return error(route, state.wishlistStatus, "Server error", state.delayMs);
+      state.wishlist = [];
+      return json(
+        route,
+        { success: true, message: "Wishlist cleared" },
+        state.delayMs,
+      );
     }
 
     // Fallback

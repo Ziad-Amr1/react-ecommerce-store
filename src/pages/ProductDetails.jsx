@@ -464,7 +464,7 @@ export default function ProductDetails() {
                         type="button"
                         variant="outline"
                         size="icon"
-onClick={handleWishlistToggle}
+                        onClick={handleWishlistToggle}
                         disabled={isWishlistLoading}
                         aria-label={
                           isFavorite

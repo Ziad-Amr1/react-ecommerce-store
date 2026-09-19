@@ -99,7 +99,7 @@ export default function StoreFooter() {
       <div className="border-t">
         <div className="mx-auto w-full max-w-7xl px-4 py-4 sm:px-6 lg:px-8">
           <p className="text-xs text-(--color-text-secondary)">
-            © {currentYear} {t("brand.name")}. {t("store.footer.rights")}
+            &copy; {currentYear} {t("brand.name")}. {t("store.footer.rights")}
           </p>
         </div>
       </div>

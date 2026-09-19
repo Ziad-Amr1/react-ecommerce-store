@@ -1122,5 +1122,32 @@
     "orderRef": "Référence de commande : {{id}}",
     "myOrders": "Mes commandes",
     "continueShopping": "Continuer les achats"
+  },
+  "settings": {
+    "general": "Général",
+    "storeName": "Nom du magasin",
+    "storeNamePlaceholder": "ex. Oversea",
+    "orderTracking": "Suivi des commandes",
+    "notifiedOrderTracking": "Soyez notifié des nouvelles commandes et des changements de statut.",
+    "comments": "Commentaires",
+    "notifiedComments": "Soyez notifié des nouveaux commentaires sur les produits.",
+    "ads": "Publicités",
+    "notifiedAds": "Soyez notifié des performances publicitaires et des mises à jour.",
+    "notifications": "Notifications",
+    "siteLanguage": "Langue du site",
+    "maintenanceMode": "Mode maintenance",
+    "maintenanceModeDesc": "Activez ou désactivez le mode maintenance.",
+    "productComments": "Commentaires produits",
+    "productCommentsDesc": "Activez ou désactivez les commentaires sur les produits du magasin.",
+    "theme": "Thème",
+    "colors": {
+      "emerald": "Émeraude",
+      "cherry": "Cerise",
+      "coral": "Corail",
+      "copper": "Cuivre",
+      "lavender": "Lavande",
+      "twilight": "Crépuscule",
+      "canary": "Canari"
+    }
   }
 }

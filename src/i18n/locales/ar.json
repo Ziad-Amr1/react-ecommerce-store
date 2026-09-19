@@ -255,7 +255,6 @@
     "retry": "إعادة المحاولة",
     "noData": "لا توجد بيانات للوحة التحكم.",
     "noProducts": "لا توجد منتجات",
-
     "orderStatus": "حالة الطلبات",
     "recentOrders": "الطلبات الأخيرة",
     "topProducts": "أفضل المنتجات",
@@ -276,29 +275,21 @@
       "cancelled": "ملغي",
       "returned": "مُرجَع"
     },
-
     "adminOverview": "نظرة عامة للمدير",
     "commerceHealth": "صحة التجارة",
     "commerceHealthDescription": "راقب أداء متجرك وإحصاءاته الرئيسية.",
-
     "totalOrders": "إجمالي الطلبات",
     "totalOrdersDescription": "جميع الطلبات المستلمة",
-
     "pendingOrders": "الطلبات قيد الانتظار",
     "pendingOrderDescription": "طلبات بانتظار المعالجة",
-
     "totalRevenue": "إجمالي الإيرادات",
     "totalRevenueDescription": "إجمالي الإيرادات الكلية",
-
     "thisMonthRevenue": "إيرادات هذا الشهر",
     "thisMonthRevenueDescription": "الإيرادات المحققة في الشهر الحالي",
-
     "revenueGrowth": "نمو الإيرادات",
     "revenueGrowthDescription": "معدل التغير في إجمالي الإيرادات",
-
     "totalUsers": "المستخدمون",
     "totalUsersDescription": "إجمالي العملاء المسجلين",
-
     "dateRange": {
       "last3": "آخر 3 أيام",
       "last7": "آخر 7 أيام",
@@ -779,7 +770,7 @@
       "done": "مكتمل"
     }
   },
-"cart": {
+  "cart": {
     "title": "سلة التسوق",
     "emptyTitle": "سلة التسوق فارغة",
     "emptyDescription": "تصفح المتجر وأضف ما يعجبك إلى سلة التسوق.",
@@ -972,11 +963,11 @@
       "goToPage": "الانتقال إلى الصفحة {{page}}",
       "showing": "عرض {{from}} إلى {{to}} من أصل {{count}} مستخدم"
     },
-"dialogs": {
-  "addTitle": "إضافة مستخدم جديد",
-  "addDescription": "إنشاء حساب مستخدم جديد مباشرة من لوحة التحكم.",
-  "editTitle": "تغيير الدور",
-  "editDescription": "تعديل صلاحية الوصول لـ {{name}}.",
+    "dialogs": {
+      "addTitle": "إضافة مستخدم جديد",
+      "addDescription": "إنشاء حساب مستخدم جديد مباشرة من لوحة التحكم.",
+      "editTitle": "تغيير الدور",
+      "editDescription": "تعديل صلاحية الوصول لـ {{name}}.",
       "username": "اسم المستخدم",
       "usernamePlaceholder": "أدخل اسم المستخدم",
       "usernameRequired": "اسم المستخدم مطلوب",
@@ -985,24 +976,24 @@
       "emailPlaceholder": "admin@example.com",
       "emailRequired": "البريد الإلكتروني مطلوب",
       "emailInvalid": "بريد إلكتروني غير صحيح",
-"emailValid": "البريد الإلكتروني صحيح.",
-  "password": "كلمة المرور",
+      "emailValid": "البريد الإلكتروني صحيح.",
+      "password": "كلمة المرور",
       "passwordPlaceholder": "أدخل كلمة المرور",
       "passwordRequired": "كلمة المرور مطلوبة",
       "passwordMinLength": "يجب ألا تقل كلمة المرور عن 6 أحرف",
-"passwordValid": "كلمة المرور صحيحة.",
-  "role": "الدور",
+      "passwordValid": "كلمة المرور صحيحة.",
+      "role": "الدور",
       "rolePlaceholder": "اختر الدور",
       "roleChangeHint": "ستتغير صلاحية وصول المستخدم عند الحفظ.",
       "cancel": "إلغاء",
       "adding": "جارٍ الإضافة...",
-"saving": "جارٍ الحفظ...",
-  "saveRole": "حفظ الدور",
-  "saveUser": "حفظ المستخدم",
-  "addSuccess": "تمت إضافة المستخدم بنجاح.",
-  "addFailed": "تعذر إضافة المستخدم.",
-  "roleUpdateSuccess": "تم تحديث الدور بنجاح.",
-  "roleChangeFailed": "تعذر تحديث الدور.",
+      "saving": "جارٍ الحفظ...",
+      "saveRole": "حفظ الدور",
+      "saveUser": "حفظ المستخدم",
+      "addSuccess": "تمت إضافة المستخدم بنجاح.",
+      "addFailed": "تعذر إضافة المستخدم.",
+      "roleUpdateSuccess": "تم تحديث الدور بنجاح.",
+      "roleChangeFailed": "تعذر تحديث الدور.",
       "deleteTitle": "حذف المستخدم",
       "deleteDescription": "لا يمكن التراجع عن هذا الإجراء.",
       "deleteQuestion": "حذف {{name}}؟ لا يمكن التراجع عن هذا الإجراء.",
@@ -1131,5 +1122,32 @@
     "orderRef": "رقم الطلب: {{id}}",
     "myOrders": "طلباتي",
     "continueShopping": "مواصلة التسوق"
+  },
+  "settings": {
+    "general": "عام",
+    "storeName": "اسم المتجر",
+    "storeNamePlaceholder": "مثال: Oversea",
+    "orderTracking": "تتبع الطلبات",
+    "notifiedOrderTracking": "احصل على إشعارات عند الطلبات الجديدة وتغيرات الحالة.",
+    "comments": "التعليقات",
+    "notifiedComments": "احصل على إخطارات عند وجود تعليقات جديدة على المنتجات.",
+    "ads": "الإعلانات",
+    "notifiedAds": "احصل على إشعارات حول أداء الإعلانات والتحديثات.",
+    "notifications": "الإشعارات",
+    "siteLanguage": "لغة الموقع",
+    "maintenanceMode": "وضع الصيانة",
+    "maintenanceModeDesc": "تشغيل أو إيقاف وضع الصيانة.",
+    "productComments": "تعليقات المنتجات",
+    "productCommentsDesc": "تشغيل أو إيقاف التعليقات على منتجات المتجر.",
+    "theme": "المظهر",
+    "colors": {
+      "emerald": "الزمرد",
+      "cherry": "الكرز",
+      "coral": "المرجان",
+      "copper": "النحاس",
+      "lavender": "اللافندر",
+      "twilight": "الشفق",
+      "canary": "الكناري"
+    }
   }
 }

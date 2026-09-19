@@ -1122,5 +1122,32 @@
     "orderRef": "Номер заказа: {{id}}",
     "myOrders": "Мои заказы",
     "continueShopping": "Продолжить покупки"
+  },
+  "settings": {
+    "general": "Общие",
+    "storeName": "Название магазина",
+    "storeNamePlaceholder": "например, Oversea",
+    "orderTracking": "Отслеживание заказов",
+    "notifiedOrderTracking": "Получайте уведомления о новых заказах и изменении статуса.",
+    "comments": "Комментарии",
+    "notifiedComments": "Получайте уведомления о новых комментариях к товарам.",
+    "ads": "Реклама",
+    "notifiedAds": "Получайте уведомления об эффективности рекламы и обновлениях.",
+    "notifications": "Уведомления",
+    "siteLanguage": "Язык сайта",
+    "maintenanceMode": "Режим обслуживания",
+    "maintenanceModeDesc": "Включить или выключить режим обслуживания.",
+    "productComments": "Комментарии к товарам",
+    "productCommentsDesc": "Включить или выключить комментарии к товарам магазина.",
+    "theme": "Тема",
+    "colors": {
+      "emerald": "Изумрудный",
+      "cherry": "Вишнёвый",
+      "coral": "Коралловый",
+      "copper": "Медный",
+      "lavender": "Лавандовый",
+      "twilight": "Сумеречный",
+      "canary": "Канареечный"
+    }
   }
 }

@@ -195,7 +195,6 @@
     "usernameMin": "Username must be at least {{count}} characters",
     "phoneInvalid": "Please enter a valid phone number"
   },
-
   "home": {
     "title": "E-commerce Home page",
     "description": "Welcome to the E-commerce platform. Explore our products and manage your orders.",
@@ -249,7 +248,6 @@
     "clearAllFilters": "Clear All Filters",
     "filterUnlimited": "∞"
   },
-
   "dashboard": {
     "title": "Dashboard Page",
     "loading": "Loading dashboard...",
@@ -257,7 +255,6 @@
     "retry": "Retry",
     "noData": "No dashboard data available.",
     "noProducts": "No products",
-
     "orderStatus": "Order Status",
     "recentOrders": "Recent Orders",
     "topProducts": "Top Products",
@@ -278,29 +275,21 @@
       "cancelled": "Cancelled",
       "returned": "Returned"
     },
-
     "adminOverview": "Admin Overview",
     "commerceHealth": "Commerce Health",
     "commerceHealthDescription": "Monitor your store's performance and key statistics.",
-
     "totalOrders": "Total Orders",
     "totalOrdersDescription": "All orders received",
-
     "pendingOrders": "Pending Orders",
     "pendingOrderDescription": "Orders waiting to be processed",
-
     "totalRevenue": "Total Revenue",
     "totalRevenueDescription": "Overall gross revenue",
-
     "thisMonthRevenue": "This Month Revenue",
     "thisMonthRevenueDescription": "Revenue generated in the current month",
-
     "revenueGrowth": "Revenue Growth",
     "revenueGrowthDescription": "Rate of change in total revenue",
-
     "totalUsers": "Users",
     "totalUsersDescription": "Total registered customers",
-
     "dateRange": {
       "last3": "Last 3 days",
       "last7": "Last 7 days",
@@ -781,7 +770,7 @@
       "done": "Done"
     }
   },
-"cart": {
+  "cart": {
     "title": "Your Cart",
     "emptyTitle": "Your cart is empty",
     "emptyDescription": "Browse the store and add something you like to your cart.",
@@ -974,11 +963,11 @@
       "goToPage": "Go to page {{page}}",
       "showing": "Showing {{from}} to {{to}} of {{count}} users"
     },
-"dialogs": {
-  "addTitle": "Add New User",
-  "addDescription": "Create a new user account directly from the admin panel.",
-  "editTitle": "Change Role",
-  "editDescription": "Adjust the access level for {{name}}.",
+    "dialogs": {
+      "addTitle": "Add New User",
+      "addDescription": "Create a new user account directly from the admin panel.",
+      "editTitle": "Change Role",
+      "editDescription": "Adjust the access level for {{name}}.",
       "username": "Username",
       "usernamePlaceholder": "Enter username",
       "usernameRequired": "Username is required",
@@ -987,24 +976,24 @@
       "emailPlaceholder": "admin@example.com",
       "emailRequired": "Email is required",
       "emailInvalid": "Invalid email address",
-"emailValid": "Email is valid.",
-  "password": "Password",
+      "emailValid": "Email is valid.",
+      "password": "Password",
       "passwordPlaceholder": "Enter password",
       "passwordRequired": "Password is required",
       "passwordMinLength": "Password must be at least 6 characters",
-"passwordValid": "Password is valid.",
-  "role": "Role",
+      "passwordValid": "Password is valid.",
+      "role": "Role",
       "rolePlaceholder": "Select role",
       "roleChangeHint": "The user's access level will change on save.",
       "cancel": "Cancel",
       "adding": "Adding...",
-"saving": "Saving...",
-  "saveRole": "Save role",
-  "saveUser": "Save User",
-  "addSuccess": "User has been added successfully.",
-  "addFailed": "Failed to add user.",
-  "roleUpdateSuccess": "Role updated successfully.",
-  "roleChangeFailed": "Role update failed.",
+      "saving": "Saving...",
+      "saveRole": "Save role",
+      "saveUser": "Save User",
+      "addSuccess": "User has been added successfully.",
+      "addFailed": "Failed to add user.",
+      "roleUpdateSuccess": "Role updated successfully.",
+      "roleChangeFailed": "Role update failed.",
       "deleteTitle": "Delete User",
       "deleteDescription": "This action cannot be undone.",
       "deleteQuestion": "Delete {{name}}? This cannot be undone.",
@@ -1133,5 +1122,32 @@
     "orderRef": "Order reference: {{id}}",
     "myOrders": "My orders",
     "continueShopping": "Continue shopping"
+  },
+  "settings": {
+    "general": "General",
+    "storeName": "Store name",
+    "storeNamePlaceholder": "e.g. Oversea",
+    "orderTracking": "Order tracking",
+    "notifiedOrderTracking": "Get notified about new orders and status changes.",
+    "comments": "Comments",
+    "notifiedComments": "Get notified about new comments on products.",
+    "ads": "Ads",
+    "notifiedAds": "Get notified about ad performance and updates.",
+    "notifications": "Notifications",
+    "siteLanguage": "Site language",
+    "maintenanceMode": "Maintenance mode",
+    "maintenanceModeDesc": "Turn maintenance mode on or off.",
+    "productComments": "Product comments",
+    "productCommentsDesc": "Turn comments on or off for store products.",
+    "theme": "Theme",
+    "colors": {
+      "emerald": "Emerald",
+      "cherry": "Cherry",
+      "coral": "Coral",
+      "copper": "Copper",
+      "lavender": "Lavender",
+      "twilight": "Twilight",
+      "canary": "Canary"
+    }
   }
 }

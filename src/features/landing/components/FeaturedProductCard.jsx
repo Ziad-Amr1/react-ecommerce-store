@@ -1,6 +1,8 @@
-import { Link } from "react-router";
-import { Heart, PackageOpen, Star } from "lucide-react";
+import { useState } from "react";
+import { Link, useLocation, useNavigate } from "react-router";
+import { Heart, LoaderCircle, PackageOpen, Star } from "lucide-react";
 import { useTranslation } from "react-i18next";
+import { toast } from "sonner";
 import { formatCurrency, CURRENCIES } from "@/utils/formatCurrency";
 import { formatNumber } from "@/utils/formatNumber";
 import { Badge } from "@/components/ui/badge";
@@ -10,6 +12,8 @@ import {
   TooltipContent,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
+import useAuth from "@/hooks/useAuth";
+import useWishlist from "@/hooks/useWishlist";
 
 const STAR_SLOTS = [1, 2, 3, 4, 5];
 
@@ -59,6 +63,45 @@ function Stars({ rating, label }) {
 
 export default function FeaturedProductCard({ product }) {
   const { t, i18n } = useTranslation();
+  const navigate = useNavigate();
+  const location = useLocation();
+  const { isAuthenticated } = useAuth();
+  const { isInWishlist, addToWishlist, removeFromWishlist } = useWishlist();
+  const [isWishlistLoading, setIsWishlistLoading] = useState(false);
+
+  const productId = product._id || product.id;
+  const isFavorite = productId ? isInWishlist(productId) : false;
+
+  const handleWishlistClick = async (event) => {
+    event.preventDefault();
+    event.stopPropagation();
+
+    if (isWishlistLoading || !productId) return;
+
+    if (!isAuthenticated) {
+      toast.info(t("wishlist.signInRequired"));
+      navigate("/login", {
+        state: { from: location.pathname + location.search },
+      });
+      return;
+    }
+
+    setIsWishlistLoading(true);
+
+    try {
+      if (isFavorite) {
+        await removeFromWishlist(productId);
+        toast.success(t("wishlist.removed"));
+      } else {
+        await addToWishlist(product);
+        toast.success(t("wishlist.added"));
+      }
+    } catch {
+      toast.error(t("wishlist.updateError"));
+    } finally {
+      setIsWishlistLoading(false);
+    }
+  };
 
   const name = product.name || t("landing.featured.untitled");
   const image = product.images?.[0]?.url;
@@ -109,8 +152,6 @@ export default function FeaturedProductCard({ product }) {
         )}
       </div>
 
-      {/* Wishlist — disabled until the real wishlist API exists. A heart
-          that toggles locally but doesn't persist would mislead users. */}
       <Tooltip>
         <TooltipTrigger asChild>
           <span className="absolute end-2 top-2 z-20">
@@ -118,17 +159,38 @@ export default function FeaturedProductCard({ product }) {
               type="button"
               variant="ghost"
               size="icon-sm"
-              disabled
-              aria-label={t("landing.featured.toggleWishlist", { name })}
-              className="cursor-not-allowed bg-(--color-surface)/80 backdrop-blur-sm opacity-60 hover:bg-(--color-surface)"
+              onClick={handleWishlistClick}
+              disabled={isWishlistLoading}
+              aria-label={
+                isFavorite
+                  ? t("wishlist.removeFromWishlist")
+                  : t("wishlist.addToWishlist", { name })
+              }
+              aria-pressed={isFavorite}
+              className={`bg-(--color-surface)/80 backdrop-blur-sm hover:bg-(--color-surface) ${
+                isFavorite
+                  ? "text-(--color-error)"
+                  : "text-(--color-text-primary)"
+              }`}
             >
-              <Heart aria-hidden="true" />
+              {isWishlistLoading ? (
+                <LoaderCircle className="size-4 animate-spin" aria-hidden="true" />
+              ) : (
+                <Heart
+                  aria-hidden="true"
+                  className={isFavorite ? "fill-current" : ""}
+                />
+              )}
             </Button>
           </span>
         </TooltipTrigger>
 
         <TooltipContent side="top">
-          <p className="text-xs">{t("landing.comingSoon")}</p>
+          <p className="text-xs">
+            {isFavorite
+              ? t("wishlist.removeFromWishlist")
+              : t("wishlist.addToWishlist", { name })}
+          </p>
         </TooltipContent>
       </Tooltip>
 

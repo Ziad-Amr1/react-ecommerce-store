@@ -90,7 +90,7 @@ export default function LandingHero() {
               loading="eager"
               fetchPriority="high"
               decoding="async"
-              className="w-full rounded-2xl object-cover shadow-lg"
+              className="w-full max-w-md rounded-2xl object-cover shadow-lg "
             />
 
             {/* Decorative accent halo behind the image — uses the

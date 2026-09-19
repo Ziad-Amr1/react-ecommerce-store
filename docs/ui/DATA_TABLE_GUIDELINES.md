@@ -69,7 +69,13 @@ Do not change row height per-cell or arbitrarily. Document the chosen density fo
 | Table | Density | Sticky | Zebra | Actions | Sorting |
 | --- | --- | --- | --- | --- | --- |
 | Dashboard `RecentOrders` | `default` (48px) | no (not warranted) | no | none | none |
-| Admin `ProductsTable` | `compact` (40px, ops) | no (not warranted) | no | kebab revealed on row hover/focus (+ always visible on touch via `@media (pointer: coarse)`); items: View, Edit, Delete | none (backend doesn't expose sorting) |
+| Admin `ProductsTable` | `compact` (40px, ops) | no (not warranted) | no | kebab revealed on row hover/focus (+ always visible on touch via `@media (pointer: coarse)`); items: View, Edit, Delete | name, price (header buttons → `sort` param) |
+| Admin `Orders` | `default` (48px) | no (not warranted) | no | kebab revealed on row hover/focus (+ always visible on touch); items: View details, Change status | date, status, total (header → `sortBy`/`sortDir`) |
+| Admin `UsersTable` | `default` (48px) | no (not warranted) | no | kebab revealed on row hover/focus; items: View, Edit, Delete | username, email, role (client-side sort) |
+
+Table padding is set once in the shared `Table` primitive (`px-2` on head and cell, the design default). Tables needing wider edge breathing room opt in with the `edgePadding` prop on their own `<Table>` instance. It adds a 2rem inline start padding to the first column and a 2rem inline end padding to the last column, on both the header and the body rows, so the two stay aligned. Tables are not normalized to identical spacing.
+
+A Status column renders the shared `OrderStatusBadge`, which reads its colors from the single `ORDER_STATUS_PRESENTATION` map in `src/features/admin/orders/constants.js`. The dashboard uses the same map, so an order shows the same status color everywhere. Do not add a second status color map.
 
 `RecentOrders` columns: Order ID (text, start), Customer (text, start, truncates with tooltip),
 Total (currency, end), Status (text, start), Date (text, start).

@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
-import { getLandingProducts } from "./landing.service";
+import { getProducts } from "@/services/product.service";
 
 export default function useFeaturedProducts() {
   const [products, setProducts] = useState([]);
@@ -14,7 +14,7 @@ export default function useFeaturedProducts() {
     controllerRef.current?.abort();
     controllerRef.current = controller;
 
-    getLandingProducts(controller.signal)
+    getProducts({}, controller.signal)
       .then((data) => {
         if (!controller.signal.aborted) {
           setProducts(data.products || []);

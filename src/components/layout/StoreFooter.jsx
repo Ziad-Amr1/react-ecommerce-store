@@ -76,6 +76,14 @@ export default function StoreFooter() {
           </h2>
           <ul className="mt-3 space-y-2">
             <li>
+              <Link
+                to="/privacy"
+                className="text-sm text-(--color-text-secondary) hover:text-(--color-link)"
+              >
+                {t("store.footer.links.privacy", { defaultValue: "Privacy Policy" })}
+              </Link>
+            </li>
+            <li>
               <ComingSoonText label={t("store.footer.links.helpCenter")} />
             </li>
             <li>
@@ -91,7 +99,7 @@ export default function StoreFooter() {
       <div className="border-t">
         <div className="mx-auto w-full max-w-7xl px-4 py-4 sm:px-6 lg:px-8">
           <p className="text-xs text-(--color-text-secondary)">
-            © {currentYear} {t("brand.name")}. {t("store.footer.rights")}
+            &copy; {currentYear} {t("brand.name")}. {t("store.footer.rights")}
           </p>
         </div>
       </div>

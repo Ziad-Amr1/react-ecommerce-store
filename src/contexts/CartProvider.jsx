@@ -1,5 +1,3 @@
-
-
 import { useCallback, useEffect, useRef, useState } from "react";
 import useAuth from "@/hooks/useAuth";
 import CartContext from "./CartContext";
@@ -13,10 +11,8 @@ import {
 } from "@/features/cart/cartUtils";
 import {
   addCartItem,
-  applyCartCoupon,
   clearCart,
   getCart,
-  removeCartCoupon,
   removeCartItem,
   updateCartItem,
 } from "@/features/cart/cart.service";
@@ -50,29 +46,6 @@ const CartProvider = ({ children }) => {
     setServerLoadError(null);
   }, []);
 
-  // POST/DELETE /carts/coupon return a *partial* payload (itemCount,
-  // subtotal, discountAmount, total, coupon — no `items`). Merging onto the
-  // existing cart keeps line items intact instead of wiping them out the
-  // way a full normalizeServerCart() replacement would.
-  const mergeCouponFieldsFromServer = useCallback((data, userId) => {
-    setServerState((previous) => ({
-      ...previous,
-      cart: {
-        ...previous.cart,
-        itemCount: data?.itemCount ?? previous.cart.itemCount,
-        subtotal: data?.subtotal ?? previous.cart.subtotal,
-        total: data?.total ?? previous.cart.total,
-        // DELETE /carts/coupon doesn't return discountAmount/coupon —
-        // absence there means "no coupon anymore", so default to cleared.
-        discountAmount: data?.discountAmount ?? 0,
-        coupon: data?.coupon ?? null,
-      },
-      userId,
-      loading: false,
-    }));
-    setServerLoadError(null);
-  }, []);
-
   // Load the signed-in user's server cart. Guests keep an ephemeral
   // in-memory cart (separate state) — there is no fake persistence.
   useEffect(() => {
@@ -90,11 +63,7 @@ const CartProvider = ({ children }) => {
       if (controller.signal.aborted) {
         return;
       }
-      setServerState((previous) => ({
-        ...previous,
-        loading: true,
-        userId: currentUserId,
-      }));
+      setServerState((previous) => ({ ...previous, loading: true, userId: currentUserId }));
       setServerLoadError(null);
     });
 
@@ -129,8 +98,7 @@ const CartProvider = ({ children }) => {
       : EMPTY_CART
     : guestCart;
   const isLoading =
-    isAuthLoading ||
-    (isSignedIn && (serverState.loading || !canShowServerCart));
+    isAuthLoading || (isSignedIn && (serverState.loading || !canShowServerCart));
   const loadError = isSignedIn ? serverLoadError : null;
 
   // Server mutations return the full updated cart, which keeps the server
@@ -162,10 +130,7 @@ const CartProvider = ({ children }) => {
       }
 
       await mutate(
-        () =>
-          addCartItem({ productId, quantity: 1 }).then(
-            (response) => response.data,
-          ),
+        () => addCartItem({ productId, quantity: 1 }).then((response) => response.data),
         currentUserId,
       );
     },
@@ -175,17 +140,12 @@ const CartProvider = ({ children }) => {
   const updateQuantity = useCallback(
     async (productId, quantity) => {
       if (!isSignedIn) {
-        setGuestCart((current) =>
-          setGuestQuantity(current, productId, quantity),
-        );
+        setGuestCart((current) => setGuestQuantity(current, productId, quantity));
         return;
       }
 
       await mutate(
-        () =>
-          updateCartItem({ productId, quantity }).then(
-            (response) => response.data,
-          ),
+        () => updateCartItem({ productId, quantity }).then((response) => response.data),
         currentUserId,
       );
     },
@@ -219,42 +179,6 @@ const CartProvider = ({ children }) => {
     );
   }, [isSignedIn, mutate, currentUserId]);
 
-  // Coupons are validated and priced server-side (POST /carts/coupon), so
-  // there is nothing meaningful to apply against a local, unpersisted guest
-  // cart — surface a clear error instead of silently no-op'ing or faking it.
-  const applyCoupon = useCallback(
-    async (code) => {
-      if (!isSignedIn) {
-        throw new Error("Sign in to apply a coupon code.");
-      }
-
-      setIsUpdating(true);
-      try {
-        const response = await applyCartCoupon({ code });
-        mergeCouponFieldsFromServer(response.data, currentUserId);
-        return response.data;
-      } finally {
-        setIsUpdating(false);
-      }
-    },
-    [isSignedIn, currentUserId, mergeCouponFieldsFromServer],
-  );
-
-  const removeCoupon = useCallback(async () => {
-    if (!isSignedIn) {
-      throw new Error("Sign in to manage coupon codes.");
-    }
-
-    setIsUpdating(true);
-    try {
-      const response = await removeCartCoupon();
-      mergeCouponFieldsFromServer(response.data, currentUserId);
-      return response.data;
-    } finally {
-      setIsUpdating(false);
-    }
-  }, [isSignedIn, currentUserId, mergeCouponFieldsFromServer]);
-
   return (
     <CartContext.Provider
       value={{
@@ -267,8 +191,6 @@ const CartProvider = ({ children }) => {
         updateQuantity,
         removeItem,
         clear,
-        applyCoupon,
-        removeCoupon,
       }}
     >
       {children}

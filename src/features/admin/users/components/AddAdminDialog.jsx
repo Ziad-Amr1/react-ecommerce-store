@@ -17,8 +17,8 @@ import { createUser } from "../users.service";
 
 const inputClassName =
   "h-11 rounded-lg border border-(--color-border) bg-card text-(--color-text-primary) placeholder:text-muted-foreground shadow-sm transition-all hover:border-(--color-border) focus-visible:border-(--color-primary) focus-visible:ring-2 focus-visible:ring-(--color-focus-ring) focus-visible:ring-offset-0 disabled:cursor-not-allowed disabled:bg-muted disabled:opacity-50";
-const errorMessageClassName = "mt-1 flex items-center gap-1 text-sm text-error";
-const successMessageClassName = "mt-1 flex items-center gap-1 text-sm text-success";
+const errorMessageClassName = "mt-1 flex items-center gap-1 text-sm text-(--color-error)";
+const successMessageClassName = "mt-1 flex items-center gap-1 text-sm text-(--color-success)";
 
 export default function AddAdminDialog({ isOpen, onClose, onSuccess }) {
   const { t } = useTranslation();
@@ -104,9 +104,9 @@ export default function AddAdminDialog({ isOpen, onClose, onSuccess }) {
                 }
                 className={`${inputClassName} pl-10 ${
                   errors.username
-                    ? "border-error focus-visible:border-error focus-visible:ring-error"
+                    ? "border-(--color-error) focus-visible:border-(--color-error) focus-visible:ring-(--color-error)"
                     : isUsernameValid
-                      ? "border-success focus-visible:border-success focus-visible:ring-success"
+                      ? "border-(--color-success) focus-visible:border-(--color-success) focus-visible:ring-(--color-success)"
                       : ""
                 }`}
                 {...register("username", { required: t("users.dialogs.usernameRequired") })}
@@ -147,9 +147,9 @@ export default function AddAdminDialog({ isOpen, onClose, onSuccess }) {
                 }
                 className={`${inputClassName} pl-10 ${
                   errors.email
-                    ? "border-error focus-visible:border-error focus-visible:ring-error"
+                    ? "border-(--color-error) focus-visible:border-(--color-error) focus-visible:ring-(--color-error)"
                     : isEmailValid
-                      ? "border-success focus-visible:border-success focus-visible:ring-success"
+                      ? "border-(--color-success) focus-visible:border-(--color-success) focus-visible:ring-(--color-success)"
                       : ""
                 }`}
                 {...register("email", {
@@ -196,9 +196,9 @@ export default function AddAdminDialog({ isOpen, onClose, onSuccess }) {
                 }
                 className={`${inputClassName} pl-10 ${
                   errors.password
-                    ? "border-error focus-visible:border-error focus-visible:ring-error"
+                    ? "border-(--color-error) focus-visible:border-(--color-error) focus-visible:ring-(--color-error)"
                     : isPasswordValid
-                      ? "border-success focus-visible:border-success focus-visible:ring-success"
+                      ? "border-(--color-success) focus-visible:border-(--color-success) focus-visible:ring-(--color-success)"
                       : ""
                 }`}
                 {...register("password", {

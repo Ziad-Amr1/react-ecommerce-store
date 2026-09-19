@@ -765,6 +765,7 @@
     "quantity": "Quantity",
     "removeItem": "Remove {{name}}",
     "continueShopping": "Continue Shopping",
+    "proceedToCheckout": "Proceed to Checkout",
     "unitPrice": "{{price}} each",
     "loading": "Loading your cart...",
     "guestNote": "You're browsing as a guest. Sign in to keep your cart synced across devices.",
@@ -1019,5 +1020,72 @@
       "subtotal": "Subtotal",
       "total": "Total"
     }
+  },
+  "checkout": {
+    "title": "Checkout",
+    "subtitle": "Complete your shipping details to place your order.",
+    "optional": "optional",
+    "emptyCartTitle": "Your cart is empty",
+    "emptyCartDescription": "Add items to your cart before checking out.",
+    "backToCart": "Back to cart",
+    "validationError": "Please fix the highlighted fields.",
+    "emptyCartError": "Your cart is empty.",
+    "genericError": "We couldn't place your order. Please try again.",
+    "orderSuccessToast": "Order placed successfully.",
+    "shipping": {
+      "title": "Shipping information",
+      "subtitle": "Where should we deliver your order?",
+      "fullNameLabel": "Full name",
+      "fullNamePlaceholder": "Jane Smith",
+      "phoneLabel": "Phone number",
+      "phonePlaceholder": "+20 100 000 0000",
+      "countryLabel": "Country",
+      "countryPlaceholder": "Egypt",
+      "cityLabel": "City",
+      "cityPlaceholder": "Cairo",
+      "addressLabel": "Street address",
+      "addressPlaceholder": "123 Nile Street, Apt 4",
+      "postalCodeLabel": "Postal code",
+      "postalCodePlaceholder": "11511",
+      "customerNoteLabel": "Order note",
+      "customerNotePlaceholder": "Delivery instructions, landmarks, etc."
+    },
+    "payment": {
+      "title": "Payment method",
+      "subtitle": "Cash on delivery is available today.",
+      "cash": "Cash on delivery",
+      "cashDescription": "Pay in cash when your order arrives.",
+      "stripe": "Card payment",
+      "stripeUnavailable": "Coming soon",
+      "secureNote": "Your details are only used to deliver this order.",
+      "placeOrder": "Place order",
+      "placingOrder": "Placing order..."
+    },
+    "summary": {
+      "title": "Order summary",
+      "subtitle": "Review the items in your order.",
+      "subtotal": "Subtotal",
+      "discount": "Discount",
+      "total": "Total",
+      "quantity": "Quantity: {{quantity}}"
+    },
+    "validation": {
+      "fullNameRequired": "Full name is required",
+      "fullNameMin": "Full name must be at least 3 characters",
+      "phoneRequired": "Phone number is required",
+      "countryRequired": "Country is required",
+      "cityRequired": "City is required",
+      "addressRequired": "Address is required",
+      "addressMin": "Address must be at least 5 characters",
+      "postalCodeInvalid": "Enter a valid postal code",
+      "paymentMethodRequired": "Select a payment method"
+    }
+  },
+  "orderSuccess": {
+    "title": "Order confirmed",
+    "description": "Thanks for your order. We'll start preparing it right away.",
+    "orderRef": "Order reference: {{id}}",
+    "myOrders": "My orders",
+    "continueShopping": "Continue shopping"
   }
 }

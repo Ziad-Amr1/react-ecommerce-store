@@ -763,6 +763,7 @@
     "quantity": "الكمية",
     "removeItem": "إزالة {{name}}",
     "continueShopping": "مواصلة التسوق",
+    "proceedToCheckout": "المتابعة إلى الدفع",
     "unitPrice": "{{price}} للقطعة",
     "loading": "جارٍ تحميل السلة...",
     "guestNote": "أنت تتصفح كضيف. سجّل الدخول للحفاظ على مزامنة سلة التسوق عبر الأجهزة.",
@@ -1017,5 +1018,72 @@
       "subtotal": "المجموع الفرعي",
       "total": "الإجمالي"
     }
+  },
+  "checkout": {
+    "title": "إتمام الشراء",
+    "subtitle": "أكمل بيانات الشحن لتأكيد طلبك.",
+    "optional": "اختياري",
+    "emptyCartTitle": "سلتك فارغة",
+    "emptyCartDescription": "أضف منتجات إلى سلتك قبل إتمام الشراء.",
+    "backToCart": "العودة إلى السلة",
+    "validationError": "يرجى تصحيح الحقول المميّزة.",
+    "emptyCartError": "سلتك فارغة.",
+    "genericError": "تعذّر إتمام طلبك. يرجى المحاولة مرة أخرى.",
+    "orderSuccessToast": "تم إنشاء الطلب بنجاح.",
+    "shipping": {
+      "title": "بيانات الشحن",
+      "subtitle": "إلى أين نوصل طلبك؟",
+      "fullNameLabel": "الاسم الكامل",
+      "fullNamePlaceholder": "محمد أحمد",
+      "phoneLabel": "رقم الهاتف",
+      "phonePlaceholder": "+20 100 000 0000",
+      "countryLabel": "الدولة",
+      "countryPlaceholder": "مصر",
+      "cityLabel": "المدينة",
+      "cityPlaceholder": "القاهرة",
+      "addressLabel": "العنوان",
+      "addressPlaceholder": "١٢٣ شارع النيل، شقة ٤",
+      "postalCodeLabel": "الرمز البريدي",
+      "postalCodePlaceholder": "11511",
+      "customerNoteLabel": "ملاحظة الطلب",
+      "customerNotePlaceholder": "تعليمات التوصيل أو علامات مميزة."
+    },
+    "payment": {
+      "title": "طريقة الدفع",
+      "subtitle": "الدفع عند الاستلام متاح الآن.",
+      "cash": "الدفع عند الاستلام",
+      "cashDescription": "ادفع نقدًا عند وصول طلبك.",
+      "stripe": "الدفع بالبطاقة",
+      "stripeUnavailable": "قريبًا",
+      "secureNote": "تُستخدم بياناتك فقط لتوصيل هذا الطلب.",
+      "placeOrder": "تأكيد الطلب",
+      "placingOrder": "جارٍ تأكيد الطلب..."
+    },
+    "summary": {
+      "title": "ملخص الطلب",
+      "subtitle": "راجع المنتجات في طلبك.",
+      "subtotal": "المجموع الفرعي",
+      "discount": "الخصم",
+      "total": "الإجمالي",
+      "quantity": "الكمية: {{quantity}}"
+    },
+    "validation": {
+      "fullNameRequired": "الاسم الكامل مطلوب",
+      "fullNameMin": "يجب أن يتكون الاسم الكامل من 3 أحرف على الأقل",
+      "phoneRequired": "رقم الهاتف مطلوب",
+      "countryRequired": "الدولة مطلوبة",
+      "cityRequired": "المدينة مطلوبة",
+      "addressRequired": "العنوان مطلوب",
+      "addressMin": "يجب أن يتكون العنوان من 5 أحرف على الأقل",
+      "postalCodeInvalid": "أدخل رمزًا بريديًا صالحًا",
+      "paymentMethodRequired": "اختر طريقة دفع"
+    }
+  },
+  "orderSuccess": {
+    "title": "تم تأكيد الطلب",
+    "description": "شكرًا لطلبك. سنبدأ في تجهيزه فورًا.",
+    "orderRef": "رقم الطلب: {{id}}",
+    "myOrders": "طلباتي",
+    "continueShopping": "مواصلة التسوق"
   }
 }

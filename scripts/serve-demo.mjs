@@ -217,9 +217,10 @@ const server = createServer(async (req, res) => {
     const page = usePagination && pageParam > 0 ? pageParam : 1;
 
     const sliced = sorted.slice((page - 1) * limit, (page - 1) * limit + limit);
-    const totalPages = Math.max(1, Math.ceil(sorted.length / (usePagination ? limit : 1)));
+    const total = sorted.length;
+    const totalPages = Math.max(1, Math.ceil(total / (usePagination ? limit : 1)));
 
-    json(res, 200, { products: sliced, totalPages });
+    json(res, 200, { products: sliced, total, totalPages });
     return;
   }
 

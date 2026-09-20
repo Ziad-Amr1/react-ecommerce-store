@@ -345,6 +345,7 @@
     "cancel": "Cancel",
     "discard": "Discard Changes",
     "saveNow": "Save Now",
+    "keepEditing": "Keep editing",
     "unsavedTitle": "Unsaved changes",
     "unsavedDescription": "You have unsaved changes. Leave without saving them?",
     "validationNotice": "Please fix the highlighted fields and try again.",
@@ -443,8 +444,13 @@
       "imageRequired": "At least one image is required"
     },
     "sort": {
-      "default": "Default sorting"
+      "default": "Default sorting",
+      "priceAsc": "Price: Low to High",
+      "priceDesc": "Price: High to Low"
     },
+    "defaultSort": "Default sorting",
+    "priceLowToHigh": "Price: Low to High",
+    "priceHighToLow": "Price: High to Low",
     "filters": {
       "categoryPlaceholder": "Any category",
       "brandPlaceholder": "Any brand",

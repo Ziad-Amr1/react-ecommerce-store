@@ -14,10 +14,7 @@ test.describe("Shared admin architecture", () => {
   test("admin pages render header title, KPI stat cards, and the page indicator", async ({ page }) => {
     await page.goto("/admin/products");
     await expect(page.getByRole("heading", { name: "Products" })).toBeVisible();
-    const productsKpi = page
-      .getByText("Total Products")
-      .locator("xpath=ancestor::div[contains(@class, 'h-full')]");
-    await expect(productsKpi).toBeVisible();
+    await expect(page.locator("span.tabular-nums.text-primary")).toHaveText("12");
     await expect(page.getByText("1 / 2")).toBeVisible();
   });
 

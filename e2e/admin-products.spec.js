@@ -12,11 +12,8 @@ test.describe("Admin Products", () => {
   test("page renders with title and statistics", async ({ page }) => {
     await page.goto("/admin/products");
     await expect(page.getByRole("heading", { name: "Products" })).toBeVisible();
-    const totalProductsKpi = page
-      .getByText("Total Products")
-      .locator("xpath=ancestor::div[contains(@class, 'h-full')]");
-    await expect(totalProductsKpi).toBeVisible();
-    await expect(totalProductsKpi.getByText("10")).toBeVisible();
+    const totalBadge = page.locator("span.tabular-nums.text-primary");
+    await expect(totalBadge).toHaveText("12");
     await expect(page.getByText("1 / 2")).toBeVisible();
   });
 
@@ -71,7 +68,7 @@ test.describe("Admin Products", () => {
     await page.goto("/admin/products");
     await expect(page.locator("table tbody tr")).toHaveCount(10);
 
-    await page.getByRole("button", { name: "Filters" }).click();
+    await page.getByRole("button", { name: "Filters", exact: true }).click();
     await page.getByLabel("Category").fill("Electronics");
 
     const requestPromise = page.waitForRequest(
@@ -79,7 +76,7 @@ test.describe("Admin Products", () => {
         req.url().includes("/api/products") &&
         new URL(req.url()).searchParams.get("category") === "Electronics",
     );
-    await page.getByRole("button", { name: "Apply" }).click();
+    await page.getByRole("button", { name: "Apply Filters" }).click();
     await requestPromise;
     await expect(page.locator("table tbody tr")).toHaveCount(5);
   });
@@ -169,6 +166,6 @@ test.describe("Admin Products", () => {
     await expect(page.locator("html")).toHaveAttribute("dir", "rtl");
     await expect(page.locator("html")).toHaveAttribute("lang", "ar");
     await expect(page.getByRole("heading", { name: "المنتجات" })).toBeVisible();
-    await expect(page.getByText("إجمالي المنتجات")).toBeVisible();
+    await expect(page.locator("span.tabular-nums.text-primary")).toHaveText("12");
   });
 });

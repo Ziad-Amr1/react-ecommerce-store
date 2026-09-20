@@ -67,11 +67,20 @@ export default function useProducts() {
   const table = useAdminServerTable({
     fetchData: ({ search, filters, page, limit, sortKey, sortDirection, signal }) =>
       getProducts(buildParams({ search, filters, page, limit, sortKey, sortDirection }), signal),
-    mapResponse: (data) => ({
-      rows: data?.products ?? [],
-      total: data?.total ?? 0,
-      totalPages: data?.totalPages ?? 1,
-    }),
+    mapResponse: (data) => {
+      const rows = data?.products ?? [];
+      const total = Number.isFinite(Number(data?.total))
+        ? Number(data.total)
+        : Number.isFinite(Number(data?.totalProducts))
+          ? Number(data.totalProducts)
+          : rows.length;
+
+      return {
+        rows,
+        total,
+        totalPages: data?.totalPages ?? 1,
+      };
+    },
     pageSize: PAGE_SIZE,
     initialFilters: EMPTY_FILTERS,
   });
@@ -110,6 +119,7 @@ export default function useProducts() {
 
   return {
     products: table.rows,
+    totalProducts: table.total,
     isLoading: table.isLoading,
     isFetching: table.isFetching,
     error: table.error,

@@ -24,13 +24,13 @@ export default function ProductDetailsGallery({
         </CardTitle>
       </CardHeader>
 
-      <CardContent>
+      <CardContent className="space-y-3">
         {activeImage ? (
-          <div className="aspect-square w-full overflow-hidden rounded-lg">
+          <div className="mx-auto aspect-[4/3] w-full max-w-[380px] overflow-hidden rounded-lg bg-muted/20 lg:max-w-[320px]">
             <img
               src={activeImage.url}
               alt={product.name}
-              className="h-full w-full object-contain"
+              className="h-full w-full object-cover"
             />
           </div>
         ) : (
@@ -43,13 +43,13 @@ export default function ProductDetailsGallery({
         )}
 
         {images.length > 1 && (
-          <div className="mt-4 flex gap-2 overflow-x-auto">
+          <div className="flex justify-center gap-2 overflow-x-auto pb-1">
             {images.map((image, index) => (
               <button
                 key={image.public_id || index}
                 type="button"
                 onClick={() => onSelectImage(index)}
-                className={`size-16 shrink-0 cursor-pointer overflow-hidden rounded-md border-2 transition-colors ${
+                className={`size-14 shrink-0 cursor-pointer overflow-hidden rounded-md border-2 transition-colors ${
                   selectedImage === index ? "border-primary" : "border-border"
                 }`}
                 aria-label={t("products.selectImage", { index: index + 1 })}

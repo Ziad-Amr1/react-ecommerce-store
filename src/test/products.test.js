@@ -115,8 +115,8 @@ describe("ProductImagePreview - image preview", () => {
     const createObjectURL = vi.fn(() => "blob:preview");
     const revokeObjectURL = vi.fn();
 
-    global.URL.createObjectURL = createObjectURL;
-    global.URL.revokeObjectURL = revokeObjectURL;
+    globalThis.URL.createObjectURL = createObjectURL;
+    globalThis.URL.revokeObjectURL = revokeObjectURL;
 
     const { rerender, container } = render(
       createElement(ProductImagePreview, { file, alt: "New product image" }),

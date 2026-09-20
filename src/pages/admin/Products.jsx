@@ -21,6 +21,7 @@ export default function Products() {
     isFetching,
     error,
     search,
+    appliedSearch,
     filters,
     setFilters,
     showFilters,
@@ -35,6 +36,7 @@ export default function Products() {
     deletingProductId,
     hasActiveQuery,
     handleSearchChange,
+    handleSelectSearchResult,
     handleApplyFilters,
     handleSort,
     handlePageChange,
@@ -113,7 +115,13 @@ export default function Products() {
 
       <div className="mb-6 space-y-4">
         <div className="flex w-full flex-col gap-3 md:flex-row">
-          <ProductSearch search={search} onChange={handleSearchChange} />
+          <ProductSearch
+            search={search}
+            appliedSearch={appliedSearch}
+            products={products}
+            onChange={handleSearchChange}
+            onSelect={handleSelectSearchResult}
+          />
 
           <Button
             variant="outline"

@@ -34,13 +34,15 @@ export default function useProductDrawer(product, onUpdated) {
   const [deletedImages, setDeletedImages] = useState([]);
 
   useEffect(() => {
-    if (!product || isEditing) return;
+    if (!product || isEditing) return undefined;
 
-    setFormData(toFormData(product));
-    setImages((product.images || []).slice(0, MAX_IMAGES));
-    setNewImages([]);
-    setDeletedImages([]);
-    setErrors({});
+    queueMicrotask(() => {
+      setFormData(toFormData(product));
+      setImages((product.images || []).slice(0, MAX_IMAGES));
+      setNewImages([]);
+      setDeletedImages([]);
+      setErrors({});
+    });
   }, [product, isEditing]);
 
   const pristineSnapshot = useMemo(

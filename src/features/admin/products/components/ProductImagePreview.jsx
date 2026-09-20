@@ -4,10 +4,7 @@ export default function ProductImagePreview({ file, alt }) {
   const [previewUrl, setPreviewUrl] = useState("");
 
   useEffect(() => {
-    if (!file) {
-      setPreviewUrl("");
-      return undefined;
-    }
+    if (!file) return undefined;
 
     let isActive = true;
     let objectUrl = "";
@@ -65,6 +62,8 @@ export default function ProductImagePreview({ file, alt }) {
       }
     };
   }, [file]);
+
+  if (!file) return null;
 
   if (!previewUrl) {
     return null;

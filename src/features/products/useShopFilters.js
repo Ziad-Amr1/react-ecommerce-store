@@ -1,9 +1,9 @@
 import { useState, useMemo, useEffect } from "react";
+import { useSearchParams } from "react-router";
 import { useTranslation } from "react-i18next";
 
 const EMPTY_APPLIED = {
   search: "",
-  category: "All",
   brand: "All",
   minPrice: "",
   maxPrice: "",
@@ -19,6 +19,8 @@ const SORT_LABELS = {
 export default function useShopFilters(products) {
   const { t } = useTranslation();
   const [searchQuery, setSearchQuery] = useState("");
+  const [searchParams] = useSearchParams();
+  const categoryFromUrl = searchParams.get("category") || "All";
   const [minPrice, setMinPrice] = useState("");
   const [maxPrice, setMaxPrice] = useState("");
   const [sortBy, setSortBy] = useState("Default");
@@ -26,7 +28,10 @@ export default function useShopFilters(products) {
   const [isMobileFilterOpen, setIsMobileFilterOpen] = useState(false);
 
   // Applied filters are the only values that drive server queries.
-  const [applied, setApplied] = useState(EMPTY_APPLIED);
+  const [applied, setApplied] = useState({
+    ...EMPTY_APPLIED,
+    category: categoryFromUrl,
+  });
 
   // Debounce search/price input before committing it as a server query.
   useEffect(() => {
@@ -48,7 +53,10 @@ export default function useShopFilters(products) {
   }, [searchQuery, minPrice, maxPrice]);
 
   const selectCategory = (name) => {
-    setApplied((current) => ({ ...current, category: name }));
+    setApplied((current) => ({
+      ...current,
+      category: name,
+    }));
   };
 
   const selectBrand = (brand) => {
@@ -63,33 +71,133 @@ export default function useShopFilters(products) {
     setApplied((current) => ({ ...current, sortBy: value }));
   };
 
-  // Category list reflects only the products returned on the current page.
-  // The backend exposes no catalog-wide categories endpoint yet, so this
-  // list is used purely as a visual shortcut; selecting a category still
-  // applies a real server-side filter.
+  //allows category counts to show what is available under the other active filters
   const categories = useMemo(() => {
-    if (!products || !Array.isArray(products)) {
-      return [{ name: "All", count: 0 }];
-    }
+    const filteredProducts = products.filter((product) => {
+      // Search
+      if (
+        applied.search &&
+        !product.name?.toLowerCase().includes(applied.search.toLowerCase())
+      ) {
+        return false;
+      }
+
+      // Brand
+      if (applied.brand !== "All" && product.brand !== applied.brand) {
+        return false;
+      }
+
+      // Min price
+      if (
+        applied.minPrice !== "" &&
+        Number(product.price) < Number(applied.minPrice)
+      ) {
+        return false;
+      }
+
+      // Max price
+      if (
+        applied.maxPrice !== "" &&
+        Number(product.price) > Number(applied.maxPrice)
+      ) {
+        return false;
+      }
+
+      return true;
+    });
 
     const counts = {};
-    products.forEach((p) => {
+    filteredProducts.forEach((p) => {
       if (p.category) {
         counts[p.category] = (counts[p.category] || 0) + 1;
       }
     });
+    return [
+      {
+        name: "All",
+        count: filteredProducts.length,
+      },
+      ...Object.entries(counts).map(([name, count]) => ({
+        name,
+        count,
+      })),
+    ];
+  }, [
+    products,
+    applied.search,
+    applied.brand,
+    applied.minPrice,
+    applied.maxPrice,
+  ]);
 
-    const dynamicList = Object.keys(counts).map((cat) => ({
-      name: cat,
-      count: counts[cat],
-    }));
+  const brands = useMemo(() => {
+    if (!products || !Array.isArray(products)) {
+      return [{ name: "All", count: 0 }];
+    }
 
-    return [{ name: "All", count: products.length }, ...dynamicList];
-  }, [products]);
+    const filteredProducts = products.filter((product) => {
+      // Search
+      if (
+        applied.search &&
+        !product.name?.toLowerCase().includes(applied.search.toLowerCase())
+      ) {
+        return false;
+      }
+
+      // Category
+      if (applied.category !== "All" && product.category !== applied.category) {
+        return false;
+      }
+
+      // Min price
+      if (
+        applied.minPrice !== "" &&
+        Number(product.price) < Number(applied.minPrice)
+      ) {
+        return false;
+      }
+
+      // Max price
+      if (
+        applied.maxPrice !== "" &&
+        Number(product.price) > Number(applied.maxPrice)
+      ) {
+        return false;
+      }
+
+      return true;
+    });
+
+    const counts = {};
+
+    filteredProducts.forEach((product) => {
+      if (product.brand) {
+        counts[product.brand] = (counts[product.brand] || 0) + 1;
+      }
+    });
+
+    return [
+      {
+        name: "All",
+        count: filteredProducts.length,
+      },
+      ...Object.entries(counts).map(([name, count]) => ({
+        name,
+        count,
+      })),
+    ];
+  }, [
+    products,
+    applied.search,
+    applied.category,
+    applied.minPrice,
+    applied.maxPrice,
+  ]);
 
   const hasActiveFilters =
     applied.search !== "" ||
     applied.category !== "All" ||
+    applied.brand !== "All" ||
     applied.minPrice !== "" ||
     applied.maxPrice !== "" ||
     applied.sortBy !== "Default";
@@ -99,7 +207,7 @@ export default function useShopFilters(products) {
     setMinPrice("");
     setMaxPrice("");
     setSortBy("Default");
-    setApplied(EMPTY_APPLIED);
+    setApplied({ ...EMPTY_APPLIED, category: "All" });
   };
 
   const getSortLabel = (val) => {
@@ -127,6 +235,7 @@ export default function useShopFilters(products) {
     isMobileFilterOpen,
     setIsMobileFilterOpen,
     categories,
+    brands,
     hasActiveFilters,
     clearFilters,
     getSortLabel,

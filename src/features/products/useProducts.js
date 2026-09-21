@@ -23,6 +23,8 @@ const useProducts = () => {
 
     const params = { page, limit };
 
+    console.log("FETCH PARAMS:", params);
+
     if (applied.search?.trim()) {
       params.search = applied.search.trim();
     }

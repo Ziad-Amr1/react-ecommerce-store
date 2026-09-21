@@ -2,7 +2,7 @@ import { Link } from "react-router";
 import { ArrowUpRight } from "lucide-react";
 import { useTranslation } from "react-i18next";
 
-export default function CategoryCard({ image, title }) {
+export default function CategoryCard({ image, title, category }) {
   const { t } = useTranslation();
 
   return (
@@ -34,7 +34,8 @@ export default function CategoryCard({ image, title }) {
         <h3 className="text-lg font-semibold text-white lg:text-xl">{title}</h3>
 
         <Link
-          to="/products"
+          // to="/products"
+          to={`/products?category=${encodeURIComponent(category)}`}
           className="mt-2 inline-flex h-auto items-center gap-1.5 p-0 text-sm font-medium text-white/90 underline-offset-4 hover:text-white hover:underline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
         >
           {t("landing.categories.shopNow")}

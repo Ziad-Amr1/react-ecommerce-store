@@ -22,6 +22,7 @@ import NotFound from "./pages/NotFound.jsx";
 import ProtectedRoute from "./ProtectedRoute.jsx";
 import Shop from "./pages/Shop.jsx";
 import Cart from "./pages/Cart.jsx";
+import Category from "./pages/Category.jsx";
 
 const DesignSystem = lazy(() => import("./pages/DesignSystem"));
 
@@ -32,6 +33,7 @@ function App() {
         <Route element={<StoreLayout />}>
           <Route path="/" element={<Landing />} />
           <Route path="/products" element={<Shop />} />
+          <Route path="/categories" element={<Category />} />
           <Route path="/products/:id" element={<StoreProductDetails />} />
           <Route path="/cart" element={<Cart />} />
           <Route path="/profile" element={<Profile />} />

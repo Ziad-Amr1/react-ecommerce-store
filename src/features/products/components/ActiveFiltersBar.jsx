@@ -36,12 +36,16 @@ export default function ActiveFiltersBar({
             variant="secondary"
             className="gap-1.5 py-1 px-2.5 rounded-lg bg-[var(--color-surface-secondary)] text-[var(--color-text-primary)] border border-[var(--color-border)] font-normal text-xs"
           >
-            {t("shop.filterCategory")}{" "}
+            {t("shop.filterCategory")}
             <span className="font-semibold">{applied.category}</span>
-            <X
-              className="size-3.5 text-[var(--color-text-secondary)] hover:text-[var(--color-error)] cursor-pointer"
+            <button
+              type="button"
               onClick={() => selectCategory("All")}
-            />
+              className="cursor-pointer size-3.5 text-[var(--color-text-secondary)] hover:text-[var(--color-error)]"
+              aria-label={t("shop.removeCategoryFilter")}
+            >
+              <X className="size-3.5" />
+            </button>
           </Badge>
         )}
 
@@ -50,12 +54,16 @@ export default function ActiveFiltersBar({
             variant="secondary"
             className="gap-1.5 py-1 px-2.5 rounded-lg bg-[var(--color-surface-secondary)] text-[var(--color-text-primary)] border border-[var(--color-border)] font-normal text-xs"
           >
-            {t("shop.filterBrand")}{" "}
+            {t("shop.filterBrand")}
             <span className="font-semibold">{applied.brand}</span>
-            <X
-              className="size-3.5 text-[var(--color-text-secondary)] hover:text-[var(--color-error)] cursor-pointer"
+            <button
+              type="button"
               onClick={() => selectBrand("All")}
-            />
+              className="cursor-pointer size-3.5 text-[var(--color-text-secondary)] hover:text-[var(--color-error)]"
+              aria-label={t("shop.removeBrandFilter")}
+            >
+              <X className="size-3.5" />
+            </button>
           </Badge>
         )}
 
@@ -64,14 +72,18 @@ export default function ActiveFiltersBar({
             variant="secondary"
             className="gap-1.5 py-1 px-2.5 rounded-lg bg-[var(--color-surface-secondary)] text-[var(--color-text-primary)] border border-[var(--color-border)] font-normal text-xs"
           >
-            {t("shop.filterPrice")}{" "}
+            {t("shop.filterPrice")}
             <span className="font-mono font-semibold">
               ${applied.minPrice || "0"} - ${applied.maxPrice || "∞"}
             </span>
-            <X
-              className="size-3.5 text-[var(--color-text-secondary)] hover:text-[var(--color-error)] cursor-pointer"
+            <button
+              type="button"
               onClick={clearPrice}
-            />
+              className="cursor-pointer size-3.5 text-[var(--color-text-secondary)] hover:text-[var(--color-error)]"
+              aria-label={t("shop.removePriceFilter")}
+            >
+              <X className="size-3.5" />
+            </button>
           </Badge>
         )}
 
@@ -84,10 +96,14 @@ export default function ActiveFiltersBar({
             <span className="font-semibold">
               {getSortLabel(applied.sortBy)}
             </span>
-            <X
-              className="size-3.5 text-[var(--color-text-secondary)] hover:text-[var(--color-error)] cursor-pointer"
+            <button
+              type="button"
               onClick={() => changeSort("Default")}
-            />
+              className="cursor-pointer size-3.5 text-[var(--color-text-secondary)] hover:text-[var(--color-error)]"
+              aria-label={t("shop.removeSortFilter")}
+            >
+              <X className="size-3.5" />
+            </button>
           </Badge>
         )}
 
@@ -98,10 +114,14 @@ export default function ActiveFiltersBar({
           >
             {t("shop.filterSearch")}{" "}
             <span className="font-semibold">"{applied.search}"</span>
-            <X
-              className="size-3.5 text-[var(--color-text-secondary)] hover:text-[var(--color-error)] cursor-pointer"
+            <button
+              type="button"
               onClick={() => setSearchQuery("")}
-            />
+              className="cursor-pointer size-3.5 text-[var(--color-text-secondary)] hover:text-[var(--color-error)]"
+              aria-label={t("shop.removeSearchFilter")}
+            >
+              <X className="size-3.5" />
+            </button>
           </Badge>
         )}
       </div>

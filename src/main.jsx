@@ -8,18 +8,20 @@ import App from "./App.jsx";
 import AuthProvider from "./contexts/AuthProvider";
 import CartProvider from "./contexts/CartProvider";
 import { DirectionProvider } from "./i18n/DirectionProvider";
+import ScrollToTop from "./components/routing/ScrollToTop";
 
 createRoot(document.getElementById("root")).render(
   <StrictMode>
-      <AuthProvider>
-        <BrowserRouter>
-          <DirectionProvider>
-            <CartProvider>
-              <App />
-              <AppToaster />
-            </CartProvider>
-          </DirectionProvider>
-        </BrowserRouter>
-      </AuthProvider>
+    <AuthProvider>
+      <BrowserRouter>
+        <ScrollToTop />
+        <DirectionProvider>
+          <CartProvider>
+            <App />
+            <AppToaster />
+          </CartProvider>
+        </DirectionProvider>
+      </BrowserRouter>
+    </AuthProvider>
   </StrictMode>,
 );

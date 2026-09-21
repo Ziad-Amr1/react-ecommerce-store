@@ -6,30 +6,42 @@ const useCatalogProducts = () => {
   const [isCatalogLoading, setIsCatalogLoading] = useState(false);
   const [catalogError, setCatalogError] = useState(null);
 
-  const hasFetchedCatalog = useRef(false);
+  const catalogCacheRef = useRef(null);
 
-  const fetchCatalogProducts = useCallback(async (totalProducts) => {
-    if (hasFetchedCatalog.current) {
-      return;
-    }
-
-    if (!totalProducts || totalProducts <= 0) {
-      return;
+  const fetchCatalogProducts = useCallback(async () => {
+    if (catalogCacheRef.current) {
+      setCatalogProducts(catalogCacheRef.current);
+      return catalogCacheRef.current;
     }
 
     try {
       setIsCatalogLoading(true);
       setCatalogError(null);
 
-      const data = await getProducts({
+      // First request: NO filters
+      const firstResponse = await getProducts({
+        page: 1,
+        limit: 12,
+      });
+
+      const totalProducts = Number(firstResponse.totalProducts);
+
+      if (!totalProducts) {
+        return [];
+      }
+
+      // Get the complete catalog
+      const response = await getProducts({
         page: 1,
         limit: totalProducts,
       });
 
-      const products = Array.isArray(data.products) ? data.products : [];
+      const products = Array.isArray(response.products)
+        ? response.products
+        : [];
 
+      catalogCacheRef.current = products;
       setCatalogProducts(products);
-      hasFetchedCatalog.current = true;
 
       return products;
     } catch (error) {

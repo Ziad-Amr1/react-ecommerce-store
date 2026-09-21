@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useNavigate, useLocation, Link } from "react-router";
 import { useTranslation } from "react-i18next";
+import { assetUrl } from "@/utils/assetUrl";
 
 import { Loader2, Mail } from "lucide-react";
 
@@ -167,7 +168,7 @@ export default function Login() {
             {/* Logo */}
             <div className="space-y-2 text-center">
               <img
-                src="/favicon.ico"
+                src={assetUrl("logo.webp")}
                 alt={t("brand.logoAlt")}
                 className="mx-auto mb-4 size-24 object-contain"
               />

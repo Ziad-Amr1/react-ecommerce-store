@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router";
 import { useTranslation } from "react-i18next";
+import { assetUrl } from "@/utils/assetUrl";
 
 import { Loader2, Mail, Phone, User } from "lucide-react";
 
@@ -140,7 +141,7 @@ export default function Registration() {
             <div className="flex flex-col items-center gap-1 text-center">
               <div className="flex items-center gap-2">
                 <img
-                  src="/favicon.ico"
+                  src={assetUrl("logo.webp")}
                   alt={t("brand.logoAlt")}
                   className="size-10 object-contain"
                 />

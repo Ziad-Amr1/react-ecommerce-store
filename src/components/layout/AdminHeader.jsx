@@ -1,6 +1,7 @@
 import { Button } from "@/components/ui/button";
 import { Menu } from "lucide-react";
 import { useTranslation } from "react-i18next";
+import { assetUrl } from "@/utils/assetUrl";
 import HeaderActionButtons from "./HeaderActionButtons";
 
 function AdminHeader({ onMenuClick, sidebarOpen, sidebarId }) {
@@ -21,7 +22,7 @@ function AdminHeader({ onMenuClick, sidebarOpen, sidebarId }) {
         </Button>
 
         <img
-          src="/favicon.ico"
+          src={assetUrl("logo.webp")}
           alt={t("brand.logoAlt")}
           className="h-9 shrink-0 object-contain sm:h-11"
         />

@@ -1,9 +1,10 @@
 import { useTranslation } from "react-i18next";
 import { useLocation } from "react-router";
+import { assetUrl } from "@/utils/assetUrl";
 
 const SITE_NAME = "Oversea Store";
 
-const DEFAULT_IMAGE = "/logo.webp";
+const DEFAULT_IMAGE = assetUrl("logo.webp");
 
 const DEFAULT_GEO = {
   region: "US-CA",

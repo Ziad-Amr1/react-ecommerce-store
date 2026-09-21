@@ -1,4 +1,5 @@
 import { useTranslation } from "react-i18next";
+import { assetUrl } from "@/utils/assetUrl";
 import { Link } from "react-router";
 import { Wrench, RefreshCw, Mail } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -30,7 +31,7 @@ export default function Maintenance() {
       <div className="relative flex flex-col items-center justify-center gap-5 text-center">
         <Link to="/" className="flex items-center gap-2">
           <img
-            src="/favicon.ico"
+            src={assetUrl("logo.webp")}
             alt={t("brand.logoAlt")}
             className="size-9 shrink-0 object-contain"
           />

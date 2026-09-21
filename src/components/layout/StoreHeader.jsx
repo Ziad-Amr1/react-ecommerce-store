@@ -1,5 +1,6 @@
 import { Link, useLocation } from "react-router";
 import { useTranslation } from "react-i18next";
+import { assetUrl } from "@/utils/assetUrl";
 import {
   Moon,
   Sun,
@@ -64,7 +65,7 @@ export default function StoreHeader() {
       <div className="mx-auto flex w-full max-w-7xl items-center justify-between gap-2 sm:gap-4 px-3 sm:px-6 lg:px-8 py-3">
         <Link to="/" className="flex shrink-0 items-center gap-2">
           <img
-            src="/favicon.ico"
+            src={assetUrl("logo.webp")}
             alt={t("brand.logoAlt")}
             className="size-8 shrink-0 object-contain"
           />
@@ -384,7 +385,7 @@ export default function StoreHeader() {
             <SheetContent side="right" className="w-80 sm:w-96 flex flex-col p-0 gap-0 border-l">
               <SheetHeader className="p-4 border-b flex flex-row items-center justify-between text-start">
                 <SheetTitle className="flex items-center gap-2.5 font-display text-lg font-bold">
-                  <img src="/favicon.ico" alt="" className="size-7 object-contain" />
+                  <img src={assetUrl("logo.webp")} alt="" className="size-7 object-contain" />
                   <span>{t("brand.name")}</span>
                 </SheetTitle>
               </SheetHeader>

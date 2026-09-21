@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useLocation, useNavigate } from "react-router";
 import { useTranslation } from "react-i18next";
+import { assetUrl } from "@/utils/assetUrl";
 
 import { Mail, Loader2, ArrowLeft } from "lucide-react";
 
@@ -103,7 +104,7 @@ export default function ForgetPassword() {
             {/* Logo */}
             <div className="text-center">
               <img
-                src="/favicon.ico"
+                src={assetUrl("logo.webp")}
                 alt={t("brand.logoAlt")}
                 className="mx-auto h-24 w-24 object-contain"
               />

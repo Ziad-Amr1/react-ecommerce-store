@@ -1,242 +1,317 @@
 import { useState } from "react";
-import { Copy, Mail, Pencil, Phone, Save, User, X } from "lucide-react";
 import { useTranslation } from "react-i18next";
-import { toast } from "sonner";
 import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
+  Check,
+  Copy,
+  Edit3,
+  Loader2,
+  Mail,
+  Phone,
+  User,
+  X,
+} from "lucide-react";
+
+import { toast } from "sonner";
+
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+
 import { getUserIdentity } from "@/features/auth/utils/userIdentity";
 import { validateProfile } from "@/features/profile/utils/profileValidation";
 
-export default function PersonalInformation({ user, updateUser }) {
+export default function PersonalInformation({
+  user,
+  updateUser,
+  isEditing: controlledIsEditing,
+  onEditingChange,
+}) {
   const { t } = useTranslation();
 
-  const [isEditing, setIsEditing] = useState(false);
+  const [internalIsEditing, setInternalIsEditing] = useState(false);
   const [isSaving, setIsSaving] = useState(false);
+  const [copiedField, setCopiedField] = useState(null);
+
+  const isEditing =
+    controlledIsEditing !== undefined ? controlledIsEditing : internalIsEditing;
+
+  const setIsEditing = (value) => {
+    if (onEditingChange) {
+      onEditingChange(value);
+    } else {
+      setInternalIsEditing(value);
+    }
+  };
+
+  const identity = getUserIdentity(user);
 
   const [formData, setFormData] = useState({
     username: user?.username ?? "",
     phone: user?.phone ?? "",
-    avatar: user?.avatar ?? "",
   });
 
-  const name = getUserIdentity(user);
-  const email = user?.email?.trim();
-  const username = user?.username?.trim();
-  const phone = user?.phone?.trim();
-
-  const rows = [
-    {
-      key: "fullName",
-      icon: User,
-      label: t("profile.personal.fullName"),
-      value: name,
-    },
-    {
-      key: "email",
-      icon: Mail,
-      label: t("profile.personal.email"),
-      value: email,
-    },
-    {
-      key: "username",
-      icon: User,
-      label: t("profile.personal.username"),
-      value: username,
-    },
-    {
-      key: "phone",
-      icon: Phone,
-      label: t("profile.personal.phone"),
-      value: phone,
-    },
-  ];
-
-  const handleCopy = async (value, key) => {
-    if (!value || !navigator.clipboard) return;
-
-    try {
-      await navigator.clipboard.writeText(value);
-
-      toast.success(
-        t("profile.personal.copied", {
-          field: t(`profile.personal.${key}`),
-        }),
-      );
-    } catch {
-      toast.error(t("profile.personal.copyFailed"));
+  const [prevUser, setPrevUser] = useState(user);
+  if (user !== prevUser) {
+    setPrevUser(user);
+    if (user) {
+      setFormData({
+        username: user.username ?? "",
+        phone: user.phone ?? "",
+      });
     }
-  };
+  }
 
-  const handleChange = (key, value) => {
-    setFormData((current) => ({ ...current, [key]: value }));
+  const email = user?.email ?? "";
+
+  const handleChange = (field) => (event) => {
+    setFormData((current) => ({
+      ...current,
+      [field]: event.target.value,
+    }));
   };
 
   const handleCancel = () => {
     setFormData({
       username: user?.username ?? "",
       phone: user?.phone ?? "",
-      avatar: user?.avatar ?? "",
     });
+
     setIsEditing(false);
   };
 
   const handleSave = async () => {
-    const errors = validateProfile(formData, t);
+    const validation = validateProfile({
+      username: formData.username,
+      phone: formData.phone,
+    });
 
-    if (Object.keys(errors).length > 0) {
-      toast.error(Object.values(errors)[0]);
+    if (!validation.valid) {
+      toast.error(validation.message);
       return;
     }
 
-    setIsSaving(true);
-
     try {
+      setIsSaving(true);
+
       await updateUser({
-        username: formData.username.trim(),
-        phone: formData.phone.trim(),
-        avatar: formData.avatar.trim(),
+        username: formData.username,
+        phone: formData.phone,
       });
 
+      toast.success(t("profile.personalInformation.saveSuccess"));
       setIsEditing(false);
-      toast.success(t("profile.edit.success"));
-    } catch {
-      toast.error(t("profile.edit.error"));
+    } catch (error) {
+      toast.error(error?.message || t("profile.personalInformation.saveError"));
     } finally {
       setIsSaving(false);
     }
   };
 
-  const renderValue = ({ key, value }) => {
-    if (isEditing && (key === "username" || key === "phone")) {
-      return (
-        <Input
-          type={key === "phone" ? "tel" : "text"}
-          value={formData[key]}
-          onChange={(event) => handleChange(key, event.target.value)}
-          className="mt-0.5 h-8 text-xs sm:text-sm"
-          aria-label={t(`profile.personal.${key}`)}
-        />
-      );
+  const handleCopy = async (value, field) => {
+    if (!value) return;
+
+    try {
+      await navigator.clipboard.writeText(value);
+
+      setCopiedField(field);
+
+      window.setTimeout(() => {
+        setCopiedField(null);
+      }, 1500);
+    } catch {
+      toast.error(t("profile.personalInformation.copyError"));
     }
+  };
+
+  const renderCopyButton = (value, field, label) => {
+    if (!value) return null;
+
+    const isCopied = copiedField === field;
 
     return (
-      <button
+      <Button
         type="button"
-        onClick={() => handleCopy(value, key)}
-        disabled={!value}
-        className="mt-0.5 flex w-full items-center gap-1.5 text-start text-xs sm:text-sm font-medium text-foreground hover:text-primary disabled:cursor-default disabled:hover:text-foreground"
-        aria-label={t("profile.personal.copyValue", {
-          value: value ?? t("profile.personal.missing"),
-        })}
+        variant="ghost"
+        size="icon"
+        className="size-8 shrink-0"
+        onClick={() => handleCopy(value, field)}
+        aria-label={label}
       >
-        <span className="truncate min-w-0 flex-1">
-          {value ? value : t("profile.personal.missing")}
-        </span>
-
-        {value && (
-          <Copy
-            className="size-3.5 shrink-0 opacity-100 sm:opacity-0 transition-opacity group-hover:opacity-60 text-muted-foreground"
-            aria-hidden="true"
-          />
+        {isCopied ? (
+          <Check className="size-4 text-green-600" />
+        ) : (
+          <Copy className="size-4" />
         )}
-      </button>
+      </Button>
     );
   };
 
   return (
-    <Card>
-      <CardHeader className="p-4 sm:p-6 pb-2 sm:pb-4">
+    <Card className="overflow-hidden">
+      <CardHeader className="border-b bg-muted/20">
         <div className="flex items-start justify-between gap-4">
           <div>
-            <CardTitle className="font-display text-lg sm:text-xl text-foreground">
-              {t("profile.personal.title")}
-            </CardTitle>
+            <CardTitle>{t("profile.personalInformation.title")}</CardTitle>
 
-            <CardDescription className="text-xs sm:text-sm">{t("profile.personal.description")}</CardDescription>
+            <p className="mt-1 text-sm text-muted-foreground">
+              {t("profile.personalInformation.description")}
+            </p>
           </div>
 
-          {isEditing ? (
-            <div className="flex shrink-0 items-center gap-2">
-              <Button
-                type="button"
-                size="sm"
-                onClick={handleSave}
-                disabled={isSaving}
-                className="gap-1.5"
-              >
-                <Save className="size-4" aria-hidden="true" />
-                {isSaving ? t("profile.edit.saving") : t("profile.edit.save")}
-              </Button>
-
-              <Button
-                type="button"
-                size="sm"
-                variant="outline"
-                onClick={handleCancel}
-                disabled={isSaving}
-                className="gap-1.5"
-              >
-                <X className="size-4" aria-hidden="true" />
-                {t("profile.edit.cancel")}
-              </Button>
-            </div>
-          ) : (
+          {!isEditing && (
             <Button
               type="button"
-              size="sm"
               variant="outline"
+              size="sm"
               onClick={() => setIsEditing(true)}
-              className="shrink-0 gap-1.5"
+              className="shrink-0"
             >
-              <Pencil className="size-4" aria-hidden="true" />
-              {t("profile.edit.edit")}
+              <Edit3 className="me-2 size-4" />
+              {t("profile.personalInformation.edit")}
             </Button>
           )}
         </div>
       </CardHeader>
 
-      <CardContent className="p-4 sm:p-6 pt-0">
-        <div className="grid gap-3 sm:gap-4 grid-cols-1 sm:grid-cols-2">
-          {rows.map(({ key, icon: Icon, label, value }) => (
-            <div
-              key={key}
-              className="group flex items-center gap-3 sm:gap-4 rounded-xl border bg-muted/40 p-3.5 sm:p-4 min-w-0"
-            >
-              <div className="flex size-9 sm:size-10 shrink-0 items-center justify-center rounded-lg bg-accent text-primary">
-                <Icon className="size-4 sm:size-5" aria-hidden="true" />
-              </div>
+      <CardContent className="p-4 sm:p-6">
+        <div className="space-y-5">
+          {/* Full name */}
+          <div className="flex items-start gap-4">
+            <div className="flex size-10 shrink-0 items-center justify-center rounded-lg bg-primary/10 text-primary">
+              <User className="size-5" />
+            </div>
 
-              <div className="min-w-0 flex-1">
-                <p className="text-xs sm:text-sm text-muted-foreground">{label}</p>
+            <div className="min-w-0 flex-1">
+              <p className="text-sm text-muted-foreground">
+                {t("profile.personalInformation.fullName")}
+              </p>
 
-                {renderValue({ key, value })}
+              <p className="mt-1 break-words font-medium">
+                {identity || t("profile.personalInformation.notProvided")}
+              </p>
+            </div>
+          </div>
+
+          {/* Email */}
+          <div className="flex items-start gap-4">
+            <div className="flex size-10 shrink-0 items-center justify-center rounded-lg bg-primary/10 text-primary">
+              <Mail className="size-5" />
+            </div>
+
+            <div className="min-w-0 flex-1">
+              <p className="text-sm text-muted-foreground">
+                {t("profile.personalInformation.email")}
+              </p>
+
+              <div className="mt-1 flex items-center gap-1">
+                <p className="min-w-0 flex-1 break-all font-medium">
+                  {email || t("profile.personalInformation.notProvided")}
+                </p>
+
+                {renderCopyButton(
+                  email,
+                  "email",
+                  t("profile.personalInformation.copyEmail"),
+                )}
               </div>
             </div>
-          ))}
+          </div>
 
+          {/* Username */}
+          <div className="flex items-start gap-4">
+            <div className="flex size-10 shrink-0 items-center justify-center rounded-lg bg-primary/10 text-primary">
+              <User className="size-5" />
+            </div>
+
+            <div className="min-w-0 flex-1">
+              <p className="text-sm text-muted-foreground">
+                {t("profile.personalInformation.username")}
+              </p>
+
+              {isEditing ? (
+                <Input
+                  value={formData.username}
+                  onChange={handleChange("username")}
+                  className="mt-2"
+                  autoComplete="username"
+                />
+              ) : (
+                <div className="mt-1 flex items-center gap-1">
+                  <p className="min-w-0 flex-1 break-words font-medium">
+                    {formData.username ||
+                      t("profile.personalInformation.notProvided")}
+                  </p>
+
+                  {renderCopyButton(
+                    formData.username,
+                    "username",
+                    t("profile.personalInformation.copyUsername"),
+                  )}
+                </div>
+              )}
+            </div>
+          </div>
+
+          {/* Phone */}
+          <div className="flex items-start gap-4">
+            <div className="flex size-10 shrink-0 items-center justify-center rounded-lg bg-primary/10 text-primary">
+              <Phone className="size-5" />
+            </div>
+
+            <div className="min-w-0 flex-1">
+              <p className="text-sm text-muted-foreground">
+                {t("profile.personalInformation.phone")}
+              </p>
+
+              {isEditing ? (
+                <Input
+                  value={formData.phone}
+                  onChange={handleChange("phone")}
+                  className="mt-2"
+                  type="tel"
+                  autoComplete="tel"
+                />
+              ) : (
+                <div className="mt-1 flex items-center gap-1">
+                  <p className="min-w-0 flex-1 break-words font-medium">
+                    {formData.phone ||
+                      t("profile.personalInformation.notProvided")}
+                  </p>
+
+                  {renderCopyButton(
+                    formData.phone,
+                    "phone",
+                    t("profile.personalInformation.copyPhone"),
+                  )}
+                </div>
+              )}
+            </div>
+          </div>
+
+          {/* Actions */}
           {isEditing && (
-            <div className="rounded-xl border bg-muted/40 p-3.5 sm:p-4 sm:col-span-2">
-              <label
-                htmlFor="profile-avatar"
-                className="text-xs sm:text-sm text-muted-foreground"
+            <div className="flex flex-col-reverse gap-2 border-t pt-5 sm:flex-row sm:justify-end">
+              <Button
+                type="button"
+                variant="outline"
+                onClick={handleCancel}
+                disabled={isSaving}
               >
-                {t("profile.personal.avatar")}
-              </label>
+                <X className="me-2 size-4" />
+                {t("profile.personalInformation.cancel")}
+              </Button>
 
-              <Input
-                id="profile-avatar"
-                type="url"
-                value={formData.avatar}
-                onChange={(event) => handleChange("avatar", event.target.value)}
-                className="mt-0.5 h-8 text-xs sm:text-sm"
-              />
+              <Button type="button" onClick={handleSave} disabled={isSaving}>
+                {isSaving ? (
+                  <Loader2 className="me-2 size-4 animate-spin" />
+                ) : (
+                  <Check className="me-2 size-4" />
+                )}
+
+                {isSaving
+                  ? t("profile.personalInformation.saving")
+                  : t("profile.personalInformation.save")}
+              </Button>
             </div>
           )}
         </div>

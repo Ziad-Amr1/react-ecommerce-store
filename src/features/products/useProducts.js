@@ -1,8 +1,6 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import { getProducts } from "@/services/product.service";
 
-const PAGE_LIMIT = 12;
-
 const useProducts = () => {
   const [products, setProducts] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
@@ -18,15 +16,17 @@ const useProducts = () => {
   // Server-side filtering: the /products endpoint already supports
   // page, limit, search, category, brand, minPrice, maxPrice and sort
   // (same contract the admin products list relies on).
-  const fetchProducts = useCallback(async (page = 1, applied = {}) => {
+  const fetchProducts = useCallback(async (page = 1, limit, applied = {}) => {
     controllerRef.current?.abort();
     const controller = new AbortController();
     controllerRef.current = controller;
 
-    const params = { page, limit: PAGE_LIMIT };
+    const params = { page, limit };
 
-    if (applied.search) {
-      params.search = applied.search;
+    console.log("FETCH PARAMS:", params);
+
+    if (applied.search?.trim()) {
+      params.search = applied.search.trim();
     }
     if (applied.category && applied.category !== "All") {
       params.category = applied.category;
@@ -59,6 +59,7 @@ const useProducts = () => {
       }
 
       setProducts(Array.isArray(data.products) ? data.products : []);
+
       setCurrentPage(page);
       setTotalPages(Number(data.totalPages) > 0 ? Number(data.totalPages) : 1);
       setTotalProducts(

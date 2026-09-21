@@ -39,7 +39,7 @@ export default function ProductPagination({
         {t("shop.pagePrevious")}
       </Button>
 
-      <span className="text-sm text-(--color-text-secondary)">
+      <span className="text-sm text-[var(--color-text-secondary)]">
         {t("shop.pageOf", { current: currentPage, total: totalPages })}
       </span>
 
@@ -55,7 +55,7 @@ export default function ProductPagination({
       </Button>
 
       {isLoading && (
-        <Loader2 className="size-4 animate-spin text-(--color-primary)" />
+        <Loader2 className="size-4 animate-spin text-[var(--color-primary)]" />
       )}
     </div>
   );

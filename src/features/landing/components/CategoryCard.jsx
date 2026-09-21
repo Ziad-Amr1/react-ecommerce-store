@@ -36,7 +36,7 @@ export default function CategoryCard({ image, title, category }) {
             {title}
           </h3>
 
-          <div className="flex text-white mt-2">
+          <div className="mt-2 inline-flex items-center gap-1.5 text-sm font-medium text-white/90">
             {t("landing.categories.shopNow")}
             <ArrowUpRight
               className="size-4 transition-transform motion-safe:group-hover:translate-x-0.5 rtl:-scale-x-100 rtl:motion-safe:group-hover:-translate-x-0.5"

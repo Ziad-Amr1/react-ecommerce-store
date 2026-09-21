@@ -245,6 +245,7 @@
     "filterSort": "Sort:",
     "filterSearch": "Search:",
     "filterTitle": "Filter Products",
+    "all": "All",
     "category": "Categories",
     "priceRange": "Price Range",
     "minPrice": "Min",
@@ -255,6 +256,20 @@
     "sortHighLow": "Price: High to Low",
     "sortTopRated": "Top Rated",
     "clearAllFilters": "Clear All Filters",
+    "removeBrandFilter": "Remove brand filter",
+    "removeCategoryFilter": "Remove category filter",
+    "removePriceFilter": "Remove price filter",
+    "removeSortFilter": "Remove sort filter",
+    "removeSearchFilter": "Remove search filter",
+    "search": "Search products...",
+    "rating": "Rating:",
+    "noRatingsYet": "No ratings yet",
+    "sort": {
+      "default": "Default",
+      "priceLowToHigh": "Price: Low to High",
+      "priceHighToLow": "Price: High to Low",
+      "topRated": "Top Rated"
+    },
     "filterUnlimited": "∞",
     "applyFilters": "Apply Filters"
   },
@@ -530,7 +545,13 @@
         "accessories": "Accessories",
         "sunglasses": "Sunglasses",
         "beauty": "Beauty",
-        "fashion": "Fashion"
+        "menFashion": "Men's Fashion",
+        "womenFashion": "Women's Fashion",
+        "skinCare": "Skin Care",
+        "gaming": "Gaming",
+        "health": "Health $ Nutrition",
+        "jewelry": "Jewelry",
+        "fragrance": "Fragrances"
       }
     },
     "banner": {
@@ -547,6 +568,10 @@
       "emailPlaceholder": "name@example.com",
       "subscribe": "Subscribe"
     }
+  },
+  "category":{
+    "title": "Categories",
+    "subtitle": "Explore our categories and exclusive deals "
   },
   "store": {
     "header": {

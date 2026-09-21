@@ -2,7 +2,6 @@ import { X, FilterX } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { useTranslation } from "react-i18next";
-import { formatCurrency } from "@/utils/formatCurrency";
 
 export default function ActiveFiltersBar({
   resultsCount,
@@ -11,93 +10,131 @@ export default function ActiveFiltersBar({
   getSortLabel,
   hasActiveFilters,
   clearFilters,
-  clearCategory,
-  clearBrand,
-  clearPrice,
-  clearSort,
-  clearSearch,
+  selectCategory,
+  selectBrand,
+  setSearchQuery,
+  setMinPrice,
+  setMaxPrice,
+  changeSort,
 }) {
-  const { t, i18n } = useTranslation();
+  const { t } = useTranslation();
 
-  const minBound = Number(applied.minPrice) || 0;
-  const maxBound =
-    applied.maxPrice !== "" && Number.isFinite(Number(applied.maxPrice))
-      ? Number(applied.maxPrice)
-      : null;
-  const priceLabel =
-    maxBound == null
-      ? `${formatCurrency(minBound, undefined, i18n.language)} - ${t("shop.filterUnlimited", "∞")}`
-      : `${formatCurrency(minBound, undefined, i18n.language)} - ${formatCurrency(maxBound, undefined, i18n.language)}`;
+  const clearPrice = () => {
+    setMinPrice("");
+    setMaxPrice("");
+  };
 
   return (
-    <div className="flex flex-wrap items-center justify-between gap-3 bg-(--color-surface) p-3.5 rounded-2xl border border-(--color-border) shadow-xs">
+    <div className="flex flex-wrap items-center justify-between gap-3 bg-[var(--color-surface)] p-3.5 rounded-2xl border border-[var(--color-border)] shadow-xs">
       <div className="flex items-center gap-2 flex-wrap">
-        <span className="text-xs font-bold text-(--color-text-secondary) uppercase tracking-wider pe-3 border-e border-(--color-border)">
+        <span className="text-xs font-bold text-[var(--color-text-secondary)] uppercase tracking-wider pe-3 border-e border-[var(--color-border)]">
           {t(resultsLabelKey, { count: resultsCount })}
         </span>
 
         {applied.category !== "All" && (
-          <Badge variant="secondary" className="gap-1.5 py-1 px-2.5 rounded-lg bg-(--color-surface-secondary) text-(--color-text-primary) border border-(--color-border) font-normal text-xs">
-            {t("shop.filterCategory")}{" "}
+          <Badge
+            variant="secondary"
+            className="gap-1.5 py-1 px-2.5 rounded-lg bg-[var(--color-surface-secondary)] text-[var(--color-text-primary)] border border-[var(--color-border)] font-normal text-xs"
+          >
+            {t("shop.filterCategory")}
             <span className="font-semibold">{applied.category}</span>
-            <X
-              className="size-3.5 text-(--color-text-secondary) hover:text-(--color-error) cursor-pointer"
-              onClick={clearCategory}
-            />
+            <button
+              type="button"
+              onClick={() => selectCategory("All")}
+              className="cursor-pointer size-3.5 text-[var(--color-text-secondary)] hover:text-[var(--color-error)]"
+              aria-label={t("shop.removeCategoryFilter")}
+            >
+              <X className="size-3.5" />
+            </button>
           </Badge>
         )}
 
         {applied.brand !== "All" && (
-          <Badge variant="secondary" className="gap-1.5 py-1 px-2.5 rounded-lg bg-(--color-surface-secondary) text-(--color-text-primary) border border-(--color-border) font-normal text-xs">
-            {t("shop.filterBrand")}{" "}
+          <Badge
+            variant="secondary"
+            className="gap-1.5 py-1 px-2.5 rounded-lg bg-[var(--color-surface-secondary)] text-[var(--color-text-primary)] border border-[var(--color-border)] font-normal text-xs"
+          >
+            {t("shop.filterBrand")}
             <span className="font-semibold">{applied.brand}</span>
-            <X
-              className="size-3.5 text-(--color-text-secondary) hover:text-(--color-error) cursor-pointer"
-              onClick={clearBrand}
-            />
+            <button
+              type="button"
+              onClick={() => selectBrand("All")}
+              className="cursor-pointer size-3.5 text-[var(--color-text-secondary)] hover:text-[var(--color-error)]"
+              aria-label={t("shop.removeBrandFilter")}
+            >
+              <X className="size-3.5" />
+            </button>
           </Badge>
         )}
 
         {(applied.minPrice !== "" || applied.maxPrice !== "") && (
-          <Badge variant="secondary" className="gap-1.5 py-1 px-2.5 rounded-lg bg-(--color-surface-secondary) text-(--color-text-primary) border border-(--color-border) font-normal text-xs">
-            {t("shop.filterPrice")}{" "}
+          <Badge
+            variant="secondary"
+            className="gap-1.5 py-1 px-2.5 rounded-lg bg-[var(--color-surface-secondary)] text-[var(--color-text-primary)] border border-[var(--color-border)] font-normal text-xs"
+          >
+            {t("shop.filterPrice")}
             <span className="font-mono font-semibold">
-              {priceLabel}
+              ${applied.minPrice || "0"} - ${applied.maxPrice || "∞"}
             </span>
-            <X
-              className="size-3.5 text-(--color-text-secondary) hover:text-(--color-error) cursor-pointer"
+            <button
+              type="button"
               onClick={clearPrice}
-            />
+              className="cursor-pointer size-3.5 text-[var(--color-text-secondary)] hover:text-[var(--color-error)]"
+              aria-label={t("shop.removePriceFilter")}
+            >
+              <X className="size-3.5" />
+            </button>
           </Badge>
         )}
 
         {applied.sortBy !== "Default" && (
-          <Badge variant="secondary" className="gap-1.5 py-1 px-2.5 rounded-lg bg-(--color-surface-secondary) text-(--color-text-primary) border border-(--color-border) font-normal text-xs">
+          <Badge
+            variant="secondary"
+            className="gap-1.5 py-1 px-2.5 rounded-lg bg-[var(--color-surface-secondary)] text-[var(--color-text-primary)] border border-[var(--color-border)] font-normal text-xs"
+          >
             {t("shop.filterSort")}{" "}
-            <span className="font-semibold">{getSortLabel(applied.sortBy)}</span>
-            <X
-              className="size-3.5 text-(--color-text-secondary) hover:text-(--color-error) cursor-pointer"
-              onClick={clearSort}
-            />
+            <span className="font-semibold">
+              {getSortLabel(applied.sortBy)}
+            </span>
+            <button
+              type="button"
+              onClick={() => changeSort("Default")}
+              className="cursor-pointer size-3.5 text-[var(--color-text-secondary)] hover:text-[var(--color-error)]"
+              aria-label={t("shop.removeSortFilter")}
+            >
+              <X className="size-3.5" />
+            </button>
           </Badge>
         )}
 
         {applied.search !== "" && (
-          <Badge variant="secondary" className="gap-1.5 py-1 px-2.5 rounded-lg bg-(--color-surface-secondary) text-(--color-text-primary) border border-(--color-border) font-normal text-xs">
+          <Badge
+            variant="secondary"
+            className="gap-1.5 py-1 px-2.5 rounded-lg bg-[var(--color-surface-secondary)] text-[var(--color-text-primary)] border border-[var(--color-border)] font-normal text-xs"
+          >
             {t("shop.filterSearch")}{" "}
             <span className="font-semibold">"{applied.search}"</span>
-            <X
-              className="size-3.5 text-(--color-text-secondary) hover:text-(--color-error) cursor-pointer"
-              onClick={clearSearch}
-            />
+            <button
+              type="button"
+              onClick={() => setSearchQuery("")}
+              className="cursor-pointer size-3.5 text-[var(--color-text-secondary)] hover:text-[var(--color-error)]"
+              aria-label={t("shop.removeSearchFilter")}
+            >
+              <X className="size-3.5" />
+            </button>
           </Badge>
         )}
       </div>
 
       {hasActiveFilters && (
-        <Button variant="ghost" size="sm" onClick={clearFilters} className="text-xs h-8 text-(--color-error) hover:bg-(--color-error)/10 hover:text-(--color-error) flex items-center gap-1.5 px-2">
+        <Button
+          variant="ghost"
+          size="sm"
+          onClick={clearFilters}
+          className="text-xs h-8 text-[var(--color-error)] hover:bg-[var(--color-error)]/10 hover:text-[var(--color-error)] flex items-center gap-1.5 px-2"
+        >
           <FilterX className="size-3.5" />
-          {t("shop.clearAllFilters", "Clear Filters")}
+          {t("shop.clearAllFilters")}
         </Button>
       )}
     </div>

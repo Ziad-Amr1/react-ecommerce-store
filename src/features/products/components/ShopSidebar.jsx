@@ -1,4 +1,4 @@
-import { SlidersHorizontal, Check, X } from "lucide-react";
+import { SlidersHorizontal, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Slider } from "@/components/ui/slider";
@@ -12,171 +12,167 @@ import {
 
 export default function ShopSidebar({
   categories,
+  brands,
   selectedCategory,
   setSelectedCategory,
-  brands,
   selectedBrand,
   setSelectedBrand,
   minPrice,
   setMinPrice,
   maxPrice,
   setMaxPrice,
-  priceCeiling,
+  maxCatalogPrice,
   sortBy,
   setSortBy,
-  applyFilters,
   clearFilters,
   isMobileFilterOpen,
   t,
 }) {
-  // Keep the range slider thumbs valid: within [0, priceCeiling] and ordered.
-  const rawMin = Number(minPrice) || 0;
-  const rawMax = maxPrice !== "" ? Number(maxPrice) : priceCeiling;
-  const sliderMin = Math.max(0, Math.min(rawMin, priceCeiling));
-  const sliderMax = Math.max(
-    sliderMin,
-    Math.min(Number.isFinite(rawMax) ? rawMax : priceCeiling, priceCeiling),
-  );
-
   return (
     <aside
       className={`w-full flex-shrink-0 space-y-6 md:sticky md:top-20 md:max-h-[calc(100dvh_-_6rem)] md:w-72 md:self-start md:overflow-y-auto md:overscroll-contain ${
         isMobileFilterOpen ? "block" : "hidden md:block"
       }`}
     >
-      <div className="bg-(--color-surface) border border-(--color-border) rounded-2xl p-5 space-y-6 shadow-sm">
-        <div className="pb-3 border-b border-(--color-border)">
-          <h2 className="font-display text-lg font-bold text-(--color-text-primary) flex items-center gap-2">
-            <SlidersHorizontal className="size-5 text-(--color-primary)" />
-            {t("shop.filterTitle", "Filter Products")}
+      <div className="bg-[var(--color-surface)] border border-[var(--color-border)] rounded-2xl p-5 space-y-6 shadow-sm">
+        <div className="pb-3 border-b border-[var(--color-border)]">
+          <h2 className="font-display text-lg font-bold text-[var(--color-text-primary)] flex items-center gap-2">
+            <SlidersHorizontal className="size-5 text-[var(--color-primary)]" />
+            {t("shop.filterTitle")}
           </h2>
         </div>
-
         {/* Categories */}
         <div className="space-y-3">
-          <label className="text-xs font-semibold text-(--color-text-secondary) uppercase tracking-wider">
-            {t("shop.category", "Categories")}
+          <label className="text-xs font-semibold text-[var(--color-text-secondary)] uppercase tracking-wider">
+            {t("shop.category")}
           </label>
-          <div className="space-y-1.5">
-            {categories.map((cat) => {
-              const isSelected = selectedCategory.toLowerCase() === cat.name.toLowerCase();
-              return (
-                <button
-                  key={cat.name}
-                  type="button"
-                  onClick={() => setSelectedCategory(cat.name)}
-                  className={`w-full flex items-center justify-between px-3.5 py-2.5 rounded-xl text-sm font-medium transition-all duration-200 cursor-pointer ${
-                    isSelected
-                      ? "bg-(--color-surface-secondary) text-(--color-primary) border border-(--color-border) font-semibold"
-                      : "text-(--color-text-secondary) hover:bg-(--color-surface-secondary) hover:text-(--color-text-primary)"
-                  }`}
-                >
-                  <span>{t(`landing.categories.names.${cat.name.toLowerCase()}`, cat.name)}</span>
-                  <span className={`text-xs px-2 py-0.5 rounded-full font-mono ${
-                    isSelected ? "bg-(--color-surface) text-(--color-text-primary)" : "bg-(--color-surface-secondary) text-(--color-text-secondary)"
-                  }`}>
-                    {cat.count}
-                  </span>
-                </button>
-              );
-            })}
-          </div>
-        </div>
-
-        {/* Brands */}
-        <div className="space-y-3 pt-3 border-t border-(--color-border)">
-          <label className="text-xs font-semibold text-(--color-text-secondary) uppercase tracking-wider">
-            {t("shop.brand", "Brand")}
-          </label>
-          <Select value={selectedBrand} onValueChange={setSelectedBrand}>
-            <SelectTrigger aria-label={t("shop.brand", "Brand")} className="w-full h-10 rounded-xl border-(--color-border) bg-(--color-surface-secondary) px-3.5 text-sm font-medium text-(--color-text-primary)">
-              <SelectValue placeholder={t("shop.allBrands", "All Brands")} />
+          <Select value={selectedCategory} onValueChange={setSelectedCategory}>
+            <SelectTrigger className=" h-11 w-full rounded-xl border-[var(--color-border)] bg-[var(--color-surface-secondary)] px-3.5 text-sm font-medium text-[var(--color-text-primary)] shadow-sm transition-all duration-200 hover:border-[var(--color-primary)] focus:border-[var(--color-primary)] focus:ring-2 focus:ring-[var(--color-primary)] focus:ring-opacity-20 ">
+              <SelectValue />
             </SelectTrigger>
-            <SelectContent>
-              {brands.map((brand) => (
-                <SelectItem key={brand.name} value={brand.name}>
-                  {brand.name === "All"
-                    ? t("shop.allBrands", "All Brands")
-                    : brand.name}
+            <SelectContent className=" rounded-xl border-[var(--color-border)] bg-[var(--color-surface)] text-[var(--color-text-primary)] ">
+              {categories.map((category) => (
+                <SelectItem key={category.name} value={category.name}>
+                  <span className="flex items-center gap-2">
+                    <span>
+                      {category.name === "All" ? t("shop.all") : category.name}
+                    </span>
+                    <span className=" text-xs text-[var(--color-text-secondary)] ">
+                      ({category.count})
+                    </span>
+                  </span>
                 </SelectItem>
               ))}
             </SelectContent>
           </Select>
         </div>
-
-        {/* Price Range */}
-        <div className="space-y-3 pt-3 border-t border-(--color-border)">
-          <label className="text-xs font-semibold text-(--color-text-secondary) uppercase tracking-wider">
-            {t("shop.priceRange", "Price Range")}
+        {/* Brand */}
+        <div className="space-y-3 border-t border-[var(--color-border)] pt-3">
+          <label className=" text-xs font-semibold uppercase tracking-wider text-[var(--color-text-secondary)] ">
+            {t("shop.sideBar.brands")}
           </label>
-          <div className="flex items-center gap-2">
-            <Input
-              type="number"
-              placeholder={t("shop.minPrice", "Min")}
-              value={minPrice}
-              onChange={(e) => setMinPrice(e.target.value)}
-              className="h-10 bg-(--color-surface-secondary) border-(--color-border) text-sm rounded-xl font-mono"
-            />
-            <span className="text-(--color-text-secondary) font-mono text-sm">-</span>
-            <Input
-              type="number"
-              placeholder={t("shop.maxPrice", "Max")}
-              value={maxPrice}
-              onChange={(e) => setMaxPrice(e.target.value)}
-              className="h-10 bg-(--color-surface-secondary) border-(--color-border) text-sm rounded-xl font-mono"
-            />
-          </div>
-
-          {priceCeiling > 0 && (
-            <Slider
-              min={0}
-              max={priceCeiling}
-              step={Math.max(1, Math.round(priceCeiling / 100))}
-              value={[sliderMin, sliderMax]}
-              onValueChange={([nextMin, nextMax]) => {
-                setMinPrice(String(nextMin));
-                setMaxPrice(String(nextMax));
-              }}
-              aria-label={t("shop.priceRange", "Price Range")}
-            />
-          )}
-        </div>
-
-        {/* Sort By */}
-        <div className="space-y-3 pt-3 border-t border-(--color-border)">
-          <label className="text-xs font-semibold text-(--color-text-secondary) uppercase tracking-wider">
-            {t("shop.sortBy", "Sort By")}
-          </label>
-          <Select value={sortBy} onValueChange={setSortBy}>
-            <SelectTrigger aria-label={t("shop.sortBy", "Sort By")} className="w-full h-10 rounded-xl border-(--color-border) bg-(--color-surface-secondary) px-3.5 text-sm font-medium text-(--color-text-primary)">
-              <SelectValue placeholder={t("shop.sortDefault", "Default")} />
+          <Select value={selectedBrand} onValueChange={setSelectedBrand}>
+            <SelectTrigger className=" h-11 w-full rounded-xl border-[var(--color-border)] bg-[var(--color-surface-secondary)] px-3.5 text-sm font-medium text-[var(--color-text-primary)] shadow-sm transition-all duration-200 hover:border-[var(--color-primary)] focus:border-[var(--color-primary)] focus:ring-2 focus:ring-[var(--color-primary)] focus:ring-opacity-20 ">
+              <SelectValue />
             </SelectTrigger>
-            <SelectContent>
-              <SelectItem value="Default">{t("shop.sortDefault", "Default")}</SelectItem>
-              <SelectItem value="price_asc">{t("shop.sortLowHigh", "Price: Low to High")}</SelectItem>
-              <SelectItem value="price_desc">{t("shop.sortHighLow", "Price: High to Low")}</SelectItem>
-              <SelectItem value="rating">{t("shop.sortTopRated", "Top Rated")}</SelectItem>
+            <SelectContent className=" rounded-xl border-[var(--color-border)] bg-[var(--color-surface)] text-[var(--color-text-primary)] ">
+              {brands.map((brand) => (
+                <SelectItem key={brand.name} value={brand.name}>
+                  <span className="flex items-center gap-2">
+                    <span>
+                      {brand.name === "All" ? t("shop.all") : brand.name}
+                    </span>
+
+                    <span className="text-xs text-[var(--color-text-secondary)]">
+                      ({brand.count})
+                    </span>
+                  </span>
+                </SelectItem>
+              ))}
             </SelectContent>
           </Select>
         </div>
+        {/* Price Range */}
+        <div className="space-y-3 pt-3 border-t border-[var(--color-border)]">
+          <label className="text-xs font-semibold text-[var(--color-text-secondary)] uppercase tracking-wider">
+            {t("shop.priceRange")}
+          </label>
 
-        {/* Actions: Apply & Clear */}
-        <div className="pt-3 border-t border-(--color-border) space-y-2">
-          <Button
-            onClick={applyFilters}
-            className="w-full rounded-xl bg-(--color-primary) text-(--color-on-primary) hover:bg-(--color-primary)/90 transition-colors flex items-center justify-center gap-2 font-medium"
-          >
-            <Check className="size-4" />
-            {t("shop.applyFilters", "Apply Filters")}
-          </Button>
+          {/* Min / Max Inputs */}
+          <div className="flex items-center gap-2">
+            <Input
+              type="number"
+              placeholder={t("shop.minPrice")}
+              value={minPrice}
+              onChange={(e) => setMinPrice(e.target.value)}
+              className="h-10 bg-[var(--color-surface-secondary)] border-[var(--color-border)] text-sm rounded-xl font-mono"
+            />
 
+            <span className="text-[var(--color-text-secondary)] font-mono text-sm">
+              -
+            </span>
+
+            <Input
+              type="number"
+              placeholder={t("shop.maxPrice")}
+              value={maxPrice}
+              onChange={(e) => setMaxPrice(e.target.value)}
+              className="h-10 bg-[var(--color-surface-secondary)] border-[var(--color-border)] text-sm rounded-xl font-mono"
+            />
+          </div>
+
+          {/* Price Slider */}
+          <div className="pt-2">
+            <Slider
+              min={0}
+              max={maxCatalogPrice}
+              step={1}
+              value={[
+                Number(minPrice) || 0,
+                Number(maxPrice) || maxCatalogPrice,
+              ]}
+              onValueChange={([min, max]) => {
+                setMinPrice(min === 0 ? "" : String(min));
+                setMaxPrice(max === maxCatalogPrice ? "" : String(max));
+              }}
+            />
+
+            <div className="flex justify-between mt-2 text-xs text-[var(--color-text-secondary)]">
+              <span>0</span>
+              <span>{maxCatalogPrice}</span>
+            </div>
+          </div>
+        </div>
+        {/* Sort By */}
+        <div className="space-y-3 pt-3 border-t border-[var(--color-border)]">
+          <label className="text-xs font-semibold text-[var(--color-text-secondary)] uppercase tracking-wider">
+            {t("shop.sortBy")}
+          </label>
+          <Select value={sortBy} onValueChange={setSortBy}>
+            <SelectTrigger className=" h-11 w-full rounded-xl border-[var(--color-border)] bg-[var(--color-surface-secondary)] px-3.5 text-sm font-medium text-[var(--color-text-primary)] shadow-sm transition-all duration-200 hover:border-[var(--color-primary)] focus:border-[var(--color-primary)] focus:ring-2 focus:ring-[var(--color-primary)] focus:ring-opacity-20 ">
+              <SelectValue placeholder={t("shop.sort.default")} />
+            </SelectTrigger>
+            <SelectContent className=" rounded-xl border-[var(--color-border)] bg-[var(--color-surface)] text-[var(--color-text-primary)] shadow-lg ">
+              <SelectItem value="Default">{t("shop.sort.default")}</SelectItem>
+              <SelectItem value="price_asc">
+                {t("shop.sort.priceLowToHigh")}
+              </SelectItem>
+              <SelectItem value="price_desc">
+                {t("shop.sort.priceHighToLow")}
+              </SelectItem>
+              <SelectItem value="rating">{t("shop.sort.topRated")}</SelectItem>
+            </SelectContent>
+          </Select>
+        </div>
+        {/* Clear Filters */}
+        <div className="pt-3 border-t border-[var(--color-border)]">
           <Button
             variant="outline"
             onClick={clearFilters}
-            className="w-full rounded-xl border-(--color-border) bg-(--color-surface) text-(--color-text-primary) hover:bg-(--color-surface-secondary) transition-colors flex items-center justify-center gap-2"
+            className="w-full rounded-xl border-[var(--color-border)] bg-[var(--color-surface)] text-[var(--color-text-primary)] hover:bg-[var(--color-surface-secondary)] transition-colors flex items-center justify-center gap-2"
           >
-            <X className="size-4 text-(--color-text-secondary)" />
-            {t("shop.clearAllFilters", "Clear All Filters")}
+            <X className="size-4 text-[var(--color-text-secondary)]" />
+            {t("shop.clearAllFilters")}
           </Button>
         </div>
       </div>

@@ -1,22 +1,9 @@
 import { Link } from "react-router";
 import { ArrowRight } from "lucide-react";
 import { useTranslation } from "react-i18next";
-import electronicsImage from "../assets/electronics.webp";
-import livingImage from "../assets/living.webp";
-import accessoriesImage from "../assets/accessories.webp";
-import sunglassesImage from "../assets/sunglasses.webp";
-import beautyImage from "../assets/beauty.webp";
-import fashionImage from "../assets/fashion.webp";
 import CategoryCard from "./CategoryCard";
 
-const categories = [
-  { key: "electronics", apiValue: "electronics", image: electronicsImage },
-  { key: "homeLiving", apiValue: "home", image: livingImage },
-  { key: "accessories", apiValue: "accessories", image: accessoriesImage },
-  { key: "sunglasses", apiValue: "sunglasses", image: sunglassesImage },
-  { key: "beauty", apiValue: "beauty", image: beautyImage },
-  { key: "fashion", apiValue: "fashion", image: fashionImage },
-];
+import categories from "@/features/categories/components/categories";
 
 export default function Categories() {
   const { t } = useTranslation();
@@ -32,7 +19,7 @@ export default function Categories() {
         </h2>
 
         <Link
-          to="/categories"
+          to="/Categories"
           className="group/link inline-flex shrink-0 items-center gap-1.5 pb-0.5 text-sm font-medium text-(--color-link) underline-offset-4 hover:text-(--color-link-hover) hover:underline"
         >
           {t("landing.categories.viewAll")}
@@ -45,12 +32,12 @@ export default function Categories() {
       </header>
 
       <ul className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
-        {categories.map((category) => (
+        {categories.slice(0, 6).map((category) => (
           <li key={category.key}>
             <CategoryCard
               image={category.image}
               title={t(`landing.categories.names.${category.key}`)}
-              category={category.apiValue}
+              category={category.key}
             />
           </li>
         ))}

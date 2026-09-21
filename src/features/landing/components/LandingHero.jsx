@@ -25,18 +25,18 @@ export default function LandingHero() {
   return (
     <section
       aria-labelledby="landing-hero-title"
-      className="relative overflow-hidden"
+      className="relative overflow-hidden xl:left-1/2 xl:w-screen xl:-translate-x-1/2"
     >
-      <div className="mx-auto max-w-7xl">
+      <div className="mx-auto w-full xl:px-16 2xl:px-24">
         {/* Split hero: message left, visual right — the highest-performing
             layout for 2025 (value + proof + action above the fold). */}
-        <div className="grid items-center gap-10 pt-10 lg:grid-cols-2 lg:gap-16 lg:pt-16">
+        <div className="grid items-center gap-10 pt-10 lg:grid-cols-2 lg:gap-16 lg:pt-16 2xl:gap-20 2xl:pt-24">
           {/* ── Left: message ─────────────────────────────────────── */}
-          <header className="flex flex-col items-start gap-6">
+          <header className="flex flex-col items-start gap-6 xl:max-w-[38rem] 2xl:max-w-[42rem]">
             {/* Announcement pill — common shadcn hero pattern */}
             <Badge
               variant="outline"
-              className="border-(--color-supporting) bg-(--color-accent) text-(--color-on-accent)"
+              className="border-(--color-supporting) bg-(--color-accent) text-(--color-on-accent) xl:px-4 xl:text-base"
             >
               {t("landing.hero.badge")}
             </Badge>
@@ -44,26 +44,26 @@ export default function LandingHero() {
             <div className="space-y-4">
               <h1
                 id="landing-hero-title"
-                className="font-display text-3xl font-bold tracking-tight text-foreground sm:text-4xl lg:text-5xl"
+                className="font-display text-3xl font-bold tracking-tight text-foreground sm:text-4xl lg:text-5xl xl:text-6xl 2xl:text-7xl"
               >
                 {t("landing.hero.title")}
               </h1>
 
-              <h2 className="font-display text-lg font-semibold text-muted-foreground lg:text-xl">
+              <h2 className="font-display text-lg font-semibold text-muted-foreground lg:text-xl xl:text-2xl 2xl:text-3xl">
                 {t("landing.hero.subPre")}{" "}
                 <span className="text-primary">
                   {t("landing.hero.subHighlight")}
                 </span>
               </h2>
 
-              <p className="max-w-xl text-base leading-7 text-muted-foreground">
+              <p className="max-w-xl text-base leading-7 text-muted-foreground xl:text-lg xl:leading-8 2xl:text-xl 2xl:leading-9">
                 {t("landing.hero.description")}
               </p>
             </div>
 
             {/* Dual CTAs: primary filled, secondary outline — both lead to the
               real storefront catalog (/products, shipped with the shop PR). */}
-            <div className="flex flex-col gap-3 sm:flex-row">
+            <div className="flex flex-col gap-3 sm:flex-row xl:gap-4">
               <Button asChild className="px-8">
                 <Link to="/products">{t("landing.hero.shopNow")}</Link>
               </Button>
@@ -90,7 +90,7 @@ export default function LandingHero() {
               loading="eager"
               fetchPriority="high"
               decoding="async"
-              className="w-full max-w-md rounded-2xl object-cover shadow-lg "
+              className="mx-auto w-full max-w-md rounded-2xl object-cover shadow-lg xl:max-w-xl 2xl:max-w-3xl"
             />
 
             {/* Decorative accent halo behind the image — uses the
@@ -105,7 +105,7 @@ export default function LandingHero() {
         {/* ── Value props ───────────────────────────────────────── */}
         <ul
           role="list"
-          className="mt-14 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4"
+          className="mt-14 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4 2xl:mt-20 2xl:gap-6"
         >
           {prosItems.map((item) => (
             <li key={item.key}>

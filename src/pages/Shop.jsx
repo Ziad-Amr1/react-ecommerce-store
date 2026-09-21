@@ -13,7 +13,7 @@ import ShopSearchBar from "@/features/products/components/ShopSearchBar";
 import ShopSidebar from "@/features/products/components/ShopSidebar";
 import ActiveFiltersBar from "@/features/products/components/ActiveFiltersBar";
 import ProductSkeleton from "@/features/products/components/ProductCardSkeleton";
-import useDocumentMeta from "@/hooks/useDocumentMeta";
+import SEO from "@/components/SEO/SEO";
 
 export default function Shop() {
   const { t } = useTranslation();
@@ -43,13 +43,6 @@ export default function Shop() {
     100,
   );
 
-  useDocumentMeta({
-    title: t("shop.title"),
-    description: t("shop.subtitle"),
-  });
-
-  // When the applied filters change (not on first render), go back to
-  // page 1 so the user sees the start of the filtered results.
   const didMount = useRef(false);
   const prevApplied = useRef(filters.applied);
   const pendingPageReset = useRef(false);
@@ -86,14 +79,18 @@ export default function Shop() {
     setSearchParams({ page: String(page) });
   };
 
-  const resultsCount =
-    totalProducts != null ? totalProducts : products.length;
+  const resultsCount = totalProducts != null ? totalProducts : products.length;
   const resultsLabelKey =
     totalProducts != null ? "shop.results" : "shop.showing";
 
   return (
-    <div className="min-h-screen bg-(--color-surface-secondary) text-(--color-text-primary) font-body transition-colors duration-300">
-      <div className="w-full mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-10 space-y-6 sm:space-y-8">
+    <div className="min-h-screen text-(--color-text-primary) font-body transition-colors duration-300">
+      <SEO
+        title={t("shop.title")}
+        description={t("shop.subtitle")}
+        url="/products"
+      />
+      <div className="py-6 sm:py-10 space-y-6 sm:space-y-8">
         {/* Header */}
         <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 pb-4 border-b border-(--color-border)">
           <div>
@@ -120,14 +117,6 @@ export default function Shop() {
           </Button>
         </div>
 
-        {/* Search Bar UI */}
-        <ShopSearchBar
-          searchQuery={filters.searchQuery}
-          setSearchQuery={filters.setSearchQuery}
-          viewMode={filters.viewMode}
-          setViewMode={filters.setViewMode}
-        />
-
         {/* Main Section */}
         <div className="flex flex-col md:flex-row gap-8">
           {/* Sidebar Component */}
@@ -152,7 +141,14 @@ export default function Shop() {
           />
 
           {/* Feed Container */}
-          <main className="flex-1 space-y-6">
+          <div className="flex-1 space-y-6">
+            {/* Search Bar UI */}
+            <ShopSearchBar
+              searchQuery={filters.searchQuery}
+              setSearchQuery={filters.setSearchQuery}
+              viewMode={filters.viewMode}
+              setViewMode={filters.setViewMode}
+            />
             {/* Active Filters Bar Component */}
             <ActiveFiltersBar
               resultsCount={resultsCount}
@@ -171,7 +167,7 @@ export default function Shop() {
             {/* Product Feed */}
             {isLoading ? (
               <div
-                className={`grid gap-6 ${filters.viewMode === "grid" ? "grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4" : "grid-cols-1"}`}
+                className={`grid gap-6 ${filters.viewMode === "grid" ? "grid-cols-1 sm:grid-cols-2 lg:grid-cols-3" : "grid-cols-1"}`}
               >
                 {Array.from({ length: 8 }).map((_, index) => (
                   <ProductSkeleton key={index} viewMode={filters.viewMode} />
@@ -210,7 +206,7 @@ export default function Shop() {
               </div>
             ) : (
               <div
-                className={`grid gap-6 ${filters.viewMode === "grid" ? "grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4" : "grid-cols-1"}`}
+                className={`grid gap-6 ${filters.viewMode === "grid" ? "grid-cols-1 sm:grid-cols-2 lg:grid-cols-3" : "grid-cols-1"}`}
               >
                 {products.map((product) => (
                   <ProductCard
@@ -227,7 +223,7 @@ export default function Shop() {
               isLoading={isPaginationLoading}
               onPageChange={handlePageChange}
             />
-          </main>
+          </div>
         </div>
       </div>
     </div>

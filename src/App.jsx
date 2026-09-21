@@ -37,9 +37,12 @@ import Wishlist from "./pages/Wishlist.jsx";
 import Notifications from "./pages/Notifications.jsx";
 import NotificationProvider from "./contexts/NotificationProvider.jsx";
 import WishlistProvider from "./contexts/WishlistProvider.jsx";
+import Privacy from "./pages/Privacy.jsx";
+import CategoriesStore from "./pages/CategoriesStore.jsx";
+import HelpCenter from "./pages/HelpCenter.jsx";
+import ShippingReturns from "./pages/ShippingReturns.jsx";
+import Contact from "./pages/Contact.jsx";
 import { TooltipProvider } from "@/components/ui/tooltip";
-
-import PrivacyPolicy from "./pages/PrivacyPolicy.jsx";
 
 const DesignSystem = lazy(() => import("./pages/DesignSystem"));
 
@@ -53,8 +56,12 @@ function App() {
           <Route path="/" element={<Landing />} />
           <Route path="/products" element={<Shop />} />
           <Route path="/products/:id" element={<StoreProductDetails />} />
+          <Route path="/categories" element={<CategoriesStore />} />
           <Route path="/about" element={<About />} />
-          <Route path="/privacy" element={<PrivacyPolicy />} />
+          <Route path="/privacy" element={<Privacy />} />
+          <Route path="/help" element={<HelpCenter />} />
+          <Route path="/shipping" element={<ShippingReturns />} />
+          <Route path="/contact" element={<Contact />} />
           <Route element={<RequireAuth />}>
             <Route path="/my-orders" element={<MyOrders />} />
             <Route path="/my-orders/:id" element={<OrderDetails />} />

@@ -2,12 +2,18 @@ import { Link } from "react-router";
 import { useTranslation } from "react-i18next";
 import { TriangleAlert } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import SEO from "@/components/SEO/SEO";
 
 export default function NotFound() {
   const { t } = useTranslation();
 
   return (
     <main className="relative flex min-h-screen items-center justify-center overflow-hidden px-6 py-16">
+      <SEO
+        title={`${t("notFound.code")} - ${t("notFound.title")}`}
+        description={t("notFound.description")}
+        noindex
+      />
       <div
         className="pointer-events-none absolute -top-24 right-[-10%] size-96 rounded-full bg-(--color-info) opacity-20 blur-3xl"
         aria-hidden="true"

@@ -1,3 +1,5 @@
+import { useTranslation } from "react-i18next";
+import SEO from "@/components/SEO/SEO";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import LandingHero from "@/features/landing/components/LandingHero";
 import FeaturedProducts from "@/features/landing/components/FeaturedProducts";
@@ -6,15 +8,22 @@ import PromotionalBanner from "@/features/landing/components/PromotionalBanner";
 import Newsletter from "@/features/landing/components/Newsletter";
 
 export default function Landing() {
+  const { t } = useTranslation();
+
   return (
     <TooltipProvider delayDuration={200}>
-      <main className="mx-auto w-full max-w-7xl px-4 pb-16 sm:px-6 lg:px-8">
+      <SEO
+        title={t("home.title")}
+        description={t("home.description")}
+        url="/"
+      />
+      <div className="pb-16">
         <LandingHero />
         <FeaturedProducts />
         <Categories />
         <PromotionalBanner />
         <Newsletter />
-      </main>
+      </div>
     </TooltipProvider>
   );
 }

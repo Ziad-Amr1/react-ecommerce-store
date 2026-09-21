@@ -4,6 +4,7 @@ import { Award, ShieldCheck, Truck, Headphones, ArrowRight, Sparkles, CheckCircl
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { formatNumber } from "@/utils/formatNumber";
+import SEO from "@/components/SEO/SEO";
 
 export default function About() {
   const { t, i18n } = useTranslation();
@@ -45,9 +46,17 @@ export default function About() {
 
   return (
     <div className="min-h-screen bg-(--color-background) text-(--color-text-primary) font-body">
+      <SEO
+        title={t("about.heroTitle", { defaultValue: "About Us" })}
+        description={t("about.heroSubtitle", {
+          defaultValue:
+            "We bring you carefully curated products designed for quality, style, and everyday comfort.",
+        })}
+        url="/about"
+      />
       {/* Hero Section */}
       <section className="relative overflow-hidden border-b border-(--color-border) bg-(--color-surface-secondary) py-16 sm:py-24">
-        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+        <div>
           <div className="mx-auto max-w-3xl text-center space-y-4">
             <div className="inline-flex items-center gap-2 rounded-full border border-(--color-border) bg-(--color-surface) px-4 py-1.5 text-xs font-semibold uppercase tracking-wider text-(--color-text-secondary) shadow-xs">
               <Sparkles className="size-3.5 text-(--color-primary)" aria-hidden="true" />
@@ -67,7 +76,7 @@ export default function About() {
 
       {/* Values Section */}
       <section className="py-16 sm:py-20">
-        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+        <div>
           <div className="text-center space-y-2 mb-12">
             <h2 className="font-display text-2xl font-bold tracking-tight sm:text-3xl text-(--color-text-primary)">
               {t("about.valuesTitle", { defaultValue: "Why Choose Oversea Store" })}
@@ -99,7 +108,7 @@ export default function About() {
 
       {/* Mission Section */}
       <section className="border-t border-b border-(--color-border) bg-(--color-surface) py-16 sm:py-20">
-        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+        <div>
           <div className="grid grid-cols-1 gap-12 lg:grid-cols-2 lg:items-center">
             <div className="space-y-6">
               <h2 className="font-display text-2xl font-bold tracking-tight text-(--color-text-primary) sm:text-3xl">
@@ -146,7 +155,7 @@ export default function About() {
 
       {/* CTA Section */}
       <section className="py-16 sm:py-20 text-center">
-        <div className="mx-auto max-w-4xl px-4 sm:px-6 lg:px-8 space-y-6">
+        <div className="mx-auto max-w-4xl space-y-6">
           <h2 className="font-display text-2xl font-bold tracking-tight text-(--color-text-primary) sm:text-4xl">
             {t("about.ctaTitle", { defaultValue: "Ready to Experience Better Shopping?" })}
           </h2>

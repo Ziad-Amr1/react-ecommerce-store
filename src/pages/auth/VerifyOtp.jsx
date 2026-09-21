@@ -12,6 +12,7 @@ import AuthHero from "@/features/auth/components/AuthHero";
 import { OTP_FLOWS } from "@/features/auth/otpFlows";
 import { getApiErrorMessage } from "@/features/auth/utils/getApiErrorMessage";
 import { validateOtp } from "@/features/auth/utils/validation";
+import SEO from "@/components/SEO/SEO";
 
 function OtpField({
   id,
@@ -345,6 +346,15 @@ export default function VerifyOtp() {
 
   return (
     <main className="flex min-h-screen items-center justify-center bg-(--color-background) p-4">
+      <SEO
+        title={t(flowConfig?.titleKey ?? "auth.verifyOtp.title", "Verify Code")}
+        description={t(
+          flowConfig?.subtitleKey ?? "auth.verifyOtp.subtitle",
+          "Enter the code sent to your email.",
+        )}
+        url={`/${flow}/verify-otp`}
+        noindex
+      />
       <div
         className={`w-full max-w-md space-y-6 border border-(--color-border) bg-(--color-surface) p-8 ${flowConfig.surfaceClass}`}
       >

@@ -14,6 +14,7 @@ import AuthHero from "@/features/auth/components/AuthHero";
 import { getApiErrorMessage } from "@/features/auth/utils/getApiErrorMessage";
 import { validateEmail, validatePassword } from "@/features/auth/utils/validation";
 import useAuth from "@/hooks/useAuth";
+import SEO from "@/components/SEO/SEO";
 
 export default function Login() {
   const navigate = useNavigate();
@@ -136,6 +137,15 @@ export default function Login() {
 
   return (
     <main className="flex min-h-screen items-center justify-center bg-background p-4">
+      <SEO
+        title={t("auth.login.title", "Welcome Back")}
+        description={t(
+          "auth.login.heroSubtitle",
+          "Shop, track your orders, and manage your account with ease.",
+        )}
+        url="/login"
+        noindex
+      />
       <div className="flex w-full max-w-6xl overflow-hidden rounded-2xl border border-(--color-border) bg-(--color-surface) shadow-xl">
         {/* LEFT SIDE */}
         <div className="hidden w-1/2 flex-col justify-between bg-primary p-12 text-primary-foreground lg:flex">

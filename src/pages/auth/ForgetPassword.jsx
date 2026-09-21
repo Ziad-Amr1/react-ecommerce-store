@@ -13,6 +13,7 @@ import AuthHero from "@/features/auth/components/AuthHero";
 import { sendForgotPasswordOTP } from "@/features/auth/auth.service";
 import { getApiErrorMessage } from "@/features/auth/utils/getApiErrorMessage";
 import { validateEmail } from "@/features/auth/utils/validation";
+import SEO from "@/components/SEO/SEO";
 
 export default function ForgetPassword() {
   const navigate = useNavigate();
@@ -72,6 +73,15 @@ export default function ForgetPassword() {
 
   return (
     <main className="flex min-h-screen items-center justify-center bg-(--color-background) p-4">
+      <SEO
+        title={t("auth.forgetPassword.title", "Forgot Password?")}
+        description={t(
+          "auth.forgetPassword.subtitle",
+          "Enter your email address and we'll send you a verification code.",
+        )}
+        url="/forgot-password"
+        noindex
+      />
       <div className="flex w-full max-w-6xl overflow-hidden rounded-(--radius-2xl) bg-(--color-surface) shadow-(--shadow-xl) border border-(--color-border)">
         {/* LEFT SIDE */}
         <div className="hidden w-1/2 flex-col justify-between bg-(--color-primary) p-12 text-(--color-on-primary) lg:flex">

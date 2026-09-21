@@ -1,7 +1,37 @@
 # e-commerce-store
 
-Frontend for the e-commerce system (online store + admin dashboard),
-built with React and Vite.
+A React 19 e-commerce storefront and admin dashboard: product catalog,
+cart, wishlist, checkout, orders, authentication, i18n with RTL Arabic,
+SEO tags, and CI deploys to Vercel and GitHub Pages.
+
+## Features
+
+**Storefront**
+
+- Landing page with hero, featured products, categories, promotional
+  banner, and newsletter signup
+- Product catalog with search, filters, sorting, and product details
+  with reviews
+- Cart, wishlist, checkout, and order flow
+- Authentication: login, registration with email OTP, and forgot
+  password
+- Profile overview, notifications, and order history
+
+**Admin dashboard**
+
+- Dashboard with real statistics (revenue, orders, customers, top
+  products)
+- Product management with full CRUD and details
+- Orders, users, and carts management
+
+**Platform**
+
+- i18n with four locales (English, Arabic, French, Russian) and a full
+  right to left layout for Arabic
+- SEO head tags on every public page, including local geo metadata;
+  admin pages are `noindex`
+- Light and dark theme
+- Maintenance mode, enabled at build time
 
 ## Stack
 
@@ -24,6 +54,43 @@ In local development the app talks to the backend API. By default it uses
 the backend URL built into `src/api/axios.js`. You can override it with
 `VITE_API_URL` in a local `.env` file. That file is not tracked, so create
 it if you need one. Never commit `.env` files.
+
+### Local demo API
+
+A read only demo catalog is bundled for offline work:
+
+```bash
+npm run demo:validate   # validate the dataset
+npm run demo:serve      # serve a read only API on 127.0.0.1:8787
+```
+
+Then, in another terminal:
+
+```bash
+VITE_API_URL=http://127.0.0.1:8787 npm run dev
+```
+
+See [docs/catalog/SEED_DATA.md](docs/catalog/SEED_DATA.md) for the demo
+API contract.
+
+## Project structure
+
+```text
+src/
+├── api/           # shared Axios client
+├── components/    # layout and reusable UI primitives
+├── contexts/      # auth, cart, notifications
+├── features/      # feature-scoped code (admin, auth, cart, landing, products, profile)
+├── hooks/         # shared custom hooks
+├── i18n/          # i18next setup and locales
+├── lib/           # small shared helpers
+├── pages/         # route-level components
+├── utils/         # pure helpers (formatting, asset URLs)
+├── App.jsx        # route tree
+└── main.jsx       # entry point
+```
+
+See [docs/Architecture.md](docs/Architecture.md) for the full picture.
 
 ## Scripts
 
@@ -76,6 +143,12 @@ Built and deployed by `.github/workflows/deploy-pages.yml`:
   which prefixes the deployment base, so images such as `logo.webp` work on
   both hosts.
 
+## Continuous integration
+
+The `CI` workflow runs lint and the production build on every push and pull
+request to `main`. The `Deploy to GitHub Pages` workflow builds and deploys
+the Pages site.
+
 ## Maintenance mode
 
 Set `VITE_MAINTENANCE_MODE=true` at build time to show the maintenance page
@@ -88,3 +161,4 @@ Set `VITE_MAINTENANCE_MODE=true` at build time to show the maintenance page
 - [docs/WorkFlow.md](docs/WorkFlow.md) — Git and GitHub workflow
 - [docs/WorkCheck.md](docs/WorkCheck.md) — task and team tracking
 - [docs/Project_Setup.md](docs/Project_Setup.md) — project foundation and conventions
+- [docs/catalog/SEED_DATA.md](docs/catalog/SEED_DATA.md) — demo dataset and API contract

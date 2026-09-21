@@ -15,6 +15,7 @@ import {
   Languages,
   ChevronRight,
   Bell,
+  Tag,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
@@ -48,6 +49,7 @@ export default function StoreHeader() {
   const isAdmin = user?.role === "admin";
   const isHomeActive = pathname === "/";
   const isProductsActive = pathname.startsWith("/products");
+  const isCategoriesActive = pathname.startsWith("/categories");
   const isAboutActive = pathname.startsWith("/about");
   const isMyOrdersActive = pathname.startsWith("/my-orders");
   const isWishlistActive = pathname.startsWith("/wishlist");
@@ -83,9 +85,19 @@ export default function StoreHeader() {
           >
             <Link
               to="/"
-              className={isHomeActive ? "font-semibold text-(--color-primary)" : ""}
+              className={`relative ${
+                isHomeActive ? "font-semibold text-(--color-primary)" : ""
+              }`}
             >
               {t("store.header.nav.home")}
+              <span
+                className={`pointer-events-none absolute inset-x-0 -bottom-0.5 mx-auto h-0.5 rounded-full bg-(--color-primary) transition-[width,opacity] duration-300 ${
+                  isHomeActive
+                    ? "w-6 opacity-100"
+                    : "w-0 opacity-0"
+                }`}
+                aria-hidden="true"
+              />
             </Link>
           </Button>
           <Button
@@ -96,11 +108,42 @@ export default function StoreHeader() {
           >
             <Link
               to="/products"
-              className={
+              className={`relative ${
                 isProductsActive ? "font-semibold text-(--color-primary)" : ""
-              }
+              }`}
             >
               {t("store.header.nav.shop")}
+              <span
+                className={`pointer-events-none absolute inset-x-0 -bottom-0.5 mx-auto h-0.5 rounded-full bg-(--color-primary) transition-[width,opacity] duration-300 ${
+                  isProductsActive
+                    ? "w-6 opacity-100"
+                    : "w-0 opacity-0"
+                }`}
+                aria-hidden="true"
+              />
+            </Link>
+          </Button>
+          <Button
+            asChild
+            variant="ghost"
+            className="rounded-full cursor-pointer"
+            aria-current={isCategoriesActive ? "page" : undefined}
+          >
+            <Link
+              to="/categories"
+              className={`relative ${
+                isCategoriesActive ? "font-semibold text-(--color-primary)" : ""
+              }`}
+            >
+              {t("store.header.nav.categories", "Categories")}
+              <span
+                className={`pointer-events-none absolute inset-x-0 -bottom-0.5 mx-auto h-0.5 rounded-full bg-(--color-primary) transition-[width,opacity] duration-300 ${
+                  isCategoriesActive
+                    ? "w-6 opacity-100"
+                    : "w-0 opacity-0"
+                }`}
+                aria-hidden="true"
+              />
             </Link>
           </Button>
           <Button
@@ -111,9 +154,19 @@ export default function StoreHeader() {
           >
             <Link
               to="/about"
-              className={isAboutActive ? "font-semibold text-(--color-primary)" : ""}
+              className={`relative ${
+                isAboutActive ? "font-semibold text-(--color-primary)" : ""
+              }`}
             >
               {t("store.header.nav.about")}
+              <span
+                className={`pointer-events-none absolute inset-x-0 -bottom-0.5 mx-auto h-0.5 rounded-full bg-(--color-primary) transition-[width,opacity] duration-300 ${
+                  isAboutActive
+                    ? "w-6 opacity-100"
+                    : "w-0 opacity-0"
+                }`}
+                aria-hidden="true"
+              />
             </Link>
           </Button>
 
@@ -127,9 +180,19 @@ export default function StoreHeader() {
               >
                 <Link
                   to="/my-orders"
-                  className={isMyOrdersActive ? "font-semibold text-(--color-primary)" : ""}
+                  className={`relative ${
+                    isMyOrdersActive ? "font-semibold text-(--color-primary)" : ""
+                  }`}
                 >
                   {t("store.header.nav.myOrders", "My Orders")}
+                  <span
+                    className={`pointer-events-none absolute inset-x-0 -bottom-0.5 mx-auto h-0.5 rounded-full bg-(--color-primary) transition-[width,opacity] duration-300 ${
+                      isMyOrdersActive
+                        ? "w-6 opacity-100"
+                        : "w-0 opacity-0"
+                    }`}
+                    aria-hidden="true"
+                  />
                 </Link>
               </Button>
               <Button
@@ -140,9 +203,19 @@ export default function StoreHeader() {
               >
                 <Link
                   to="/wishlist"
-                  className={isWishlistActive ? "font-semibold text-(--color-primary)" : ""}
+                  className={`relative ${
+                    isWishlistActive ? "font-semibold text-(--color-primary)" : ""
+                  }`}
                 >
                   {t("store.header.nav.wishlist", "Wishlist")}
+                  <span
+                    className={`pointer-events-none absolute inset-x-0 -bottom-0.5 mx-auto h-0.5 rounded-full bg-(--color-primary) transition-[width,opacity] duration-300 ${
+                      isWishlistActive
+                        ? "w-6 opacity-100"
+                        : "w-0 opacity-0"
+                    }`}
+                    aria-hidden="true"
+                  />
                 </Link>
               </Button>
             </>
@@ -387,6 +460,19 @@ export default function StoreHeader() {
                         <Link to="/products">
                           <ShoppingBag className={`size-4 shrink-0 ${isProductsActive ? "text-primary" : "text-muted-foreground"}`} />
                           <span>{t("store.header.nav.shop")}</span>
+                        </Link>
+                      </Button>
+                    </SheetClose>
+
+                    <SheetClose asChild>
+                      <Button
+                        asChild
+                        variant={isCategoriesActive ? "secondary" : "ghost"}
+                        className={`justify-start gap-3 rounded-xl h-10 px-3 cursor-pointer ${isCategoriesActive ? "font-semibold text-primary bg-primary/10" : "text-foreground"}`}
+                      >
+                        <Link to="/categories">
+                          <Tag className={`size-4 shrink-0 ${isCategoriesActive ? "text-primary" : "text-muted-foreground"}`} />
+                          <span>{t("store.header.nav.categories", "Categories")}</span>
                         </Link>
                       </Button>
                     </SheetClose>

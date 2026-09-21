@@ -1,26 +1,5 @@
 import { Link } from "react-router";
 import { useTranslation } from "react-i18next";
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipTrigger,
-} from "@/components/ui/tooltip";
-
-function ComingSoonText({ label }) {
-  const { t } = useTranslation();
-  return (
-    <Tooltip>
-      <TooltipTrigger asChild>
-        <span className="w-fit cursor-default text-sm text-(--color-text-secondary)">
-          {label}
-        </span>
-      </TooltipTrigger>
-      <TooltipContent side="top">
-        <p className="text-xs">{t("landing.comingSoon")}</p>
-      </TooltipContent>
-    </Tooltip>
-  );
-}
 
 export default function StoreFooter() {
   const { t } = useTranslation();
@@ -53,19 +32,34 @@ export default function StoreFooter() {
             <li>
               <Link
                 to="/"
-                className="text-sm text-(--color-text-secondary) hover:text-(--color-link)"
+                className="text-sm text-(--color-text-secondary) hover:text-(--color-link) transition-colors"
               >
                 {t("store.footer.links.home")}
               </Link>
             </li>
             <li>
-              <ComingSoonText label={t("store.footer.links.catalog")} />
+              <Link
+                to="/categories"
+                className="text-sm text-(--color-text-secondary) hover:text-(--color-link) transition-colors"
+              >
+                {t("store.footer.links.catalog", "Categories & Catalog")}
+              </Link>
             </li>
             <li>
-              <ComingSoonText label={t("store.footer.links.newArrivals")} />
+              <Link
+                to="/products"
+                className="text-sm text-(--color-text-secondary) hover:text-(--color-link) transition-colors"
+              >
+                {t("store.footer.links.newArrivals", "Shop All Products")}
+              </Link>
             </li>
             <li>
-              <ComingSoonText label={t("store.footer.links.sale")} />
+              <Link
+                to="/products?sale=true"
+                className="text-sm text-(--color-text-secondary) hover:text-(--color-link) transition-colors"
+              >
+                {t("store.footer.links.sale", "Sale & Offers")}
+              </Link>
             </li>
           </ul>
         </div>
@@ -78,19 +72,34 @@ export default function StoreFooter() {
             <li>
               <Link
                 to="/privacy"
-                className="text-sm text-(--color-text-secondary) hover:text-(--color-link)"
+                className="text-sm text-(--color-text-secondary) hover:text-(--color-link) transition-colors"
               >
-                {t("store.footer.links.privacy", { defaultValue: "Privacy Policy" })}
+                {t("store.footer.links.privacy", "Privacy Policy")}
               </Link>
             </li>
             <li>
-              <ComingSoonText label={t("store.footer.links.helpCenter")} />
+              <Link
+                to="/help"
+                className="text-sm text-(--color-text-secondary) hover:text-(--color-link) transition-colors"
+              >
+                {t("store.footer.links.helpCenter", "Help Center & FAQ")}
+              </Link>
             </li>
             <li>
-              <ComingSoonText label={t("store.footer.links.shippingReturns")} />
+              <Link
+                to="/shipping"
+                className="text-sm text-(--color-text-secondary) hover:text-(--color-link) transition-colors"
+              >
+                {t("store.footer.links.shippingReturns", "Shipping & Returns")}
+              </Link>
             </li>
             <li>
-              <ComingSoonText label={t("store.footer.links.contact")} />
+              <Link
+                to="/contact"
+                className="text-sm text-(--color-text-secondary) hover:text-(--color-link) transition-colors"
+              >
+                {t("store.footer.links.contact", "Contact Us")}
+              </Link>
             </li>
           </ul>
         </div>

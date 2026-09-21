@@ -32,7 +32,7 @@ export default function Categories() {
         </h2>
 
         <Link
-          to="/products"
+          to="/categories"
           className="group/link inline-flex shrink-0 items-center gap-1.5 pb-0.5 text-sm font-medium text-(--color-link) underline-offset-4 hover:text-(--color-link-hover) hover:underline"
         >
           {t("landing.categories.viewAll")}

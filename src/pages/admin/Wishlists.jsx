@@ -27,6 +27,8 @@ import {
   SheetTitle,
 } from "@/components/ui/sheet";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
+import AdminPageHeader from "@/features/admin/components/AdminPageHeader";
+import StatCard from "@/features/admin/dashboard/components/StatCard";
 
 const INITIAL_WISHLISTS = [
   {
@@ -101,72 +103,58 @@ export default function Wishlists() {
   const totalSavedItems = wishlists.reduce((acc, w) => acc + w.itemCount, 0);
   const avgItems = (totalSavedItems / (wishlists.length || 1)).toFixed(1);
 
+  const kpis = [
+    {
+      id: "active",
+      title: "Active Wishlists",
+      description: "Customer saved lists",
+      value: wishlists.length,
+      icon: Heart,
+    },
+    {
+      id: "total",
+      title: "Total Saved Items",
+      description: "Items in wishlists",
+      value: totalSavedItems,
+      icon: Package,
+    },
+    {
+      id: "avg",
+      title: "Avg Items / Wishlist",
+      description: "Average per customer",
+      value: avgItems,
+      icon: Users,
+    },
+    {
+      id: "top",
+      title: "Top Saved Category",
+      description: "Most popular category",
+      value: "Electronics",
+      icon: Sparkles,
+    },
+  ];
+
   return (
     <div className="space-y-6">
       {/* Header */}
-      <div>
-        <p className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
-          {t("common.admin", "Administration")}
-        </p>
-        <h1 className="mt-1 font-display text-2xl font-bold text-foreground">
-          {t("navigation.wishlists", "Manage Customer Wishlists")}
-        </h1>
-        <p className="mt-1 text-sm text-muted-foreground">
-          Track high-demand saved products and analyze customer interest trends.
-        </p>
-      </div>
+      <AdminPageHeader
+        kicker={t("common.admin", "Administration")}
+        title={t("navigation.wishlists", "Manage Customer Wishlists")}
+        description="Track high-demand saved products and analyze customer interest trends."
+      />
 
       {/* Stats Cards */}
       <div className="grid gap-4 sm:grid-cols-4">
-        <Card className="rounded-2xl border">
-          <CardContent className="flex items-center gap-3 p-5">
-            <div className="flex size-12 items-center justify-center rounded-xl bg-rose-500/15 text-rose-500">
-              <Heart className="size-6 fill-current" />
-            </div>
-            <div>
-              <p className="text-xs text-muted-foreground font-medium">Active Wishlists</p>
-              <p className="text-2xl font-bold font-display text-foreground">{wishlists.length}</p>
-            </div>
-          </CardContent>
-        </Card>
-
-        <Card className="rounded-2xl border">
-          <CardContent className="flex items-center gap-3 p-5">
-            <div className="flex size-12 items-center justify-center rounded-xl bg-primary/15 text-primary">
-              <Package className="size-6" />
-            </div>
-            <div>
-              <p className="text-xs text-muted-foreground font-medium">Total Saved Items</p>
-              <p className="text-2xl font-bold font-display text-foreground">{totalSavedItems}</p>
-            </div>
-          </CardContent>
-        </Card>
-
-        <Card className="rounded-2xl border">
-          <CardContent className="flex items-center gap-3 p-5">
-            <div className="flex size-12 items-center justify-center rounded-xl bg-blue-500/15 text-blue-600 dark:text-blue-400">
-              <Users className="size-6" />
-            </div>
-            <div>
-              <p className="text-xs text-muted-foreground font-medium">Avg Items / Wishlist</p>
-              <p className="text-2xl font-bold font-display text-foreground">{avgItems}</p>
-            </div>
-          </CardContent>
-        </Card>
-
-        <Card className="rounded-2xl border">
-          <CardContent className="flex items-center gap-3 p-5">
-            <div className="flex size-12 items-center justify-center rounded-xl bg-amber-500/15 text-amber-500">
-              <Sparkles className="size-6" />
-            </div>
-            <div>
-              <p className="text-xs text-muted-foreground font-medium">Top Saved Category</p>
-              <p className="text-base font-bold font-display text-foreground truncate max-w-[130px]">
-                Electronics
-              </p>
-            </div>
-          </CardContent>
-        </Card>
+        {kpis.map((kpi) => (
+          <StatCard
+            key={kpi.id}
+            title={kpi.title}
+            description={kpi.description}
+            value={kpi.value}
+            icon={kpi.icon}
+            className="gap-0 py-4"
+          />
+        ))}
       </div>
 
       {/* Search Bar */}

@@ -47,6 +47,8 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
 } from "@/components/ui/alert-dialog";
+import AdminPageHeader from "@/features/admin/components/AdminPageHeader";
+import StatCard from "@/features/admin/dashboard/components/StatCard";
 
 const INITIAL_COUPONS = [
   {
@@ -201,65 +203,57 @@ export default function Coupons() {
     }
   };
 
+  const kpis = [
+    {
+      id: "active",
+      title: t("admin.coupons.kpiActiveTitle"),
+      description: t("admin.coupons.kpiActiveDescription"),
+      value: activeCount,
+      icon: Ticket,
+    },
+    {
+      id: "redemptions",
+      title: t("admin.coupons.kpiRedemptionsTitle"),
+      description: t("admin.coupons.kpiRedemptionsDescription"),
+      value: totalRedemptions,
+      icon: Percent,
+    },
+    {
+      id: "total",
+      title: t("admin.coupons.kpiTotalTitle"),
+      description: t("admin.coupons.kpiTotalDescription"),
+      value: coupons.length,
+      icon: CheckCircle2,
+    },
+  ];
+
   return (
     <div className="space-y-6">
       {/* Header */}
-      <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
-        <div>
-          <p className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
-            {t("common.admin", "Administration")}
-          </p>
-          <h1 className="mt-1 font-display text-2xl font-bold text-foreground">
-            {t("navigation.coupons", "Manage Discount Coupons")}
-          </h1>
-          <p className="mt-1 text-sm text-muted-foreground">
-            Create promotional codes, manage usage limits, and track redemption metrics.
-          </p>
-        </div>
-
-        <Button onClick={handleOpenAdd} className="gap-2 rounded-xl cursor-pointer">
-          <Plus className="size-4" />
-          <span>Create Coupon</span>
-        </Button>
-      </div>
+      <AdminPageHeader
+        kicker={t("common.admin", "Administration")}
+        title={t("navigation.coupons", "Manage Discount Coupons")}
+        description={t("admin.coupons.description")}
+        action={
+          <Button onClick={handleOpenAdd} className="gap-2 rounded-xl cursor-pointer">
+            <Plus className="size-4" />
+            <span>{t("admin.coupons.create")}</span>
+          </Button>
+        }
+      />
 
       {/* Stats Overview */}
       <div className="grid gap-4 sm:grid-cols-3">
-        <Card className="rounded-2xl border">
-          <CardContent className="flex items-center gap-3 p-5">
-            <div className="flex size-12 items-center justify-center rounded-xl bg-primary/15 text-primary">
-              <Ticket className="size-6" />
-            </div>
-            <div>
-              <p className="text-xs text-muted-foreground font-medium">Active Coupons</p>
-              <p className="text-2xl font-bold font-display text-foreground">{activeCount}</p>
-            </div>
-          </CardContent>
-        </Card>
-
-        <Card className="rounded-2xl border">
-          <CardContent className="flex items-center gap-3 p-5">
-            <div className="flex size-12 items-center justify-center rounded-xl bg-emerald-500/15 text-emerald-600 dark:text-emerald-400">
-              <Percent className="size-6" />
-            </div>
-            <div>
-              <p className="text-xs text-muted-foreground font-medium">Total Redemptions</p>
-              <p className="text-2xl font-bold font-display text-foreground">{totalRedemptions}</p>
-            </div>
-          </CardContent>
-        </Card>
-
-        <Card className="rounded-2xl border">
-          <CardContent className="flex items-center gap-3 p-5">
-            <div className="flex size-12 items-center justify-center rounded-xl bg-blue-500/15 text-blue-600 dark:text-blue-400">
-              <CheckCircle2 className="size-6" />
-            </div>
-            <div>
-              <p className="text-xs text-muted-foreground font-medium">Total Coupons</p>
-              <p className="text-2xl font-bold font-display text-foreground">{coupons.length}</p>
-            </div>
-          </CardContent>
-        </Card>
+        {kpis.map((kpi) => (
+          <StatCard
+            key={kpi.id}
+            title={kpi.title}
+            description={kpi.description}
+            value={kpi.value}
+            icon={kpi.icon}
+            className="gap-0 py-4"
+          />
+        ))}
       </div>
 
       {/* Filters Bar */}
@@ -270,20 +264,20 @@ export default function Coupons() {
             <Input
               value={search}
               onChange={(e) => setSearch(e.target.value)}
-              placeholder="Search by promo code..."
+              placeholder={t("admin.coupons.searchPlaceholder")}
               className="pl-9 rounded-xl"
             />
           </div>
 
           <Select value={statusFilter} onValueChange={setStatusFilter}>
             <SelectTrigger className="w-36 rounded-xl">
-              <SelectValue placeholder="Status" />
+              <SelectValue placeholder={t("admin.coupons.statusPlaceholder")} />
             </SelectTrigger>
             <SelectContent>
-              <SelectItem value="all">All Status</SelectItem>
-              <SelectItem value="active">Active</SelectItem>
-              <SelectItem value="inactive">Inactive</SelectItem>
-              <SelectItem value="expired">Expired</SelectItem>
+              <SelectItem value="all">{t("admin.coupons.allStatus")}</SelectItem>
+              <SelectItem value="active">{t("admin.statusLabel.active")}</SelectItem>
+              <SelectItem value="inactive">{t("admin.statusLabel.inactive")}</SelectItem>
+              <SelectItem value="expired">{t("admin.statusLabel.expired")}</SelectItem>
             </SelectContent>
           </Select>
         </div>
@@ -293,7 +287,7 @@ export default function Coupons() {
       <Card className="rounded-2xl border overflow-hidden">
         <CardHeader className="p-4 border-b bg-muted/20">
           <CardTitle className="text-base font-bold font-display">
-            Promo Codes & Discounts ({filtered.length})
+            {t("admin.coupons.tableTitle")} ({filtered.length})
           </CardTitle>
         </CardHeader>
 
@@ -301,20 +295,20 @@ export default function Coupons() {
           <Table>
             <TableHeader>
               <TableRow className="bg-muted/30">
-                <TableHead>Code</TableHead>
-                <TableHead>Discount</TableHead>
-                <TableHead>Min. Order</TableHead>
-                <TableHead>Usage</TableHead>
-                <TableHead>Expiration</TableHead>
-                <TableHead>Status</TableHead>
-                <TableHead className="text-right">Actions</TableHead>
+                <TableHead>{t("admin.coupons.colCode")}</TableHead>
+                <TableHead>{t("admin.coupons.colDiscount")}</TableHead>
+                <TableHead>{t("admin.coupons.colMinOrder")}</TableHead>
+                <TableHead>{t("admin.coupons.colUsage")}</TableHead>
+                <TableHead>{t("admin.coupons.colExpiration")}</TableHead>
+                <TableHead>{t("admin.coupons.colStatus")}</TableHead>
+                <TableHead className="text-right">{t("admin.coupons.colActions")}</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
               {filtered.length === 0 ? (
                 <TableRow>
                   <TableCell colSpan={7} className="text-center py-10 text-muted-foreground text-sm">
-                    No coupons found matching your search.
+                    {t("admin.coupons.emptyState")}
                   </TableCell>
                 </TableRow>
               ) : (
@@ -326,8 +320,8 @@ export default function Coupons() {
 
                     <TableCell className="text-xs font-semibold text-foreground">
                       {c.discountType === "percentage"
-                        ? `${c.discountValue}% OFF`
-                        : `$${c.discountValue} OFF`}
+                        ? t("admin.coupons.percentOff", { value: c.discountValue })
+                        : t("admin.coupons.amountOff", { value: c.discountValue })}
                     </TableCell>
 
                     <TableCell className="text-xs text-muted-foreground">
@@ -345,17 +339,17 @@ export default function Coupons() {
                     <TableCell>
                       {c.status === "active" && (
                         <Badge className="bg-emerald-500/15 text-emerald-600 dark:text-emerald-400 border-0 text-[10px] font-bold">
-                          Active
+                          {t("admin.statusLabel.active")}
                         </Badge>
                       )}
                       {c.status === "inactive" && (
                         <Badge className="bg-amber-500/15 text-amber-600 dark:text-amber-400 border-0 text-[10px] font-bold">
-                          Inactive
+                          {t("admin.statusLabel.inactive")}
                         </Badge>
                       )}
                       {c.status === "expired" && (
                         <Badge className="bg-destructive/15 text-destructive border-0 text-[10px] font-bold">
-                          Expired
+                          {t("admin.statusLabel.expired")}
                         </Badge>
                       )}
                     </TableCell>
@@ -373,7 +367,7 @@ export default function Coupons() {
                           ) : (
                             <CheckCircle2 className="size-3.5 mr-1 text-emerald-500" />
                           )}
-                          {c.status === "active" ? "Deactivate" : "Activate"}
+                          {c.status === "active" ? t("admin.coupons.deactivate") : t("admin.coupons.activate")}
                         </Button>
                         <Button
                           variant="ghost"
@@ -414,25 +408,25 @@ export default function Coupons() {
         <DialogContent className="rounded-2xl max-w-md">
           <DialogHeader>
             <DialogTitle>
-              {editingCoupon ? "Edit Coupon" : "Create New Promo Coupon"}
+              {editingCoupon ? t("admin.coupons.editTitle") : t("admin.coupons.addNewTitle")}
             </DialogTitle>
           </DialogHeader>
 
           <form onSubmit={handleSave} className="space-y-4 py-2">
             <div className="space-y-2">
-              <Label htmlFor="coupon-code">Promo Code</Label>
+              <Label htmlFor="coupon-code">{t("admin.coupons.codeLabel")}</Label>
               <Input
                 id="coupon-code"
                 value={formData.code}
                 onChange={(e) => setFormData({ ...formData, code: e.target.value })}
-                placeholder="e.g. SUMMER25"
+                placeholder={t("admin.coupons.codePlaceholder")}
                 required
               />
             </div>
 
             <div className="grid grid-cols-2 gap-3">
               <div className="space-y-2">
-                <Label>Discount Type</Label>
+                <Label>{t("admin.coupons.discountTypeLabel")}</Label>
                 <Select
                   value={formData.discountType}
                   onValueChange={(val) => setFormData({ ...formData, discountType: val })}
@@ -441,14 +435,14 @@ export default function Coupons() {
                     <SelectValue />
                   </SelectTrigger>
                   <SelectContent>
-                    <SelectItem value="percentage">Percentage (%)</SelectItem>
-                    <SelectItem value="fixed">Fixed Amount ($)</SelectItem>
+                    <SelectItem value="percentage">{t("admin.coupons.typePercentage")}</SelectItem>
+                    <SelectItem value="fixed">{t("admin.coupons.typeFixed")}</SelectItem>
                   </SelectContent>
                 </Select>
               </div>
 
               <div className="space-y-2">
-                <Label htmlFor="coupon-val">Value</Label>
+                <Label htmlFor="coupon-val">{t("admin.coupons.valueLabel")}</Label>
                 <Input
                   id="coupon-val"
                   type="number"
@@ -462,7 +456,7 @@ export default function Coupons() {
 
             <div className="grid grid-cols-2 gap-3">
               <div className="space-y-2">
-                <Label htmlFor="coupon-min">Min Order ($)</Label>
+                <Label htmlFor="coupon-min">{t("admin.coupons.minOrderLabel")}</Label>
                 <Input
                   id="coupon-min"
                   type="number"
@@ -473,7 +467,7 @@ export default function Coupons() {
               </div>
 
               <div className="space-y-2">
-                <Label htmlFor="coupon-limit">Usage Limit</Label>
+                <Label htmlFor="coupon-limit">{t("admin.coupons.usageLimitLabel")}</Label>
                 <Input
                   id="coupon-limit"
                   type="number"
@@ -485,7 +479,7 @@ export default function Coupons() {
             </div>
 
             <div className="space-y-2">
-              <Label htmlFor="coupon-exp">Expiration Date</Label>
+              <Label htmlFor="coupon-exp">{t("admin.coupons.expirationLabel")}</Label>
               <Input
                 id="coupon-exp"
                 type="date"
@@ -503,9 +497,9 @@ export default function Coupons() {
                   setEditingCoupon(null);
                 }}
               >
-                Cancel
+                {t("common.cancel")}
               </Button>
-              <Button type="submit">Save Coupon</Button>
+              <Button type="submit">{t("admin.coupons.save")}</Button>
             </DialogFooter>
           </form>
         </DialogContent>
@@ -518,18 +512,18 @@ export default function Coupons() {
       >
         <AlertDialogContent className="rounded-2xl">
           <AlertDialogHeader>
-            <AlertDialogTitle>Delete Coupon?</AlertDialogTitle>
+            <AlertDialogTitle>{t("admin.coupons.deleteTitle")}</AlertDialogTitle>
             <AlertDialogDescription>
-              Are you sure you want to delete this promo code? Customers will no longer be able to redeem it.
+              {t("admin.coupons.deleteDescription")}
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>
-            <AlertDialogCancel>Cancel</AlertDialogCancel>
+            <AlertDialogCancel>{t("common.cancel")}</AlertDialogCancel>
             <AlertDialogAction
               onClick={handleDelete}
               className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
             >
-              Delete
+              {t("common.delete")}
             </AlertDialogAction>
           </AlertDialogFooter>
         </AlertDialogContent>

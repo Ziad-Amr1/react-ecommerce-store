@@ -32,6 +32,8 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
 } from "@/components/ui/alert-dialog";
+import AdminPageHeader from "@/features/admin/components/AdminPageHeader";
+import StatCard from "@/features/admin/dashboard/components/StatCard";
 
 const INITIAL_CATEGORIES = [
   {
@@ -163,65 +165,57 @@ export default function Categories() {
     }
   };
 
+  const kpis = [
+    {
+      id: "categories",
+      title: t("admin.categories.kpiCategoriesTitle"),
+      description: t("admin.categories.kpiCategoriesDescription"),
+      value: categories.length,
+      icon: FolderTree,
+    },
+    {
+      id: "subcategories",
+      title: t("admin.categories.kpiSubcategoriesTitle"),
+      description: t("admin.categories.kpiSubcategoriesDescription"),
+      value: totalSubcategories,
+      icon: Layers,
+    },
+    {
+      id: "products",
+      title: t("admin.categories.kpiProductsTitle"),
+      description: t("admin.categories.kpiProductsDescription"),
+      value: totalProducts,
+      icon: Package,
+    },
+  ];
+
   return (
     <div className="space-y-6">
       {/* Page Header */}
-      <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
-        <div>
-          <p className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
-            {t("common.admin", "Administration")}
-          </p>
-          <h1 className="mt-1 font-display text-2xl font-bold text-foreground">
-            {t("navigation.categories", "Manage Categories")}
-          </h1>
-          <p className="mt-1 text-sm text-muted-foreground">
-            Organize product categories and subcategories across your store catalog.
-          </p>
-        </div>
-
-        <Button onClick={handleOpenAdd} className="gap-2 rounded-xl cursor-pointer">
-          <Plus className="size-4" />
-          <span>Add Category</span>
-        </Button>
-      </div>
+      <AdminPageHeader
+        kicker={t("common.admin", "Administration")}
+        title={t("navigation.categories", "Manage Categories")}
+        description={t("admin.categories.description")}
+        action={
+          <Button onClick={handleOpenAdd} className="gap-2 rounded-xl cursor-pointer">
+            <Plus className="size-4" />
+            <span>{t("admin.categories.add")}</span>
+          </Button>
+        }
+      />
 
       {/* Stats Overview Grid */}
       <div className="grid gap-4 sm:grid-cols-3">
-        <Card className="rounded-2xl border">
-          <CardContent className="flex items-center gap-3 p-5">
-            <div className="flex size-12 items-center justify-center rounded-xl bg-primary/15 text-primary">
-              <FolderTree className="size-6" />
-            </div>
-            <div>
-              <p className="text-xs text-muted-foreground font-medium">Total Categories</p>
-              <p className="text-2xl font-bold font-display text-foreground">{categories.length}</p>
-            </div>
-          </CardContent>
-        </Card>
-
-        <Card className="rounded-2xl border">
-          <CardContent className="flex items-center gap-3 p-5">
-            <div className="flex size-12 items-center justify-center rounded-xl bg-blue-500/15 text-blue-600 dark:text-blue-400">
-              <Layers className="size-6" />
-            </div>
-            <div>
-              <p className="text-xs text-muted-foreground font-medium">Subcategories</p>
-              <p className="text-2xl font-bold font-display text-foreground">{totalSubcategories}</p>
-            </div>
-          </CardContent>
-        </Card>
-
-        <Card className="rounded-2xl border">
-          <CardContent className="flex items-center gap-3 p-5">
-            <div className="flex size-12 items-center justify-center rounded-xl bg-emerald-500/15 text-emerald-600 dark:text-emerald-400">
-              <Package className="size-6" />
-            </div>
-            <div>
-              <p className="text-xs text-muted-foreground font-medium">Categorized Products</p>
-              <p className="text-2xl font-bold font-display text-foreground">{totalProducts}</p>
-            </div>
-          </CardContent>
-        </Card>
+        {kpis.map((kpi) => (
+          <StatCard
+            key={kpi.id}
+            title={kpi.title}
+            description={kpi.description}
+            value={kpi.value}
+            icon={kpi.icon}
+            className="gap-0 py-4"
+          />
+        ))}
       </div>
 
       {/* Filter & Search Bar */}
@@ -231,7 +225,7 @@ export default function Categories() {
           <Input
             value={search}
             onChange={(e) => setSearch(e.target.value)}
-            placeholder="Search categories or subcategories..."
+            placeholder={t("admin.categories.searchPlaceholder")}
             className="pl-9 rounded-xl"
           />
         </div>
@@ -247,14 +241,14 @@ export default function Categories() {
                 <span>{cat.name}</span>
               </CardTitle>
               <Badge variant="outline" className="bg-primary/10 text-primary border-primary/20 text-xs">
-                {cat.productCount} products
+                {t("admin.categories.productsBadge", { count: cat.productCount })}
               </Badge>
             </CardHeader>
 
             <CardContent className="p-4 space-y-4">
               <div>
                 <p className="text-[11px] font-bold text-muted-foreground uppercase tracking-wider mb-2">
-                  Subcategories ({cat.subcategories.length})
+                  {t("admin.categories.subcategoriesLabel")} ({cat.subcategories.length})
                 </p>
                 <div className="flex flex-wrap gap-1.5">
                   {cat.subcategories.map((sub, idx) => (
@@ -268,7 +262,7 @@ export default function Categories() {
               <div className="flex items-center justify-between pt-2 border-t text-xs text-muted-foreground">
                 <div className="flex items-center gap-1 text-emerald-600 dark:text-emerald-400 font-medium">
                   <CheckCircle2 className="size-3.5" />
-                  <span>Active</span>
+                  <span>{t("admin.statusLabel.active")}</span>
                 </div>
                 <div className="flex items-center gap-1">
                   <Button
@@ -278,7 +272,7 @@ export default function Categories() {
                     className="h-8 px-2 text-xs rounded-lg cursor-pointer"
                   >
                     <Edit2 className="size-3.5 mr-1" />
-                    Edit
+                    {t("admin.categories.edit")}
                   </Button>
                   <Button
                     variant="ghost"
@@ -287,7 +281,7 @@ export default function Categories() {
                     className="h-8 px-2 text-xs text-destructive hover:text-destructive rounded-lg cursor-pointer"
                   >
                     <Trash2 className="size-3.5 mr-1" />
-                    Delete
+                    {t("common.delete")}
                   </Button>
                 </div>
               </div>
@@ -305,46 +299,46 @@ export default function Categories() {
       }}>
         <DialogContent className="rounded-2xl max-w-md">
           <DialogHeader>
-            <DialogTitle>{editingCategory ? "Edit Category" : "Add New Category"}</DialogTitle>
+            <DialogTitle>{editingCategory ? t("admin.categories.editTitle") : t("admin.categories.addNewTitle")}</DialogTitle>
           </DialogHeader>
 
           <form onSubmit={handleSave} className="space-y-4 py-2">
             <div className="space-y-2">
-              <Label htmlFor="cat-name">Category Name</Label>
+              <Label htmlFor="cat-name">{t("admin.categories.nameLabel")}</Label>
               <Input
                 id="cat-name"
                 value={formData.name}
                 onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                placeholder="e.g. Electronics"
+                placeholder={t("admin.categories.namePlaceholder")}
                 required
               />
             </div>
 
             <div className="space-y-2">
-              <Label htmlFor="cat-slug">URL Slug</Label>
+              <Label htmlFor="cat-slug">{t("admin.categories.slugLabel")}</Label>
               <Input
                 id="cat-slug"
                 value={formData.slug}
                 onChange={(e) => setFormData({ ...formData, slug: e.target.value })}
-                placeholder="e.g. electronics"
+                placeholder={t("admin.categories.slugPlaceholder")}
               />
             </div>
 
             <div className="space-y-2">
-              <Label htmlFor="cat-subs">Subcategories (comma separated)</Label>
+              <Label htmlFor="cat-subs">{t("admin.categories.subsLabel")}</Label>
               <Input
                 id="cat-subs"
                 value={formData.subcategories}
                 onChange={(e) => setFormData({ ...formData, subcategories: e.target.value })}
-                placeholder="Smartphones, Laptops, Audio"
+                placeholder={t("admin.categories.subsPlaceholder")}
               />
             </div>
 
             <DialogFooter className="pt-2">
               <Button type="button" variant="outline" onClick={() => { setIsAddOpen(false); setEditingCategory(null); }}>
-                Cancel
+                {t("common.cancel")}
               </Button>
-              <Button type="submit">Save Category</Button>
+              <Button type="submit">{t("admin.categories.save")}</Button>
             </DialogFooter>
           </form>
         </DialogContent>
@@ -354,15 +348,15 @@ export default function Categories() {
       <AlertDialog open={Boolean(deletingId)} onOpenChange={(open) => !open && setDeletingId(null)}>
         <AlertDialogContent className="rounded-2xl">
           <AlertDialogHeader>
-            <AlertDialogTitle>Delete Category?</AlertDialogTitle>
+            <AlertDialogTitle>{t("admin.categories.deleteTitle")}</AlertDialogTitle>
             <AlertDialogDescription>
-              Are you sure you want to delete this category? Products assigned to this category will become uncategorized.
+              {t("admin.categories.deleteDescription")}
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>
-            <AlertDialogCancel>Cancel</AlertDialogCancel>
+            <AlertDialogCancel>{t("common.cancel")}</AlertDialogCancel>
             <AlertDialogAction onClick={handleDelete} className="bg-destructive text-destructive-foreground hover:bg-destructive/90">
-              Delete
+              {t("common.delete")}
             </AlertDialogAction>
           </AlertDialogFooter>
         </AlertDialogContent>

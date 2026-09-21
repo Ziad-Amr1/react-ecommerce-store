@@ -30,6 +30,8 @@ import {
   Bar,
   CartesianGrid,
 } from "recharts";
+import AdminPageHeader from "@/features/admin/components/AdminPageHeader";
+import StatCard from "@/features/admin/dashboard/components/StatCard";
 
 const REVENUE_DATA_7D = [
   { day: "Mon", revenue: 4200, orders: 32 },
@@ -85,94 +87,77 @@ export default function Reports() {
     document.body.removeChild(link);
   };
 
+  const kpis = [
+    {
+      id: "revenue",
+      title: "Total Revenue",
+      description: "+14.2% vs last period",
+      value: "$143,600",
+      icon: DollarSign,
+    },
+    {
+      id: "orders",
+      title: "Total Orders",
+      description: "+8.5% vs last period",
+      value: "1,225",
+      icon: ShoppingBag,
+    },
+    {
+      id: "aov",
+      title: "Avg Order Value",
+      description: "+5.1% vs last period",
+      value: "$117.20",
+      icon: TrendingUp,
+    },
+    {
+      id: "conversion",
+      title: "Conversion Rate",
+      description: "+0.8% vs last period",
+      value: "3.42%",
+      icon: Users,
+    },
+  ];
+
   return (
     <div className="space-y-6">
       {/* Header */}
-      <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
-        <div>
-          <p className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
-            {t("common.admin", "Administration")}
-          </p>
-          <h1 className="mt-1 font-display text-2xl font-bold text-foreground">
-            {t("navigation.reports", "Reports & Business Analytics")}
-          </h1>
-          <p className="mt-1 text-sm text-muted-foreground">
-            Analyze sales performance, revenue growth trends, and category distribution.
-          </p>
-        </div>
+      <AdminPageHeader
+        kicker={t("common.admin", "Administration")}
+        title={t("navigation.reports", "Reports & Business Analytics")}
+        description="Analyze sales performance, revenue growth trends, and category distribution."
+        action={
+          <div className="flex items-center gap-3">
+            <Select value={timeframe} onValueChange={setTimeframe}>
+              <SelectTrigger className="w-36 rounded-xl">
+                <Calendar className="size-4 mr-2" />
+                <SelectValue />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="7d">Last 7 Days</SelectItem>
+                <SelectItem value="30d">Last 30 Days</SelectItem>
+              </SelectContent>
+            </Select>
 
-        <div className="flex items-center gap-3">
-          <Select value={timeframe} onValueChange={setTimeframe}>
-            <SelectTrigger className="w-36 rounded-xl">
-              <Calendar className="size-4 mr-2" />
-              <SelectValue />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectItem value="7d">Last 7 Days</SelectItem>
-              <SelectItem value="30d">Last 30 Days</SelectItem>
-            </SelectContent>
-          </Select>
-
-          <Button onClick={handleExportCSV} variant="outline" className="gap-2 rounded-xl cursor-pointer">
-            <Download className="size-4" />
-            <span>Export CSV</span>
-          </Button>
-        </div>
-      </div>
+            <Button onClick={handleExportCSV} variant="outline" className="gap-2 rounded-xl cursor-pointer">
+              <Download className="size-4" />
+              <span>Export CSV</span>
+            </Button>
+          </div>
+        }
+      />
 
       {/* KPI Cards */}
       <div className="grid gap-4 sm:grid-cols-4">
-        <Card className="rounded-2xl border">
-          <CardContent className="flex items-center gap-3 p-5">
-            <div className="flex size-12 items-center justify-center rounded-xl bg-emerald-500/15 text-emerald-600 dark:text-emerald-400">
-              <DollarSign className="size-6" />
-            </div>
-            <div>
-              <p className="text-xs text-muted-foreground font-medium">Total Revenue</p>
-              <p className="text-2xl font-bold font-display text-foreground">$143,600</p>
-              <span className="text-[10px] text-emerald-600 font-semibold">+14.2% vs last period</span>
-            </div>
-          </CardContent>
-        </Card>
-
-        <Card className="rounded-2xl border">
-          <CardContent className="flex items-center gap-3 p-5">
-            <div className="flex size-12 items-center justify-center rounded-xl bg-primary/15 text-primary">
-              <ShoppingBag className="size-6" />
-            </div>
-            <div>
-              <p className="text-xs text-muted-foreground font-medium">Total Orders</p>
-              <p className="text-2xl font-bold font-display text-foreground">1,225</p>
-              <span className="text-[10px] text-emerald-600 font-semibold">+8.5% vs last period</span>
-            </div>
-          </CardContent>
-        </Card>
-
-        <Card className="rounded-2xl border">
-          <CardContent className="flex items-center gap-3 p-5">
-            <div className="flex size-12 items-center justify-center rounded-xl bg-blue-500/15 text-blue-600 dark:text-blue-400">
-              <TrendingUp className="size-6" />
-            </div>
-            <div>
-              <p className="text-xs text-muted-foreground font-medium">Avg Order Value</p>
-              <p className="text-2xl font-bold font-display text-foreground">$117.20</p>
-              <span className="text-[10px] text-emerald-600 font-semibold">+5.1% vs last period</span>
-            </div>
-          </CardContent>
-        </Card>
-
-        <Card className="rounded-2xl border">
-          <CardContent className="flex items-center gap-3 p-5">
-            <div className="flex size-12 items-center justify-center rounded-xl bg-amber-500/15 text-amber-500">
-              <Users className="size-6" />
-            </div>
-            <div>
-              <p className="text-xs text-muted-foreground font-medium">Conversion Rate</p>
-              <p className="text-2xl font-bold font-display text-foreground">3.42%</p>
-              <span className="text-[10px] text-emerald-600 font-semibold">+0.8% vs last period</span>
-            </div>
-          </CardContent>
-        </Card>
+        {kpis.map((kpi) => (
+          <StatCard
+            key={kpi.id}
+            title={kpi.title}
+            description={kpi.description}
+            value={kpi.value}
+            icon={kpi.icon}
+            className="gap-0 py-4"
+          />
+        ))}
       </div>
 
       {/* Charts Grid */}

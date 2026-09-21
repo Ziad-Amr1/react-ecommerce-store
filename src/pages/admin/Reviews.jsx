@@ -29,6 +29,8 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
+import AdminPageHeader from "@/features/admin/components/AdminPageHeader";
+import StatCard from "@/features/admin/dashboard/components/StatCard";
 
 const INITIAL_REVIEWS = [
   {
@@ -120,70 +122,58 @@ export default function Reviews() {
     setReviews((prev) => prev.filter((r) => r.id !== id));
   };
 
+  const kpis = [
+    {
+      id: "avgRating",
+      title: "Average Rating",
+      description: "Overall customer rating",
+      value: `${avgRating} / 5.0`,
+      icon: Star,
+    },
+    {
+      id: "totalReviews",
+      title: "Total Reviews",
+      description: "Recorded product reviews",
+      value: reviews.length,
+      icon: MessageSquare,
+    },
+    {
+      id: "pending",
+      title: "Pending Moderation",
+      description: "Awaiting approval",
+      value: pendingCount,
+      icon: AlertTriangle,
+    },
+    {
+      id: "approved",
+      title: "Approved Reviews",
+      description: "Published testimonials",
+      value: approvedCount,
+      icon: CheckCircle2,
+    },
+  ];
+
   return (
     <div className="space-y-6">
       {/* Header */}
-      <div>
-        <p className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
-          {t("common.admin", "Administration")}
-        </p>
-        <h1 className="mt-1 font-display text-2xl font-bold text-foreground">
-          {t("navigation.reviews", "Manage Reviews & Moderation")}
-        </h1>
-        <p className="mt-1 text-sm text-muted-foreground">
-          Review customer feedback, approve testimonials, and moderate product ratings.
-        </p>
-      </div>
+      <AdminPageHeader
+        kicker={t("common.admin", "Administration")}
+        title={t("navigation.reviews", "Manage Reviews & Moderation")}
+        description="Review customer feedback, approve testimonials, and moderate product ratings."
+      />
 
       {/* Stats Cards */}
       <div className="grid gap-4 sm:grid-cols-4">
-        <Card className="rounded-2xl border">
-          <CardContent className="flex items-center gap-3 p-5">
-            <div className="flex size-12 items-center justify-center rounded-xl bg-amber-500/15 text-amber-500">
-              <Star className="size-6 fill-current" />
-            </div>
-            <div>
-              <p className="text-xs text-muted-foreground font-medium">Average Rating</p>
-              <p className="text-2xl font-bold font-display text-foreground">{avgRating} / 5.0</p>
-            </div>
-          </CardContent>
-        </Card>
-
-        <Card className="rounded-2xl border">
-          <CardContent className="flex items-center gap-3 p-5">
-            <div className="flex size-12 items-center justify-center rounded-xl bg-primary/15 text-primary">
-              <MessageSquare className="size-6" />
-            </div>
-            <div>
-              <p className="text-xs text-muted-foreground font-medium">Total Reviews</p>
-              <p className="text-2xl font-bold font-display text-foreground">{reviews.length}</p>
-            </div>
-          </CardContent>
-        </Card>
-
-        <Card className="rounded-2xl border">
-          <CardContent className="flex items-center gap-3 p-5">
-            <div className="flex size-12 items-center justify-center rounded-xl bg-blue-500/15 text-blue-600 dark:text-blue-400">
-              <AlertTriangle className="size-6" />
-            </div>
-            <div>
-              <p className="text-xs text-muted-foreground font-medium">Pending Moderation</p>
-              <p className="text-2xl font-bold font-display text-foreground">{pendingCount}</p>
-            </div>
-          </CardContent>
-        </Card>
-
-        <Card className="rounded-2xl border">
-          <CardContent className="flex items-center gap-3 p-5">
-            <div className="flex size-12 items-center justify-center rounded-xl bg-emerald-500/15 text-emerald-600 dark:text-emerald-400">
-              <CheckCircle2 className="size-6" />
-            </div>
-            <div>
-              <p className="text-xs text-muted-foreground font-medium">Approved Reviews</p>
-              <p className="text-2xl font-bold font-display text-foreground">{approvedCount}</p>
-            </div>
-          </CardContent>
-        </Card>
+        {kpis.map((kpi) => (
+          <StatCard
+            key={kpi.id}
+            title={kpi.title}
+            description={kpi.description}
+            value={kpi.value}
+            icon={kpi.icon}
+            className="gap-0 py-4"
+          />
+        ))}
       </div>
 
       {/* Filters Bar */}

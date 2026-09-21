@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Navigate, useLocation, useNavigate, useParams } from "react-router";
 import { useTranslation } from "react-i18next";
+import { assetUrl } from "@/utils/assetUrl";
 
 import { KeyRound, Loader2, ArrowLeft } from "lucide-react";
 
@@ -12,6 +13,7 @@ import AuthHero from "@/features/auth/components/AuthHero";
 import { OTP_FLOWS } from "@/features/auth/otpFlows";
 import { getApiErrorMessage } from "@/features/auth/utils/getApiErrorMessage";
 import { validateOtp } from "@/features/auth/utils/validation";
+import SEO from "@/components/SEO/SEO";
 
 function OtpField({
   id,
@@ -32,12 +34,12 @@ function OtpField({
     : "mb-1 block text-sm font-bold text-(--color-text-primary)";
 
   const inputClass = compact
-    ? "h-11 rounded-lg border-(--color-border) bg-(--color-surface-secondary) pl-11 text-(--color-text-primary) placeholder:text-(--color-text-secondary) focus-visible:ring-(--color-focus-ring)"
-    : "bg-(--color-surface-secondary) border-(--color-border) rounded-(--radius-lg) py-6 pl-11 text-(--color-text-primary) placeholder:text-(--color-text-secondary) focus-visible:ring-(--color-focus-ring)";
+    ? "h-11 rounded-lg border-(--color-border) bg-(--color-surface-secondary) ps-11 text-(--color-text-primary) placeholder:text-(--color-text-secondary) focus-visible:ring-(--color-focus-ring)"
+    : "bg-(--color-surface-secondary) border-(--color-border) rounded-(--radius-lg) py-6 ps-11 text-(--color-text-primary) placeholder:text-(--color-text-secondary) focus-visible:ring-(--color-focus-ring)";
 
   const iconClass = compact
-    ? "pointer-events-none absolute top-1/2 left-4 size-5 -translate-y-1/2 text-(--color-text-secondary)"
-    : "pointer-events-none absolute left-4 top-1/2 -translate-y-1/2 h-5 w-5 text-(--color-text-secondary)";
+    ? "pointer-events-none absolute top-1/2 start-4 size-5 -translate-y-1/2 text-(--color-text-secondary)"
+    : "pointer-events-none absolute start-4 top-1/2 -translate-y-1/2 h-5 w-5 text-(--color-text-secondary)";
 
   const errorClass = compact
     ? "text-sm text-(--color-error)"
@@ -211,7 +213,7 @@ export default function VerifyOtp() {
       <div className="space-y-2 text-center">
         {flowConfig.showLogo && (
           <img
-            src="/favicon.ico"
+            src={assetUrl("logo.webp")}
             alt={t("brand.logoAlt")}
             className="mx-auto size-24 object-contain"
           />
@@ -345,6 +347,15 @@ export default function VerifyOtp() {
 
   return (
     <main className="flex min-h-screen items-center justify-center bg-(--color-background) p-4">
+      <SEO
+        title={t(flowConfig?.titleKey ?? "auth.verifyOtp.title", "Verify Code")}
+        description={t(
+          flowConfig?.subtitleKey ?? "auth.verifyOtp.subtitle",
+          "Enter the code sent to your email.",
+        )}
+        url={`/${flow}/verify-otp`}
+        noindex
+      />
       <div
         className={`w-full max-w-md space-y-6 border border-(--color-border) bg-(--color-surface) p-8 ${flowConfig.surfaceClass}`}
       >

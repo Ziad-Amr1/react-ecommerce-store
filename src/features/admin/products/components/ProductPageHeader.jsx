@@ -7,7 +7,7 @@ export default function ProductPageHeader({ titleKey, descriptionKey, onBack }) 
 
   return (
     <div className="mb-6">
-      <Button variant="outline" className="mb-4" onClick={onBack}>
+      <Button variant="outline" className="mb-4 cursor-pointer" onClick={onBack}>
         <ArrowLeft className="size-4 shrink-0 rtl:rotate-180" aria-hidden="true" />
         {t("products.backToList")}
       </Button>

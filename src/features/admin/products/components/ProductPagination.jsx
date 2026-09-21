@@ -1,18 +1,12 @@
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { useTranslation } from "react-i18next";
 import { Button } from "@/components/ui/button";
-import {
-  Pagination,
-  PaginationContent,
-  PaginationItem,
-} from "@/components/ui/pagination";
+import { Pagination, PaginationContent, PaginationItem } from "@/components/ui/pagination";
 
 export default function ProductPagination({ currentPage, totalPages, isFetching, onPageChange }) {
   const { t } = useTranslation();
 
-  if (totalPages <= 1) {
-    return null;
-  }
+  if (totalPages <= 1) return null;
 
   return (
     <Pagination>
@@ -21,6 +15,7 @@ export default function ProductPagination({ currentPage, totalPages, isFetching,
           <Button
             variant="outline"
             size="sm"
+            className="cursor-pointer"
             disabled={currentPage === 1 || isFetching}
             onClick={() => onPageChange(currentPage - 1)}
             aria-label={t("products.pagination.previous")}
@@ -40,6 +35,7 @@ export default function ProductPagination({ currentPage, totalPages, isFetching,
           <Button
             variant="outline"
             size="sm"
+            className="cursor-pointer"
             disabled={currentPage === totalPages || isFetching}
             onClick={() => onPageChange(currentPage + 1)}
             aria-label={t("products.pagination.next")}

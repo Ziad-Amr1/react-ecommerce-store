@@ -1,6 +1,7 @@
 import { forwardRef, useEffect } from "react";
 import { NavLink } from "react-router";
 import { useTranslation } from "react-i18next";
+import { assetUrl } from "@/utils/assetUrl";
 import { Button } from "@/components/ui/button";
 import {
   Tooltip,
@@ -159,7 +160,7 @@ export default function Sidebar({ id, isOpen, isCollapsed, onClose, onToggleColl
             className={`relative flex h-[72px] shrink-0 items-center justify-between overflow-hidden border-b border-(--color-border) px-7 transition-all duration-300`}
           >
             <img
-              src="/favicon.ico"
+              src={assetUrl("logo.webp")}
               alt={t("brand.logoAlt")}
               aria-hidden={!isCollapsed}
               className={`absolute left-1/2 top-1/2 size-9 -translate-x-1/2 -translate-y-1/2 object-contain transition-opacity duration-300 ${
@@ -273,7 +274,6 @@ export default function Sidebar({ id, isOpen, isCollapsed, onClose, onToggleColl
                       className="rounded-full hover:bg-(--color-surface-secondary)"
                       onClick={onToggleCollapse}
                       aria-label={t("navigation.expandSidebar")}
-                      title={t("navigation.expandSidebar")}
                     >
                       <PanelLeftOpen
                         className="size-4 rtl:rotate-180"
@@ -315,7 +315,6 @@ export default function Sidebar({ id, isOpen, isCollapsed, onClose, onToggleColl
                   className="shrink-0 rounded-full hover:bg-(--color-surface-secondary)"
                   onClick={onToggleCollapse}
                   aria-label={t("navigation.collapseSidebar")}
-                  title={t("navigation.collapseSidebar")}
                 >
                   <PanelLeftClose
                     className="size-5 rtl:rotate-180"

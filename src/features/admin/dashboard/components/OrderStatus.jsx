@@ -10,10 +10,10 @@ import {
 import { Progress } from "@/components/ui/progress";
 import { Skeleton } from "@/components/ui/skeleton";
 import {
-  STATUS_PRESENTATION,
-  STATUS_FILL_FALLBACK,
-  STATUS_BAR_CLASS_FALLBACK,
-} from "@/features/admin/dashboard/constants";
+  ORDER_STATUS_PRESENTATION,
+  ORDER_STATUS_FILL_FALLBACK,
+  ORDER_STATUS_BAR_FALLBACK,
+} from "@/features/admin/orders/constants";
 import { formatNumber } from "@/utils/formatNumber";
 
 const OrderStatusDonut = lazy(() => import("./OrderStatusDonut"));
@@ -52,8 +52,8 @@ export default function OrderStatus({ ordersByStatus = [], totalOrders = 0 }) {
 
   const items = ordersByStatus
     .map((item) => {
-      const presentation = Object.hasOwn(STATUS_PRESENTATION, item._id)
-        ? STATUS_PRESENTATION[item._id]
+      const presentation = Object.hasOwn(ORDER_STATUS_PRESENTATION, item._id)
+        ? ORDER_STATUS_PRESENTATION[item._id]
         : undefined;
 
       const percent = total > 0 ? Math.min(100, (item.count / total) * 100) : 0;
@@ -64,8 +64,8 @@ export default function OrderStatus({ ordersByStatus = [], totalOrders = 0 }) {
         count: item.count,
         percent,
         percentLabel: percentFormatter.format(percent / 100),
-        fill: presentation?.fill ?? STATUS_FILL_FALLBACK,
-        barClass: presentation?.barClass ?? STATUS_BAR_CLASS_FALLBACK,
+        fill: presentation?.fill ?? ORDER_STATUS_FILL_FALLBACK,
+        barClass: presentation?.barClass ?? ORDER_STATUS_BAR_FALLBACK,
       };
     })
     .sort((a, b) => b.count - a.count);

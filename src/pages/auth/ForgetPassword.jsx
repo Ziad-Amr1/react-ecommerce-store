@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useLocation, useNavigate } from "react-router";
 import { useTranslation } from "react-i18next";
+import { assetUrl } from "@/utils/assetUrl";
 
 import { Mail, Loader2, ArrowLeft } from "lucide-react";
 
@@ -13,6 +14,7 @@ import AuthHero from "@/features/auth/components/AuthHero";
 import { sendForgotPasswordOTP } from "@/features/auth/auth.service";
 import { getApiErrorMessage } from "@/features/auth/utils/getApiErrorMessage";
 import { validateEmail } from "@/features/auth/utils/validation";
+import SEO from "@/components/SEO/SEO";
 
 export default function ForgetPassword() {
   const navigate = useNavigate();
@@ -72,6 +74,15 @@ export default function ForgetPassword() {
 
   return (
     <main className="flex min-h-screen items-center justify-center bg-(--color-background) p-4">
+      <SEO
+        title={t("auth.forgetPassword.title", "Forgot Password?")}
+        description={t(
+          "auth.forgetPassword.subtitle",
+          "Enter your email address and we'll send you a verification code.",
+        )}
+        url="/forgot-password"
+        noindex
+      />
       <div className="flex w-full max-w-6xl overflow-hidden rounded-(--radius-2xl) bg-(--color-surface) shadow-(--shadow-xl) border border-(--color-border)">
         {/* LEFT SIDE */}
         <div className="hidden w-1/2 flex-col justify-between bg-(--color-primary) p-12 text-(--color-on-primary) lg:flex">
@@ -93,7 +104,7 @@ export default function ForgetPassword() {
             {/* Logo */}
             <div className="text-center">
               <img
-                src="/favicon.ico"
+                src={assetUrl("logo.webp")}
                 alt={t("brand.logoAlt")}
                 className="mx-auto h-24 w-24 object-contain"
               />
@@ -142,11 +153,11 @@ export default function ForgetPassword() {
                     aria-describedby={
                       errors.email ? "forget-password-email-error" : undefined
                     }
-                    className="bg-(--color-surface-secondary) border-(--color-border) rounded-(--radius-lg) py-6 pl-11 text-(--color-text-primary) placeholder:text-(--color-text-secondary) focus-visible:ring-(--color-focus-ring)"
+                    className="bg-(--color-surface-secondary) border-(--color-border) rounded-(--radius-lg) py-6 ps-11 text-(--color-text-primary) placeholder:text-(--color-text-secondary) focus-visible:ring-(--color-focus-ring)"
                   />
 
                   <Mail
-                    className="pointer-events-none absolute left-4 top-1/2 -translate-y-1/2 h-5 w-5 text-(--color-text-secondary)"
+                    className="pointer-events-none absolute start-4 top-1/2 -translate-y-1/2 h-5 w-5 text-(--color-text-secondary)"
                     aria-hidden="true"
                   />
                 </div>

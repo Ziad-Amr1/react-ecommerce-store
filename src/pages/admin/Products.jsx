@@ -1,17 +1,19 @@
+import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router";
-import { SlidersHorizontal } from "lucide-react";
+import { SlidersHorizontal, TriangleAlert } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import useProducts from "@/features/admin/products/useProducts";
 import ProductSearch from "@/features/admin/products/components/ProductSearch";
 import ProductFilters from "@/features/admin/products/components/ProductFilters";
 import ProductsTable from "@/features/admin/products/components/ProductsTable";
 import DeleteProductDialog from "@/features/admin/products/components/DeleteProductDialog";
-import { TriangleAlert } from "lucide-react";
+import ProductDetailsDrawer from "@/features/admin/products/components/ProductDetailsDrawer";
 
 export default function Products() {
   const { t } = useTranslation();
   const navigate = useNavigate();
+  const [selectedProductId, setSelectedProductId] = useState(null);
 
   const {
     products,
@@ -24,8 +26,11 @@ export default function Products() {
     setFilters,
     showFilters,
     setShowFilters,
+    sortKey,
+    sortDirection,
     currentPage,
     totalPages,
+    totalProducts,
     productToDelete,
     setProductToDelete,
     deletingProductId,
@@ -33,12 +38,30 @@ export default function Products() {
     handleSearchChange,
     handleSelectSearchResult,
     handleApplyFilters,
+    handleSort,
     handlePageChange,
     clearFilters,
     clearQuery,
     retry,
     handleDelete,
   } = useProducts();
+
+  const handlePriceSort = () => {
+    const nextSort =
+      filters.sort === ""
+        ? "price_asc"
+        : filters.sort === "price_asc"
+          ? "price_desc"
+          : "";
+
+    const nextFilters = {
+      ...filters,
+      sort: nextSort,
+    };
+
+    setFilters(nextFilters);
+    handleApplyFilters(nextFilters);
+  };
 
   if (error && !isLoading) {
     return (
@@ -67,15 +90,25 @@ export default function Products() {
     <div>
       <div className="mb-4 flex flex-wrap items-start justify-between gap-3">
         <div>
-          <h1 className="font-display text-2xl font-bold text-foreground">
-            {t("products.title")}
-          </h1>
+          <div className="flex items-center gap-2">
+            <h1 className="font-display text-2xl font-bold text-foreground">
+              {t("products.title")}
+            </h1>
+
+            <span className="inline-flex items-center rounded-full border border-primary/20 bg-primary/10 px-2.5 py-1 text-xs font-bold tabular-nums text-primary shadow-sm">
+              {totalProducts}
+            </span>
+          </div>
+
           <p className="mt-1 text-sm text-muted-foreground">
             {t("products.description")}
           </p>
         </div>
 
-        <Button onClick={() => navigate("/admin/products/add")}>
+        <Button
+          onClick={() => navigate("/admin/products/add")}
+          className="cursor-pointer"
+        >
           {t("products.addProduct")}
         </Button>
       </div>
@@ -94,21 +127,39 @@ export default function Products() {
             variant="outline"
             onClick={() => setShowFilters((current) => !current)}
             disabled={isFetching}
+            className="cursor-pointer"
           >
-            <SlidersHorizontal className="size-4 rtl:-scale-x-100" aria-hidden="true" />
+            <SlidersHorizontal
+              className="size-4 rtl:-scale-x-100"
+              aria-hidden="true"
+            />
             {t("products.filtersButton")}
           </Button>
         </div>
 
-        {showFilters && (
-          <ProductFilters
-            filters={filters}
-            setFilters={setFilters}
-            onApply={handleApplyFilters}
-            onClear={clearFilters}
-            isFetching={isFetching}
-          />
-        )}
+        <div
+          className={`grid transition-[grid-template-rows] duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] ${
+            showFilters ? "grid-rows-[1fr]" : "grid-rows-[0fr]"
+          }`}
+        >
+          <div className="overflow-hidden">
+            <div
+              className={`transform transition-all duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] ${
+                showFilters
+                  ? "translate-y-0 scale-100 opacity-100"
+                  : "-translate-y-4 scale-[0.98] opacity-0"
+              }`}
+            >
+              <ProductFilters
+                filters={filters}
+                setFilters={setFilters}
+                onApply={handleApplyFilters}
+                onClear={clearFilters}
+                isFetching={isFetching}
+              />
+            </div>
+          </div>
+        </div>
       </div>
 
       <ProductsTable
@@ -117,13 +168,19 @@ export default function Products() {
         isFetching={isFetching}
         deletingProductId={deletingProductId}
         hasActiveQuery={hasActiveQuery}
+        sortKey={sortKey}
+        sortDirection={sortDirection}
+        onSort={handleSort}
         currentPage={currentPage}
         totalPages={totalPages}
         onPageChange={handlePageChange}
-        onView={(id) => navigate(`/admin/products/${id}`)}
+        onProductClick={setSelectedProductId}
+        onView={(id) => setSelectedProductId(id)}
         onEdit={(id) => navigate(`/admin/products/${id}/edit`)}
         onDelete={setProductToDelete}
         onClearQuery={clearQuery}
+        onPriceSort={handlePriceSort}
+        priceSort={filters.sort}
       />
 
       <DeleteProductDialog
@@ -131,6 +188,12 @@ export default function Products() {
         deletingProductId={deletingProductId}
         onClose={() => setProductToDelete(null)}
         onDelete={handleDelete}
+      />
+
+      <ProductDetailsDrawer
+        productId={selectedProductId}
+        open={!!selectedProductId}
+        onClose={() => setSelectedProductId(null)}
       />
     </div>
   );

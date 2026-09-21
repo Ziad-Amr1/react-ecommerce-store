@@ -10,10 +10,12 @@ import CartProvider from "./contexts/CartProvider";
 import { DirectionProvider } from "./i18n/DirectionProvider";
 import ScrollToTop from "./components/routing/ScrollToTop";
 
+const basename = import.meta.env.BASE_URL.replace(/\/+$/, "");
+
 createRoot(document.getElementById("root")).render(
   <StrictMode>
     <AuthProvider>
-      <BrowserRouter>
+      <BrowserRouter basename={basename}>
         <ScrollToTop />
         <DirectionProvider>
           <CartProvider>

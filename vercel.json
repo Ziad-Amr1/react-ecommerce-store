@@ -1,0 +1,23 @@
+{
+  "rewrites": [
+    {
+      "source": "/api/:path*",
+      "destination": "https://e-commerce-api-3wara.vercel.app/:path*"
+    },
+    {
+      "source": "/(.*)",
+      "destination": "/index.html"
+    }
+  ],
+  "headers": [
+    {
+      "source": "/api/(.*)",
+      "headers": [
+        {
+          "key": "Access-Control-Allow-Origin",
+          "value": "https://ziad-amr1.github.io"
+        }
+      ]
+    }
+  ]
+}

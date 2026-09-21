@@ -5,6 +5,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge";
 
 export default function ProductDetailsSections({ product }) {
   const { t } = useTranslation();
@@ -36,7 +37,7 @@ export default function ProductDetailsSections({ product }) {
               {product.tags.map((tag) => (
                 <span
                   key={tag}
-                  className="rounded-full border border-supporting bg-accent px-3 py-1 text-sm text-foreground"
+                  className="rounded-full border border-(--color-supporting) bg-accent px-3 py-1 text-sm text-foreground"
                 >
                   {tag}
                 </span>
@@ -69,22 +70,28 @@ export default function ProductDetailsSections({ product }) {
               <p className="text-sm text-muted-foreground">
                 {t("products.fields.featured")}
               </p>
-              <p className="mt-1 text-sm font-medium text-foreground">
+              <Badge
+                variant="secondary"
+                className="mt-1 border border-(--color-supporting)/60 bg-(--color-supporting)/10 px-2.5 py-1 text-[11px] font-semibold uppercase tracking-wide text-foreground"
+              >
                 {t(product.featured ? "common.yes" : "common.no")}
-              </p>
+              </Badge>
             </div>
 
             <div>
               <p className="text-sm text-muted-foreground">
                 {t("products.fields.status")}
               </p>
-              <p
-                className={`mt-1 text-sm font-medium ${
-                  product.isActive ? "text-success" : "text-error"
-                }`}
+              <Badge
+                variant={product.isActive ? "outline" : "destructive"}
+                className={
+                  product.isActive
+                    ? "mt-1 border-(--color-success)/40 bg-(--color-success-bg) px-2.5 py-1 text-[11px] font-semibold uppercase tracking-wide text-(--color-success)"
+                    : "mt-1 px-2.5 py-1 text-[11px] font-semibold uppercase tracking-wide"
+                }
               >
                 {t(product.isActive ? "products.active" : "products.inactive")}
-              </p>
+              </Badge>
             </div>
           </div>
         </CardContent>

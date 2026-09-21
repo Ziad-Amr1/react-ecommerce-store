@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router";
 import { useTranslation } from "react-i18next";
+import { assetUrl } from "@/utils/assetUrl";
 
 import { Loader2, Mail, Phone, User } from "lucide-react";
 
@@ -18,6 +19,7 @@ import {
   validatePassword,
   validateConfirmPassword,
 } from "@/features/auth/utils/validation";
+import SEO from "@/components/SEO/SEO";
 
 export default function Registration() {
   const navigate = useNavigate();
@@ -108,6 +110,15 @@ export default function Registration() {
 
   return (
     <main className="flex min-h-screen items-center justify-center bg-background p-4 sm:p-6">
+      <SEO
+        title={t("auth.register.title", "Create Account")}
+        description={t(
+          "auth.register.subtitle",
+          "Sign up to get started at Oversea Store.",
+        )}
+        url="/register"
+        noindex
+      />
       <div className="flex w-full max-w-6xl overflow-hidden rounded-2xl border border-(--color-border) bg-(--color-surface) shadow-xl">
         {/* LEFT SIDE */}
         <div className="hidden w-1/2 flex-col justify-between bg-primary p-12 text-primary-foreground lg:flex">
@@ -130,7 +141,7 @@ export default function Registration() {
             <div className="flex flex-col items-center gap-1 text-center">
               <div className="flex items-center gap-2">
                 <img
-                  src="/favicon.ico"
+                  src={assetUrl("logo.webp")}
                   alt={t("brand.logoAlt")}
                   className="size-10 object-contain"
                 />
@@ -184,11 +195,11 @@ export default function Registration() {
                     aria-describedby={
                       errors.username ? "register-username-error" : undefined
                     }
-                    className="h-11 rounded-lg border-(--color-border) bg-(--color-surface-secondary) pl-11 text-(--color-text-primary) placeholder:text-(--color-text-secondary) focus-visible:ring-(--color-focus-ring)"
+                    className="h-11 rounded-lg border-(--color-border) bg-(--color-surface-secondary) ps-11 text-(--color-text-primary) placeholder:text-(--color-text-secondary) focus-visible:ring-(--color-focus-ring)"
                   />
 
                   <User
-                    className="pointer-events-none absolute top-1/2 left-4 size-5 -translate-y-1/2 text-(--color-text-secondary)"
+                    className="pointer-events-none absolute top-1/2 start-4 size-5 -translate-y-1/2 text-(--color-text-secondary)"
                     aria-hidden="true"
                   />
                 </div>
@@ -229,11 +240,11 @@ export default function Registration() {
                       aria-describedby={
                         errors.email ? "register-email-error" : undefined
                       }
-                      className="h-11 rounded-lg border-(--color-border) bg-(--color-surface-secondary) pl-11 text-(--color-text-primary) placeholder:text-(--color-text-secondary) focus-visible:ring-(--color-focus-ring)"
+                      className="h-11 rounded-lg border-(--color-border) bg-(--color-surface-secondary) ps-11 text-(--color-text-primary) placeholder:text-(--color-text-secondary) focus-visible:ring-(--color-focus-ring)"
                     />
 
                     <Mail
-                      className="pointer-events-none absolute top-1/2 left-4 size-5 -translate-y-1/2 text-(--color-text-secondary)"
+                      className="pointer-events-none absolute top-1/2 start-4 size-5 -translate-y-1/2 text-(--color-text-secondary)"
                       aria-hidden="true"
                     />
                   </div>
@@ -272,11 +283,11 @@ export default function Registration() {
                       aria-describedby={
                         errors.phone ? "register-phone-error" : undefined
                       }
-                      className="h-11 rounded-lg border-(--color-border) bg-(--color-surface-secondary) pl-11 text-(--color-text-primary) placeholder:text-(--color-text-secondary) focus-visible:ring-(--color-focus-ring)"
+                      className="h-11 rounded-lg border-(--color-border) bg-(--color-surface-secondary) ps-11 text-(--color-text-primary) placeholder:text-(--color-text-secondary) focus-visible:ring-(--color-focus-ring)"
                     />
 
                     <Phone
-                      className="pointer-events-none absolute top-1/2 left-4 size-5 -translate-y-1/2 text-(--color-text-secondary)"
+                      className="pointer-events-none absolute top-1/2 start-4 size-5 -translate-y-1/2 text-(--color-text-secondary)"
                       aria-hidden="true"
                     />
                   </div>

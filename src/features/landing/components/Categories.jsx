@@ -2,6 +2,7 @@ import { Link } from "react-router";
 import { ArrowRight } from "lucide-react";
 import { useTranslation } from "react-i18next";
 import CategoryCard from "./CategoryCard";
+
 import categories from "@/features/categories/components/categories";
 
 export default function Categories() {

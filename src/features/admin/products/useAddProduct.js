@@ -4,6 +4,7 @@ import { useTranslation } from "react-i18next";
 import { toast } from "sonner";
 import { MAX_IMAGES } from "./constants";
 import { createProduct } from "@/services/product.service";
+import { filterDuplicateFiles } from "./utils/fileUtils";
 import { createProductFormData } from "./utils/productFormData";
 import { validateProduct } from "./utils/productValidation";
 
@@ -49,10 +50,18 @@ export default function useAddProduct() {
       return;
     }
 
-    const filesToAdd = selectedFiles.slice(0, remainingSlots);
+    const validFiles = selectedFiles.filter((file) => file.type.startsWith("image/"));
+    const dedupedFiles = filterDuplicateFiles(validFiles, images);
+    const filesToAdd = dedupedFiles.slice(0, remainingSlots);
+
+    if (!filesToAdd.length) {
+      event.target.value = "";
+      return;
+    }
+
     setImages((current) => [...current, ...filesToAdd]);
 
-    if (selectedFiles.length > remainingSlots) {
+    if (validFiles.length > filesToAdd.length || selectedFiles.length > validFiles.length) {
       toast.info(t("products.onlySomeImages", { count: remainingSlots }));
     }
 

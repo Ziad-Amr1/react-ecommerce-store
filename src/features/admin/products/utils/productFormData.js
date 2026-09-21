@@ -21,16 +21,24 @@ export function createProductFormData(formData, images = [], deletedImages = [])
   appendIfPresent(data, "subcategory", formData.subcategory);
   appendIfPresent(data, "brand", formData.brand);
 
-  if (formData.tags?.length > 0) {
-    data.append("tags", JSON.stringify(formData.tags));
+  if (Array.isArray(formData.tags)) {
+    formData.tags.forEach((tag) => {
+      if (tag != null && String(tag).trim()) {
+        data.append("tags", String(tag));
+      }
+    });
   }
 
   images.forEach((image) => {
     data.append("images", image);
   });
 
-  if (deletedImages.length > 0) {
-    data.append("deletedImages", JSON.stringify(deletedImages));
+  if (Array.isArray(deletedImages)) {
+    deletedImages.forEach((imageId) => {
+      if (imageId != null && String(imageId).trim()) {
+        data.append("deletedImages", String(imageId));
+      }
+    });
   }
 
   return data;

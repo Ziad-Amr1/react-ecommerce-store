@@ -30,14 +30,6 @@ export default function AddProduct() {
         onSubmit={handleSubmit}
         className="grid grid-cols-1 gap-6 lg:grid-cols-3"
       >
-        <AddProductGallery
-          images={images}
-          errors={errors}
-          isSubmitting={isSubmitting}
-          onImageChange={handleImageChange}
-          onRemoveImage={removeImage}
-        />
-
         <AddProductForm
           formData={formData}
           errors={errors}
@@ -45,6 +37,14 @@ export default function AddProduct() {
           onChange={handleChange}
           onTagsChange={handleTagsChange}
           onCancel={() => navigate("/admin/products")}
+        />
+
+        <AddProductGallery
+          images={images}
+          errors={errors}
+          isSubmitting={isSubmitting}
+          onImageChange={handleImageChange}
+          onRemoveImage={removeImage}
         />
       </form>
     </div>

@@ -38,13 +38,13 @@ export default function ShopSidebar({
         <div className="pb-3 border-b border-[var(--color-border)]">
           <h2 className="font-display text-lg font-bold text-[var(--color-text-primary)] flex items-center gap-2">
             <SlidersHorizontal className="size-5 text-[var(--color-primary)]" />
-            {t("shop.sideBar.filterTitle")}
+            {t("shop.filterTitle")}
           </h2>
         </div>
         {/* Categories */}
         <div className="space-y-3">
           <label className="text-xs font-semibold text-[var(--color-text-secondary)] uppercase tracking-wider">
-            {t("shop.sideBar.categories")}
+            {t("shop.category")}
           </label>
           <Select value={selectedCategory} onValueChange={setSelectedCategory}>
             <SelectTrigger className=" h-11 w-full rounded-xl border-[var(--color-border)] bg-[var(--color-surface-secondary)] px-3.5 text-sm font-medium text-[var(--color-text-primary)] shadow-sm transition-all duration-200 hover:border-[var(--color-primary)] focus:border-[var(--color-primary)] focus:ring-2 focus:ring-[var(--color-primary)] focus:ring-opacity-20 ">
@@ -55,9 +55,7 @@ export default function ShopSidebar({
                 <SelectItem key={category.name} value={category.name}>
                   <span className="flex items-center gap-2">
                     <span>
-                      {category.name === "All"
-                        ? t("shop.sideBar.all")
-                        : category.name}
+                      {category.name === "All" ? t("shop.all") : category.name}
                     </span>
                     <span className=" text-xs text-[var(--color-text-secondary)] ">
                       ({category.count})
@@ -82,9 +80,7 @@ export default function ShopSidebar({
                 <SelectItem key={brand.name} value={brand.name}>
                   <span className="flex items-center gap-2">
                     <span>
-                      {brand.name === "All"
-                        ? t("shop.sideBar.all")
-                        : brand.name}
+                      {brand.name === "All" ? t("shop.all") : brand.name}
                     </span>
 
                     <span className="text-xs text-[var(--color-text-secondary)]">
@@ -99,14 +95,14 @@ export default function ShopSidebar({
         {/* Price Range */}
         <div className="space-y-3 pt-3 border-t border-[var(--color-border)]">
           <label className="text-xs font-semibold text-[var(--color-text-secondary)] uppercase tracking-wider">
-            {t("shop.sideBar.priceRange")}
+            {t("shop.priceRange")}
           </label>
 
           {/* Min / Max Inputs */}
           <div className="flex items-center gap-2">
             <Input
               type="number"
-              placeholder={t("shop.sideBar.minPrice")}
+              placeholder={t("shop.minPrice")}
               value={minPrice}
               onChange={(e) => setMinPrice(e.target.value)}
               className="h-10 bg-[var(--color-surface-secondary)] border-[var(--color-border)] text-sm rounded-xl font-mono"
@@ -118,7 +114,7 @@ export default function ShopSidebar({
 
             <Input
               type="number"
-              placeholder={t("shop.sideBar.maxPrice")}
+              placeholder={t("shop.maxPrice")}
               value={maxPrice}
               onChange={(e) => setMaxPrice(e.target.value)}
               className="h-10 bg-[var(--color-surface-secondary)] border-[var(--color-border)] text-sm rounded-xl font-mono"
@@ -150,7 +146,7 @@ export default function ShopSidebar({
         {/* Sort By */}
         <div className="space-y-3 pt-3 border-t border-[var(--color-border)]">
           <label className="text-xs font-semibold text-[var(--color-text-secondary)] uppercase tracking-wider">
-            {t("sort_by", "Sort By")}
+            {t("shop.sortBy")}
           </label>
           <Select value={sortBy} onValueChange={setSortBy}>
             <SelectTrigger className=" h-11 w-full rounded-xl border-[var(--color-border)] bg-[var(--color-surface-secondary)] px-3.5 text-sm font-medium text-[var(--color-text-primary)] shadow-sm transition-all duration-200 hover:border-[var(--color-primary)] focus:border-[var(--color-primary)] focus:ring-2 focus:ring-[var(--color-primary)] focus:ring-opacity-20 ">

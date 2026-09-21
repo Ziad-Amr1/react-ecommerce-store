@@ -1,15 +1,14 @@
 {
-  "seo": {
-    "shop": {
-      "title": "Shop | Oversea Store",
-      "description": "Browse our wide selection of products at Oversea Store. Discover quality products, great prices, and exclusive deals."
-  }
-},
   "common": {
     "loading": "Loading...",
     "checkingSession": "Checking session...",
     "yes": "Yes",
-    "no": "No"
+    "no": "No",
+    "menu": "Menu",
+    "admin": "Administration",
+    "cancel": "Cancel",
+    "delete": "Delete",
+    "viewDetails": "View details"
   },
   "brand": {
     "logoAlt": "Oversea Store Logo",
@@ -26,9 +25,14 @@
     "dashboardSubtitle": "E-Commerce Admin Panel",
     "dashboard": "Dashboard",
     "products": "Products",
+    "categories": "Categories",
     "orders": "Orders",
     "users": "Users",
     "carts": "Carts",
+    "reviews": "Reviews",
+    "wishlists": "Wishlists",
+    "coupons": "Coupons",
+    "reports": "Reports & Analytics",
     "settings": "Settings",
     "notifications": "Notifications",
     "notificationsPanel": {
@@ -39,7 +43,10 @@
     "toggleTheme": "Toggle theme",
     "theme": {
       "switchToDark": "Switch to dark theme",
-      "switchToLight": "Switch to light theme"
+      "switchToLight": "Switch to light theme",
+      "title": "Theme",
+      "light": "Light",
+      "dark": "Dark"
     },
     "collapseSidebar": "Collapse sidebar",
     "expandSidebar": "Expand sidebar",
@@ -54,7 +61,39 @@
   "languages": {
     "switcherLabel": "Select language",
     "en": "English",
-    "ar": "Arabic"
+    "ar": "Arabic",
+    "fr": "French",
+    "ru": "Russian"
+  },
+  "notifications": {
+    "title": "Notifications",
+    "unread": "unread",
+    "description": "Stay updated with your latest order updates, offers, and account alerts.",
+    "markAllRead": "Mark all as read",
+    "clearAll": "Clear all",
+    "empty": "No notifications yet",
+    "emptyDescription": "When you receive order updates, promotions, or account security alerts, they will appear here.",
+    "markUnread": "Mark unread",
+    "markRead": "Mark read",
+    "viewAll": "View all notifications",
+    "tabs": {
+      "all": "All",
+      "unread": "Unread"
+    },
+    "items": {
+      "orderShipped": "Order Shipped",
+      "orderShippedDesc": "Order #ORD-8921 has been shipped and is on its way!",
+      "saleAlert": "Spring Sale Offer",
+      "saleAlertDesc": "Enjoy up to 30% off on all Electronics items today!",
+      "securityAlert": "Security Alert",
+      "securityAlertDesc": "Your account password was successfully updated.",
+      "welcome": "Welcome Bonus",
+      "welcomeDesc": "Welcome to our store! Enjoy free shipping on your first order.",
+      "orderShippedTime": "2 hours ago",
+      "saleAlertTime": "5 hours ago",
+      "securityAlertTime": "1 day ago",
+      "welcomeTime": "3 days ago"
+    }
   },
   "auth": {
     "password": {
@@ -164,7 +203,6 @@
     "usernameMin": "Username must be at least {{count}} characters",
     "phoneInvalid": "Please enter a valid phone number"
   },
-
   "home": {
     "title": "E-commerce Home page",
     "description": "Welcome to the E-commerce platform. Explore our products and manage your orders.",
@@ -173,10 +211,14 @@
     "comingSoon": "This feature isn't implemented yet. It is planned for an upcoming release."
   },
   "shop": {
+    "brand": "Brand",
+    "allBrands": "All Brands",
+    "filterBrand": "Brand:",
     "title": "Shop",
     "off": "% off",
     "separator": "·",
     "productRatingLabel": "{{rating}} out of 5 stars, {{reviewsCount}} reviews",
+    "noReviews": "No reviews yet",
     "inStock": "In Stock",
     "runningLow": "only {{count}} left",
     "outOfStock": "Out of Stock",
@@ -199,38 +241,38 @@
     "clearSearch": "Clear search",
     "viewDetails": "View details for {{name}}",
     "filterCategory": "Category:",
-    "filterBrand": "brand:",
     "filterPrice": "Price:",
     "filterSort": "Sort:",
     "filterSearch": "Search:",
+    "filterTitle": "Filter Products",
+    "all": "All",
+    "category": "Categories",
+    "priceRange": "Price Range",
+    "minPrice": "Min",
+    "maxPrice": "Max",
+    "sortBy": "Sort By",
+    "sortDefault": "Default",
+    "sortLowHigh": "Price: Low to High",
+    "sortHighLow": "Price: High to Low",
+    "sortTopRated": "Top Rated",
     "clearAllFilters": "Clear All Filters",
-     "removeBrandFilter": "Remove brand filter",
-     "removeCategoryFilter": "Remove category filter",
-     "removePriceFilter": "Remove price filter",
-     "removeSortFilter": "Remove sort filter",
-     "removeSearchFilter": "Remove search filter",
+    "removeBrandFilter": "Remove brand filter",
+    "removeCategoryFilter": "Remove category filter",
+    "removePriceFilter": "Remove price filter",
+    "removeSortFilter": "Remove sort filter",
+    "removeSearchFilter": "Remove search filter",
     "search": "Search products...",
     "rating": "Rating:",
     "noRatingsYet": "No ratings yet",
     "sort": {
-    "default": "Default",
-    "priceLowToHigh": "Price: Low to High",
-    "priceHighToLow": "Price: High to Low",
-    "topRated": "Top Rated"
+      "default": "Default",
+      "priceLowToHigh": "Price: Low to High",
+      "priceHighToLow": "Price: High to Low",
+      "topRated": "Top Rated"
+    },
+    "filterUnlimited": "∞",
+    "applyFilters": "Apply Filters"
   },
-    "sideBar": {
-      "filterTitle": "Filter Products",
-      "categories": "categories",
-      "brands": "brands",
-      "all": "All",
-      "priceRange": "price range",
-      "minPrice": "min",
-      "maxPrice": "max"
-      
-
-    }
-  },
-
   "dashboard": {
     "title": "Dashboard Page",
     "loading": "Loading dashboard...",
@@ -238,7 +280,6 @@
     "retry": "Retry",
     "noData": "No dashboard data available.",
     "noProducts": "No products",
-
     "orderStatus": "Order Status",
     "recentOrders": "Recent Orders",
     "topProducts": "Top Products",
@@ -259,32 +300,43 @@
       "cancelled": "Cancelled",
       "returned": "Returned"
     },
-
     "adminOverview": "Admin Overview",
     "commerceHealth": "Commerce Health",
     "commerceHealthDescription": "Monitor your store's performance and key statistics.",
-
     "totalOrders": "Total Orders",
     "totalOrdersDescription": "All orders received",
-
     "pendingOrders": "Pending Orders",
     "pendingOrderDescription": "Orders waiting to be processed",
-
     "totalRevenue": "Total Revenue",
     "totalRevenueDescription": "Overall gross revenue",
-
     "thisMonthRevenue": "This Month Revenue",
     "thisMonthRevenueDescription": "Revenue generated in the current month",
-
     "revenueGrowth": "Revenue Growth",
     "revenueGrowthDescription": "Rate of change in total revenue",
-
     "totalUsers": "Users",
-    "totalUsersDescription": "Total registered customers"
+    "totalUsersDescription": "Total registered customers",
+    "dateRange": {
+      "last3": "Last 3 days",
+      "last7": "Last 7 days",
+      "thisMonth": "Current month",
+      "prevMonth": "Previous month",
+      "all": "All time"
+    }
   },
   "products": {
     "title": "Products",
+    "subtitle": "Inventory Management",
     "description": "Manage your catalog — search, filter, and keep an eye on stock levels.",
+    "kpis": {
+      "totalProducts": "Total Products",
+      "totalProductsDesc": "Active & inactive catalog items",
+      "inStock": "In Stock",
+      "inStockDesc": "Well supplied (>20 units)",
+      "lowStock": "Low Stock",
+      "lowStockDesc": "Restock recommended (6–20 units)",
+      "outOfStock": "Out of Stock",
+      "outOfStockDesc": "Depleted stock (≤5 units)"
+    },
     "loadErrorTitle": "Something went wrong",
     "loadErrorHint": "We couldn't load the products. Please try again.",
     "loadProductFailed": "We couldn't load this product. Please try again.",
@@ -318,6 +370,7 @@
     "cancel": "Cancel",
     "discard": "Discard Changes",
     "saveNow": "Save Now",
+    "keepEditing": "Keep editing",
     "unsavedTitle": "Unsaved changes",
     "unsavedDescription": "You have unsaved changes. Leave without saving them?",
     "validationNotice": "Please fix the highlighted fields and try again.",
@@ -394,6 +447,12 @@
       "description": "Description",
       "tags": "Tags"
     },
+    "similarProducts": "Similar Products",
+    "youMayAlsoLike": "You May Also Like",
+    "similarProductsDescription": "Products from the same category.",
+    "recommended": "Recommended",
+    "recommendedForYou": "Recommended For You",
+    "recommendedDescription": "More products you may be interested in.",
     "validation": {
       "nameRequired": "Product name is required",
       "shortDescriptionRequired": "Short description is required",
@@ -410,8 +469,13 @@
       "imageRequired": "At least one image is required"
     },
     "sort": {
-      "default": "Default sorting"
+      "default": "Default sorting",
+      "priceAsc": "Price: Low to High",
+      "priceDesc": "Price: High to Low"
     },
+    "defaultSort": "Default sorting",
+    "priceLowToHigh": "Price: Low to High",
+    "priceHighToLow": "Price: High to Low",
     "filters": {
       "categoryPlaceholder": "Any category",
       "brandPlaceholder": "Any brand",
@@ -466,7 +530,10 @@
       "eyebrow": "Picked from the store",
       "cardAriaLabel": "View {{name}}",
       "toggleWishlist": "Add {{name}} to wishlist",
-      "ratingAria": "Rated {{rating}} out of 5, {{count}} reviews"
+      "ratingAria": "Rated {{rating}} out of 5, {{count}} reviews",
+      "previous": "Previous products",
+      "next": "Next products",
+      "pageCount": "{{current}} / {{total}}"
     },
     "categories": {
       "title": "Categories",
@@ -512,7 +579,10 @@
       "nav": {
         "home": "Home",
         "shop": "Shop",
-        "about": "About"
+        "categories": "Categories",
+        "about": "About",
+        "myOrders": "My Orders",
+        "wishlist": "Wishlist"
       },
       "account": "Account",
       "cart": "Cart",
@@ -534,8 +604,139 @@
         "sale": "Sale",
         "helpCenter": "Help Center",
         "shippingReturns": "Shipping & Returns",
-        "contact": "Contact Us"
+        "contact": "Contact Us",
+        "privacy": "Privacy Policy"
       }
+    }
+  },
+  "about": {
+    "title": "About Us",
+    "eyebrow": "Our Story & Vision",
+    "heroTitle": "Redefining Online Shopping",
+    "heroSubtitle": "We bring you carefully curated products designed for quality, style, and everyday comfort.",
+    "missionTitle": "Our Mission",
+    "missionDescription": "At Oversea Store, we believe that online shopping should be seamless, inspiring, and dependable. Our team hand-picks every product in our catalog to ensure it meets strict quality standards.",
+    "bullet1": "Rigorous quality check on every vendor item",
+    "bullet2": "Transparent pricing with zero hidden fees",
+    "bullet3": "Fast global shipping with full parcel tracking",
+    "valuesTitle": "Why Choose Oversea Store",
+    "values": {
+      "quality": {
+        "title": "Premium Quality",
+        "description": "Every item in our store undergoes rigorous inspection to ensure lasting satisfaction."
+      },
+      "shipping": {
+        "title": "Fast & Reliable Shipping",
+        "description": "We partner with top global logistics carriers to get your orders to your doorstep quickly."
+      },
+      "secure": {
+        "title": "100% Secure Checkout",
+        "description": "Encrypted transactions and safe payment processing give you peace of mind."
+      },
+      "support": {
+        "title": "Dedicated Support",
+        "description": "Our friendly customer care team is available around the clock to assist you."
+      }
+    },
+    "stats": {
+      "customers": "Happy Customers",
+      "products": "Curated Products",
+      "satisfaction": "Satisfaction Rate",
+      "support": "Global Support"
+    },
+    "ctaTitle": "Ready to Experience Better Shopping?",
+    "ctaSubtitle": "Browse our latest arrivals and exclusive collections today.",
+    "exploreProducts": "Explore Catalog"
+  },
+  "myOrders": {
+    "title": "My Orders",
+    "subtitle": "View and track your personal orders.",
+    "emptyTitle": "No orders yet",
+    "emptyDescription": "You haven't placed any orders yet. Start shopping to fill your order history!",
+    "browseProducts": "Browse Products",
+    "viewDetails": "View Details",
+    "placedOn": "Placed on {{date}}",
+    "loading": "Loading...",
+    "loadErrorTitle": "We couldn't load your orders",
+    "loadErrorDescription": "Something went wrong while fetching your orders. Please try again.",
+    "retry": "Try Again",
+    "quantity": "Quantity",
+    "shippingAddress": "Shipping Address",
+    "payment": "Payment",
+    "method": "Method",
+    "paymentMethod": {
+      "cash": "Cash",
+      "stripe": "Stripe"
+    },
+    "backToMyOrders": "Back to My Orders",
+    "cancelOrder": "Cancel Order",
+    "cancelOrderTitle": "Cancel order?",
+    "cancelOrderDescription": "Are you sure you want to cancel this order?",
+    "keepOrder": "Keep order",
+    "cancelling": "Cancelling...",
+    "cancelFailed": "Failed to cancel order.",
+    "pagination": {
+      "previous": "Previous",
+      "next": "Next"
+    }
+  },
+  "wishlist": {
+    "title": "Wishlist",
+    "subtitle": "Items you've saved for later.",
+    "emptyTitle": "Your wishlist is empty",
+    "emptyDescription": "Save items you like while browsing to find them easily later.",
+    "browseProducts": "Browse Products",
+    "loading": "Loading your wishlist...",
+    "totalItems": "Saved items: {{total}}",
+    "loadError": "We couldn't load your wishlist.",
+    "retry": "Try again",
+    "addToWishlist": "Add to wishlist",
+    "removeFromWishlist": "Remove from wishlist",
+    "added": "Added to your wishlist.",
+    "removed": "Removed from your wishlist.",
+    "updateError": "We couldn't update your wishlist. Please try again.",
+    "signInRequired": "Sign in to save items to your wishlist.",
+    "clearAll": "Clear wishlist",
+    "clearAllTitle": "Clear your wishlist?",
+    "clearAllDescription": "This removes every saved item from your wishlist. This action can't be undone.",
+    "clearAllConfirm": "Clear wishlist",
+    "cancel": "Cancel",
+    "clearing": "Clearing...",
+    "clearError": "We couldn't clear your wishlist. Please try again."
+  },
+  "privacy": {
+    "title": "Privacy Policy",
+    "description": "Read Oversea Store's privacy policy and data collection practices.",
+    "badge": "Data Transparency & Security",
+    "headline": "Privacy Policy",
+    "lastUpdated": "Last updated: September 18, 2026",
+    "legalNotice": "Requires formal legal review before production deployment.",
+    "overview": {
+      "heading": "1. Overview & Data Collected",
+      "body": "Oversea Store respects your privacy and is committed to protecting personal data. We collect only the data necessary to fulfill e-commerce transactions, secure account access, and maintain service availability:",
+      "items": {
+        "account": "Account Data: Username, email address, hashed password, phone number, and optional avatar URL upon registration.",
+        "order": "Order & Fulfillment Data: Shipping address, customer name, contact phone number, items purchased, line-item pricing, and order status tracking.",
+        "session": "Session & Security Data: HttpOnly session authentication cookies (no raw passwords or access tokens are stored in browser local storage)."
+      }
+    },
+    "usage": {
+      "heading": "2. How We Use Your Information",
+      "body": "Personal data collected by Oversea Store is strictly utilized for operational, fulfillment, and account governance purposes:",
+      "items": {
+        "orders": "Processing, fulfilling, and delivering customer orders.",
+        "security": "Sending critical transactional order updates and OTP security codes for password reset or email verification.",
+        "governance": "Enforcing role-based admin governance and protecting platform security.",
+        "compliance": "Maintaining required legal and audit records for past commercial sales."
+      }
+    },
+    "cookies": {
+      "heading": "3. Cookies & Session Storage",
+      "body": "Oversea Store uses essential cookies solely to maintain authenticated sessions via HttpOnly attributes. We do not use third-party tracking or advertising cookies."
+    },
+    "rights": {
+      "heading": "4. User Rights & Account Deletion",
+      "body": "Users retain full rights to update their personal profile or request account deletion via the Profile page. When an account is deleted, the authentication credential record is permanently removed, while past order receipts are archived for legal accounting compliance."
     }
   },
   "profile": {
@@ -552,7 +753,21 @@
       "signingOut": "Signing out...",
       "roleLabel": "Role",
       "verified": "Verified",
-      "memberSince": "Member since {{date}}"
+      "memberSince": "Member since {{date}}",
+      "customize": "Customize profile",
+      "customizeShort": "Customize",
+      "edit": "Edit information"
+    },
+    "appearance": {
+      "title": "Customize profile",
+      "description": "Personalize your profile photo and cover.",
+      "preview": "Preview",
+      "avatar": "Profile photo",
+      "customAvatar": "Custom avatar URL",
+      "cover": "Cover",
+      "customCover": "Custom cover image URL",
+      "reset": "Reset",
+      "save": "Save changes"
     },
     "personal": {
       "title": "Personal Information",
@@ -564,16 +779,80 @@
       "missing": "Not provided",
       "copied": "Copied {{field}} to clipboard",
       "copyFailed": "Couldn't copy to clipboard",
-      "copyValue": "Copy {{value}}"
+      "copyValue": "Copy {{value}}",
+      "avatar": "Avatar URL"
+    },
+    "personalInformation": {
+      "title": "Personal Information",
+      "description": "The details currently on file for your account.",
+      "edit": "Edit information",
+      "fullName": "Full Name",
+      "email": "Email Address",
+      "username": "Username",
+      "phone": "Phone Number",
+      "notProvided": "Not provided",
+      "copyEmail": "Copy email address",
+      "copyUsername": "Copy username",
+      "copyPhone": "Copy phone number",
+      "avatar": "Avatar URL",
+      "avatarDescription": "Direct link to your profile avatar image.",
+      "cancel": "Cancel",
+      "saving": "Saving...",
+      "save": "Save changes",
+      "saveSuccess": "Profile updated successfully",
+      "saveError": "Failed to update profile",
+      "copyError": "Couldn't copy to clipboard"
     },
     "activity": {
       "title": "Account Activity",
-      "description": "Order tracking, wishlist, saved addresses and payment methods are not available yet.",
-      "orders": "My Orders",
-      "wishlist": "Wishlist",
-      "addresses": "Saved Addresses",
-      "payments": "Payment Methods",
-      "comingSoon": "Not available yet"
+      "description": "Quick access to your account activity and preferences.",
+      "comingSoon": "Not available yet",
+      "orders": {
+        "title": "Orders",
+        "description": "View and track your orders."
+      },
+      "wishlist": {
+        "title": "Wishlist",
+        "description": "View products you've saved."
+      },
+      "cart": {
+        "title": "Shopping Cart",
+        "description": "View and manage items in your cart."
+      },
+      "notifications": {
+        "title": "Notifications",
+        "description": "View alerts and account updates."
+      },
+      "addresses": {
+        "title": "Saved Addresses",
+        "description": "Manage your saved delivery addresses."
+      },
+      "payments": {
+        "title": "Payment Methods",
+        "description": "Manage your payment methods."
+      }
+    },
+    "edit": {
+      "edit": "Edit",
+      "save": "Save",
+      "saving": "Saving...",
+      "cancel": "Cancel",
+      "success": "Profile updated successfully",
+      "error": "Failed to update profile"
+    },
+    "validation": {
+      "usernameRequired": "Username is required",
+      "phoneRequired": "Phone is required"
+    },
+    "deleteAccount": {
+      "button": "Delete Account",
+      "dialogTitle": "Delete Account",
+      "dialogDescription": "This action is permanent and cannot be undone. Your user account will be removed, but past order history records will be retained for business and compliance requirements.",
+      "confirmPrompt": "To confirm, type \"DELETE\" in the box below:",
+      "success": "Account deleted successfully.",
+      "failed": "Failed to delete account. Please try again.",
+      "deleting": "Deleting...",
+      "confirmButton": "Permanently Delete"
     },
     "error": {
       "title": "Something went wrong",
@@ -589,10 +868,157 @@
       "polishing": "Polishing",
       "doneWaitingPR": "Done — Waiting for PR",
       "done": "Done"
+    },
+    "statusLabel": {
+      "active": "Active",
+      "inactive": "Inactive",
+      "expired": "Expired",
+      "approved": "Approved",
+      "pending": "Pending",
+      "rejected": "Rejected"
+    },
+    "categories": {
+      "description": "Organize product categories and subcategories across your store catalog.",
+      "kpiCategoriesTitle": "Total Categories",
+      "kpiCategoriesDescription": "Active catalog categories",
+      "kpiSubcategoriesTitle": "Subcategories",
+      "kpiSubcategoriesDescription": "Nested product groupings",
+      "kpiProductsTitle": "Categorized Products",
+      "kpiProductsDescription": "Items assigned to categories",
+      "add": "Add Category",
+      "edit": "Edit",
+      "searchPlaceholder": "Search categories or subcategories...",
+      "productsBadge": "{{count}} products",
+      "subcategoriesLabel": "Subcategories",
+      "editTitle": "Edit Category",
+      "addNewTitle": "Add New Category",
+      "nameLabel": "Category Name",
+      "namePlaceholder": "e.g. Electronics",
+      "slugLabel": "URL Slug",
+      "slugPlaceholder": "e.g. electronics",
+      "subsLabel": "Subcategories (comma separated)",
+      "subsPlaceholder": "Smartphones, Laptops, Audio",
+      "save": "Save Category",
+      "deleteTitle": "Delete Category?",
+      "deleteDescription": "Are you sure you want to delete this category? Products assigned to this category will become uncategorized."
+    },
+    "coupons": {
+      "description": "Create promotional codes, manage usage limits, and track redemption metrics.",
+      "kpiActiveTitle": "Active Coupons",
+      "kpiActiveDescription": "Currently usable codes",
+      "kpiRedemptionsTitle": "Total Redemptions",
+      "kpiRedemptionsDescription": "Times coupons used",
+      "kpiTotalTitle": "Total Coupons",
+      "kpiTotalDescription": "All managed codes",
+      "create": "Create Coupon",
+      "searchPlaceholder": "Search by promo code...",
+      "statusPlaceholder": "Status",
+      "allStatus": "All Status",
+      "tableTitle": "Promo Codes & Discounts",
+      "colCode": "Code",
+      "colDiscount": "Discount",
+      "colMinOrder": "Min. Order",
+      "colUsage": "Usage",
+      "colExpiration": "Expiration",
+      "colStatus": "Status",
+      "colActions": "Actions",
+      "empty": "No coupons found matching your search.",
+      "percentOff": "{{value}}% OFF",
+      "amountOff": "${{value}} OFF",
+      "deactivate": "Deactivate",
+      "activate": "Activate",
+      "editTitle": "Edit Coupon",
+      "createTitle": "Create New Promo Coupon",
+      "promoCodeLabel": "Promo Code",
+      "promoCodePlaceholder": "e.g. SUMMER25",
+      "discountTypeLabel": "Discount Type",
+      "typePercentage": "Percentage (%)",
+      "typeFixed": "Fixed Amount ($)",
+      "valueLabel": "Value",
+      "minOrderLabel": "Min Order ($)",
+      "usageLimitLabel": "Usage Limit",
+      "expirationLabel": "Expiration Date",
+      "save": "Save Coupon",
+      "deleteTitle": "Delete Coupon?",
+      "deleteDescription": "Are you sure you want to delete this promo code? Customers will no longer be able to redeem it."
+    },
+    "reviews": {
+      "description": "Review customer feedback, approve testimonials, and moderate product ratings.",
+      "kpiAvgTitle": "Average Rating",
+      "kpiAvgDescription": "Overall customer rating",
+      "kpiTotalTitle": "Total Reviews",
+      "kpiTotalDescription": "Recorded product reviews",
+      "kpiPendingTitle": "Pending Moderation",
+      "kpiPendingDescription": "Awaiting approval",
+      "kpiApprovedTitle": "Approved Reviews",
+      "kpiApprovedDescription": "Published testimonials",
+      "searchPlaceholder": "Search by customer name, product, or comment...",
+      "statusPlaceholder": "Status",
+      "allStatus": "All Status",
+      "ratingPlaceholder": "Rating",
+      "allRatings": "All Ratings",
+      "stars5": "5 Stars",
+      "stars4": "4 Stars",
+      "stars3": "3 Stars",
+      "stars2": "2 Stars",
+      "stars1": "1 Star",
+      "tableTitle": "Customer Feedback",
+      "colCustomer": "Customer",
+      "colProduct": "Product",
+      "colRating": "Rating",
+      "colComment": "Comment",
+      "colStatus": "Status",
+      "colActions": "Actions",
+      "empty": "No reviews matching your filters.",
+      "approve": "Approve",
+      "reject": "Reject"
+    },
+    "wishlists": {
+      "description": "Track high-demand saved products and analyze customer interest trends.",
+      "kpiActiveTitle": "Active Wishlists",
+      "kpiActiveDescription": "Customer saved lists",
+      "kpiTotalTitle": "Total Saved Items",
+      "kpiTotalDescription": "Items in wishlists",
+      "kpiAvgTitle": "Avg Items / Wishlist",
+      "kpiAvgDescription": "Average per customer",
+      "kpiTopTitle": "Top Saved Category",
+      "kpiTopDescription": "Most popular category",
+      "searchPlaceholder": "Search by customer name, email, or saved product...",
+      "tableTitle": "Customer Wishlists",
+      "colCustomer": "Customer",
+      "colItems": "Total Saved Items",
+      "colSample": "Sample Saved Products",
+      "colUpdated": "Last Updated",
+      "colActions": "Actions",
+      "empty": "No wishlists match your search.",
+      "itemsBadge": "{{count}} items",
+      "viewItems": "View Items",
+      "wishlistTitle": "{{name}}'s Wishlist",
+      "totalSaved": "Total Saved:",
+      "items": "items"
+    },
+    "reports": {
+      "description": "Analyze sales performance, revenue growth trends, and category distribution.",
+      "last7Days": "Last 7 Days",
+      "last30Days": "Last 30 Days",
+      "exportCsv": "Export CSV",
+      "kpiRevenueTitle": "Total Revenue",
+      "kpiRevenueDescription": "+14.2% vs last period",
+      "kpiOrdersTitle": "Total Orders",
+      "kpiOrdersDescription": "+8.5% vs last period",
+      "kpiAovTitle": "Avg Order Value",
+      "kpiAovDescription": "+5.1% vs last period",
+      "kpiConversionTitle": "Conversion Rate",
+      "kpiConversionDescription": "+0.8% vs last period",
+      "revenueTrendTitle": "Revenue Growth Trend",
+      "salesByCategory": "Sales by Category",
+      "topProductsTitle": "Top Performing Products",
+      "unitsSold": "{{count}} units sold"
     }
   },
-"cart": {
+  "cart": {
     "title": "Your Cart",
+    "seoDescription": "Review the items in your shopping cart from Oversea Store.",
     "emptyTitle": "Your cart is empty",
     "emptyDescription": "Browse the store and add something you like to your cart.",
     "browseProducts": "Browse Products",
@@ -621,6 +1047,7 @@
     "quantity": "Quantity",
     "removeItem": "Remove {{name}}",
     "continueShopping": "Continue Shopping",
+    "proceedToCheckout": "Proceed to Checkout",
     "unitPrice": "{{price}} each",
     "loading": "Loading your cart...",
     "guestNote": "You're browsing as a guest. Sign in to keep your cart synced across devices.",
@@ -628,8 +1055,23 @@
   },
   "orders": {
     "title": "Orders",
-    "subtitle": "Admin \u2022 Management",
+    "subtitle": "Fulfillment & Operations",
+    "description": "Track and manage customer purchases, payment statuses, and fulfillment workflows.",
+    "detailsTitle": "Order Details",
+    "seoDescription": "View the details and status of your order.",
     "totalOrders": "Total Orders",
+    "searchPlaceholder": "Search by customer or order ID...",
+    "clearSearch": "Clear search",
+    "kpis": {
+      "totalOrders": "Total Orders",
+      "totalOrdersDesc": "All recorded purchases",
+      "pendingOrders": "Pending Orders",
+      "pendingOrdersDesc": "Awaiting fulfillment",
+      "activeOrders": "Processing / Active",
+      "activeOrdersDesc": "In-transit & active processing",
+      "deliveredOrders": "Delivered",
+      "deliveredOrdersDesc": "Successfully completed"
+    },
     "loadErrorTitle": "Failed to load orders",
     "loadErrorHint": "Something went wrong while fetching your orders. Please try again.",
     "retry": "Retry",
@@ -639,17 +1081,21 @@
       "status": {
         "placeholder": "All statuses",
         "all": "All statuses",
-        "delivered": "Delivered",
-        "shipped": "Shipped",
-        "confirmed": "Confirmed",
+        "pending": "Pending",
         "processing": "Processing",
-        "cancelled": "Cancelled"
+        "confirmed": "Confirmed",
+        "shipped": "Shipped",
+        "delivered": "Delivered",
+        "cancelled": "Cancelled",
+        "returned": "Returned"
       },
       "payment": {
         "placeholder": "All payments",
         "all": "All payments",
         "pending": "Pending",
-        "paid": "Paid"
+        "paid": "Paid",
+        "failed": "Failed",
+        "refunded": "Refunded"
       }
     },
     "columns": {
@@ -657,8 +1103,10 @@
       "customer": "Customer",
       "date": "Date",
       "status": "Status",
+      "paymentMethod": "Payment Method",
       "paymentStatus": "Payment Status",
-      "total": "Total"
+      "total": "Total",
+      "actions": "Actions"
     },
     "status": {
       "delivered": "Delivered",
@@ -667,12 +1115,21 @@
       "processing": "Processing",
       "pending": "Pending",
       "cancelled": "Cancelled",
+      "returned": "Returned",
       "unknown": "Unknown"
     },
     "paymentStatus": {
       "paid": "Paid",
-      "pending": "Pending"
+      "pending": "Pending",
+      "failed": "Failed",
+      "refunded": "Refunded",
+      "unknown": "Unknown"
     },
+    "paymentMethods": {
+      "cash": "Cash"
+    },
+    "viewOrder": "View details",
+    "changeStatus": "Change status",
     "pagination": {
       "previous": "Previous",
       "next": "Next"
@@ -711,12 +1168,25 @@
   },
   "users": {
     "title": "Users",
-    "subtitle": "Manage all users",
+    "subtitle": "Account Governance",
+    "description": "Manage registered user accounts, system roles, and customer access.",
+    "kpis": {
+      "totalUsers": "Total Users",
+      "totalUsersDesc": "All registered accounts",
+      "customers": "Customers",
+      "customersDesc": "Standard store shoppers",
+      "admins": "Administrators",
+      "adminsDesc": "Privileged admin roles"
+    },
     "loading": "Loading users...",
     "loadError": "Failed to load users. Please try again.",
     "loadErrorTitle": "Unable to load users",
     "retry": "Try Again",
     "addUser": "Add User",
+    "searchPlaceholder": "Search users by username or email...",
+    "clearSearch": "Clear search",
+    "roleFilter": "Filter by role",
+    "roleFilterAll": "All roles",
     "emptyTitle": "No users found.",
     "emptyDescription": "There are currently no users to display.",
     "roles": {
@@ -742,11 +1212,11 @@
       "goToPage": "Go to page {{page}}",
       "showing": "Showing {{from}} to {{to}} of {{count}} users"
     },
-"dialogs": {
-  "addTitle": "Add New User",
-  "addDescription": "Create a new user account directly from the admin panel.",
-  "editTitle": "Change Role",
-  "editDescription": "Adjust the access level for {{name}}.",
+    "dialogs": {
+      "addTitle": "Add New User",
+      "addDescription": "Create a new user account directly from the admin panel.",
+      "editTitle": "Change Role",
+      "editDescription": "Adjust the access level for {{name}}.",
       "username": "Username",
       "usernamePlaceholder": "Enter username",
       "usernameRequired": "Username is required",
@@ -755,24 +1225,24 @@
       "emailPlaceholder": "admin@example.com",
       "emailRequired": "Email is required",
       "emailInvalid": "Invalid email address",
-"emailValid": "Email is valid.",
-  "password": "Password",
+      "emailValid": "Email is valid.",
+      "password": "Password",
       "passwordPlaceholder": "Enter password",
       "passwordRequired": "Password is required",
       "passwordMinLength": "Password must be at least 6 characters",
-"passwordValid": "Password is valid.",
-  "role": "Role",
+      "passwordValid": "Password is valid.",
+      "role": "Role",
       "rolePlaceholder": "Select role",
       "roleChangeHint": "The user's access level will change on save.",
       "cancel": "Cancel",
       "adding": "Adding...",
-"saving": "Saving...",
-  "saveRole": "Save role",
-  "saveUser": "Save User",
-  "addSuccess": "User has been added successfully.",
-  "addFailed": "Failed to add user.",
-  "roleUpdateSuccess": "Role updated successfully.",
-  "roleChangeFailed": "Role update failed.",
+      "saving": "Saving...",
+      "saveRole": "Save role",
+      "saveUser": "Save User",
+      "addSuccess": "User has been added successfully.",
+      "addFailed": "Failed to add user.",
+      "roleUpdateSuccess": "Role updated successfully.",
+      "roleChangeFailed": "Role update failed.",
       "deleteTitle": "Delete User",
       "deleteDescription": "This action cannot be undone.",
       "deleteQuestion": "Delete {{name}}? This cannot be undone.",
@@ -789,11 +1259,302 @@
       "close": "Close"
     }
   },
+  "adminTable": {
+    "page": "Page",
+    "records": "Records",
+    "total": "Total"
+  },
   "notFound": {
     "title": "Oops!",
     "code": "Error 404",
     "subtitle": "Page Not Found",
     "description": "The page you're looking for doesn't exist or has been moved.",
     "home": "Back to Home"
+  },
+  "maintenance": {
+    "badge": "Scheduled Maintenance",
+    "title": "We'll Be Right Back",
+    "description": "Oversea Store is currently undergoing scheduled maintenance. Please check back soon.",
+    "retry": "Try Again",
+    "contact": "Contact Support"
+  },
+  "carts": {
+    "title": "Carts",
+    "subtitle": "Customer Activity",
+    "description": "Browse customer carts and the items they currently hold.",
+    "columns": {
+      "customer": "Customer",
+      "cart": "Cart",
+      "items": "Items",
+      "total": "Total",
+      "actions": "Actions"
+    },
+    "notAvailable": "N/A",
+    "viewDetails": "View details",
+    "loadErrorTitle": "Could not load carts",
+    "loadErrorHint": "Something went wrong while loading carts. Please try again.",
+    "retry": "Retry",
+    "noCartsFound": "No carts found.",
+    "noCartsFoundHint": "New customer carts will appear here as they shop.",
+    "pagination": {
+      "previous": "Previous",
+      "next": "Next"
+    },
+    "sheet": {
+      "title": "Cart Details",
+      "customerInformation": "Customer Information",
+      "customer": "Customer",
+      "email": "Email",
+      "items": "Items",
+      "noItems": "No items found.",
+      "product": "Product",
+      "subtotal": "Subtotal",
+      "total": "Total"
+    }
+  },
+  "checkout": {
+    "title": "Checkout",
+    "subtitle": "Complete your shipping details to place your order.",
+    "optional": "optional",
+    "emptyCartTitle": "Your cart is empty",
+    "emptyCartDescription": "Add items to your cart before checking out.",
+    "backToCart": "Back to cart",
+    "validationError": "Please fix the highlighted fields.",
+    "emptyCartError": "Your cart is empty.",
+    "genericError": "We couldn't place your order. Please try again.",
+    "orderSuccessToast": "Order placed successfully.",
+    "shipping": {
+      "title": "Shipping information",
+      "subtitle": "Where should we deliver your order?",
+      "fullNameLabel": "Full name",
+      "fullNamePlaceholder": "Jane Smith",
+      "phoneLabel": "Phone number",
+      "phonePlaceholder": "+20 100 000 0000",
+      "countryLabel": "Country",
+      "countryPlaceholder": "Egypt",
+      "cityLabel": "City",
+      "cityPlaceholder": "Cairo",
+      "addressLabel": "Street address",
+      "addressPlaceholder": "123 Nile Street, Apt 4",
+      "postalCodeLabel": "Postal code",
+      "postalCodePlaceholder": "11511",
+      "customerNoteLabel": "Order note",
+      "customerNotePlaceholder": "Delivery instructions, landmarks, etc."
+    },
+    "payment": {
+      "title": "Payment method",
+      "subtitle": "Cash on delivery is available today.",
+      "cash": "Cash on delivery",
+      "cashDescription": "Pay in cash when your order arrives.",
+      "stripe": "Card payment",
+      "stripeUnavailable": "Coming soon",
+      "secureNote": "Your details are only used to deliver this order.",
+      "placeOrder": "Place order",
+      "placingOrder": "Placing order..."
+    },
+    "summary": {
+      "title": "Order summary",
+      "subtitle": "Review the items in your order.",
+      "subtotal": "Subtotal",
+      "discount": "Discount",
+      "total": "Total",
+      "quantity": "Quantity: {{quantity}}"
+    },
+    "validation": {
+      "fullNameRequired": "Full name is required",
+      "fullNameMin": "Full name must be at least 3 characters",
+      "phoneRequired": "Phone number is required",
+      "countryRequired": "Country is required",
+      "cityRequired": "City is required",
+      "addressRequired": "Address is required",
+      "addressMin": "Address must be at least 5 characters",
+      "postalCodeInvalid": "Enter a valid postal code",
+      "paymentMethodRequired": "Select a payment method"
+    }
+  },
+  "orderSuccess": {
+    "title": "Order confirmed",
+    "description": "Thanks for your order. We'll start preparing it right away.",
+    "orderRef": "Order reference: {{id}}",
+    "myOrders": "My orders",
+    "continueShopping": "Continue shopping"
+  },
+  "settings": {
+    "general": "General",
+    "storeName": "Store name",
+    "storeNamePlaceholder": "e.g. Oversea",
+    "orderTracking": "Order tracking",
+    "notifiedOrderTracking": "Get notified about new orders and status changes.",
+    "comments": "Comments",
+    "notifiedComments": "Get notified about new comments on products.",
+    "ads": "Ads",
+    "notifiedAds": "Get notified about ad performance and updates.",
+    "notifications": "Notifications",
+    "siteLanguage": "Site language",
+    "maintenanceMode": "Maintenance mode",
+    "maintenanceModeDesc": "Turn maintenance mode on or off.",
+    "productComments": "Product comments",
+    "productCommentsDesc": "Turn comments on or off for store products.",
+    "theme": "Theme",
+    "colors": {
+      "emerald": "Emerald",
+      "cherry": "Cherry",
+      "coral": "Coral",
+      "copper": "Copper",
+      "lavender": "Lavender",
+      "twilight": "Twilight",
+      "canary": "Canary"
+    }
+  },
+  "categoriesStore": {
+    "title": "Browse Categories",
+    "description": "Explore our store catalog by category to find exactly what you need.",
+    "searchPlaceholder": "Search categories or subcategories...",
+    "noResultsTitle": "No categories found",
+    "noResultsDesc": "Try searching with a different keyword.",
+    "clearSearch": "Clear search",
+    "itemCount": "{{count}} items",
+    "badge": "Popular",
+    "subcategories": "Subcategories",
+    "exploreCategory": "Explore {{name}}"
+  },
+  "help": {
+    "title": "Help Center & FAQ",
+    "description": "Find answers to frequently asked questions or get in touch with support.",
+    "searchPlaceholder": "Search help topics or questions...",
+    "faqs": {
+      "orders": {
+        "title": "Orders & Account",
+        "q1": "How do I track my order status?",
+        "a1": "You can track your order status by logging into your account and navigating to 'My Orders'. Each order displays live status updates and tracking details.",
+        "q2": "Can I modify or cancel an order after placing it?",
+        "a2": "Orders can be modified or canceled within 1 hour of placement. Please visit 'My Orders' or contact customer support immediately for assistance.",
+        "q3": "Do I need an account to place an order?",
+        "a3": "No, you can place orders as a guest. However, creating an account allows you to track orders easily, save wishlist items, and manage shipping addresses."
+      },
+      "shipping": {
+        "title": "Shipping & Delivery",
+        "q1": "What are the standard shipping timelines?",
+        "a1": "Standard domestic delivery takes 2 to 5 business days. Express delivery is available at checkout for 1-2 business day shipping.",
+        "q2": "Do you offer free shipping?",
+        "a2": "Yes, we offer free standard shipping on all domestic orders over $50."
+      },
+      "returns": {
+        "title": "Returns & Refunds",
+        "q1": "What is your return policy?",
+        "a1": "We accept returns within 30 days of item delivery. Returned items must be unused, in original packaging, and with tags attached.",
+        "q2": "How long does a refund take to process?",
+        "a2": "Once your returned package is received and inspected, refunds are credited back to your original payment method within 3 to 7 business days."
+      },
+      "payment": {
+        "title": "Payment & Pricing",
+        "q1": "Which payment methods are accepted?",
+        "a1": "We accept major credit cards (Visa, MasterCard, American Express), PayPal, Apple Pay, and Cash on Delivery in supported regions.",
+        "q2": "Is my payment information secure?",
+        "a2": "Yes. All transactions are encrypted via 256-bit SSL encryption and processed through PCI-DSS compliant secure payment gateways."
+      }
+    },
+    "contactBanner": {
+      "title": "Still have questions?",
+      "description": "Can't find the answer you're looking for? Contact our customer support team.",
+      "button": "Contact Support"
+    }
+  },
+  "shipping": {
+    "title": "Shipping & Returns Policy",
+    "description": "Everything you need to know about delivery options, shipping costs, and our return policy.",
+    "cards": {
+      "fastDelivery": {
+        "title": "Fast & Reliable Delivery",
+        "desc": "Delivered directly to your doorstep with live tracking."
+      },
+      "easyReturns": {
+        "title": "30-Day Easy Returns",
+        "desc": "Hassle-free return policy with quick refunds."
+      },
+      "insuredPackage": {
+        "title": "Insured Shipments",
+        "desc": "Every order is safely packaged and fully insured."
+      }
+    },
+    "options": {
+      "title": "Shipping Options & Delivery Times",
+      "intro": "We ship orders Monday through Friday. Orders placed before 2 PM local time are processed on the same business day."
+    },
+    "table": {
+      "method": "Shipping Method",
+      "time": "Estimated Time",
+      "cost": "Cost",
+      "standard": "Standard Shipping",
+      "freeOver50": "Free over $50 ($4.99 otherwise)",
+      "express": "Express Shipping",
+      "international": "International Shipping"
+    },
+    "returns": {
+      "title": "Returns & Exchange Guidelines",
+      "step1Title": "Request a Return:",
+      "step1Desc": "Contact our support team or visit your order history to initiate a return request.",
+      "step2Title": "Prepare Package:",
+      "step2Desc": "Pack the items securely in their original packaging with tags attached.",
+      "step3Title": "Ship & Receive Refund:",
+      "step3Desc": "Attach the pre-paid shipping label and drop it off at any authorized parcel location. Refunds are processed within 3-5 days of arrival."
+    }
+  },
+  "contact": {
+    "title": "Contact Us",
+    "description": "Have questions or feedback? We'd love to hear from you. Get in touch with our support team.",
+    "form": {
+      "title": "Send Us a Message",
+      "validationError": "Please fill in all required fields.",
+      "successMessage": "Thank you! Your message has been sent.",
+      "nameLabel": "Your Name",
+      "namePlaceholder": "John Doe",
+      "emailLabel": "Email Address",
+      "emailPlaceholder": "you@example.com",
+      "subjectLabel": "Subject",
+      "subjectPlaceholder": "How can we help you?",
+      "messageLabel": "Message",
+      "messagePlaceholder": "Write your message here...",
+      "submitting": "Sending...",
+      "submit": "Send Message"
+    },
+    "submitted": {
+      "title": "Message Received!",
+      "desc": "Thank you for contacting us. A customer support representative will get back to you within 24 hours.",
+      "sendAnother": "Send another message"
+    },
+    "info": {
+      "emailTitle": "Email Support",
+      "phoneTitle": "Phone Support",
+      "hoursTitle": "Business Hours",
+      "locationTitle": "Headquarters"
+    }
+  },
+  "productDetails": {
+    "keyFeatures": "Key Features",
+    "seoDescription": "Full details, features, and specifications for this product at Oversea Store.",
+    "powerDelivery": "Power Delivery",
+    "displaySupport": "Display Support",
+    "ethernet": "Ethernet",
+    "usbPorts": "USB Ports",
+    "sdCard": "SD/microSD",
+    "totalPorts": "Ports Total",
+    "osCompatibility": "Mac & Windows",
+    "osCompatible": "Compatible",
+    "premiumBuild": "Premium Build",
+    "aluminumChassis": "Aluminum chassis",
+    "buyNow": "Buy Now",
+    "share": "Share",
+    "linkCopied": "Product link copied to clipboard",
+    "answeredQuestions": "{{count}} answered questions",
+    "freeShipping": "Free shipping",
+    "freeShippingDesc": "on orders over $100",
+    "officialWarranty": "1 year warranty",
+    "officialWarrantyDesc": "Official warranty",
+    "easyReturns": "Easy returns",
+    "easyReturnsDesc": "30-day return policy",
+    "shipsWithin": "Ships within 1–2 business days",
+    "showMore": "Show more",
+    "showLess": "Show less"
   }
 }

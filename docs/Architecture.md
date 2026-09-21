@@ -27,36 +27,54 @@ src/
 │
 ├── contexts/
 │   ├── AuthContext.jsx
-│   └── AuthProvider.jsx
+│   ├── AuthProvider.jsx
+│   ├── CartContext.jsx
+│   ├── CartProvider.jsx
+│   ├── NotificationContext.jsx
+│   └── NotificationProvider.jsx
 │
 ├── features/
 │   ├── admin/
-│   │   └── dashboard/
-│   └── auth/
+│   │   ├── components/
+│   │   ├── dashboard/
+│   │   ├── orders/
+│   │   ├── products/
+│   │   └── users/
+│   ├── auth/
+│   ├── cart/
+│   ├── landing/
+│   ├── products/
+│   └── profile/
 │
 ├── hooks/
+│   ├── useApiAvailability.js
 │   ├── useAuth.js
+│   ├── useCart.js
+│   ├── useNotifications.js
 │   └── useTheme.js
 │
 ├── i18n/
 │   ├── index.js
-│   └── locales/
+│   └── locales/          # en, ar, fr, ru
 │
 ├── lib/
 │   └── utils.js
 │
 ├── pages/
-│   ├── admin/
-│   └── auth/
+│   ├── admin/            # Dashboard, Products, Orders, Users, Carts, Categories, Reviews, Wishlists, Coupons, Reports, Settings
+│   └── auth/             # Login, Registration, ForgetPassword, VerifyOtp
 │
 ├── utils/
+│   ├── assetUrl.js
 │   ├── formatCurrency.js
+│   ├── formatDate.js
 │   └── formatNumber.js
 │
 ├── App.jsx
 ├── index.css
 ├── main.jsx
-└── ProtectedRoute.jsx
+├── ProtectedRoute.jsx   # admin guard (auth + admin role)
+└── RequireAuth.jsx      # customer guard (auth only)
 ```
 
 ## Directory Responsibilities
@@ -65,8 +83,10 @@ src/
 
 The centralized shared HTTP client.
 
-Contains a single Axios instance configured from the environment
-(`VITE_API_URL`) and used for all API communication.
+Contains a single Axios instance used for all API communication. Its base
+URL resolves from the build environment in this order: `VITE_API_URL` when
+set, otherwise `/api` in production builds (the Vercel rewrite proxy), or
+the default backend URL in local development.
 
 Feature code should not create its own Axios instances or scatter
 requests across components.
@@ -127,11 +147,15 @@ Example:
 
 Global application state using React Context API.
 
-Currently contains the Auth context used across the application:
+Currently contains three contexts used across the application:
 
-- AuthProvider
-- AuthContext
-- `useAuth()` lives in `hooks/`
+- Auth context (AuthProvider / AuthContext), consumed through `useAuth()` in `hooks/`
+- Cart context (CartProvider / CartContext), consumed through `useCart()` in `hooks/`
+- Notification context (NotificationProvider / NotificationContext), consumed through `useNotifications()` in `hooks/`
+
+Each context pairs a context object with a provider component. Shared
+derived logic (for example cart totals and coupon math) lives in the
+feature slice under `features/cart/`, not inside the provider.
 
 Avoid putting local component state into Context unnecessarily.
 Use Context only for state genuinely shared across the tree.
@@ -150,12 +174,30 @@ Currently implemented features:
 ```text
 features/
 ├── admin/
+│   ├── components/      # shared admin table framework (see below)
 │   ├── dashboard/
-│   └── products/
+│   ├── orders/
+│   ├── products/
+│   └── users/
 ├── auth/
+├── cart/
 ├── landing/
+├── products/
 └── profile/
 ```
+
+The admin slice has one shared table framework that Products, Orders, and
+Users build on: `useAdminServerTable` (fetch, debounce, params, abort) plus
+`SortableTableHeader`, `AdminTableFooter`, `AdminTableEmptyState`,
+`AdminErrorState`, `TableSkeletonRows`, `RowActionsMenu`, and
+`AdminPageHeader`. Prefer these over new per page table code. The order
+status colors have one source of truth, `ORDER_STATUS_PRESENTATION` in
+`features/admin/orders/constants.js`, used by both the orders badge and the
+dashboard.
+
+Note: the admin Categories, Coupons, Reports, Reviews, and Wishlists pages
+are mock pages that do not yet use this framework. They are pending a
+migration and are out of scope for the current guidelines.
 
 A feature may contain:
 
@@ -177,7 +219,10 @@ Reusable custom React hooks shared across the application.
 Currently:
 
 - `useAuth()` — auth state from the Auth context
+- `useCart()` — cart state from the Cart context
+- `useNotifications()` — notifications from the Notification context
 - `useTheme()` — theme handling
+- `useApiAvailability()` — availability probe used by feature status cards
 
 A hook that is only relevant to one feature should preferably
 remain inside that feature (e.g., `useDashboard` lives in
@@ -193,6 +238,11 @@ Contains:
 
 - `index.js` — i18next configuration
 - `locales/` — translation files
+
+The app ships four locales: `en`, `ar`, `fr`, and `ru`. Arabic drives the
+right-to-left layout through the `rtl` custom variant, so new UI must use
+logical utilities (`ps`, `pe`, `text-start`, `text-end`, `ms`, `me`) rather
+than physical ones. Locale key parity is enforced by `src/test/i18nLocales.test.js`.
 
 ---
 
@@ -216,12 +266,28 @@ Currently:
 
 ```text
 pages/
-├── admin/        # Dashboard, Products (+Add/Edit/Details), Orders, Users, Carts, Settings
+├── admin/        # Dashboard, Products (+Add/Edit/Details), Orders, Users, Carts, Categories, Reviews, Wishlists, Coupons, Reports, Settings
 ├── auth/         # Login, Registration, ForgetPassword, VerifyOtp
+├── About.jsx
+├── Cart.jsx
+├── CategoriesStore.jsx
+├── Checkout/     # Checkout.jsx
+├── Contact.jsx
 ├── DesignSystem.jsx
+├── HelpCenter.jsx
 ├── Landing.jsx
+├── Maintenance.jsx
+├── MyOrders.jsx
+├── Notifications.jsx
 ├── NotFound.jsx
-└── Profile.jsx
+├── OrderDetails.jsx
+├── OrderSuccess.jsx
+├── Privacy.jsx
+├── ProductDetails.jsx
+├── Profile.jsx
+├── ShippingReturns.jsx
+├── Shop.jsx
+└── Wishlist.jsx
 ```
 
 Pages should compose features and shared components rather than
@@ -235,7 +301,9 @@ Pure reusable helper functions.
 
 Currently:
 
+- `assetUrl.js` — resolves a public asset path against the deployment base
 - `formatCurrency.js`
+- `formatDate.js`
 - `formatNumber.js`
 
 Avoid putting API calls or React components here.
@@ -256,6 +324,18 @@ Route-level lazy loading is used for the Design System page
 
 - Redirects unauthenticated visitors to the login page.
 - Blocks non-admin users from admin routes.
+
+`src/RequireAuth.jsx` guards the authenticated customer routes
+(`/my-orders`, `/wishlist`, `/notifications`):
+
+- Redirects unauthenticated visitors to the login page, preserving the
+  intended path so login can return them there.
+- Allows any authenticated user, with no role check.
+
+Public storefront routes (`/`, `/products`, `/products/:id`,
+`/categories`, `/cart`, `/profile`, `/about`, `/privacy`, `/help`,
+`/shipping`, `/contact`) are not guarded. `/profile` renders its own
+login prompt for anonymous visitors instead of redirecting.
 
 `src/main.jsx` is the application entry point: it mounts the auth
 provider and the router.
@@ -340,22 +420,28 @@ Dashboard
 ### Currently implemented
 
 - Storefront landing (`/` — hero, featured rail, categories, newsletter)
+- Storefront catalog (`/products` and `/products/:id`)
+- Cart (`/cart`)
 - Profile overview (`/profile` — landing/hero section shows profile header + activity; anonymous visitors get a login-prompt card)
+- Authenticated customer pages (`/my-orders`, `/wishlist`, `/notifications`, guarded by `RequireAuth`)
+- About (`/about`)
 - Authentication (login, registration, forgot-password, OTP verification)
 - Design System reference page (`/design-system`)
+- i18n with four locales (`en`, `ar`, `fr`, `ru`) and RTL support
+- SEO head component (`src/components/SEO`) that renders title, description, canonical, Open Graph, and local geo tags on every page; admin pages are `noindex`
+- Maintenance mode page (`/maintenance`), shown when `VITE_MAINTENANCE_MODE=true` at build time
+- Deployment to Vercel and GitHub Pages (details in the README)
 - Admin section
   - Dashboard with real statistics (revenue, orders, customers, top products)
-  - Products with real CRUD + details; Orders / Users / Carts admin routes
-    currently show placeholder content pending their real features
+  - Products with real CRUD + details
+  - Orders (real data, with payment method and payment status), Users, Carts
+  - Mock only admin pages pending real data: Categories, Coupons, Reports, Reviews, Wishlists
 
 ### Planned / not yet implemented
 
-- Storefront catalog (Products, Product Details, Reviews)
-- Cart
-- Wishlist
-- Checkout & Stripe payments
-- Customer-facing Orders
-- Admin: order/users/carts management, charts
+- Checkout and payments
+- Real wishlist and notification backends (the pages currently use local state)
+- Admin: moving the mock pages (Categories, Coupons, Reports, Reviews, Wishlists) onto the shared table framework
 
 Do not document features above as implemented until they exist.
 

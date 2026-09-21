@@ -1,34 +1,49 @@
-import { CreditCard, Heart, MapPin, Package } from "lucide-react";
 import { useTranslation } from "react-i18next";
-import { Badge } from "@/components/ui/badge";
+import { Link } from "react-router";
 import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
+  ArrowRight,
+  Bell,
+  CreditCard,
+  Heart,
+  MapPin,
+  Package,
+  ShoppingCart,
+} from "lucide-react";
 
-const sections = [
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge";
+import { cn } from "@/lib/utils";
+
+const activityItems = [
   {
     key: "orders",
-    labelKey: "profile.activity.orders",
     icon: Package,
+    href: "/my-orders",
   },
   {
     key: "wishlist",
-    labelKey: "profile.activity.wishlist",
     icon: Heart,
+    href: "/wishlist",
+  },
+  {
+    key: "cart",
+    icon: ShoppingCart,
+    href: "/cart",
+  },
+  {
+    key: "notifications",
+    icon: Bell,
+    href: "/notifications",
   },
   {
     key: "addresses",
-    labelKey: "profile.activity.addresses",
     icon: MapPin,
+    comingSoon: true,
   },
   {
     key: "payments",
-    labelKey: "profile.activity.payments",
     icon: CreditCard,
+    comingSoon: true,
   },
 ];
 
@@ -36,39 +51,81 @@ export default function AccountActivity() {
   const { t } = useTranslation();
 
   return (
-    <Card>
-      <CardHeader>
-        <CardTitle className="font-display text-xl text-foreground">
-          {t("profile.activity.title")}
-        </CardTitle>
-        <CardDescription>
+    <Card className="overflow-hidden">
+      <CardHeader className="border-b bg-muted/20">
+        <CardTitle>{t("profile.activity.title")}</CardTitle>
+
+        <p className="text-sm text-muted-foreground">
           {t("profile.activity.description")}
-        </CardDescription>
+        </p>
       </CardHeader>
 
-      <CardContent>
-        <div className="grid gap-4 sm:grid-cols-2">
-          {sections.map(({ key, labelKey, icon: Icon }) => (
-            <div
-              key={key}
-              aria-disabled="true"
-              className="flex items-center justify-between gap-4 rounded-xl border bg-muted/40 p-4"
-            >
-              <div className="flex min-w-0 items-center gap-4">
-                <div className="flex size-10 shrink-0 items-center justify-center rounded-lg bg-accent text-primary">
-                  <Icon className="size-5" aria-hidden="true" />
+      <CardContent className="p-4 sm:p-6">
+        <div className="grid gap-3 sm:grid-cols-2">
+          {activityItems.map(({ key, icon: Icon, href, comingSoon }) => {
+            if (comingSoon) {
+              return (
+                <div
+                  key={key}
+                  aria-disabled="true"
+                  className={cn(
+                    "flex items-center gap-4 rounded-xl border border-border/60 p-4 transition-colors",
+                    "bg-background/60 opacity-70 cursor-not-allowed",
+                  )}
+                >
+                  <div className="flex size-11 shrink-0 items-center justify-center rounded-xl bg-muted text-muted-foreground">
+                    <Icon className="size-5" />
+                  </div>
+
+                  <div className="min-w-0 flex-1">
+                    <p className="font-medium text-foreground/80">
+                      {t(`profile.activity.${key}.title`)}
+                    </p>
+
+                    <p className="mt-0.5 text-sm text-muted-foreground">
+                      {t(`profile.activity.${key}.description`)}
+                    </p>
+                  </div>
+
+                  <div className="flex shrink-0 items-center gap-2">
+                    <Badge variant="secondary" className="text-[11px] font-medium">
+                      {t("profile.activity.comingSoon")}
+                    </Badge>
+                  </div>
+                </div>
+              );
+            }
+
+            return (
+              <Link
+                key={key}
+                to={href}
+                className={cn(
+                  "group flex items-center gap-4 rounded-xl border border-border p-4 transition-all",
+                  "bg-background hover:border-primary/40 hover:bg-accent/30",
+                  "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring",
+                )}
+              >
+                <div className="flex size-11 shrink-0 items-center justify-center rounded-xl bg-primary/10 text-primary transition-colors group-hover:bg-primary group-hover:text-primary-foreground">
+                  <Icon className="size-5" />
                 </div>
 
-                <p className="truncate font-medium text-foreground">
-                  {t(labelKey)}
-                </p>
-              </div>
+                <div className="min-w-0 flex-1">
+                  <p className="font-medium text-foreground transition-colors group-hover:text-primary">
+                    {t(`profile.activity.${key}.title`)}
+                  </p>
 
-              <Badge variant="secondary" className="shrink-0">
-                {t("profile.activity.comingSoon")}
-              </Badge>
-            </div>
-          ))}
+                  <p className="mt-0.5 text-sm text-muted-foreground">
+                    {t(`profile.activity.${key}.description`)}
+                  </p>
+                </div>
+
+                <div className="flex shrink-0 items-center">
+                  <ArrowRight className="size-4 text-muted-foreground transition-transform group-hover:translate-x-1 group-hover:text-primary rtl:rotate-180 rtl:group-hover:-translate-x-1" />
+                </div>
+              </Link>
+            );
+          })}
         </div>
       </CardContent>
     </Card>

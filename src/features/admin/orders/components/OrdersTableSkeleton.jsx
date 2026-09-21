@@ -21,6 +21,9 @@ export default function OrdersTableSkeleton() {
             <Skeleton className="h-6 w-20 rounded-full" />
           </TableCell>
           <TableCell>
+            <Skeleton className="h-4 w-16" />
+          </TableCell>
+          <TableCell>
             <Skeleton className="h-6 w-24 rounded-full" />
           </TableCell>
           <TableCell>

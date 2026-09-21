@@ -3,20 +3,9 @@ import {
   Card,
   CardContent,
 } from "@/components/ui/card";
-import { formatCurrency } from "@/utils/formatCurrency";
-import { STOCK_OK_THRESHOLD, STOCK_WARNING_THRESHOLD } from "../constants";
-
-const CURRENCY = "USD";
-
-function stockClass(stock) {
-  if (stock > STOCK_OK_THRESHOLD) {
-    return "text-success";
-  }
-  if (stock > STOCK_WARNING_THRESHOLD) {
-    return "text-warning";
-  }
-  return "text-error";
-}
+import { Badge } from "@/components/ui/badge";
+import { formatCurrency, CURRENCIES } from "@/utils/formatCurrency";
+import { stockClass } from "./stockClass";
 
 function discountPercent(product) {
   const price = Number(product.price);
@@ -49,19 +38,25 @@ export default function ProductDetailsInfo({ product }) {
             )}
           </div>
 
-          <div className="flex shrink-0 gap-2">
-            <span
-              className={`rounded-full px-3 py-1 text-xs font-medium ${
-                product.isActive ? "bg-success-bg text-success" : "bg-error-bg text-error"
-              }`}
+          <div className="flex shrink-0 flex-wrap gap-2">
+            <Badge
+              variant={product.isActive ? "outline" : "destructive"}
+              className={
+                product.isActive
+                  ? "border-(--color-success)/40 bg-(--color-success-bg) px-2.5 py-1 text-[11px] font-semibold uppercase tracking-wide text-(--color-success)"
+                  : "px-2.5 py-1 text-[11px] font-semibold uppercase tracking-wide"
+              }
             >
               {t(product.isActive ? "products.active" : "products.inactive")}
-            </span>
+            </Badge>
 
             {product.featured && (
-              <span className="rounded-full border border-supporting bg-accent px-3 py-1 text-xs font-medium text-foreground">
+              <Badge
+                variant="secondary"
+                className="border border-(--color-supporting)/60 bg-(--color-supporting)/10 px-2.5 py-1 text-[11px] font-semibold uppercase tracking-wide text-foreground"
+              >
                 {t("products.featured")}
-              </span>
+              </Badge>
             )}
           </div>
         </div>
@@ -73,7 +68,7 @@ export default function ProductDetailsInfo({ product }) {
             <span className="font-display text-3xl font-bold tabular-nums text-foreground">
               {formatCurrency(
                 product.discountPrice || product.price,
-                CURRENCY,
+                CURRENCIES.EGP,
                 i18n.language,
               )}
             </span>
@@ -81,9 +76,9 @@ export default function ProductDetailsInfo({ product }) {
             {discount !== null && (
               <>
                 <span className="text-base tabular-nums text-muted-foreground line-through">
-                  {formatCurrency(product.price, CURRENCY, i18n.language)}
+                  {formatCurrency(product.price, CURRENCIES.EGP, i18n.language)}
                 </span>
-                <span className="rounded-md bg-success-bg px-2 py-1 text-xs font-semibold tabular-nums text-success">
+                <span className="rounded-md bg-(--color-success-bg) px-2 py-1 text-xs font-semibold tabular-nums text-(--color-success)">
                   {t("products.discountOff", { percent: discount })}
                 </span>
               </>

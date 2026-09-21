@@ -1,7 +1,9 @@
 import { Outlet } from "react-router";
-import Sidebar from "./Sidebar";
 import { useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
+import Sidebar from "./Sidebar";
 import AdminHeader from "./AdminHeader";
+import SEO from "@/components/SEO/SEO";
 
 const SIDEBAR_ID = "admin-sidebar";
 const COLLAPSE_STORAGE_KEY = "admin-sidebar-collapsed";
@@ -11,6 +13,7 @@ function getInitialCollapsed() {
 }
 
 export default function AdminLayout() {
+  const { t } = useTranslation();
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [isSidebarCollapsed, setIsSidebarCollapsed] = useState(() =>
     getInitialCollapsed(),
@@ -52,6 +55,14 @@ export default function AdminLayout() {
 
   return (
     <div className="min-h-screen bg-background">
+      <SEO
+        title={t("navigation.adminPanel", "Admin Panel")}
+        description={t(
+          "navigation.adminDescription",
+          "Manage products, orders, and customers on the Oversea Store dashboard.",
+        )}
+        noindex
+      />
       <div className="flex min-h-screen">
         <Sidebar
           id={SIDEBAR_ID}

@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useNavigate, useLocation, Link } from "react-router";
 import { useTranslation } from "react-i18next";
+import { assetUrl } from "@/utils/assetUrl";
 
 import { Loader2, Mail } from "lucide-react";
 
@@ -14,6 +15,7 @@ import AuthHero from "@/features/auth/components/AuthHero";
 import { getApiErrorMessage } from "@/features/auth/utils/getApiErrorMessage";
 import { validateEmail, validatePassword } from "@/features/auth/utils/validation";
 import useAuth from "@/hooks/useAuth";
+import SEO from "@/components/SEO/SEO";
 
 export default function Login() {
   const navigate = useNavigate();
@@ -79,10 +81,19 @@ export default function Login() {
     try {
       setIsSubmitting(true);
 
-      await login(email, password);
+      const res = await login(email, password);
 
-      // Login successful
-      navigate(from === "/" ? "/admin" : from);
+      // Login successful: redirect to stateFrom if present, otherwise role-based default
+      const target =
+        typeof stateFrom === "string" &&
+        stateFrom.startsWith("/") &&
+        !stateFrom.startsWith("//")
+          ? stateFrom
+          : res?.user?.role === "admin"
+            ? "/admin"
+            : "/profile";
+
+      navigate(target);
     } catch (error) {
       setApiError(getApiErrorMessage(error, t("auth.errors.invalidCredentials")));
     } finally {
@@ -127,6 +138,15 @@ export default function Login() {
 
   return (
     <main className="flex min-h-screen items-center justify-center bg-background p-4">
+      <SEO
+        title={t("auth.login.title", "Welcome Back")}
+        description={t(
+          "auth.login.heroSubtitle",
+          "Shop, track your orders, and manage your account with ease.",
+        )}
+        url="/login"
+        noindex
+      />
       <div className="flex w-full max-w-6xl overflow-hidden rounded-2xl border border-(--color-border) bg-(--color-surface) shadow-xl">
         {/* LEFT SIDE */}
         <div className="hidden w-1/2 flex-col justify-between bg-primary p-12 text-primary-foreground lg:flex">
@@ -148,7 +168,7 @@ export default function Login() {
             {/* Logo */}
             <div className="space-y-2 text-center">
               <img
-                src="/favicon.ico"
+                src={assetUrl("logo.webp")}
                 alt={t("brand.logoAlt")}
                 className="mx-auto mb-4 size-24 object-contain"
               />
@@ -212,11 +232,11 @@ export default function Login() {
                           aria-describedby={
                             field.error ? `${field.id}-error` : undefined
                           }
-                          className="h-11 rounded-lg border-(--color-border) bg-(--color-surface-secondary) pl-11 text-(--color-text-primary) placeholder:text-(--color-text-secondary) focus-visible:ring-(--color-focus-ring)"
+                          className="h-11 rounded-lg border-(--color-border) bg-(--color-surface-secondary) ps-11 text-(--color-text-primary) placeholder:text-(--color-text-secondary) focus-visible:ring-(--color-focus-ring)"
                         />
 
                         <Icon
-                          className="pointer-events-none absolute top-1/2 left-4 size-5 -translate-y-1/2 text-(--color-text-secondary)"
+                          className="pointer-events-none absolute top-1/2 start-4 size-5 -translate-y-1/2 text-(--color-text-secondary)"
                           aria-hidden="true"
                         />
                       </div>

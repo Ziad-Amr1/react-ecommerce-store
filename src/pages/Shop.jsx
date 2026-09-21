@@ -199,7 +199,7 @@ export default function Shop() {
       />
 
       <div className="min-h-screen bg-[var(--color-surface-secondary)] text-[var(--color-text-primary)] font-body transition-colors duration-300">
-        <div className="w-full mx-auto px-6 sm:px-8 lg:px-10 py-10 space-y-8">
+        <div className="w-full mx-auto px-6 sm:px-8 lg:px-10 py-10 space-y-8 ">
           {/* Header */}
           <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 pb-4 border-b border-[var(--color-border)]">
             <div>

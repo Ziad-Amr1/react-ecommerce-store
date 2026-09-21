@@ -1246,6 +1246,13 @@
     "description": "The page you're looking for doesn't exist or has been moved.",
     "home": "Back to Home"
   },
+  "maintenance": {
+    "badge": "Scheduled Maintenance",
+    "title": "We'll Be Right Back",
+    "description": "Oversea Store is currently undergoing scheduled maintenance. Please check back soon.",
+    "retry": "Try Again",
+    "contact": "Contact Support"
+  },
   "carts": {
     "title": "Carts",
     "subtitle": "Customer Activity",

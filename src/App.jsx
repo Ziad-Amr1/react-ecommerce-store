@@ -24,6 +24,7 @@ import Registration from "./pages/auth/Registration.jsx";
 import ForgetPassword from "./pages/auth/ForgetPassword.jsx";
 import VerifyOtp from "./pages/auth/VerifyOtp.jsx";
 import NotFound from "./pages/NotFound.jsx";
+import Maintenance from "./pages/Maintenance.jsx";
 import ProtectedRoute from "./ProtectedRoute.jsx";
 import RequireAuth from "./RequireAuth.jsx";
 import Shop from "./pages/Shop.jsx";
@@ -46,7 +47,13 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 
 const DesignSystem = lazy(() => import("./pages/DesignSystem"));
 
+const MAINTENANCE_MODE = import.meta.env.VITE_MAINTENANCE_MODE === "true";
+
 function App() {
+  if (MAINTENANCE_MODE) {
+    return <Maintenance />;
+  }
+
   return (
     <TooltipProvider delayDuration={200}>
       <NotificationProvider>
@@ -117,6 +124,7 @@ function App() {
             <Route path="settings" element={<Settings />} />
           </Route>
         </Route>
+        <Route path="/maintenance" element={<Maintenance />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
         </WishlistProvider>

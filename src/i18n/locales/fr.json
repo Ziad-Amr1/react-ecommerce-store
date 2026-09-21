@@ -1246,6 +1246,13 @@
     "description": "La page que vous recherchez n'existe pas.",
     "home": "Retour à l'accueil"
   },
+  "maintenance": {
+    "badge": "Maintenance planifiée",
+    "title": "Nous revenons très vite",
+    "description": "Oversea Store est actuellement en maintenance planifiée. Veuillez revenir bientôt.",
+    "retry": "Réessayer",
+    "contact": "Contacter le support"
+  },
   "carts": {
     "title": "Paniers",
     "subtitle": "Activité clients",

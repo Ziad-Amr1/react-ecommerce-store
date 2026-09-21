@@ -9,10 +9,12 @@ import AuthProvider from "./contexts/AuthProvider";
 import CartProvider from "./contexts/CartProvider";
 import { DirectionProvider } from "./i18n/DirectionProvider";
 
+const basename = import.meta.env.BASE_URL.replace(/\/+$/, "");
+
 createRoot(document.getElementById("root")).render(
   <StrictMode>
       <AuthProvider>
-        <BrowserRouter>
+        <BrowserRouter basename={basename}>
           <DirectionProvider>
             <CartProvider>
               <App />

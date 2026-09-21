@@ -65,6 +65,7 @@ src/
 │   └── auth/             # Login, Registration, ForgetPassword, VerifyOtp
 │
 ├── utils/
+│   ├── assetUrl.js
 │   ├── formatCurrency.js
 │   ├── formatDate.js
 │   └── formatNumber.js
@@ -82,8 +83,10 @@ src/
 
 The centralized shared HTTP client.
 
-Contains a single Axios instance configured from the environment
-(`VITE_API_URL`) and used for all API communication.
+Contains a single Axios instance used for all API communication. Its base
+URL resolves from the build environment in this order: `VITE_API_URL` when
+set, otherwise `/api` in production builds (the Vercel rewrite proxy), or
+the default backend URL in local development.
 
 Feature code should not create its own Axios instances or scatter
 requests across components.
@@ -267,13 +270,22 @@ pages/
 ├── auth/         # Login, Registration, ForgetPassword, VerifyOtp
 ├── About.jsx
 ├── Cart.jsx
+├── CategoriesStore.jsx
+├── Checkout/     # Checkout.jsx
+├── Contact.jsx
 ├── DesignSystem.jsx
+├── HelpCenter.jsx
 ├── Landing.jsx
+├── Maintenance.jsx
 ├── MyOrders.jsx
 ├── Notifications.jsx
 ├── NotFound.jsx
+├── OrderDetails.jsx
+├── OrderSuccess.jsx
+├── Privacy.jsx
 ├── ProductDetails.jsx
 ├── Profile.jsx
+├── ShippingReturns.jsx
 ├── Shop.jsx
 └── Wishlist.jsx
 ```
@@ -289,6 +301,7 @@ Pure reusable helper functions.
 
 Currently:
 
+- `assetUrl.js` — resolves a public asset path against the deployment base
 - `formatCurrency.js`
 - `formatDate.js`
 - `formatNumber.js`
@@ -319,8 +332,9 @@ Route-level lazy loading is used for the Design System page
   intended path so login can return them there.
 - Allows any authenticated user, with no role check.
 
-Public storefront routes (`/`, `/products`, `/products/:id`, `/about`,
-`/cart`, `/profile`) are not guarded. `/profile` renders its own
+Public storefront routes (`/`, `/products`, `/products/:id`,
+`/categories`, `/cart`, `/profile`, `/about`, `/privacy`, `/help`,
+`/shipping`, `/contact`) are not guarded. `/profile` renders its own
 login prompt for anonymous visitors instead of redirecting.
 
 `src/main.jsx` is the application entry point: it mounts the auth
@@ -414,6 +428,9 @@ Dashboard
 - Authentication (login, registration, forgot-password, OTP verification)
 - Design System reference page (`/design-system`)
 - i18n with four locales (`en`, `ar`, `fr`, `ru`) and RTL support
+- SEO head component (`src/components/SEO`) that renders title, description, canonical, Open Graph, and local geo tags on every page; admin pages are `noindex`
+- Maintenance mode page (`/maintenance`), shown when `VITE_MAINTENANCE_MODE=true` at build time
+- Deployment to Vercel and GitHub Pages (details in the README)
 - Admin section
   - Dashboard with real statistics (revenue, orders, customers, top products)
   - Products with real CRUD + details

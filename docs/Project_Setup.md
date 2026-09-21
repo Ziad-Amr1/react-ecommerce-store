@@ -113,11 +113,11 @@ Do not put real secrets in .env.example.
 
 The frontend communicates with the provided REST API.
 
-The API base URL should be accessed through:
+The shared Axios instance in `src/api/axios.js` resolves the API base URL:
 
-```js
-import.meta.env.VITE_API_URL
-```
+1. `VITE_API_URL`, when set (for example the local demo API)
+2. `/api` in production builds (the same origin proxy on Vercel)
+3. the default backend URL for local development
 
 Do not hardcode the API URL throughout the application.
 

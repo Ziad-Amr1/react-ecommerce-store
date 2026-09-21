@@ -6,6 +6,14 @@ import { toast } from "sonner";
 
 import { Button } from "@/components/ui/button";
 import {
+  Empty,
+  EmptyContent,
+  EmptyDescription,
+  EmptyHeader,
+  EmptyMedia,
+  EmptyTitle,
+} from "@/components/ui/empty";
+import {
   AlertDialog,
   AlertDialogAction,
   AlertDialogCancel,
@@ -17,6 +25,8 @@ import {
   AlertDialogTitle,
 } from "@/components/ui/alert-dialog";
 
+import AccountPageHeader from "@/components/layout/AccountPageHeader";
+import SEO from "@/components/SEO/SEO";
 import useWishlist from "@/hooks/useWishlist";
 import ProductCard from "@/features/products/components/ProductCard";
 
@@ -47,90 +57,83 @@ export default function Wishlist() {
   };
 
   return (
-    <div className="min-h-[70vh] bg-(--color-surface-secondary) py-12 font-body text-(--color-text-primary)">
-      <div className="mx-auto max-w-6xl space-y-6 px-4 sm:px-6 lg:px-8">
-        <div className="flex flex-wrap items-end justify-between gap-4">
-          <div>
-            <h1 className="font-display text-3xl font-bold tracking-tight text-(--color-text-primary)">
-              {t("wishlist.title")}
-            </h1>
-
-            <p className="mt-1 text-sm text-(--color-text-secondary)">
-              {t("wishlist.subtitle")}
-            </p>
-
-            {showGrid && (
-              <p className="mt-1 text-sm text-(--color-text-secondary)">
-                {t("wishlist.totalItems", { total: wishlistItems.length })}
-              </p>
-            )}
-          </div>
-
-          {showGrid && (
-            <Button
-              type="button"
-              variant="outline"
-              onClick={() => setIsClearOpen(true)}
-              className="gap-2"
-            >
-              <Trash2 className="size-4" aria-hidden="true" />
-              {t("wishlist.clearAll")}
-            </Button>
-          )}
-        </div>
+    <div className="min-h-[70vh] py-8 font-body text-foreground">
+      <div className="mx-auto max-w-4xl space-y-6">
+        <SEO
+          title={t("wishlist.title")}
+          description={t("wishlist.subtitle")}
+          url="/wishlist"
+          noindex
+        />
+        <AccountPageHeader
+          title={t("wishlist.title")}
+          description={t("wishlist.subtitle")}
+          count={showGrid ? wishlistItems.length : undefined}
+          actions={
+            showGrid ? (
+              <Button
+                type="button"
+                variant="outline"
+                onClick={() => setIsClearOpen(true)}
+                className="gap-2 cursor-pointer"
+              >
+                <Trash2 className="size-4" aria-hidden="true" />
+                {t("wishlist.clearAll")}
+              </Button>
+            ) : null
+          }
+        />
 
         {isLoading ? (
           <div
             role="status"
-            className="flex flex-col items-center justify-center rounded-2xl border border-(--color-border) bg-(--color-surface) p-12 text-center shadow-xs"
+            className="flex flex-col items-center justify-center rounded-2xl border border-border bg-card p-12 text-center shadow-xs"
           >
             <LoaderCircle
-              className="size-8 animate-spin text-(--color-text-secondary)"
+              className="size-8 animate-spin text-muted-foreground"
               aria-hidden="true"
             />
 
-            <p className="mt-3 text-sm text-(--color-text-secondary)">
+            <p className="mt-3 text-sm text-muted-foreground">
               {t("wishlist.loading")}
             </p>
           </div>
         ) : error ? (
           <div
             role="alert"
-            className="flex flex-col items-center justify-center rounded-2xl border border-(--color-border) bg-(--color-surface) p-12 text-center shadow-xs"
+            className="flex flex-col items-center justify-center rounded-2xl border border-border bg-card p-12 text-center shadow-xs"
           >
             <div className="mb-4 flex size-16 items-center justify-center rounded-full bg-(--color-error-bg) text-(--color-error)">
               <TriangleAlert className="size-8" aria-hidden="true" />
             </div>
 
-            <h2 className="font-display text-lg font-semibold text-(--color-text-primary)">
+            <h2 className="font-display text-lg font-semibold text-foreground">
               {t("wishlist.loadError")}
             </h2>
 
-            <Button onClick={refresh} className="mt-6 rounded-full">
+            <Button onClick={refresh} className="mt-6 rounded-full cursor-pointer">
               {t("wishlist.retry")}
             </Button>
           </div>
         ) : showEmpty ? (
-          <div className="flex flex-col items-center justify-center rounded-2xl border border-(--color-border) bg-(--color-surface) p-12 text-center shadow-xs">
-            <div className="mb-4 flex size-16 items-center justify-center rounded-full bg-(--color-surface-secondary) text-(--color-text-secondary)">
-              <Heart className="size-8 opacity-60" aria-hidden="true" />
-            </div>
+          <Empty className="border border-dashed bg-card p-8 sm:p-12">
+            <EmptyHeader>
+              <EmptyMedia variant="icon">
+                <Heart className="size-6" aria-hidden="true" />
+              </EmptyMedia>
+              <EmptyTitle>{t("wishlist.emptyTitle")}</EmptyTitle>
+              <EmptyDescription>{t("wishlist.emptyDescription")}</EmptyDescription>
+            </EmptyHeader>
 
-            <h2 className="font-display text-lg font-semibold text-(--color-text-primary)">
-              {t("wishlist.emptyTitle")}
-            </h2>
-
-            <p className="mt-1 max-w-md text-sm text-(--color-text-secondary)">
-              {t("wishlist.emptyDescription")}
-            </p>
-
-            <Button asChild className="mt-6 cursor-pointer gap-2 rounded-full">
-              <Link to="/products">
-                {t("wishlist.browseProducts")}
-                <ArrowRight className="size-4 rtl:rotate-180" aria-hidden="true" />
-              </Link>
-            </Button>
-          </div>
+            <EmptyContent>
+              <Button asChild className="gap-2 cursor-pointer rounded-full">
+                <Link to="/products">
+                  {t("wishlist.browseProducts")}
+                  <ArrowRight className="size-4 rtl:rotate-180" aria-hidden="true" />
+                </Link>
+              </Button>
+            </EmptyContent>
+          </Empty>
         ) : (
           <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
             {wishlistItems.map((product) => (

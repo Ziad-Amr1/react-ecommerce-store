@@ -23,6 +23,7 @@ import {
 import { formatCurrency, ORDER_CURRENCY } from "@/utils/formatCurrency";
 import { formatDisplayDate } from "@/utils/formatDate";
 import OrderStatusBadge from "@/features/admin/orders/components/OrderStatusBadge";
+import SEO from "@/components/SEO/SEO";
 
 export default function OrderDetails() {
   const { id } = useParams();
@@ -80,29 +81,35 @@ export default function OrderDetails() {
 
   if (status === "loading") {
     return (
-      <main className="mx-auto w-full max-w-7xl px-4 py-10 sm:px-6 lg:px-8">
+      <div className="py-10">
         <p className="text-(--color-text-secondary)">{t("myOrders.loading")}</p>
-      </main>
+      </div>
     );
   }
 
   if (status === "error") {
     return (
-      <main className="mx-auto w-full max-w-7xl px-4 py-10 sm:px-6 lg:px-8">
+      <div className="py-10">
         <Card className="border-(--color-border) bg-(--color-surface)">
           <CardContent className="p-6">
             <p className="text-(--color-error)">{t("myOrders.loadErrorTitle")}</p>
           </CardContent>
         </Card>
-      </main>
+      </div>
     );
   }
 
   const canCancel = ["pending", "processing"].includes(order.status);
 
   return (
-    <main className="min-h-screen bg-(--color-background)">
-      <div className="mx-auto w-full max-w-7xl space-y-6 px-4 py-10 sm:px-6 lg:px-8">
+    <div className="min-h-screen bg-(--color-background)">
+      <SEO
+        title={`${t("orders.detailsTitle", "Order Details")} #${order.orderNumber || id}`}
+        description={t("orders.seoDescription", "View the details and status of your order.")}
+        url={`/my-orders/${order.orderNumber || id}`}
+        noindex
+      />
+      <div className="space-y-6 py-10">
         <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
           <div>
             <p className="font-mono text-xs text-(--color-text-secondary)">
@@ -332,6 +339,6 @@ export default function OrderDetails() {
           )}
         </div>
       </div>
-    </main>
+    </div>
   );
 }

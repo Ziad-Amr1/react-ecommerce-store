@@ -30,6 +30,7 @@ import {
 import useCart from "@/hooks/useCart";
 import { cn } from "@/lib/utils";
 import { formatCurrency, ORDER_CURRENCY } from "@/utils/formatCurrency";
+import SEO from "@/components/SEO/SEO";
 import { getApiErrorMessage } from "@/features/auth/utils/getApiErrorMessage";
 import { createOrder } from "@/features/checkout/checkout.service";
 import {
@@ -241,7 +242,13 @@ export default function Checkout() {
   };
 
   return (
-    <div className="mx-auto w-full max-w-6xl px-4 py-8 sm:px-6 lg:px-8">
+    <div className="mx-auto max-w-6xl py-8">
+      <SEO
+        title={t("checkout.title")}
+        description={t("checkout.subtitle")}
+        url="/checkout"
+        noindex
+      />
       <header className="max-w-2xl">
         <h1 className="font-display text-2xl font-bold text-foreground sm:text-3xl">
           {t("checkout.title")}

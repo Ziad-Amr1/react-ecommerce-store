@@ -3,6 +3,7 @@ import { useTranslation } from "react-i18next";
 import { CheckCircle2, PackageCheck, ShoppingBag } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
+import SEO from "@/components/SEO/SEO";
 
 export default function OrderSuccess() {
   const { t } = useTranslation();
@@ -14,7 +15,13 @@ export default function OrderSuccess() {
   }
 
   return (
-    <div className="mx-auto flex w-full max-w-2xl flex-col items-center px-4 py-16 text-center sm:px-6">
+    <div className="mx-auto flex max-w-2xl flex-col items-center py-16 text-center">
+      <SEO
+        title={t("orderSuccess.title")}
+        description={t("orderSuccess.description")}
+        url="/order-success"
+        noindex
+      />
       <span className="flex size-20 items-center justify-center rounded-full bg-(--color-success-bg) text-(--color-success)">
         <PackageCheck className="size-10" aria-hidden="true" />
       </span>

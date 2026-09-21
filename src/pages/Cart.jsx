@@ -33,8 +33,10 @@ import {
   AlertDialogMedia,
   AlertDialogTitle,
 } from "@/components/ui/alert-dialog";
+import SEO from "@/components/SEO/SEO";
 import useAuth from "@/hooks/useAuth";
 import useCart from "@/hooks/useCart";
+import AccountPageHeader from "@/components/layout/AccountPageHeader";
 import { formatCurrency, ORDER_CURRENCY } from "@/utils/formatCurrency";
 
 function CartLineSkeleton() {
@@ -109,21 +111,18 @@ export default function Cart() {
   };
 
   return (
-    <div className="mx-auto w-full max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
-      <div className="flex flex-wrap items-baseline justify-between gap-2">
-        <h1 className="font-display text-2xl font-bold text-foreground">
-          {t("cart.title")}
-        </h1>
-        {cart.itemCount > 0 && (
-          <p className="text-sm text-muted-foreground">
-            {t("cart.itemsCount", { count: cart.itemCount })}
-          </p>
-        )}
-      </div>
+    <div className="py-8">
+      <SEO title={t("cart.title")} description={t("cart.seoDescription")} url="/cart" noindex />
+      <div className="mx-auto max-w-4xl space-y-6">
+        <AccountPageHeader
+          title={t("cart.title")}
+          description={cart.itemCount > 0 ? t("cart.itemsCount", { count: cart.itemCount }) : undefined}
+          count={cart.itemCount > 0 ? cart.itemCount : undefined}
+        />
 
       {isLoading ? (
         <div className="mt-6 grid gap-6 lg:grid-cols-[1fr_360px]">
-          <Card className="divide-y divide-border border-(--color-border)">
+          <Card className="divide-y divide-border border-(--color-border) bg-(--color-surface)">
             <CartLineSkeleton />
             <CartLineSkeleton />
             <CartLineSkeleton />
@@ -149,7 +148,7 @@ export default function Cart() {
       ) : (
         <div className="mt-6 grid gap-6 lg:grid-cols-[1fr_360px]">
           {/* Lines */}
-          <Card className="border-(--color-border)">
+          <Card className="border-(--color-border) bg-(--color-surface)">
             <ul className="divide-y divide-(--color-border)">
               {cart.items.map((item) => (
                 <li key={item.id}>
@@ -251,7 +250,7 @@ export default function Cart() {
               </div>
             )}
 
-            <Card className="border-(--color-border)">
+            <Card className="border-(--color-border) bg-(--color-surface)">
               <CardContent className="space-y-4 pt-6">
                 <div className="flex items-center justify-between text-sm">
                   <span className="text-muted-foreground">{t("cart.subtotal")}</span>
@@ -344,6 +343,7 @@ export default function Cart() {
           </AlertDialogFooter>
         </AlertDialogContent>
       </AlertDialog>
+      </div>
     </div>
   );
 }

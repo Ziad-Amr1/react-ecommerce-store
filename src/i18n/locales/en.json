@@ -3,7 +3,12 @@
     "loading": "Loading...",
     "checkingSession": "Checking session...",
     "yes": "Yes",
-    "no": "No"
+    "no": "No",
+    "menu": "Menu",
+    "admin": "Administration",
+    "cancel": "Cancel",
+    "delete": "Delete",
+    "viewDetails": "View details"
   },
   "brand": {
     "logoAlt": "Oversea Store Logo",
@@ -38,7 +43,10 @@
     "toggleTheme": "Toggle theme",
     "theme": {
       "switchToDark": "Switch to dark theme",
-      "switchToLight": "Switch to light theme"
+      "switchToLight": "Switch to light theme",
+      "title": "Theme",
+      "light": "Light",
+      "dark": "Dark"
     },
     "collapseSidebar": "Collapse sidebar",
     "expandSidebar": "Expand sidebar",
@@ -210,6 +218,7 @@
     "off": "% off",
     "separator": "·",
     "productRatingLabel": "{{rating}} out of 5 stars, {{reviewsCount}} reviews",
+    "noReviews": "No reviews yet",
     "inStock": "In Stock",
     "runningLow": "only {{count}} left",
     "outOfStock": "Out of Stock",
@@ -246,7 +255,8 @@
     "sortHighLow": "Price: High to Low",
     "sortTopRated": "Top Rated",
     "clearAllFilters": "Clear All Filters",
-    "filterUnlimited": "∞"
+    "filterUnlimited": "∞",
+    "applyFilters": "Apply Filters"
   },
   "dashboard": {
     "title": "Dashboard Page",
@@ -505,7 +515,10 @@
       "eyebrow": "Picked from the store",
       "cardAriaLabel": "View {{name}}",
       "toggleWishlist": "Add {{name}} to wishlist",
-      "ratingAria": "Rated {{rating}} out of 5, {{count}} reviews"
+      "ratingAria": "Rated {{rating}} out of 5, {{count}} reviews",
+      "previous": "Previous products",
+      "next": "Next products",
+      "pageCount": "{{current}} / {{total}}"
     },
     "categories": {
       "title": "Categories",
@@ -541,6 +554,7 @@
       "nav": {
         "home": "Home",
         "shop": "Shop",
+        "categories": "Categories",
         "about": "About",
         "myOrders": "My Orders",
         "wishlist": "Wishlist"
@@ -714,7 +728,21 @@
       "signingOut": "Signing out...",
       "roleLabel": "Role",
       "verified": "Verified",
-      "memberSince": "Member since {{date}}"
+      "memberSince": "Member since {{date}}",
+      "customize": "Customize profile",
+      "customizeShort": "Customize",
+      "edit": "Edit information"
+    },
+    "appearance": {
+      "title": "Customize profile",
+      "description": "Personalize your profile photo and cover.",
+      "preview": "Preview",
+      "avatar": "Profile photo",
+      "customAvatar": "Custom avatar URL",
+      "cover": "Cover",
+      "customCover": "Custom cover image URL",
+      "reset": "Reset",
+      "save": "Save changes"
     },
     "personal": {
       "title": "Personal Information",
@@ -729,14 +757,55 @@
       "copyValue": "Copy {{value}}",
       "avatar": "Avatar URL"
     },
+    "personalInformation": {
+      "title": "Personal Information",
+      "description": "The details currently on file for your account.",
+      "edit": "Edit information",
+      "fullName": "Full Name",
+      "email": "Email Address",
+      "username": "Username",
+      "phone": "Phone Number",
+      "notProvided": "Not provided",
+      "copyEmail": "Copy email address",
+      "copyUsername": "Copy username",
+      "copyPhone": "Copy phone number",
+      "avatar": "Avatar URL",
+      "avatarDescription": "Direct link to your profile avatar image.",
+      "cancel": "Cancel",
+      "saving": "Saving...",
+      "save": "Save changes",
+      "saveSuccess": "Profile updated successfully",
+      "saveError": "Failed to update profile",
+      "copyError": "Couldn't copy to clipboard"
+    },
     "activity": {
       "title": "Account Activity",
-      "description": "Order tracking, wishlist, saved addresses and payment methods are not available yet.",
-      "orders": "My Orders",
-      "wishlist": "Wishlist",
-      "addresses": "Saved Addresses",
-      "payments": "Payment Methods",
-      "comingSoon": "Not available yet"
+      "description": "Quick access to your account activity and preferences.",
+      "comingSoon": "Not available yet",
+      "orders": {
+        "title": "Orders",
+        "description": "View and track your orders."
+      },
+      "wishlist": {
+        "title": "Wishlist",
+        "description": "View products you've saved."
+      },
+      "cart": {
+        "title": "Shopping Cart",
+        "description": "View and manage items in your cart."
+      },
+      "notifications": {
+        "title": "Notifications",
+        "description": "View alerts and account updates."
+      },
+      "addresses": {
+        "title": "Saved Addresses",
+        "description": "Manage your saved delivery addresses."
+      },
+      "payments": {
+        "title": "Payment Methods",
+        "description": "Manage your payment methods."
+      }
     },
     "edit": {
       "edit": "Edit",
@@ -774,10 +843,157 @@
       "polishing": "Polishing",
       "doneWaitingPR": "Done — Waiting for PR",
       "done": "Done"
+    },
+    "statusLabel": {
+      "active": "Active",
+      "inactive": "Inactive",
+      "expired": "Expired",
+      "approved": "Approved",
+      "pending": "Pending",
+      "rejected": "Rejected"
+    },
+    "categories": {
+      "description": "Organize product categories and subcategories across your store catalog.",
+      "kpiCategoriesTitle": "Total Categories",
+      "kpiCategoriesDescription": "Active catalog categories",
+      "kpiSubcategoriesTitle": "Subcategories",
+      "kpiSubcategoriesDescription": "Nested product groupings",
+      "kpiProductsTitle": "Categorized Products",
+      "kpiProductsDescription": "Items assigned to categories",
+      "add": "Add Category",
+      "edit": "Edit",
+      "searchPlaceholder": "Search categories or subcategories...",
+      "productsBadge": "{{count}} products",
+      "subcategoriesLabel": "Subcategories",
+      "editTitle": "Edit Category",
+      "addNewTitle": "Add New Category",
+      "nameLabel": "Category Name",
+      "namePlaceholder": "e.g. Electronics",
+      "slugLabel": "URL Slug",
+      "slugPlaceholder": "e.g. electronics",
+      "subsLabel": "Subcategories (comma separated)",
+      "subsPlaceholder": "Smartphones, Laptops, Audio",
+      "save": "Save Category",
+      "deleteTitle": "Delete Category?",
+      "deleteDescription": "Are you sure you want to delete this category? Products assigned to this category will become uncategorized."
+    },
+    "coupons": {
+      "description": "Create promotional codes, manage usage limits, and track redemption metrics.",
+      "kpiActiveTitle": "Active Coupons",
+      "kpiActiveDescription": "Currently usable codes",
+      "kpiRedemptionsTitle": "Total Redemptions",
+      "kpiRedemptionsDescription": "Times coupons used",
+      "kpiTotalTitle": "Total Coupons",
+      "kpiTotalDescription": "All managed codes",
+      "create": "Create Coupon",
+      "searchPlaceholder": "Search by promo code...",
+      "statusPlaceholder": "Status",
+      "allStatus": "All Status",
+      "tableTitle": "Promo Codes & Discounts",
+      "colCode": "Code",
+      "colDiscount": "Discount",
+      "colMinOrder": "Min. Order",
+      "colUsage": "Usage",
+      "colExpiration": "Expiration",
+      "colStatus": "Status",
+      "colActions": "Actions",
+      "empty": "No coupons found matching your search.",
+      "percentOff": "{{value}}% OFF",
+      "amountOff": "${{value}} OFF",
+      "deactivate": "Deactivate",
+      "activate": "Activate",
+      "editTitle": "Edit Coupon",
+      "createTitle": "Create New Promo Coupon",
+      "promoCodeLabel": "Promo Code",
+      "promoCodePlaceholder": "e.g. SUMMER25",
+      "discountTypeLabel": "Discount Type",
+      "typePercentage": "Percentage (%)",
+      "typeFixed": "Fixed Amount ($)",
+      "valueLabel": "Value",
+      "minOrderLabel": "Min Order ($)",
+      "usageLimitLabel": "Usage Limit",
+      "expirationLabel": "Expiration Date",
+      "save": "Save Coupon",
+      "deleteTitle": "Delete Coupon?",
+      "deleteDescription": "Are you sure you want to delete this promo code? Customers will no longer be able to redeem it."
+    },
+    "reviews": {
+      "description": "Review customer feedback, approve testimonials, and moderate product ratings.",
+      "kpiAvgTitle": "Average Rating",
+      "kpiAvgDescription": "Overall customer rating",
+      "kpiTotalTitle": "Total Reviews",
+      "kpiTotalDescription": "Recorded product reviews",
+      "kpiPendingTitle": "Pending Moderation",
+      "kpiPendingDescription": "Awaiting approval",
+      "kpiApprovedTitle": "Approved Reviews",
+      "kpiApprovedDescription": "Published testimonials",
+      "searchPlaceholder": "Search by customer name, product, or comment...",
+      "statusPlaceholder": "Status",
+      "allStatus": "All Status",
+      "ratingPlaceholder": "Rating",
+      "allRatings": "All Ratings",
+      "stars5": "5 Stars",
+      "stars4": "4 Stars",
+      "stars3": "3 Stars",
+      "stars2": "2 Stars",
+      "stars1": "1 Star",
+      "tableTitle": "Customer Feedback",
+      "colCustomer": "Customer",
+      "colProduct": "Product",
+      "colRating": "Rating",
+      "colComment": "Comment",
+      "colStatus": "Status",
+      "colActions": "Actions",
+      "empty": "No reviews matching your filters.",
+      "approve": "Approve",
+      "reject": "Reject"
+    },
+    "wishlists": {
+      "description": "Track high-demand saved products and analyze customer interest trends.",
+      "kpiActiveTitle": "Active Wishlists",
+      "kpiActiveDescription": "Customer saved lists",
+      "kpiTotalTitle": "Total Saved Items",
+      "kpiTotalDescription": "Items in wishlists",
+      "kpiAvgTitle": "Avg Items / Wishlist",
+      "kpiAvgDescription": "Average per customer",
+      "kpiTopTitle": "Top Saved Category",
+      "kpiTopDescription": "Most popular category",
+      "searchPlaceholder": "Search by customer name, email, or saved product...",
+      "tableTitle": "Customer Wishlists",
+      "colCustomer": "Customer",
+      "colItems": "Total Saved Items",
+      "colSample": "Sample Saved Products",
+      "colUpdated": "Last Updated",
+      "colActions": "Actions",
+      "empty": "No wishlists match your search.",
+      "itemsBadge": "{{count}} items",
+      "viewItems": "View Items",
+      "wishlistTitle": "{{name}}'s Wishlist",
+      "totalSaved": "Total Saved:",
+      "items": "items"
+    },
+    "reports": {
+      "description": "Analyze sales performance, revenue growth trends, and category distribution.",
+      "last7Days": "Last 7 Days",
+      "last30Days": "Last 30 Days",
+      "exportCsv": "Export CSV",
+      "kpiRevenueTitle": "Total Revenue",
+      "kpiRevenueDescription": "+14.2% vs last period",
+      "kpiOrdersTitle": "Total Orders",
+      "kpiOrdersDescription": "+8.5% vs last period",
+      "kpiAovTitle": "Avg Order Value",
+      "kpiAovDescription": "+5.1% vs last period",
+      "kpiConversionTitle": "Conversion Rate",
+      "kpiConversionDescription": "+0.8% vs last period",
+      "revenueTrendTitle": "Revenue Growth Trend",
+      "salesByCategory": "Sales by Category",
+      "topProductsTitle": "Top Performing Products",
+      "unitsSold": "{{count}} units sold"
     }
   },
   "cart": {
     "title": "Your Cart",
+    "seoDescription": "Review the items in your shopping cart from Oversea Store.",
     "emptyTitle": "Your cart is empty",
     "emptyDescription": "Browse the store and add something you like to your cart.",
     "browseProducts": "Browse Products",
@@ -816,6 +1032,8 @@
     "title": "Orders",
     "subtitle": "Fulfillment & Operations",
     "description": "Track and manage customer purchases, payment statuses, and fulfillment workflows.",
+    "detailsTitle": "Order Details",
+    "seoDescription": "View the details and status of your order.",
     "totalOrders": "Total Orders",
     "searchPlaceholder": "Search by customer or order ID...",
     "clearSearch": "Clear search",
@@ -1155,5 +1373,156 @@
       "twilight": "Twilight",
       "canary": "Canary"
     }
+  },
+  "categoriesStore": {
+    "title": "Browse Categories",
+    "description": "Explore our store catalog by category to find exactly what you need.",
+    "searchPlaceholder": "Search categories or subcategories...",
+    "noResultsTitle": "No categories found",
+    "noResultsDesc": "Try searching with a different keyword.",
+    "clearSearch": "Clear search",
+    "itemCount": "{{count}} items",
+    "badge": "Popular",
+    "subcategories": "Subcategories",
+    "exploreCategory": "Explore {{name}}"
+  },
+  "help": {
+    "title": "Help Center & FAQ",
+    "description": "Find answers to frequently asked questions or get in touch with support.",
+    "searchPlaceholder": "Search help topics or questions...",
+    "faqs": {
+      "orders": {
+        "title": "Orders & Account",
+        "q1": "How do I track my order status?",
+        "a1": "You can track your order status by logging into your account and navigating to 'My Orders'. Each order displays live status updates and tracking details.",
+        "q2": "Can I modify or cancel an order after placing it?",
+        "a2": "Orders can be modified or canceled within 1 hour of placement. Please visit 'My Orders' or contact customer support immediately for assistance.",
+        "q3": "Do I need an account to place an order?",
+        "a3": "No, you can place orders as a guest. However, creating an account allows you to track orders easily, save wishlist items, and manage shipping addresses."
+      },
+      "shipping": {
+        "title": "Shipping & Delivery",
+        "q1": "What are the standard shipping timelines?",
+        "a1": "Standard domestic delivery takes 2 to 5 business days. Express delivery is available at checkout for 1-2 business day shipping.",
+        "q2": "Do you offer free shipping?",
+        "a2": "Yes, we offer free standard shipping on all domestic orders over $50."
+      },
+      "returns": {
+        "title": "Returns & Refunds",
+        "q1": "What is your return policy?",
+        "a1": "We accept returns within 30 days of item delivery. Returned items must be unused, in original packaging, and with tags attached.",
+        "q2": "How long does a refund take to process?",
+        "a2": "Once your returned package is received and inspected, refunds are credited back to your original payment method within 3 to 7 business days."
+      },
+      "payment": {
+        "title": "Payment & Pricing",
+        "q1": "Which payment methods are accepted?",
+        "a1": "We accept major credit cards (Visa, MasterCard, American Express), PayPal, Apple Pay, and Cash on Delivery in supported regions.",
+        "q2": "Is my payment information secure?",
+        "a2": "Yes. All transactions are encrypted via 256-bit SSL encryption and processed through PCI-DSS compliant secure payment gateways."
+      }
+    },
+    "contactBanner": {
+      "title": "Still have questions?",
+      "description": "Can't find the answer you're looking for? Contact our customer support team.",
+      "button": "Contact Support"
+    }
+  },
+  "shipping": {
+    "title": "Shipping & Returns Policy",
+    "description": "Everything you need to know about delivery options, shipping costs, and our return policy.",
+    "cards": {
+      "fastDelivery": {
+        "title": "Fast & Reliable Delivery",
+        "desc": "Delivered directly to your doorstep with live tracking."
+      },
+      "easyReturns": {
+        "title": "30-Day Easy Returns",
+        "desc": "Hassle-free return policy with quick refunds."
+      },
+      "insuredPackage": {
+        "title": "Insured Shipments",
+        "desc": "Every order is safely packaged and fully insured."
+      }
+    },
+    "options": {
+      "title": "Shipping Options & Delivery Times",
+      "intro": "We ship orders Monday through Friday. Orders placed before 2 PM local time are processed on the same business day."
+    },
+    "table": {
+      "method": "Shipping Method",
+      "time": "Estimated Time",
+      "cost": "Cost",
+      "standard": "Standard Shipping",
+      "freeOver50": "Free over $50 ($4.99 otherwise)",
+      "express": "Express Shipping",
+      "international": "International Shipping"
+    },
+    "returns": {
+      "title": "Returns & Exchange Guidelines",
+      "step1Title": "Request a Return:",
+      "step1Desc": "Contact our support team or visit your order history to initiate a return request.",
+      "step2Title": "Prepare Package:",
+      "step2Desc": "Pack the items securely in their original packaging with tags attached.",
+      "step3Title": "Ship & Receive Refund:",
+      "step3Desc": "Attach the pre-paid shipping label and drop it off at any authorized parcel location. Refunds are processed within 3-5 days of arrival."
+    }
+  },
+  "contact": {
+    "title": "Contact Us",
+    "description": "Have questions or feedback? We'd love to hear from you. Get in touch with our support team.",
+    "form": {
+      "title": "Send Us a Message",
+      "validationError": "Please fill in all required fields.",
+      "successMessage": "Thank you! Your message has been sent.",
+      "nameLabel": "Your Name",
+      "namePlaceholder": "John Doe",
+      "emailLabel": "Email Address",
+      "emailPlaceholder": "you@example.com",
+      "subjectLabel": "Subject",
+      "subjectPlaceholder": "How can we help you?",
+      "messageLabel": "Message",
+      "messagePlaceholder": "Write your message here...",
+      "submitting": "Sending...",
+      "submit": "Send Message"
+    },
+    "submitted": {
+      "title": "Message Received!",
+      "desc": "Thank you for contacting us. A customer support representative will get back to you within 24 hours.",
+      "sendAnother": "Send another message"
+    },
+    "info": {
+      "emailTitle": "Email Support",
+      "phoneTitle": "Phone Support",
+      "hoursTitle": "Business Hours",
+      "locationTitle": "Headquarters"
+    }
+  },
+  "productDetails": {
+    "keyFeatures": "Key Features",
+    "seoDescription": "Full details, features, and specifications for this product at Oversea Store.",
+    "powerDelivery": "Power Delivery",
+    "displaySupport": "Display Support",
+    "ethernet": "Ethernet",
+    "usbPorts": "USB Ports",
+    "sdCard": "SD/microSD",
+    "totalPorts": "Ports Total",
+    "osCompatibility": "Mac & Windows",
+    "osCompatible": "Compatible",
+    "premiumBuild": "Premium Build",
+    "aluminumChassis": "Aluminum chassis",
+    "buyNow": "Buy Now",
+    "share": "Share",
+    "linkCopied": "Product link copied to clipboard",
+    "answeredQuestions": "{{count}} answered questions",
+    "freeShipping": "Free shipping",
+    "freeShippingDesc": "on orders over $100",
+    "officialWarranty": "1 year warranty",
+    "officialWarrantyDesc": "Official warranty",
+    "easyReturns": "Easy returns",
+    "easyReturnsDesc": "30-day return policy",
+    "shipsWithin": "Ships within 1–2 business days",
+    "showMore": "Show more",
+    "showLess": "Show less"
   }
 }

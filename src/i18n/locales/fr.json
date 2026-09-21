@@ -3,7 +3,12 @@
     "loading": "Chargement...",
     "checkingSession": "Vérification de la session...",
     "yes": "Oui",
-    "no": "Non"
+    "no": "Non",
+    "menu": "Menu",
+    "admin": "Administration",
+    "cancel": "Annuler",
+    "delete": "Supprimer",
+    "viewDetails": "Voir les détails"
   },
   "brand": {
     "logoAlt": "Logo Oversea Store",
@@ -38,7 +43,10 @@
     "toggleTheme": "Changer de thème",
     "theme": {
       "switchToDark": "Passer au thème sombre",
-      "switchToLight": "Passer au thème clair"
+      "switchToLight": "Passer au thème clair",
+      "title": "Thème",
+      "light": "Clair",
+      "dark": "Sombre"
     },
     "collapseSidebar": "Réduire la barre latérale",
     "expandSidebar": "Agrandir la barre latérale",
@@ -210,6 +218,7 @@
     "off": "% de réduction",
     "separator": "·",
     "productRatingLabel": "{{rating}} sur 5 étoiles, {{reviewsCount}} avis",
+    "noReviews": "Aucun avis pour le moment",
     "inStock": "En stock",
     "runningLow": "Plus que {{count}} en stock",
     "outOfStock": "Rupture de stock",
@@ -246,7 +255,8 @@
     "sortHighLow": "Prix : Du plus élevé au plus bas",
     "sortTopRated": "Les mieux notés",
     "clearAllFilters": "Effacer tous les filtres",
-    "filterUnlimited": "∞"
+    "filterUnlimited": "∞",
+    "applyFilters": "Appliquer les filtres"
   },
   "dashboard": {
     "title": "Tableau de bord",
@@ -505,7 +515,10 @@
       "eyebrow": "Sélectionné pour vous",
       "cardAriaLabel": "Voir {{name}}",
       "toggleWishlist": "Ajouter {{name}} aux favoris",
-      "ratingAria": "Noté {{rating}} sur 5, {{count}} avis"
+      "ratingAria": "Noté {{rating}} sur 5, {{count}} avis",
+      "previous": "Produits précédents",
+      "next": "Produits suivants",
+      "pageCount": "{{current}} / {{total}}"
     },
     "categories": {
       "title": "Catégories",
@@ -543,7 +556,8 @@
         "shop": "Boutique",
         "about": "À propos",
         "myOrders": "Mes Commandes",
-        "wishlist": "Membres"
+        "wishlist": "Membres",
+        "categories": "Catégories"
       },
       "account": "Compte",
       "cart": "Panier",
@@ -714,7 +728,21 @@
       "signingOut": "Déconnexion...",
       "roleLabel": "Rôle",
       "verified": "Vérifié",
-      "memberSince": "Membre depuis {{date}}"
+      "memberSince": "Membre depuis {{date}}",
+      "customize": "Personnaliser le profil",
+      "customizeShort": "Personnaliser",
+      "edit": "Modifier les informations"
+    },
+    "appearance": {
+      "title": "Personnaliser le profil",
+      "description": "Personnalisez votre photo de profil et l'image de couverture.",
+      "preview": "Aperçu",
+      "avatar": "Photo de profil",
+      "customAvatar": "URL d'avatar personnalisée",
+      "cover": "Couverture",
+      "customCover": "URL de couverture personnalisée",
+      "reset": "Réinitialiser",
+      "save": "Enregistrer les modifications"
     },
     "personal": {
       "title": "Informations personnelles",
@@ -729,14 +757,55 @@
       "copyValue": "Copier {{value}}",
       "avatar": "URL de l'avatar"
     },
+    "personalInformation": {
+      "title": "Informations personnelles",
+      "description": "Détails enregistrés sur votre compte.",
+      "edit": "Modifier les informations",
+      "fullName": "Nom complet",
+      "email": "Adresse e-mail",
+      "username": "Nom d'utilisateur",
+      "phone": "Téléphone",
+      "notProvided": "Non renseigné",
+      "copyEmail": "Copier l'adresse e-mail",
+      "copyUsername": "Copier le nom d'utilisateur",
+      "copyPhone": "Copier le numéro de téléphone",
+      "avatar": "URL de l'avatar",
+      "avatarDescription": "Lien direct vers votre image de profil.",
+      "cancel": "Annuler",
+      "saving": "Enregistrement...",
+      "save": "Enregistrer les modifications",
+      "saveSuccess": "Profil mis à jour avec succès",
+      "saveError": "Échec de la mise à jour du profil",
+      "copyError": "Échec de la copie"
+    },
     "activity": {
       "title": "Activité du compte",
-      "description": "Suivi des commandes et listes.",
-      "orders": "Mes Commandes",
-      "wishlist": "Liste de souhaits",
-      "addresses": "Adresses enregistrées",
-      "payments": "Moyens de paiement",
-      "comingSoon": "Bientôt disponible"
+      "description": "Accès rapide à l'activité de votre compte et vos préférences.",
+      "comingSoon": "Bientôt disponible",
+      "orders": {
+        "title": "Commandes",
+        "description": "Consultez et suivez vos commandes."
+      },
+      "wishlist": {
+        "title": "Liste de souhaits",
+        "description": "Consultez les produits que vous avez enregistrés."
+      },
+      "cart": {
+        "title": "Panier",
+        "description": "Gérez les articles dans votre panier."
+      },
+      "notifications": {
+        "title": "Notifications",
+        "description": "Consultez vos alertes et mises à jour."
+      },
+      "addresses": {
+        "title": "Adresses enregistrées",
+        "description": "Gérez vos adresses de livraison enregistrées."
+      },
+      "payments": {
+        "title": "Moyens de paiement",
+        "description": "Gérez vos moyens de paiement."
+      }
     },
     "edit": {
       "edit": "Modifier",
@@ -774,10 +843,157 @@
       "polishing": "Finition",
       "doneWaitingPR": "Terminé — En attente",
       "done": "Terminé"
+    },
+    "statusLabel": {
+      "active": "Actif",
+      "inactive": "Inactif",
+      "expired": "Expiré",
+      "approved": "Approuvé",
+      "pending": "En attente",
+      "rejected": "Rejeté"
+    },
+    "categories": {
+      "description": "Organisez les catégories et sous-catégories de produits de votre catalogue.",
+      "kpiCategoriesTitle": "Total des catégories",
+      "kpiCategoriesDescription": "Catégories actives du catalogue",
+      "kpiSubcategoriesTitle": "Sous-catégories",
+      "kpiSubcategoriesDescription": "Regroupements de produits imbriqués",
+      "kpiProductsTitle": "Produits catégorisés",
+      "kpiProductsDescription": "Articles associés aux catégories",
+      "add": "Ajouter une catégorie",
+      "edit": "Modifier",
+      "searchPlaceholder": "Rechercher des catégories ou sous-catégories...",
+      "productsBadge": "{{count}} produits",
+      "subcategoriesLabel": "Sous-catégories",
+      "editTitle": "Modifier la catégorie",
+      "addNewTitle": "Ajouter une nouvelle catégorie",
+      "nameLabel": "Nom de la catégorie",
+      "namePlaceholder": "ex. Électronique",
+      "slugLabel": "Slug d'URL",
+      "slugPlaceholder": "ex. electronique",
+      "subsLabel": "Sous-catégories (séparées par des virgules)",
+      "subsPlaceholder": "Smartphones, Portables, Audio",
+      "save": "Enregistrer la catégorie",
+      "deleteTitle": "Supprimer la catégorie ?",
+      "deleteDescription": "Voulez-vous vraiment supprimer cette catégorie ? Les produits qui lui sont associés deviendront sans catégorie."
+    },
+    "coupons": {
+      "description": "Créez des codes promotionnels, gérez les limites d'utilisation et suivez les métriques de remboursement.",
+      "kpiActiveTitle": "Coupons actifs",
+      "kpiActiveDescription": "Codes actuellement utilisables",
+      "kpiRedemptionsTitle": "Total des remboursements",
+      "kpiRedemptionsDescription": "Fois où les coupons ont été utilisés",
+      "kpiTotalTitle": "Total des coupons",
+      "kpiTotalDescription": "Tous les codes gérés",
+      "create": "Créer un coupon",
+      "searchPlaceholder": "Rechercher par code promo...",
+      "statusPlaceholder": "Statut",
+      "allStatus": "Tous les statuts",
+      "tableTitle": "Codes promo et remises",
+      "colCode": "Code",
+      "colDiscount": "Remise",
+      "colMinOrder": "Minimum de commande",
+      "colUsage": "Utilisation",
+      "colExpiration": "Expiration",
+      "colStatus": "Statut",
+      "colActions": "Actions",
+      "empty": "Aucun coupon ne correspond à votre recherche.",
+      "percentOff": "{{value}}% de réduction",
+      "amountOff": "{{value}}$ de réduction",
+      "deactivate": "Désactiver",
+      "activate": "Activer",
+      "editTitle": "Modifier le coupon",
+      "createTitle": "Créer un nouveau coupon promo",
+      "promoCodeLabel": "Code promo",
+      "promoCodePlaceholder": "ex. SUMMER25",
+      "discountTypeLabel": "Type de remise",
+      "typePercentage": "Pourcentage (%)",
+      "typeFixed": "Montant fixe ($)",
+      "valueLabel": "Valeur",
+      "minOrderLabel": "Minimum de commande ($)",
+      "usageLimitLabel": "Limite d'utilisation",
+      "expirationLabel": "Date d'expiration",
+      "save": "Enregistrer le coupon",
+      "deleteTitle": "Supprimer le coupon ?",
+      "deleteDescription": "Voulez-vous vraiment supprimer ce code promo ? Les clients ne pourront plus le rembourser."
+    },
+    "reviews": {
+      "description": "Examinez les avis clients, approuvez les témoignages et modérez les évaluations des produits.",
+      "kpiAvgTitle": "Note moyenne",
+      "kpiAvgDescription": "Note globale des clients",
+      "kpiTotalTitle": "Total des avis",
+      "kpiTotalDescription": "Avis produits enregistrés",
+      "kpiPendingTitle": "Modération en attente",
+      "kpiPendingDescription": "En attente d'approbation",
+      "kpiApprovedTitle": "Avis approuvés",
+      "kpiApprovedDescription": "Témoignages publiés",
+      "searchPlaceholder": "Rechercher par nom du client, produit ou commentaire...",
+      "statusPlaceholder": "Statut",
+      "allStatus": "Tous les statuts",
+      "ratingPlaceholder": "Note",
+      "allRatings": "Toutes les notes",
+      "stars5": "5 étoiles",
+      "stars4": "4 étoiles",
+      "stars3": "3 étoiles",
+      "stars2": "2 étoiles",
+      "stars1": "1 étoile",
+      "tableTitle": "Avis clients",
+      "colCustomer": "Client",
+      "colProduct": "Produit",
+      "colRating": "Note",
+      "colComment": "Commentaire",
+      "colStatus": "Statut",
+      "colActions": "Actions",
+      "empty": "Aucun avis ne correspond à vos filtres.",
+      "approve": "Approuver",
+      "reject": "Rejeter"
+    },
+    "wishlists": {
+      "description": "Suivez les produits enregistrés très demandés et analysez les tendances d'intérêt clients.",
+      "kpiActiveTitle": "Listes de souhaits actives",
+      "kpiActiveDescription": "Listes enregistrées par les clients",
+      "kpiTotalTitle": "Total des articles enregistrés",
+      "kpiTotalDescription": "Articles dans les listes de souhaits",
+      "kpiAvgTitle": "Articles moyens / liste",
+      "kpiAvgDescription": "Moyenne par client",
+      "kpiTopTitle": "Catégorie la plus enregistrée",
+      "kpiTopDescription": "Catégorie la plus populaire",
+      "searchPlaceholder": "Rechercher par nom du client, e-mail ou produit enregistré...",
+      "tableTitle": "Listes de souhaits clients",
+      "colCustomer": "Client",
+      "colItems": "Total des articles enregistrés",
+      "colSample": "Exemples de produits enregistrés",
+      "colUpdated": "Dernière mise à jour",
+      "colActions": "Actions",
+      "empty": "Aucune liste de souhaits ne correspond à votre recherche.",
+      "itemsBadge": "{{count}} articles",
+      "viewItems": "Voir les articles",
+      "wishlistTitle": "Liste de souhaits de {{name}}",
+      "totalSaved": "Total enregistré :",
+      "items": "articles"
+    },
+    "reports": {
+      "description": "Analysez la performance des ventes, les tendances de croissance des revenus et la répartition par catégorie.",
+      "last7Days": "7 derniers jours",
+      "last30Days": "30 derniers jours",
+      "exportCsv": "Exporter en CSV",
+      "kpiRevenueTitle": "Revenu total",
+      "kpiRevenueDescription": "+14,2 % vs période précédente",
+      "kpiOrdersTitle": "Total des commandes",
+      "kpiOrdersDescription": "+8,5 % vs période précédente",
+      "kpiAovTitle": "Panier moyen",
+      "kpiAovDescription": "+5,1 % vs période précédente",
+      "kpiConversionTitle": "Taux de conversion",
+      "kpiConversionDescription": "+0,8 % vs période précédente",
+      "revenueTrendTitle": "Tendance de croissance des revenus",
+      "salesByCategory": "Ventes par catégorie",
+      "topProductsTitle": "Meilleurs produits",
+      "unitsSold": "{{count}} unités vendues"
     }
   },
   "cart": {
     "title": "Votre Panier",
+    "seoDescription": "Consultez les articles de votre panier d'achat sur Oversea Store.",
     "emptyTitle": "Votre panier est vide",
     "emptyDescription": "Parcourez la boutique et ajoutez des articles.",
     "browseProducts": "Parcourir les produits",
@@ -816,6 +1032,8 @@
     "title": "Commandes",
     "subtitle": "Opérations & Exécution",
     "description": "Suivez et gérez les achats des clients.",
+    "detailsTitle": "Détails de la commande",
+    "seoDescription": "Consultez les détails et le statut de votre commande.",
     "totalOrders": "Total Commandes",
     "searchPlaceholder": "Rechercher par client ou ID...",
     "clearSearch": "Effacer la recherche",
@@ -1155,5 +1373,156 @@
       "twilight": "Crépuscule",
       "canary": "Canari"
     }
+  },
+  "categoriesStore": {
+    "title": "Parcourir les catégories",
+    "description": "Explorez notre catalogue par catégorie pour trouver exactement ce dont vous avez besoin.",
+    "searchPlaceholder": "Rechercher des catégories ou sous-catégories...",
+    "noResultsTitle": "Aucune catégorie trouvée",
+    "noResultsDesc": "Essayez de rechercher avec un autre mot-clé.",
+    "clearSearch": "Effacer la recherche",
+    "itemCount": "{{count}} articles",
+    "badge": "Populaire",
+    "subcategories": "Sous-catégories",
+    "exploreCategory": "Explorer {{name}}"
+  },
+  "help": {
+    "title": "Centre d'aide & FAQ",
+    "description": "Trouvez des réponses aux questions fréquentes ou contactez le support.",
+    "searchPlaceholder": "Rechercher des sujets d'aide ou des questions...",
+    "faqs": {
+      "orders": {
+        "title": "Commandes et compte",
+        "q1": "Comment suivre l'état de ma commande ?",
+        "a1": "Vous pouvez suivre l'état de votre commande en vous connectant à votre compte et en accédant à 'Mes commandes'. Chaque commande affiche des mises à jour en direct.",
+        "q2": "Puis-je modifier ou annuler une commande après l'avoir passée ?",
+        "a2": "Les commandes peuvent être modifiées ou annulées dans l'heure suivant la commande. Veuillez consulter 'Mes commandes' ou contacter le service client.",
+        "q3": "Ai-je besoin d'un compte pour passer une commande ?",
+        "a3": "Non, vous pouvez passer des commandes en tant qu'invité. Cependant, créer un compte vous permet de suivre vos commandes et de sauvegarder vos favoris."
+      },
+      "shipping": {
+        "title": "Expédition & Livraison",
+        "q1": "Quels sont les délais d'expédition standards ?",
+        "a1": "La livraison nationale standard prend 2 à 5 jours ouvrables. La livraison express est disponible lors du paiement pour une expédition en 1-2 jours ouvrables.",
+        "q2": "Proposez-vous la livraison gratuite ?",
+        "a2": "Oui, nous offrons la livraison standard gratuite sur toutes les commandes nationales de plus de 50 $."
+      },
+      "returns": {
+        "title": "Retours & Remboursements",
+        "q1": "Quelle est votre politique de retour ?",
+        "a1": "Nous acceptons les retours dans les 30 jours suivant la livraison. Les articles doivent être non utilisés, dans leur emballage d'origine avec étiquettes.",
+        "q2": "Combien de temps prend un remboursement ?",
+        "a2": "Une fois votre colis reçu et inspecté, les remboursements sont crédités sur votre mode de paiement d'origine sous 3 à 7 jours ouvrables."
+      },
+      "payment": {
+        "title": "Paiement & Tarification",
+        "q1": "Quels modes de paiement sont acceptés ?",
+        "a1": "Nous acceptons les cartes de crédit (Visa, MasterCard, American Express), PayPal, Apple Pay et le paiement à la livraison dans les régions prises en charge.",
+        "q2": "Mes informations de paiement sont-elles sécurisées ?",
+        "a2": "Oui. Toutes les transactions sont cryptées via un chiffrement SSL 256 bits et traitées par des passerelles de paiement sécurisées."
+      }
+    },
+    "contactBanner": {
+      "title": "Vous avez encore des questions ?",
+      "description": "Vous ne trouvez pas la réponse que vous cherchez ? Contactez notre équipe de support client.",
+      "button": "Contacter le support"
+    }
+  },
+  "shipping": {
+    "title": "Politique d'expédition et de retour",
+    "description": "Tout ce que vous devez savoir sur les options de livraison, les frais d'expédition et notre politique de retour.",
+    "cards": {
+      "fastDelivery": {
+        "title": "Livraison rapide & fiable",
+        "desc": "Livré directement à votre porte avec suivi en direct."
+      },
+      "easyReturns": {
+        "title": "Retours faciles sous 30 jours",
+        "desc": "Politique de retour sans tracas avec remboursements rapides."
+      },
+      "insuredPackage": {
+        "title": "Expéditions assurées",
+        "desc": "Chaque commande est emballée en toute sécurité et entièrement assurée."
+      }
+    },
+    "options": {
+      "title": "Options d'expédition & Délais de livraison",
+      "intro": "Nous expédions les commandes du lundi au vendredi. Les commandes passées avant 14h sont traitées le jour même."
+    },
+    "table": {
+      "method": "Mode d'expédition",
+      "time": "Temps estimé",
+      "cost": "Coût",
+      "standard": "Expédition standard",
+      "freeOver50": "Gratuit dès 50 $ (4,99 $ sinon)",
+      "express": "Expédition express",
+      "international": "Expédition internationale"
+    },
+    "returns": {
+      "title": "Directives de retour et d'échange",
+      "step1Title": "Demander un retour :",
+      "step1Desc": "Contactez notre équipe de support ou consultez votre historique de commandes pour initier un retour.",
+      "step2Title": "Préparer le colis :",
+      "step2Desc": "Emballez soigneusement les articles dans leur emballage d'origine avec étiquettes.",
+      "step3Title": "Expédier & Recevoir le remboursement :",
+      "step3Desc": "Collez l'étiquette prépayée et déposez le colis dans un point agréé. Remboursement sous 3 à 5 jours."
+    }
+  },
+  "contact": {
+    "title": "Contactez-nous",
+    "description": "Des questions ou des commentaires ? Nous aimerions avoir de vos nouvelles. Contactez notre équipe de support.",
+    "form": {
+      "title": "Envoyez-nous un message",
+      "validationError": "Veuillez remplir tous les champs obligatoires.",
+      "successMessage": "Merci ! Votre message a été envoyé.",
+      "nameLabel": "Votre nom",
+      "namePlaceholder": "Jean Dupont",
+      "emailLabel": "Adresse e-mail",
+      "emailPlaceholder": "vous@exemple.com",
+      "subjectLabel": "Sujet",
+      "subjectPlaceholder": "Comment pouvons-nous vous aider ?",
+      "messageLabel": "Message",
+      "messagePlaceholder": "Écrivez votre message ici...",
+      "submitting": "Envoi en cours...",
+      "submit": "Envoyer le message"
+    },
+    "submitted": {
+      "title": "Message reçu !",
+      "desc": "Merci de nous avoir contactés. Un représentant du service client vous répondra dans les 24 heures.",
+      "sendAnother": "Envoyer un autre message"
+    },
+    "info": {
+      "emailTitle": "Support par e-mail",
+      "phoneTitle": "Support téléphonique",
+      "hoursTitle": "Heures d'ouverture",
+      "locationTitle": "Siège social"
+    }
+  },
+  "productDetails": {
+    "keyFeatures": "Caractéristiques principales",
+    "seoDescription": "Détails complets, fonctionnalités et spécifications de ce produit chez Oversea Store.",
+    "powerDelivery": "Alimentation",
+    "displaySupport": "Support d'affichage",
+    "ethernet": "Ethernet",
+    "usbPorts": "Ports USB",
+    "sdCard": "SD/microSD",
+    "totalPorts": "Total des ports",
+    "osCompatibility": "Mac & Windows",
+    "osCompatible": "Compatible",
+    "premiumBuild": "Finition premium",
+    "aluminumChassis": "Boîtier en aluminium",
+    "buyNow": "Acheter maintenant",
+    "share": "Partager",
+    "linkCopied": "Lien du produit copié dans le presse-papiers",
+    "answeredQuestions": "{{count}} questions répondues",
+    "freeShipping": "Livraison gratuite",
+    "freeShippingDesc": "dès 100 $ d'achat",
+    "officialWarranty": "Garantie 1 an",
+    "officialWarrantyDesc": "Garantie officielle",
+    "easyReturns": "Retours faciles",
+    "easyReturnsDesc": "Politique de retour sous 30 jours",
+    "shipsWithin": "Expédié sous 1 à 2 jours ouvrables",
+    "showMore": "Voir plus",
+    "showLess": "Voir moins"
   }
 }

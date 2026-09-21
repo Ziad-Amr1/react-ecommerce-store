@@ -25,6 +25,11 @@ const SHARED_NAMESPACES = [
   "checkout",
   "orderSuccess",
   "wishlist",
+  "categoriesStore",
+  "help",
+  "shipping",
+  "contact",
+  "productDetails",
 ];
 
 describe("i18n locale parity (shared namespaces)", () => {

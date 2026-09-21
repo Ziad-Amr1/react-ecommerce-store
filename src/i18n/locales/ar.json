@@ -530,7 +530,14 @@
         "accessories": "الإكسسوارات",
         "sunglasses": "النظارات الشمسية",
         "beauty": "الجمال",
-        "fashion": "الأزياء"
+        "fashion": "الأزياء",
+        "menFashion": "أزياء الرجال",
+        "womenFashion": "أزياء النساء",
+        "skinCare": "العناية بالبشرة",
+        "gaming": "الألعاب",
+        "health": "الصحة والتغذية",
+        "jewelry": "المجوهرات",
+        "fragrance": "العطور"
       }
     },
     "banner": {
@@ -1384,14 +1391,10 @@
   "categoriesStore": {
     "title": "تصفح الفئات",
     "description": "استكشف كتالوج المتجر حسب الفئة للعثور على ما تحتاجه بالضبط.",
-    "searchPlaceholder": "ابحث في الفئات أو الفئات الفرعية...",
+    "searchPlaceholder": "ابحث في الفئات...",
     "noResultsTitle": "لم يتم العثور على فئات",
     "noResultsDesc": "جرب البحث باستخدام كلمة رئيسية أخرى.",
-    "clearSearch": "مسح البحث",
-    "itemCount": "{{count}} منتجات",
-    "badge": "شائع",
-    "subcategories": "الفئات الفرعية",
-    "exploreCategory": "استكشف {{name}}"
+    "clearSearch": "مسح البحث"
   },
   "help": {
     "title": "مركز المساعدة والأسئلة الشائعة",

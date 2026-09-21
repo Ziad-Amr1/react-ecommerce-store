@@ -530,7 +530,14 @@
         "accessories": "Аксессуары",
         "sunglasses": "Солнцезащитные очки",
         "beauty": "Красота",
-        "fashion": "Мода"
+        "fashion": "Мода",
+        "menFashion": "Мужская мода",
+        "womenFashion": "Женская мода",
+        "skinCare": "Уход за кожей",
+        "gaming": "Игры",
+        "health": "Здоровье и питание",
+        "jewelry": "Ювелирные изделия",
+        "fragrance": "Парфюмерия"
       }
     },
     "banner": {
@@ -1384,14 +1391,10 @@
   "categoriesStore": {
     "title": "Просмотр категорий",
     "description": "Изучите наш каталог по категориям, чтобы найти именно то, что вам нужно.",
-    "searchPlaceholder": "Поиск категорий или подкатегорий...",
+    "searchPlaceholder": "Поиск категорий...",
     "noResultsTitle": "Категории не найдены",
     "noResultsDesc": "Попробуйте использовать другие ключевые слова.",
-    "clearSearch": "Очистить поиск",
-    "itemCount": "{{count}} товаров",
-    "badge": "Популярное",
-    "subcategories": "Подкатегории",
-    "exploreCategory": "Исследовать {{name}}"
+    "clearSearch": "Очистить поиск"
   },
   "help": {
     "title": "Центр помощи и FAQ",

@@ -77,6 +77,7 @@ export default function Shop() {
 
   const handlePageChange = (page) => {
     setSearchParams({ page: String(page) });
+    window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
   const resultsCount = totalProducts != null ? totalProducts : products.length;
@@ -167,7 +168,7 @@ export default function Shop() {
             {/* Product Feed */}
             {isLoading ? (
               <div
-                className={`grid gap-6 ${filters.viewMode === "grid" ? "grid-cols-1 sm:grid-cols-2 lg:grid-cols-3" : "grid-cols-1"}`}
+                className={`grid gap-6 ${filters.viewMode === "grid" ? "grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4" : "grid-cols-1"}`}
               >
                 {Array.from({ length: 8 }).map((_, index) => (
                   <ProductSkeleton key={index} viewMode={filters.viewMode} />
@@ -206,7 +207,7 @@ export default function Shop() {
               </div>
             ) : (
               <div
-                className={`grid gap-6 ${filters.viewMode === "grid" ? "grid-cols-1 sm:grid-cols-2 lg:grid-cols-3" : "grid-cols-1"}`}
+                className={`grid gap-6 ${filters.viewMode === "grid" ? "grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4" : "grid-cols-1"}`}
               >
                 {products.map((product) => (
                   <ProductCard

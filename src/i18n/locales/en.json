@@ -530,7 +530,14 @@
         "accessories": "Accessories",
         "sunglasses": "Sunglasses",
         "beauty": "Beauty",
-        "fashion": "Fashion"
+        "fashion": "Fashion",
+        "menFashion": "Men's Fashion",
+        "womenFashion": "Women's Fashion",
+        "skinCare": "Skin Care",
+        "gaming": "Gaming",
+        "health": "Health & Nutrition",
+        "jewelry": "Jewelry",
+        "fragrance": "Fragrances"
       }
     },
     "banner": {
@@ -1384,14 +1391,10 @@
   "categoriesStore": {
     "title": "Browse Categories",
     "description": "Explore our store catalog by category to find exactly what you need.",
-    "searchPlaceholder": "Search categories or subcategories...",
+    "searchPlaceholder": "Search categories...",
     "noResultsTitle": "No categories found",
     "noResultsDesc": "Try searching with a different keyword.",
-    "clearSearch": "Clear search",
-    "itemCount": "{{count}} items",
-    "badge": "Popular",
-    "subcategories": "Subcategories",
-    "exploreCategory": "Explore {{name}}"
+    "clearSearch": "Clear search"
   },
   "help": {
     "title": "Help Center & FAQ",

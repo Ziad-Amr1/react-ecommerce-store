@@ -5,6 +5,12 @@ const SITE_NAME = "Oversea Store";
 
 const DEFAULT_IMAGE = "/logo.webp";
 
+const DEFAULT_GEO = {
+  region: "US-CA",
+  placename: "San Francisco, CA",
+  position: "37.7749;-122.4194",
+};
+
 function getSiteUrl() {
   if (typeof window !== "undefined") {
     return window.location.origin;
@@ -39,6 +45,7 @@ export default function SEO({
   const siteTitle = t("brand.name", SITE_NAME);
   const fullTitle = title ? `${title} | ${siteTitle}` : siteTitle;
   const fullImage = toAbsoluteUrl(origin, image || DEFAULT_IMAGE);
+  const resolvedGeo = geo === false ? null : geo || DEFAULT_GEO;
 
   return (
     <>
@@ -75,17 +82,21 @@ export default function SEO({
       <meta name="twitter:image" content={fullImage} />
 
       {/* Geo targeting */}
-      {geo ? (
+      {resolvedGeo ? (
         <>
-          {geo.region && <meta name="geo.region" content={geo.region} />}
+          {resolvedGeo.region && (
+            <meta name="geo.region" content={resolvedGeo.region} />
+          )}
 
-          {geo.placename && <meta name="geo.placename" content={geo.placename} />}
+          {resolvedGeo.placename && (
+            <meta name="geo.placename" content={resolvedGeo.placename} />
+          )}
 
-          {geo.position && (
+          {resolvedGeo.position && (
             <>
-              <meta name="geo.position" content={geo.position} />
+              <meta name="geo.position" content={resolvedGeo.position} />
 
-              <meta name="ICBM" content={geo.position} />
+              <meta name="ICBM" content={resolvedGeo.position} />
             </>
           )}
         </>

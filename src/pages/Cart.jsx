@@ -66,6 +66,7 @@ export default function Cart() {
   } = useCart();
   const [isClearOpen, setIsClearOpen] = useState(false);
   const [isClearing, setIsClearing] = useState(false);
+  const [pendingRemove, setPendingRemove] = useState(null);
 
   const isGuest = !user;
   const locale = i18n.language || "en-US";
@@ -223,7 +224,7 @@ export default function Cart() {
                         variant="ghost"
                         size="icon-sm"
                         className="cursor-pointer text-muted-foreground hover:text-(--color-error)"
-                        onClick={() => handleRemove(item)}
+                        onClick={() => setPendingRemove(item)}
                         disabled={isUpdating}
                         aria-label={t("cart.removeItem", { name: item.name })}
                       >
@@ -339,6 +340,39 @@ export default function Cart() {
               disabled={isClearing}
             >
               {isClearing ? t("cart.clearing") : t("cart.clearConfirm")}
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
+
+      {/* Remove item confirmation */}
+      <AlertDialog
+        open={pendingRemove !== null}
+        onOpenChange={(open) => !open && !isUpdating && setPendingRemove(null)}
+      >
+        <AlertDialogContent size="sm">
+          <AlertDialogHeader>
+            <AlertDialogMedia className="bg-(--color-error-bg) text-(--color-error)">
+              <Trash2 aria-hidden="true" />
+            </AlertDialogMedia>
+            <AlertDialogTitle className="font-display">
+              {t("cart.removeTitle")}
+            </AlertDialogTitle>
+            <AlertDialogDescription>
+              {t("cart.removeDescription", { name: pendingRemove?.name ?? "" })}
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+
+          <AlertDialogFooter>
+            <AlertDialogCancel disabled={isUpdating}>
+              {t("cart.cancel")}
+            </AlertDialogCancel>
+            <AlertDialogAction
+              variant="destructive"
+              onClick={() => pendingRemove && handleRemove(pendingRemove)}
+              disabled={isUpdating}
+            >
+              {t("cart.removeConfirm")}
             </AlertDialogAction>
           </AlertDialogFooter>
         </AlertDialogContent>

@@ -22,6 +22,17 @@ import {
 import AccountPageHeader from "@/components/layout/AccountPageHeader";
 import useNotifications from "@/hooks/useNotifications";
 import SEO from "@/components/SEO/SEO";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogMedia,
+  AlertDialogTitle,
+} from "@/components/ui/alert-dialog";
 
 const ICON_MAP = {
   Package,
@@ -41,6 +52,8 @@ export default function Notifications() {
     clearAll,
   } = useNotifications();
   const [filter, setFilter] = useState("all");
+  const [pendingDelete, setPendingDelete] = useState(null);
+  const [isClearOpen, setIsClearOpen] = useState(false);
 
   const filtered = notifications.filter((n) => (filter === "unread" ? !n.read : true));
 
@@ -76,7 +89,7 @@ export default function Notifications() {
               <Button
                 variant="ghost"
                 size="sm"
-                onClick={clearAll}
+                onClick={() => setIsClearOpen(true)}
                 className="gap-1.5 rounded-xl cursor-pointer text-xs text-muted-foreground hover:text-destructive"
               >
                 <Trash2 className="size-3.5" />
@@ -177,7 +190,7 @@ export default function Notifications() {
                       <Button
                         variant="ghost"
                         size="sm"
-                        onClick={() => deleteNotification(item.id)}
+                        onClick={() => setPendingDelete(item)}
                         className="h-7 text-[11px] px-2 rounded-lg text-muted-foreground hover:text-destructive cursor-pointer"
                       >
                         {t("common.delete", "Delete")}
@@ -190,6 +203,69 @@ export default function Notifications() {
           })}
         </div>
       )}
+
+      {/* Delete notification confirmation */}
+      <AlertDialog
+        open={pendingDelete !== null}
+        onOpenChange={(open) => !open && setPendingDelete(null)}
+      >
+        <AlertDialogContent size="sm">
+          <AlertDialogHeader>
+            <AlertDialogMedia className="bg-(--color-error-bg) text-(--color-error)">
+              <Trash2 aria-hidden="true" />
+            </AlertDialogMedia>
+            <AlertDialogTitle className="font-display">
+              {t("notifications.deleteTitle", "Delete notification?")}
+            </AlertDialogTitle>
+            <AlertDialogDescription>
+              {t(
+                "notifications.deleteDescription",
+                "This notification will be permanently removed. This action can't be undone.",
+              )}
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+
+          <AlertDialogFooter>
+            <AlertDialogCancel>{t("common.cancel", "Cancel")}</AlertDialogCancel>
+            <AlertDialogAction
+              variant="destructive"
+              onClick={() => pendingDelete && deleteNotification(pendingDelete.id)}
+            >
+              {t("notifications.deleteConfirm", "Delete")}
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
+
+      {/* Clear all notifications confirmation */}
+      <AlertDialog
+        open={isClearOpen}
+        onOpenChange={(open) => !open && setIsClearOpen(false)}
+      >
+        <AlertDialogContent size="sm">
+          <AlertDialogHeader>
+            <AlertDialogMedia className="bg-(--color-error-bg) text-(--color-error)">
+              <Trash2 aria-hidden="true" />
+            </AlertDialogMedia>
+            <AlertDialogTitle className="font-display">
+              {t("notifications.clearAllTitle", "Clear all notifications?")}
+            </AlertDialogTitle>
+            <AlertDialogDescription>
+              {t(
+                "notifications.clearAllDescription",
+                "All notifications will be permanently removed. This action can't be undone.",
+              )}
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+
+          <AlertDialogFooter>
+            <AlertDialogCancel>{t("common.cancel", "Cancel")}</AlertDialogCancel>
+            <AlertDialogAction variant="destructive" onClick={clearAll}>
+              {t("notifications.clearAllConfirm", "Clear all")}
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
     </div>
   );
 }

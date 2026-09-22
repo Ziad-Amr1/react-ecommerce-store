@@ -1,7 +1,8 @@
-import { SlidersHorizontal, Check, X } from "lucide-react";
+import { SlidersHorizontal, Check, X, ShoppingBag } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Slider } from "@/components/ui/slider";
+import { Checkbox } from "@/components/ui/checkbox";
 import {
   Select,
   SelectContent,
@@ -9,6 +10,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { AVAILABILITY_OPTIONS } from "@/features/products/useShopFilters";
 
 export default function ShopSidebar({
   categories,
@@ -27,6 +29,10 @@ export default function ShopSidebar({
   priceCeiling,
   sortBy,
   setSortBy,
+  availability,
+  setAvailability,
+  discount,
+  setDiscount,
   applyFilters,
   clearFilters,
   isMobileFilterOpen,
@@ -184,6 +190,41 @@ export default function ShopSidebar({
               <SelectItem value="rating">{t("shop.sortTopRated", "Top Rated")}</SelectItem>
             </SelectContent>
           </Select>
+        </div>
+
+        {/* Availability */}
+        <div className="space-y-3 pt-3 border-t border-(--color-border)">
+          <span className="text-xs font-semibold text-(--color-text-secondary) uppercase tracking-wider">
+            {t("shop.availability", "Availability")}
+          </span>
+          <Select value={availability} onValueChange={setAvailability}>
+            <SelectTrigger aria-label={t("shop.availability", "Availability")} className="w-full h-10 rounded-xl border-(--color-border) bg-(--color-surface-secondary) px-3.5 text-sm font-medium text-(--color-text-primary)">
+              <SelectValue placeholder={t("shop.availabilityAny", "Any")} />
+            </SelectTrigger>
+            <SelectContent>
+              {AVAILABILITY_OPTIONS.map((option) => (
+                <SelectItem key={option.value} value={option.value}>
+                  {t(option.labelKey)}
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
+        </div>
+
+        {/* Discount */}
+        <div className="space-y-3 pt-3 border-t border-(--color-border)">
+          <span className="text-xs font-semibold text-(--color-text-secondary) uppercase tracking-wider">
+            {t("shop.onSale", "Discount")}
+          </span>
+          <label className="flex items-center gap-3 cursor-pointer select-none px-1 py-1 text-sm text-(--color-text-primary)">
+            <Checkbox
+              checked={discount}
+              onCheckedChange={(checked) => setDiscount(checked === true)}
+              aria-label={t("shop.onSale", "Discount")}
+            />
+            <ShoppingBag className="size-4 text-(--color-text-secondary) shrink-0" />
+            <span>{t("shop.onSaleLabel", "On sale only")}</span>
+          </label>
         </div>
 
         {/* Actions: Apply & Clear */}

@@ -7,7 +7,7 @@
     "dev": "vite",
     "build": "vite build",
     "lint": "eslint .",
-    "test": "vitest",
+    "test": "vitest run",
     "test:e2e": "playwright test",
     "preview": "vite preview",
     "demo:validate": "node scripts/validate-dataset.mjs",

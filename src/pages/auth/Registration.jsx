@@ -109,7 +109,7 @@ export default function Registration() {
   };
 
   return (
-    <main className="flex min-h-screen items-center justify-center bg-background p-4 sm:p-6">
+    <main className="flex min-h-dvh justify-center bg-background px-4 py-8 sm:px-6">
       <SEO
         title={t("auth.register.title", "Create Account")}
         description={t(
@@ -119,7 +119,7 @@ export default function Registration() {
         url="/register"
         noindex
       />
-      <div className="flex w-full max-w-6xl overflow-hidden rounded-2xl border border-(--color-border) bg-(--color-surface) shadow-xl">
+      <div className="my-auto flex w-full max-w-6xl overflow-hidden rounded-2xl border border-(--color-border) bg-(--color-surface) shadow-xl">
         {/* LEFT SIDE */}
         <div className="hidden w-1/2 flex-col justify-between bg-primary p-12 text-primary-foreground lg:flex">
           <AuthHero

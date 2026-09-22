@@ -9,7 +9,6 @@ import {
 import { useTranslation } from "react-i18next";
 import heroImage from "../assets/hero.webp";
 import ProsCard from "./ProsCard";
-import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 
 const prosItems = [
@@ -33,14 +32,6 @@ export default function LandingHero() {
         <div className="grid items-center gap-10 pt-10 lg:grid-cols-2 lg:gap-16 lg:pt-16 2xl:gap-20 2xl:pt-24">
           {/* ── Left: message ─────────────────────────────────────── */}
           <header className="flex flex-col items-start gap-6 xl:max-w-[38rem] 2xl:max-w-[42rem]">
-            {/* Announcement pill — common shadcn hero pattern */}
-            <Badge
-              variant="outline"
-              className="border-(--color-supporting) bg-(--color-accent) text-(--color-on-accent) xl:px-4 xl:text-base"
-            >
-              {t("landing.hero.badge")}
-            </Badge>
-
             <div className="space-y-4">
               <h1
                 id="landing-hero-title"

@@ -98,10 +98,10 @@ export default function HeaderActionButtons() {
           <DropdownMenuTrigger asChild>
             <button
               type="button"
-              className="flex shrink-0 cursor-pointer select-none items-center gap-2 rounded-full bg-(--color-link) px-3 py-2 text-sm text-(--color-on-link) focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-(--color-focus-ring) focus-visible:ring-offset-2"
+              className="flex size-9 shrink-0 cursor-pointer select-none items-center justify-center gap-2 overflow-hidden rounded-full bg-(--color-link) p-0 text-sm text-(--color-on-link) focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-(--color-focus-ring) focus-visible:ring-offset-2 md:size-auto md:px-3 md:py-2"
               aria-label={t("navigation.accountDropdown")}
             >
-              <span className="flex size-6 shrink-0 items-center justify-center overflow-hidden rounded-full bg-(--color-on-link)/20 text-xs font-bold">
+              <span className="flex size-8 shrink-0 items-center justify-center overflow-hidden rounded-full bg-(--color-on-link)/20 text-xs font-bold md:size-6">
                 {avatar ? (
                   <img src={avatar} alt="" className="size-full object-cover" />
                 ) : (
@@ -116,7 +116,11 @@ export default function HeaderActionButtons() {
                 {identity ?? t("navigation.roleAdmin")}
               </span>
 
-              <ChevronDown size={14} aria-hidden="true" className="shrink-0" />
+              <ChevronDown
+                size={14}
+                aria-hidden="true"
+                className="hidden shrink-0 md:inline"
+              />
             </button>
           </DropdownMenuTrigger>
 

@@ -73,7 +73,7 @@ export default function ForgetPassword() {
   };
 
   return (
-    <main className="flex min-h-screen items-center justify-center bg-(--color-background) p-4">
+    <main className="flex min-h-dvh justify-center bg-(--color-background) px-4 py-8">
       <SEO
         title={t("auth.forgetPassword.title", "Forgot Password?")}
         description={t(
@@ -83,7 +83,7 @@ export default function ForgetPassword() {
         url="/forgot-password"
         noindex
       />
-      <div className="flex w-full max-w-6xl overflow-hidden rounded-(--radius-2xl) bg-(--color-surface) shadow-(--shadow-xl) border border-(--color-border)">
+      <div className="my-auto flex w-full max-w-6xl overflow-hidden rounded-(--radius-2xl) bg-(--color-surface) shadow-(--shadow-xl) border border-(--color-border)">
         {/* LEFT SIDE */}
         <div className="hidden w-1/2 flex-col justify-between bg-(--color-primary) p-12 text-(--color-on-primary) lg:flex">
           <AuthHero

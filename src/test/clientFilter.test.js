@@ -74,6 +74,57 @@ describe("applyFiltersToCatalog - sorting", () => {
   });
 });
 
+describe("applyFiltersToCatalog - availability + discount", () => {
+  const STOCKED = [
+    { _id: "s1", name: "In-stock item", category: "Electronics", subcategory: "Audio", brand: "A", price: 50, stock: 8, discountPrice: null },
+    { _id: "s2", name: "Sold out item", category: "Electronics", subcategory: "Audio", brand: "A", price: 40, stock: 0, discountPrice: null },
+    { _id: "s3", name: "On sale item", category: "Electronics", subcategory: "Audio", brand: "A", price: 80, stock: 12, discountPrice: 55 },
+    { _id: "s4", name: "Low stock item", category: "Electronics", subcategory: "Audio", brand: "A", price: 90, stock: 2, discountPrice: 45 },
+  ];
+
+  it("filters by in-stock availability", () => {
+    const { items, total } = applyFiltersToCatalog(STOCKED, {
+      availability: "in_stock",
+    });
+    expect(total).toBe(3);
+    expect(items.map((p) => p._id)).toEqual(["s1", "s3", "s4"]);
+  });
+
+  it("filters by out-of-stock availability", () => {
+    const { items, total } = applyFiltersToCatalog(STOCKED, {
+      availability: "out_of_stock",
+    });
+    expect(total).toBe(1);
+    expect(items.map((p) => p._id)).toEqual(["s2"]);
+  });
+
+  it("filters by discount", () => {
+    const { items, total } = applyFiltersToCatalog(STOCKED, {
+      discount: true,
+    });
+    expect(total).toBe(2);
+    expect(items.map((p) => p._id)).toEqual(["s3", "s4"]);
+  });
+
+  it("ignores availability/discount when unset", () => {
+    const { total } = applyFiltersToCatalog(STOCKED, {
+      availability: "Any",
+      discount: false,
+    });
+    expect(total).toBe(STOCKED.length);
+  });
+
+  it("combines availability, discount and subcategory", () => {
+    const { total } = applyFiltersToCatalog(STOCKED, {
+      category: "Electronics",
+      subcategory: "Audio",
+      availability: "in_stock",
+      discount: true,
+    });
+    expect(total).toBe(2);
+  });
+});
+
 describe("applyFiltersToCatalog - pagination", () => {
   it("paginates to the requested page size", () => {
     const page1 = applyFiltersToCatalog(PRODUCTS, {}, { page: 1, pageSize: 3 });

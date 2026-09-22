@@ -1,53 +1,70 @@
 import { lazy, Suspense } from "react";
-import Landing from "./pages/Landing.jsx";
-import Profile from "./pages/Profile.jsx";
 import AdminLayout from "./components/layout/AdminLayout";
 import StoreLayout from "./components/layout/StoreLayout";
 import { Routes, Route } from "react-router";
-import Dashboard from "./pages/admin/Dashboard";
-import Products from "./pages/admin/Products";
-import AddProduct from "./pages/admin/AddProduct";
-import EditProduct from "./pages/admin/EditProduct";
-import AdminProductDetails from "./pages/admin/ProductDetails";
-import StoreProductDetails from "./pages/ProductDetails.jsx";
-import Orders from "./pages/admin/Orders";
-import Users from "./pages/admin/Users";
-import Carts from "./pages/admin/Carts";
-import Categories from "./pages/admin/Categories";
-import Reviews from "./pages/admin/Reviews";
-import Wishlists from "./pages/admin/Wishlists";
-import Coupons from "./pages/admin/Coupons";
-import Reports from "./pages/admin/Reports";
-import Settings from "./pages/admin/Settings";
-import Login from "./pages/auth/Login.jsx";
-import Registration from "./pages/auth/Registration.jsx";
-import ForgetPassword from "./pages/auth/ForgetPassword.jsx";
-import VerifyOtp from "./pages/auth/VerifyOtp.jsx";
-import NotFound from "./pages/NotFound.jsx";
-import Maintenance from "./pages/Maintenance.jsx";
 import ProtectedRoute from "./ProtectedRoute.jsx";
 import RequireAuth from "./RequireAuth.jsx";
-import Shop from "./pages/Shop.jsx";
-import Cart from "./pages/Cart.jsx";
-import Checkout from "./pages/Checkout/Checkout.jsx";
-import OrderSuccess from "./pages/OrderSuccess.jsx";
-import About from "./pages/About.jsx";
-import MyOrders from "./pages/MyOrders.jsx";
-import OrderDetails from "./pages/OrderDetails.jsx";
-import Wishlist from "./pages/Wishlist.jsx";
-import Notifications from "./pages/Notifications.jsx";
 import NotificationProvider from "./contexts/NotificationProvider.jsx";
 import WishlistProvider from "./contexts/WishlistProvider.jsx";
-import Privacy from "./pages/Privacy.jsx";
-import CategoriesStore from "./pages/CategoriesStore.jsx";
-import HelpCenter from "./pages/HelpCenter.jsx";
-import ShippingReturns from "./pages/ShippingReturns.jsx";
-import Contact from "./pages/Contact.jsx";
 import { TooltipProvider } from "@/components/ui/tooltip";
+import Maintenance from "./pages/Maintenance.jsx";
+import NotFound from "./pages/NotFound.jsx";
 
+const Landing = lazy(() => import("./pages/Landing.jsx"));
+const Shop = lazy(() => import("./pages/Shop.jsx"));
+const StoreProductDetails = lazy(() => import("./pages/ProductDetails.jsx"));
+const CategoriesStore = lazy(() => import("./pages/CategoriesStore.jsx"));
+const About = lazy(() => import("./pages/About.jsx"));
+const Privacy = lazy(() => import("./pages/Privacy.jsx"));
+const HelpCenter = lazy(() => import("./pages/HelpCenter.jsx"));
+const ShippingReturns = lazy(() => import("./pages/ShippingReturns.jsx"));
+const Contact = lazy(() => import("./pages/Contact.jsx"));
+const MyOrders = lazy(() => import("./pages/MyOrders.jsx"));
+const OrderDetails = lazy(() => import("./pages/OrderDetails.jsx"));
+const Wishlist = lazy(() => import("./pages/Wishlist.jsx"));
+const Checkout = lazy(() => import("./pages/Checkout/Checkout.jsx"));
+const OrderSuccess = lazy(() => import("./pages/OrderSuccess.jsx"));
+const Notifications = lazy(() => import("./pages/Notifications.jsx"));
+const Cart = lazy(() => import("./pages/Cart.jsx"));
+const Profile = lazy(() => import("./pages/Profile.jsx"));
+const Login = lazy(() => import("./pages/auth/Login.jsx"));
+const Registration = lazy(() => import("./pages/auth/Registration.jsx"));
+const ForgetPassword = lazy(() => import("./pages/auth/ForgetPassword.jsx"));
+const VerifyOtp = lazy(() => import("./pages/auth/VerifyOtp.jsx"));
+const Dashboard = lazy(() => import("./pages/admin/Dashboard"));
+const Products = lazy(() => import("./pages/admin/Products"));
+const AddProduct = lazy(() => import("./pages/admin/AddProduct"));
+const EditProduct = lazy(() => import("./pages/admin/EditProduct"));
+const AdminProductDetails = lazy(() => import("./pages/admin/ProductDetails"));
+const Orders = lazy(() => import("./pages/admin/Orders"));
+const Users = lazy(() => import("./pages/admin/Users"));
+const Carts = lazy(() => import("./pages/admin/Carts"));
+const Categories = lazy(() => import("./pages/admin/Categories"));
+const Reviews = lazy(() => import("./pages/admin/Reviews"));
+const Wishlists = lazy(() => import("./pages/admin/Wishlists"));
+const Coupons = lazy(() => import("./pages/admin/Coupons"));
+const Reports = lazy(() => import("./pages/admin/Reports"));
+const Settings = lazy(() => import("./pages/admin/Settings"));
 const DesignSystem = lazy(() => import("./pages/DesignSystem"));
 
 const MAINTENANCE_MODE = import.meta.env.VITE_MAINTENANCE_MODE === "true";
+
+function AppLoader({ children }) {
+  return (
+    <Suspense
+      fallback={
+        <div
+          aria-hidden="true"
+          className="flex min-h-[60vh] items-center justify-center p-6"
+        >
+          <span className="h-8 w-8 animate-spin rounded-full border-4 border-(--color-surface-muted) border-t-(--color-primary)" />
+        </div>
+      }
+    >
+      {children}
+    </Suspense>
+  );
+}
 
 function App() {
   if (MAINTENANCE_MODE) {
@@ -60,72 +77,53 @@ function App() {
         <WishlistProvider>
         <Routes>
         <Route element={<StoreLayout />}>
-          <Route path="/" element={<Landing />} />
-          <Route path="/products" element={<Shop />} />
-          <Route path="/products/:id" element={<StoreProductDetails />} />
-          <Route path="/categories" element={<CategoriesStore />} />
-          <Route path="/about" element={<About />} />
-          <Route path="/privacy" element={<Privacy />} />
-          <Route path="/help" element={<HelpCenter />} />
-          <Route path="/shipping" element={<ShippingReturns />} />
-          <Route path="/contact" element={<Contact />} />
+          <Route path="/" element={<AppLoader><Landing /></AppLoader>} />
+          <Route path="/products" element={<AppLoader><Shop /></AppLoader>} />
+          <Route path="/products/:id" element={<AppLoader><StoreProductDetails /></AppLoader>} />
+          <Route path="/categories" element={<AppLoader><CategoriesStore /></AppLoader>} />
+          <Route path="/about" element={<AppLoader><About /></AppLoader>} />
+          <Route path="/privacy" element={<AppLoader><Privacy /></AppLoader>} />
+          <Route path="/help" element={<AppLoader><HelpCenter /></AppLoader>} />
+          <Route path="/shipping" element={<AppLoader><ShippingReturns /></AppLoader>} />
+          <Route path="/contact" element={<AppLoader><Contact /></AppLoader>} />
           <Route element={<RequireAuth />}>
-            <Route path="/my-orders" element={<MyOrders />} />
-            <Route path="/my-orders/:id" element={<OrderDetails />} />
-            <Route path="/wishlist" element={<Wishlist />} />
-            <Route path="/checkout" element={<Checkout />} />
-            <Route path="/order-success" element={<OrderSuccess />} />
-            <Route path="/notifications" element={<Notifications />} />
+            <Route path="/my-orders" element={<AppLoader><MyOrders /></AppLoader>} />
+            <Route path="/my-orders/:id" element={<AppLoader><OrderDetails /></AppLoader>} />
+            <Route path="/wishlist" element={<AppLoader><Wishlist /></AppLoader>} />
+            <Route path="/checkout" element={<AppLoader><Checkout /></AppLoader>} />
+            <Route path="/order-success" element={<AppLoader><OrderSuccess /></AppLoader>} />
+            <Route path="/notifications" element={<AppLoader><Notifications /></AppLoader>} />
           </Route>
-          <Route path="/cart" element={<Cart />} />
-          <Route path="/profile" element={<Profile />} />
+          <Route path="/cart" element={<AppLoader><Cart /></AppLoader>} />
+          <Route path="/profile" element={<AppLoader><Profile /></AppLoader>} />
         </Route>
-        <Route
-          path="/design-system"
-          element={
-            <Suspense
-              fallback={
-                <div className="mx-auto w-full max-w-6xl space-y-4 p-6">
-                  <div className="h-10 w-2/3 animate-pulse rounded-lg bg-(--color-surface-muted)" />
-                  <div className="h-4 w-1/2 animate-pulse rounded bg-(--color-surface-muted)" />
-                  <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-                    <div className="h-40 animate-pulse rounded-xl bg-(--color-surface-muted)" />
-                    <div className="h-40 animate-pulse rounded-xl bg-(--color-surface-muted)" />
-                    <div className="h-40 animate-pulse rounded-xl bg-(--color-surface-muted)" />
-                  </div>
-                </div>
-              }
-            >
-              <DesignSystem />
-            </Suspense>
-          }
-        />
-        <Route path="/login" element={<Login />} />
-        <Route path="/register" element={<Registration />} />
-        <Route path="/forgot-password" element={<ForgetPassword />} />
-        <Route path="/:flow/verify-otp" element={<VerifyOtp />} />
+        <Route path="/design-system" element={<AppLoader><DesignSystem /></AppLoader>} />
+        <Route path="/login" element={<AppLoader><Login /></AppLoader>} />
+        <Route path="/register" element={<AppLoader><Registration /></AppLoader>} />
+        <Route path="/forgot-password" element={<AppLoader><ForgetPassword /></AppLoader>} />
+        <Route path="/:flow/verify-otp" element={<AppLoader><VerifyOtp /></AppLoader>} />
 
         {/* Start of Protected Admin Routes  */}
         <Route path="/admin/*" element={<ProtectedRoute />}>
           <Route element={<AdminLayout />}>
-            <Route index element={<Dashboard />} />
-            <Route path="products" element={<Products />} />
-            <Route path="products/add" element={<AddProduct />} />
-            <Route path="products/:id/edit" element={<EditProduct />} />
-            <Route path="products/:id" element={<AdminProductDetails />} />
-            <Route path="categories" element={<Categories />} />
-            <Route path="orders" element={<Orders />} />
-            <Route path="users" element={<Users />} />
-            <Route path="carts" element={<Carts />} />
-            <Route path="reviews" element={<Reviews />} />
-            <Route path="wishlists" element={<Wishlists />} />
-            <Route path="coupons" element={<Coupons />} />
-            <Route path="reports" element={<Reports />} />
-            <Route path="settings" element={<Settings />} />
+            <Route index element={<AppLoader><Dashboard /></AppLoader>} />
+            <Route path="products" element={<AppLoader><Products /></AppLoader>} />
+            <Route path="products/add" element={<AppLoader><AddProduct /></AppLoader>} />
+            <Route path="products/:id/edit" element={<AppLoader><EditProduct /></AppLoader>} />
+            <Route path="products/:id" element={<AppLoader><AdminProductDetails /></AppLoader>} />
+            <Route path="categories" element={<AppLoader><Categories /></AppLoader>} />
+            <Route path="orders" element={<AppLoader><Orders /></AppLoader>} />
+            <Route path="users" element={<AppLoader><Users /></AppLoader>} />
+            <Route path="carts" element={<AppLoader><Carts /></AppLoader>} />
+            <Route path="reviews" element={<AppLoader><Reviews /></AppLoader>} />
+            <Route path="wishlists" element={<AppLoader><Wishlists /></AppLoader>} />
+            <Route path="coupons" element={<AppLoader><Coupons /></AppLoader>} />
+            <Route path="reports" element={<AppLoader><Reports /></AppLoader>} />
+            <Route path="settings" element={<AppLoader><Settings /></AppLoader>} />
           </Route>
         </Route>
-        <Route path="/maintenance" element={<Maintenance />} />
-        <Route path="*" element={<NotFound />} />
+        <Route path="/maintenance" element={<AppLoader><Maintenance /></AppLoader>} />
+        <Route path="*" element={<AppLoader><NotFound /></AppLoader>} />
       </Routes>
         </WishlistProvider>
     </NotificationProvider>

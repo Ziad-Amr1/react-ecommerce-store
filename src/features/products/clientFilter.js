@@ -31,6 +31,13 @@ export function applyFiltersToCatalog(
   const equals = (value, filter) =>
     !filter || filter === "All" || String(value ?? "").toLowerCase() === String(filter).toLowerCase();
 
+  // A product is "on sale" when it carries a lower discount price (mirrors the
+  // ProductCard discount logic).
+  const hasDiscount = (p) =>
+    p.discountPrice != null &&
+    Number(p.discountPrice) > 0 &&
+    Number(p.discountPrice) < Number(p.price);
+
   let items = source.filter((p) => {
     if (!matchesSearch(p)) {
       return false;
@@ -42,6 +49,15 @@ export function applyFiltersToCatalog(
       return false;
     }
     if (!equals(p.subcategory, applied.subcategory)) {
+      return false;
+    }
+    if (applied.availability === "in_stock" && !(Number(p.stock) > 0)) {
+      return false;
+    }
+    if (applied.availability === "out_of_stock" && Number(p.stock) !== 0) {
+      return false;
+    }
+    if (applied.discount === true && !hasDiscount(p)) {
       return false;
     }
     const price = Number(p.price) || 0;

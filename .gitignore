@@ -31,6 +31,11 @@ dist-ssr
 # docs
 docs/personal/
 
+# AI tooling context files (local only, never commit or push)
+AGENT.md
+AGENTS.md
+CLAUDE.md
+
 # Playwright artifacts
 test-results/
 playwright-report/

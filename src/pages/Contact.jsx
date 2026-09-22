@@ -112,7 +112,8 @@ export default function Contact() {
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     <div className="space-y-1.5">
                       <Label htmlFor="contact-name">
-                        {t("contact.form.nameLabel", "Your Name")} *
+                        {t("contact.form.nameLabel", "Your Name")}{" "}
+                        <span className="text-(--color-error)" aria-hidden="true">*</span>
                       </Label>
                       <Input
                         id="contact-name"
@@ -126,7 +127,8 @@ export default function Contact() {
 
                     <div className="space-y-1.5">
                       <Label htmlFor="contact-email">
-                        {t("contact.form.emailLabel", "Email Address")} *
+                        {t("contact.form.emailLabel", "Email Address")}{" "}
+                        <span className="text-(--color-error)" aria-hidden="true">*</span>
                       </Label>
                       <Input
                         id="contact-email"
@@ -155,7 +157,8 @@ export default function Contact() {
 
                   <div className="space-y-1.5">
                     <Label htmlFor="contact-message">
-                      {t("contact.form.messageLabel", "Message")} *
+                      {t("contact.form.messageLabel", "Message")}{" "}
+                      <span className="text-(--color-error)" aria-hidden="true">*</span>
                     </Label>
                     <Textarea
                       id="contact-message"
@@ -187,76 +190,72 @@ export default function Contact() {
 
           {/* Contact Information Sidebar */}
           <div className="space-y-4">
-            <Card className="rounded-2xl border bg-card p-5">
-              <CardContent className="p-0 flex items-start gap-4">
-                <div className="flex size-10 shrink-0 items-center justify-center rounded-xl bg-primary/10 text-primary">
-                  <Mail className="size-5" />
+            <Card className="overflow-hidden rounded-2xl border bg-card">
+              <CardContent className="divide-y divide-border p-0">
+                <div className="flex items-start gap-4 p-5">
+                  <div className="flex size-10 shrink-0 items-center justify-center rounded-xl bg-primary/10 text-primary">
+                    <Mail className="size-5" />
+                  </div>
+                  <div>
+                    <h4 className="font-semibold text-sm">
+                      {t("contact.info.emailTitle", "Email Support")}
+                    </h4>
+                    <p className="text-xs text-muted-foreground mt-0.5">
+                      support@ecommercestore.com
+                    </p>
+                    <p className="text-xs text-muted-foreground">
+                      response@ecommercestore.com
+                    </p>
+                  </div>
                 </div>
-                <div>
-                  <h4 className="font-semibold text-sm">
-                    {t("contact.info.emailTitle", "Email Support")}
-                  </h4>
-                  <p className="text-xs text-muted-foreground mt-0.5">
-                    support@ecommercestore.com
-                  </p>
-                  <p className="text-xs text-muted-foreground">
-                    response@ecommercestore.com
-                  </p>
-                </div>
-              </CardContent>
-            </Card>
 
-            <Card className="rounded-2xl border bg-card p-5">
-              <CardContent className="p-0 flex items-start gap-4">
-                <div className="flex size-10 shrink-0 items-center justify-center rounded-xl bg-primary/10 text-primary">
-                  <Phone className="size-5" />
+                <div className="flex items-start gap-4 p-5">
+                  <div className="flex size-10 shrink-0 items-center justify-center rounded-xl bg-primary/10 text-primary">
+                    <Phone className="size-5" />
+                  </div>
+                  <div>
+                    <h4 className="font-semibold text-sm">
+                      {t("contact.info.phoneTitle", "Phone Support")}
+                    </h4>
+                    <p className="text-xs text-muted-foreground mt-0.5">
+                      +1 (800) 123-4567
+                    </p>
+                    <p className="text-xs text-muted-foreground">
+                      Toll-Free Customer Service
+                    </p>
+                  </div>
                 </div>
-                <div>
-                  <h4 className="font-semibold text-sm">
-                    {t("contact.info.phoneTitle", "Phone Support")}
-                  </h4>
-                  <p className="text-xs text-muted-foreground mt-0.5">
-                    +1 (800) 123-4567
-                  </p>
-                  <p className="text-xs text-muted-foreground">
-                    Toll-Free Customer Service
-                  </p>
-                </div>
-              </CardContent>
-            </Card>
 
-            <Card className="rounded-2xl border bg-card p-5">
-              <CardContent className="p-0 flex items-start gap-4">
-                <div className="flex size-10 shrink-0 items-center justify-center rounded-xl bg-primary/10 text-primary">
-                  <Clock className="size-5" />
+                <div className="flex items-start gap-4 p-5">
+                  <div className="flex size-10 shrink-0 items-center justify-center rounded-xl bg-primary/10 text-primary">
+                    <Clock className="size-5" />
+                  </div>
+                  <div>
+                    <h4 className="font-semibold text-sm">
+                      {t("contact.info.hoursTitle", "Business Hours")}
+                    </h4>
+                    <p className="text-xs text-muted-foreground mt-0.5">
+                      Mon - Fri: 9:00 AM - 6:00 PM
+                    </p>
+                    <p className="text-xs text-muted-foreground">
+                      Sat - Sun: 10:00 AM - 4:00 PM
+                    </p>
+                  </div>
                 </div>
-                <div>
-                  <h4 className="font-semibold text-sm">
-                    {t("contact.info.hoursTitle", "Business Hours")}
-                  </h4>
-                  <p className="text-xs text-muted-foreground mt-0.5">
-                    Mon - Fri: 9:00 AM - 6:00 PM
-                  </p>
-                  <p className="text-xs text-muted-foreground">
-                    Sat - Sun: 10:00 AM - 4:00 PM
-                  </p>
-                </div>
-              </CardContent>
-            </Card>
 
-            <Card className="rounded-2xl border bg-card p-5">
-              <CardContent className="p-0 flex items-start gap-4">
-                <div className="flex size-10 shrink-0 items-center justify-center rounded-xl bg-primary/10 text-primary">
-                  <MapPin className="size-5" />
-                </div>
-                <div>
-                  <h4 className="font-semibold text-sm">
-                    {t("contact.info.locationTitle", "Headquarters")}
-                  </h4>
-                  <p className="text-xs text-muted-foreground mt-0.5 leading-relaxed">
-                    123 Commerce Boulevard, Suite 400<br />
-                    San Francisco, CA 94105
-                  </p>
+                <div className="flex items-start gap-4 p-5">
+                  <div className="flex size-10 shrink-0 items-center justify-center rounded-xl bg-primary/10 text-primary">
+                    <MapPin className="size-5" />
+                  </div>
+                  <div>
+                    <h4 className="font-semibold text-sm">
+                      {t("contact.info.locationTitle", "Headquarters")}
+                    </h4>
+                    <p className="text-xs text-muted-foreground mt-0.5 leading-relaxed">
+                      123 Commerce Boulevard, Suite 400<br />
+                      San Francisco, CA 94105
+                    </p>
+                  </div>
                 </div>
               </CardContent>
             </Card>

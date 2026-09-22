@@ -76,7 +76,7 @@ export default function About() {
 
       {/* Values Section */}
       <section className="py-16 sm:py-20">
-        <div>
+        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <div className="text-center space-y-2 mb-12">
             <h2 className="font-display text-2xl font-bold tracking-tight sm:text-3xl text-(--color-text-primary)">
               {t("about.valuesTitle", { defaultValue: "Why Choose Oversea Store" })}
@@ -108,7 +108,7 @@ export default function About() {
 
       {/* Mission Section */}
       <section className="border-t border-b border-(--color-border) bg-(--color-surface) py-16 sm:py-20">
-        <div>
+        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 gap-12 lg:grid-cols-2 lg:items-center">
             <div className="space-y-6">
               <h2 className="font-display text-2xl font-bold tracking-tight text-(--color-text-primary) sm:text-3xl">

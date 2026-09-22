@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Link, useLocation, useNavigate, useParams } from "react-router";
+import { Link, useNavigate, useParams } from "react-router";
 import { useTranslation } from "react-i18next";
 import { toast } from "sonner";
 import {
@@ -55,7 +55,6 @@ export default function ProductDetails() {
   const navigate = useNavigate();
   const { t } = useTranslation();
   const { id } = useParams();
-  const location = useLocation();
 
   const { product, isLoading, error, retry } = useProductDetails(id);
   const { addItem } = useCart();
@@ -84,9 +83,6 @@ export default function ProductDetails() {
 
     if (!isAuthenticated) {
       toast.info(t("wishlist.signInRequired"));
-      navigate("/login", {
-        state: { from: location.pathname + location.search },
-      });
       return;
     }
 
@@ -582,9 +578,9 @@ export default function ProductDetails() {
 
                 {/* Quantity & Purchasing CTAs */}
                 <div className="space-y-3 pt-2">
-                  <div className="flex items-center gap-3">
+                  <div className="flex flex-wrap items-center gap-3">
                     {/* Quantity Stepper */}
-                    <div className="flex items-center rounded-xl border border-border bg-card p-1">
+                    <div className="flex shrink-0 items-center rounded-xl border border-border bg-card p-1">
                       <Button
                         type="button"
                         variant="ghost"
@@ -612,7 +608,7 @@ export default function ProductDetails() {
 
                     {/* Add to Cart Button */}
                     <Button
-                      className="flex-1 h-11 rounded-xl bg-foreground text-background hover:bg-foreground/90 font-semibold cursor-pointer"
+                      className="min-w-full sm:min-w-0 flex-1 h-11 rounded-xl bg-foreground text-background hover:bg-foreground/90 font-semibold cursor-pointer"
                       onClick={handleAddToCart}
                       disabled={isAdding || isOutOfStock}
                     >

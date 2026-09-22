@@ -31,5 +31,15 @@ jobs:
       - name: Lint
         run: npm run lint
 
+      - name: Test
+        run: npm test
+
       - name: Build
         run: npm run build
+  # E2E (Playwright) is intentionally NOT wired into CI yet.
+  # npm run test:e2e is red at HEAD in this repo (failing specs in shop,
+  # checkout, wishlist, and the admin suites pre date this workflow change).
+  # Add an e2e job only after the suite is green locally, then mirror:
+  #   npm run build
+  #   npx playwright install --with-deps chromium
+  #   npm run test:e2e

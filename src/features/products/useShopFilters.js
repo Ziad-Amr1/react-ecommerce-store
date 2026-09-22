@@ -8,7 +8,17 @@ const EMPTY_FILTERS = {
   minPrice: "",
   maxPrice: "",
   sortBy: "Default",
+  availability: "Any",
+  discount: false,
 };
+
+// Availability is a client-side filter (the API has no status param over a
+// full paginated dataset, so it applies to the cached catalog instead).
+export const AVAILABILITY_OPTIONS = [
+  { value: "Any", labelKey: "shop.availabilityAny" },
+  { value: "in_stock", labelKey: "shop.inStock" },
+  { value: "out_of_stock", labelKey: "shop.outOfStock" },
+];
 
 const SORT_LABELS = {
   price_asc: "Price: Low to High",
@@ -56,6 +66,10 @@ export default function useShopFilters(
   const setMaxPrice = (val) => setDraft((prev) => ({ ...prev, maxPrice: val }));
   const changeSort = (val) => setDraft((prev) => ({ ...prev, sortBy: val }));
   const selectBrand = (name) => setDraft((prev) => ({ ...prev, brand: name }));
+  const selectAvailability = (value) =>
+    setDraft((prev) => ({ ...prev, availability: value }));
+  const selectDiscount = (checked) =>
+    setDraft((prev) => ({ ...prev, discount: Boolean(checked) }));
 
   // Picking a new category resets the picked subcategory so the list never
   // points at a subcategory that belongs to a different category.
@@ -104,6 +118,24 @@ export default function useShopFilters(
     setApplied((prev) => ({ ...prev, sortBy: "Default" }));
   };
 
+  const clearAvailability = () => {
+    setDraft((prev) => ({ ...prev, availability: "Any" }));
+    setApplied((prev) => ({ ...prev, availability: "Any" }));
+  };
+
+  const clearDiscount = () => {
+    setDraft((prev) => ({ ...prev, discount: false }));
+    setApplied((prev) => ({ ...prev, discount: false }));
+  };
+
+  // Replace both the draft and the applied filters wholesale. Used when the
+  // URL changes from outside the shop (a header search, a shared link, browser
+  // back/forward), so the URL stays the single source of truth.
+  const hydrateFromUrl = (next = EMPTY_FILTERS) => {
+    setDraft(next);
+    setApplied(next);
+  };
+
   const clearSearch = () => {
     setDraft((prev) => ({ ...prev, search: "" }));
     setApplied((prev) => ({ ...prev, search: "" }));
@@ -147,7 +179,9 @@ export default function useShopFilters(
     applied.brand !== "All" ||
     applied.minPrice !== "" ||
     applied.maxPrice !== "" ||
-    applied.sortBy !== "Default";
+    applied.sortBy !== "Default" ||
+    applied.availability !== "Any" ||
+    applied.discount === true;
 
   const getSortLabel = (val) => SORT_LABELS[val] || val;
 
@@ -160,9 +194,14 @@ export default function useShopFilters(
     setMaxPrice,
     sortBy: draft.sortBy,
     changeSort,
+    availability: draft.availability,
+    selectAvailability,
+    discount: draft.discount,
+    selectDiscount,
     applied,
     draft,
     applyFilters,
+    hydrateFromUrl,
     selectCategory,
     selectSubcategory,
     selectBrand,
@@ -172,6 +211,8 @@ export default function useShopFilters(
     clearPrice,
     clearSort,
     clearSearch,
+    clearAvailability,
+    clearDiscount,
     brands,
     subcategories,
     viewMode,

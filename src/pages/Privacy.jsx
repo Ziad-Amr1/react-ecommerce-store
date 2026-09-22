@@ -1,5 +1,5 @@
 import { useTranslation } from "react-i18next";
-import { ShieldCheck, Lock, Eye, Database, FileText } from "lucide-react";
+import { Lock, Eye, Database, FileText } from "lucide-react";
 import SEO from "@/components/SEO/SEO";
 
 export default function Privacy() {
@@ -13,10 +13,6 @@ export default function Privacy() {
         url="/privacy"
       />
       <div className="space-y-3 text-center sm:text-start border-b border-(--color-border) pb-6">
-        <div className="inline-flex items-center gap-2 rounded-full bg-accent/20 px-3 py-1 text-xs font-semibold text-primary">
-          <ShieldCheck className="size-4" aria-hidden="true" />
-          <span>{t("privacy.badge")}</span>
-        </div>
         <h1 className="font-display text-2xl sm:text-4xl font-bold text-foreground">
           {t("privacy.headline")}
         </h1>

@@ -82,31 +82,33 @@ export default function CategoriesStore() {
         ) : (
 <ul className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
             {filteredCategories.map((cat) => (
-              <li key={cat.key} className="flex flex-col gap-3">
-                <CategoryCard
-                  image={cat.image}
-                  title={t(`landing.categories.names.${cat.key}`, cat.title)}
-                  category={cat.category}
-                />
-                {cat.subcategories?.length > 0 && (
-                  <div>
-                    <p className="mb-2 text-xs font-semibold uppercase tracking-wider text-(--color-text-secondary)">
-                      {t("categoriesStore.subcategories", "Subcategories")}
-                    </p>
-                    <ul className="flex flex-wrap gap-1.5">
-                      {cat.subcategories.map((sub) => (
-                        <li key={sub}>
-                          <Link
-                            to={`/products?category=${encodeURIComponent(cat.category)}&subcategory=${encodeURIComponent(sub)}`}
-                            className="inline-block rounded-full border border-(--color-border) bg-(--color-surface) px-3 py-1 text-xs font-medium text-(--color-text-primary) transition-colors hover:border-(--color-primary) hover:text-(--color-primary)"
-                          >
-                            {sub}
-                          </Link>
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-                )}
+              <li key={cat.key}>
+                <Card className="gap-0 overflow-hidden p-0">
+                  <CategoryCard
+                    image={cat.image}
+                    title={t(`landing.categories.names.${cat.key}`, cat.title)}
+                    category={cat.category}
+                  />
+                  {cat.subcategories?.length > 0 && (
+                    <CardContent className="space-y-2 p-4 pt-3">
+                      <p className="text-[11px] font-semibold uppercase tracking-wider text-(--color-text-secondary)">
+                        {t("categoriesStore.subcategories", "Subcategories")}
+                      </p>
+                      <ul className="flex flex-wrap gap-1.5">
+                        {cat.subcategories.map((sub) => (
+                          <li key={sub}>
+                            <Link
+                              to={`/products?category=${encodeURIComponent(cat.category)}&subcategory=${encodeURIComponent(sub)}`}
+                              className="inline-block rounded-full border border-(--color-border) bg-(--color-surface-secondary) px-3 py-1 text-xs font-medium text-(--color-text-primary) transition-colors hover:border-(--color-primary) hover:text-(--color-primary)"
+                            >
+                              {sub}
+                            </Link>
+                          </li>
+                        ))}
+                      </ul>
+                    </CardContent>
+                  )}
+                </Card>
               </li>
             ))}
           </ul>

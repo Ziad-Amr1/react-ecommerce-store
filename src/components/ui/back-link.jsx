@@ -9,9 +9,14 @@ export default function BackLink({ labelKey, className }) {
   const { t } = useTranslation();
 
   const handleBack = () => {
-    const from = location.state?.from || "/";
-
-    navigate(from);
+    const from = location.state?.from;
+    if (typeof from === "string" && from.startsWith("/") && !from.startsWith("//")) {
+      navigate(from);
+    } else if (window.history.length > 1) {
+      navigate(-1);
+    } else {
+      navigate("/");
+    }
   };
 
   return (

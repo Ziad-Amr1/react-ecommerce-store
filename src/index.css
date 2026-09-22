@@ -448,3 +448,32 @@
   background: transparent;
 }
 
+/* ==================================================
+   PASSWORD REVEAL (single control per field)
+   Hide the legacy native toggle so desktop never shows
+   two eyes. Our custom .password-toggle stays on fine
+   pointers; on touch devices the browser's native reveal
+   is the only control we keep, so hide ours there.
+   ================================================== */
+input[type="password"]::-ms-reveal,
+input[type="password"]::-ms-clear {
+  display: none;
+}
+
+@media (pointer: coarse) {
+  .password-toggle {
+    display: none;
+  }
+}
+
+/* ==================================================
+   TOOLTIPS ON TOUCH DEVICES
+   Tooltips are hover concepts; suppress them entirely
+   on coarse pointers where hover does not exist.
+   ================================================== */
+@media (pointer: coarse) {
+  [data-slot="tooltip-content"] {
+    display: none;
+  }
+}
+

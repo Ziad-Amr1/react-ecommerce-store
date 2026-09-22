@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Link, useLocation, useNavigate } from "react-router";
+import { Link, useNavigate } from "react-router";
 import { toast } from "sonner";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -30,7 +30,6 @@ import {
 export default function ProductCard({ product, viewMode = "grid" }) {
   const { t, i18n } = useTranslation();
   const navigate = useNavigate();
-  const location = useLocation();
   const { addItem } = useCart();
   const { isAuthenticated } = useAuth();
   const { isInWishlist, addToWishlist, removeFromWishlist } = useWishlist();
@@ -93,9 +92,6 @@ export default function ProductCard({ product, viewMode = "grid" }) {
 
     if (!isAuthenticated) {
       toast.info(t("wishlist.signInRequired"));
-      navigate("/login", {
-        state: { from: location.pathname + location.search },
-      });
       return;
     }
 
@@ -429,7 +425,7 @@ export default function ProductCard({ product, viewMode = "grid" }) {
 
       <CardContent className="pointer-events-none flex flex-1 flex-col gap-1.5 px-5 pb-5">
         <div>
-          <p className="font-mono text-[11px] tracking-wide text-(--color-text-secondary) uppercase">
+          <p className="truncate font-mono text-[11px] tracking-wide text-(--color-text-secondary) uppercase">
             {product.category} {t("shop.separator")} {product.subcategory}
           </p>
           <h3
@@ -442,7 +438,7 @@ export default function ProductCard({ product, viewMode = "grid" }) {
           {renderRating()}
         </div>
 
-        <div className="flex flex-wrap items-baseline gap-2">
+        <div className="flex min-w-0 flex-wrap items-baseline gap-2">
           <p className="font-display text-2xl font-bold tabular-nums text-(--color-text-primary)">
             {formatCurrency(displayPrice, undefined, i18n.language)}
           </p>

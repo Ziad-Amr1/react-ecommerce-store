@@ -52,7 +52,7 @@ export default function PasswordInput({
         onClick={() => setVisible((v) => !v)}
         aria-label={t(labelKey)}
         aria-pressed={visible}
-        className="absolute top-1/2 end-3 -translate-y-1/2 rounded-sm p-1 text-(--color-text-secondary) transition-colors hover:text-(--color-text-primary) focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-(--color-focus-ring)"
+        className="password-toggle absolute top-1/2 end-3 -translate-y-1/2 rounded-sm p-1 text-(--color-text-secondary) transition-colors hover:text-(--color-text-primary) focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-(--color-focus-ring)"
       >
         <ToggleIcon className="size-5" aria-hidden="true" />
       </button>

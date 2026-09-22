@@ -1,11 +1,13 @@
 import { Button } from "@/components/ui/button";
-import { Menu } from "lucide-react";
+import { Menu, House } from "lucide-react";
+import { useNavigate } from "react-router";
 import { useTranslation } from "react-i18next";
 import { assetUrl } from "@/utils/assetUrl";
 import HeaderActionButtons from "./HeaderActionButtons";
 
 function AdminHeader({ onMenuClick, sidebarOpen, sidebarId }) {
   const { t } = useTranslation();
+  const navigate = useNavigate();
 
   return (
     <header className="sticky top-0 z-(--z-nav) flex items-center justify-between gap-2 border-b bg-(--color-surface) px-3 py-2 sm:px-4 lg:px-6">
@@ -36,7 +38,21 @@ function AdminHeader({ onMenuClick, sidebarOpen, sidebarId }) {
         </div>
       </div>
 
-      <HeaderActionButtons />
+      <div className="flex items-center gap-2 sm:gap-3">
+        {/* Mobile-only Home button: returns to the storefront */}
+        <Button
+          variant="outline"
+          size="icon"
+          onClick={() => navigate("/")}
+          aria-label={t("navigation.home", "Home")}
+          title={t("navigation.home", "Home")}
+          className="shrink-0 cursor-pointer rounded-full md:hidden"
+        >
+          <House size={20} aria-hidden="true" />
+        </Button>
+
+        <HeaderActionButtons />
+      </div>
     </header>
   );
 }

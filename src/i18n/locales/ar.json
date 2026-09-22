@@ -7,6 +7,7 @@
     "menu": "القائمة",
     "admin": "الإدارة",
     "cancel": "إلغاء",
+    "close": "إغلاق",
     "delete": "حذف",
     "viewDetails": "عرض التفاصيل"
   },
@@ -1542,6 +1543,7 @@
     "seoDescription": "التفاصيل الكاملة والميزات والمواصفات لهذا المنتج في متجر أوفرسيز.",
     "powerDelivery": "توصيل الطاقة",
     "displaySupport": "دعم الشاشات",
+    "discountOff": "خصم {{percent}}%",
     "ethernet": "إيثرنت",
     "usbPorts": "منافذ USB",
     "sdCard": "بطاقة SD/microSD",

@@ -7,6 +7,7 @@
     "menu": "Menu",
     "admin": "Administration",
     "cancel": "Cancel",
+    "close": "Close",
     "delete": "Delete",
     "viewDetails": "View details"
   },
@@ -1542,6 +1543,7 @@
     "seoDescription": "Full details, features, and specifications for this product at Oversea Store.",
     "powerDelivery": "Power Delivery",
     "displaySupport": "Display Support",
+    "discountOff": "{{percent}}% off",
     "ethernet": "Ethernet",
     "usbPorts": "USB Ports",
     "sdCard": "SD/microSD",

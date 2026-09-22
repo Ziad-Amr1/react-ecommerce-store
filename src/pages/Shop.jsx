@@ -6,7 +6,9 @@ import { SlidersHorizontal, ShoppingBag, Loader2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import useProducts from "@/features/products/useProducts";
 import useProductCatalog from "@/features/products/useProductCatalog";
-import useShopFilters from "@/features/products/useShopFilters";
+import useShopFilters, {
+  AVAILABILITY_OPTIONS,
+} from "@/features/products/useShopFilters";
 import { applyFiltersToCatalog } from "@/features/products/clientFilter";
 import ProductCard from "@/features/products/components/ProductCard";
 import ProductPagination from "@/features/products/components/ProductPagination";
@@ -26,7 +28,33 @@ const EMPTY_FILTERS = {
   minPrice: "",
   maxPrice: "",
   sortBy: "Default",
+  availability: "Any",
+  discount: false,
 };
+
+// Filters carried by the shop URL. These are app-level URL state: category,
+// brand, price, search and sort are also backed by the server contract, while
+// subcategory, availability and discount are applied client-side over the
+// cached full catalog (the backend has no params for them).
+function makeInitialFilters(searchParams) {
+  const availability = searchParams.get("availability");
+  return {
+    ...EMPTY_FILTERS,
+    search: searchParams.get("search") ?? EMPTY_FILTERS.search,
+    category: searchParams.get("category") ?? EMPTY_FILTERS.category,
+    subcategory: searchParams.get("subcategory") ?? EMPTY_FILTERS.subcategory,
+    brand: searchParams.get("brand") ?? EMPTY_FILTERS.brand,
+    minPrice: searchParams.get("minPrice") ?? EMPTY_FILTERS.minPrice,
+    maxPrice: searchParams.get("maxPrice") ?? EMPTY_FILTERS.maxPrice,
+    sortBy: searchParams.get("sort") ?? EMPTY_FILTERS.sortBy,
+    availability: AVAILABILITY_OPTIONS.some(
+      (option) => option.value === availability,
+    )
+      ? availability
+      : EMPTY_FILTERS.availability,
+    discount: searchParams.get("discount") === "true",
+  };
+}
 
 function syncFiltersToUrl(snapshot, applied) {
   const params = new URLSearchParams(snapshot);
@@ -50,6 +78,16 @@ function syncFiltersToUrl(snapshot, applied) {
   } else {
     params.delete("sort");
   }
+  if (applied.availability && applied.availability !== "Any") {
+    params.set("availability", applied.availability);
+  } else {
+    params.delete("availability");
+  }
+  if (applied.discount === true) {
+    params.set("discount", "true");
+  } else {
+    params.delete("discount");
+  }
   return params;
 }
 
@@ -71,23 +109,19 @@ export default function Shop() {
   const [searchParams, setSearchParams] = useSearchParams();
   const pageFromUrl = Number(searchParams.get("page")) || 1;
 
-  // Filters can arrive via the URL (deep links, shared links, subcategory chips).
-  const initialFilters = {
-    ...EMPTY_FILTERS,
-    search: searchParams.get("search") ?? EMPTY_FILTERS.search,
-    category: searchParams.get("category") ?? EMPTY_FILTERS.category,
-    subcategory: searchParams.get("subcategory") ?? EMPTY_FILTERS.subcategory,
-    brand: searchParams.get("brand") ?? EMPTY_FILTERS.brand,
-    minPrice: searchParams.get("minPrice") ?? EMPTY_FILTERS.minPrice,
-    maxPrice: searchParams.get("maxPrice") ?? EMPTY_FILTERS.maxPrice,
-    sortBy: searchParams.get("sort") ?? EMPTY_FILTERS.sortBy,
-  };
+// Filters can arrive via the URL (deep links, shared links, subcategory chips).
+  const initialFilters = makeInitialFilters(searchParams);
 
   const filters = useShopFilters(products, catalog.products, initialFilters);
 
   // The full catalog (cached in localStorage) powers the sidebar counts, the
-  // price slider ceiling, and instant client-side subcategory filtering.
-  const isSubcategoryMode = filters.applied.subcategory !== "All";
+  // price slider ceiling, and instant client-side filtering for subcategory,
+  // availability and discount — all of which the backend does not accept as
+  // query params, so they switch the grid to client mode over the catalog.
+  const isClientMode =
+    filters.applied.subcategory !== "All" ||
+    filters.applied.availability !== "Any" ||
+    filters.applied.discount === true;
 
   const pageMaxPrice = products.length
     ? Math.max(...products.map((p) => Number(p.price) || 0))
@@ -99,19 +133,19 @@ export default function Shop() {
     100,
   );
 
-  // Client-side results used when a subcategory filter is active, because the
-  // backend filters by category but not by subcategory.
+// Client-side results used when a client-mode filter is active (subcategory,
+  // availability, discount), because the backend does not support them.
   const clientResults = useMemo(() => {
-    if (!isSubcategoryMode || catalog.products.length === 0) {
+    if (!isClientMode || catalog.products.length === 0) {
       return { items: [], total: 0, totalPages: 1 };
     }
     return applyFiltersToCatalog(catalog.products, filters.applied, {
       page: pageFromUrl,
       pageSize: PAGE_LIMIT,
     });
-  }, [isSubcategoryMode, catalog.products, filters.applied, pageFromUrl]);
+  }, [isClientMode, catalog.products, filters.applied, pageFromUrl]);
 
-  const showClientResults = isSubcategoryMode && catalog.products.length > 0;
+  const showClientResults = isClientMode && catalog.products.length > 0;
   const feedItems = showClientResults ? clientResults.items : products;
   const feedTotal = showClientResults
     ? clientResults.total
@@ -127,36 +161,59 @@ export default function Shop() {
     showClientResults || totalProducts != null ? "shop.results" : "shop.showing";
 
   // URL synchronisation: applied filters are reflected in the URL so pages are
-  // shareable, and a filter change resets to page 1 atomically.
+  // shareable, and a filter change resets to page 1 atomically. The URL is the
+  // single source of truth: when it changes from outside the shop flow (a
+  // header search, a shared link, back/forward), the filters are rehydrated
+  // from it instead of the shop writing its own (stale) state back out.
   const didMountUrl = useRef(false);
   const prevApplied = useRef(filters.applied);
   const pendingPageReset = useRef(false);
+  const lastWrittenUrl = useRef(null);
+
+  const { applied, hydrateFromUrl } = filters;
 
   useEffect(() => {
-    const appliedChanged = prevApplied.current !== filters.applied;
-    prevApplied.current = filters.applied;
+    const appliedChanged = prevApplied.current !== applied;
+    prevApplied.current = applied;
+
+    const current = searchParams.toString();
 
     if (!didMountUrl.current) {
       didMountUrl.current = true;
+      lastWrittenUrl.current = current;
+      return;
+    }
+
+    if (current !== lastWrittenUrl.current) {
+      hydrateFromUrl(makeInitialFilters(searchParams));
+      lastWrittenUrl.current = current;
+      pendingPageReset.current = false;
+      return;
+    }
+
+    if (!appliedChanged) {
       return;
     }
 
     const snapshot = new URLSearchParams(searchParams);
-    if (appliedChanged && pageFromUrl !== 1) {
+    if (pageFromUrl !== 1) {
       pendingPageReset.current = true;
       snapshot.set("page", "1");
     }
-    const next = syncFiltersToUrl(snapshot, filters.applied);
-    if (next.toString() !== searchParams.toString()) {
+    const next = syncFiltersToUrl(snapshot, applied);
+    const nextStr = next.toString();
+    if (nextStr !== current) {
+      lastWrittenUrl.current = nextStr;
       setSearchParams(next, { replace: true });
     }
-  }, [filters.applied, searchParams, setSearchParams, pageFromUrl]);
+  }, [applied, hydrateFromUrl, searchParams, setSearchParams, pageFromUrl]);
 
-  // Filters run server-side except for subcategory (client-side over the cached
-  // catalog). The page number lives in the URL; when a filter change also resets
-  // the page, skip the intermediate fetch so the page is fetched once.
+  // Filters run server-side except for the client-mode filters (subcategory,
+  // availability, discount), which are applied over the cached catalog. The
+  // page number lives in the URL; when a filter change also resets the page,
+  // skip the intermediate fetch so the page is fetched once.
   useEffect(() => {
-    if (isSubcategoryMode) {
+    if (isClientMode) {
       return;
     }
     if (pendingPageReset.current) {
@@ -164,10 +221,12 @@ export default function Shop() {
       return;
     }
     fetchProducts(pageFromUrl, filters.applied);
-  }, [pageFromUrl, filters.applied, fetchProducts, isSubcategoryMode]);
+  }, [pageFromUrl, filters.applied, fetchProducts, isClientMode]);
 
   const handlePageChange = (page) => {
-    setSearchParams({ page: String(page) });
+    const next = new URLSearchParams(searchParams);
+    next.set("page", String(page));
+    setSearchParams(next);
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
@@ -218,13 +277,17 @@ export default function Shop() {
             brands={filters.brands}
             selectedBrand={filters.draft.brand}
             setSelectedBrand={filters.selectBrand}
-            minPrice={filters.minPrice}
+minPrice={filters.minPrice}
             setMinPrice={filters.setMinPrice}
             maxPrice={filters.maxPrice}
             setMaxPrice={filters.setMaxPrice}
             priceCeiling={sliderMax}
             sortBy={filters.sortBy}
             setSortBy={filters.changeSort}
+            availability={filters.availability}
+            setAvailability={filters.selectAvailability}
+            discount={filters.discount}
+            setDiscount={filters.selectDiscount}
             applyFilters={filters.applyFilters}
             clearFilters={filters.clearFilters}
             isMobileFilterOpen={filters.isMobileFilterOpen}
@@ -253,9 +316,11 @@ export default function Shop() {
               clearCategory={filters.clearCategory}
               clearSubcategory={filters.clearSubcategory}
               clearBrand={filters.clearBrand}
-              clearPrice={filters.clearPrice}
+clearPrice={filters.clearPrice}
               clearSort={filters.clearSort}
               clearSearch={filters.clearSearch}
+              clearAvailability={filters.clearAvailability}
+              clearDiscount={filters.clearDiscount}
             />
 
             {/* Catalog refresh status */}

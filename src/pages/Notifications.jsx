@@ -4,6 +4,7 @@ import { Link } from "react-router";
 import {
   Bell,
   CheckCheck,
+  RotateCcw,
   Trash2,
   Package,
   Tag,
@@ -12,6 +13,11 @@ import {
   Sparkles,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
 import {
   Empty,
   EmptyDescription,
@@ -55,7 +61,9 @@ export default function Notifications() {
   const [pendingDelete, setPendingDelete] = useState(null);
   const [isClearOpen, setIsClearOpen] = useState(false);
 
-  const filtered = notifications.filter((n) => (filter === "unread" ? !n.read : true));
+  const filtered = notifications.filter((n) =>
+    filter === "unread" ? !n.read : true,
+  );
 
   return (
     <div className="mx-auto max-w-4xl py-8 space-y-6">
@@ -70,11 +78,14 @@ export default function Notifications() {
       />
       <AccountPageHeader
         title={t("notifications.title", "Notifications")}
-        description={t("notifications.description", "Stay updated with your latest order updates, offers, and account alerts.")}
+        description={t(
+          "notifications.description",
+          "Stay updated with your latest order updates, offers, and account alerts.",
+        )}
         count={unreadCount > 0 ? unreadCount : undefined}
         actions={
           notifications.length > 0 ? (
-            <div className="flex items-center gap-2">
+            <div className="flex flex-wrap items-center gap-2">
               {unreadCount > 0 && (
                 <Button
                   variant="outline"
@@ -83,7 +94,9 @@ export default function Notifications() {
                   className="gap-1.5 rounded-xl cursor-pointer text-xs"
                 >
                   <CheckCheck className="size-3.5" />
-                  <span>{t("notifications.markAllRead", "Mark all as read")}</span>
+                  <span>
+                    {t("notifications.markAllRead", "Mark all as read")}
+                  </span>
                 </Button>
               )}
               <Button
@@ -102,7 +115,7 @@ export default function Notifications() {
 
       {/* Filters Bar */}
       {notifications.length > 0 && (
-        <div className="flex items-center gap-2">
+        <div className="flex flex-wrap items-center gap-2">
           <Button
             variant={filter === "all" ? "secondary" : "ghost"}
             size="sm"
@@ -129,16 +142,22 @@ export default function Notifications() {
             <EmptyMedia variant="icon">
               <Bell className="size-6" aria-hidden="true" />
             </EmptyMedia>
-            <EmptyTitle>{t("notifications.empty", "No notifications yet")}</EmptyTitle>
+            <EmptyTitle>
+              {t("notifications.empty", "No notifications yet")}
+            </EmptyTitle>
             <EmptyDescription>
-              {t("notifications.emptyDescription", "When you receive order updates, promotions, or account security alerts, they will appear here.")}
+              {t(
+                "notifications.emptyDescription",
+                "When you receive order updates, promotions, or account security alerts, they will appear here.",
+              )}
             </EmptyDescription>
           </EmptyHeader>
         </Empty>
       ) : (
         <div className="space-y-3">
           {filtered.map((item) => {
-            const IconComponent = (item.iconName && ICON_MAP[item.iconName]) || item.icon || Bell;
+            const IconComponent =
+              (item.iconName && ICON_MAP[item.iconName]) || item.icon || Bell;
             return (
               <div
                 key={item.id}
@@ -148,18 +167,26 @@ export default function Notifications() {
                     : "bg-card border-border hover:bg-accent/10"
                 }`}
               >
-                <div className={`flex size-10 shrink-0 items-center justify-center rounded-xl ${
-                  !item.read ? "bg-primary/15 text-primary" : "bg-accent text-muted-foreground"
-                }`}>
+                <div
+                  className={`flex size-10 shrink-0 items-center justify-center rounded-xl ${
+                    !item.read
+                      ? "bg-primary/15 text-primary"
+                      : "bg-accent text-muted-foreground"
+                  }`}
+                >
                   <IconComponent className="size-5" />
                 </div>
 
                 <div className="min-w-0 flex-1">
                   <div className="flex items-center justify-between gap-2">
-                    <h4 className={`text-sm ${!item.read ? "font-bold text-foreground" : "font-medium text-foreground/90"}`}>
+                    <h4
+                      className={`text-sm ${!item.read ? "font-bold text-foreground" : "font-medium text-foreground/90"}`}
+                    >
                       {t(item.titleKey, item.defaultTitle)}
                     </h4>
-                    <span className="text-xs text-muted-foreground shrink-0">{item.timestamp}</span>
+                    <span className="text-xs text-muted-foreground shrink-0">
+                      {item.timestamp}
+                    </span>
                   </div>
 
                   <p className="mt-1 text-xs text-muted-foreground leading-relaxed">
@@ -168,7 +195,12 @@ export default function Notifications() {
 
                   <div className="mt-3 flex items-center justify-between gap-2">
                     {item.link ? (
-                      <Button asChild variant="link" size="sm" className="h-auto p-0 text-xs font-semibold text-primary gap-1">
+                      <Button
+                        asChild
+                        variant="link"
+                        size="sm"
+                        className="h-auto p-0 text-xs font-semibold text-primary gap-1"
+                      >
                         <Link to={item.link}>
                           <span>{t("common.viewDetails", "View details")}</span>
                           <ChevronRight className="size-3 rtl:rotate-180" />
@@ -179,22 +211,55 @@ export default function Notifications() {
                     )}
 
                     <div className="flex items-center gap-1 opacity-100 sm:opacity-0 group-hover:opacity-100 transition-opacity">
-                      <Button
-                        variant="ghost"
-                        size="sm"
-                        onClick={() => toggleRead(item.id)}
-                        className="h-7 text-[11px] px-2 rounded-lg text-muted-foreground hover:text-foreground cursor-pointer"
-                      >
-                        {item.read ? t("notifications.markUnread", "Mark unread") : t("notifications.markRead", "Mark read")}
-                      </Button>
-                      <Button
-                        variant="ghost"
-                        size="sm"
-                        onClick={() => setPendingDelete(item)}
-                        className="h-7 text-[11px] px-2 rounded-lg text-muted-foreground hover:text-destructive cursor-pointer"
-                      >
-                        {t("common.delete", "Delete")}
-                      </Button>
+                      <Tooltip>
+                        <TooltipTrigger asChild>
+                          <Button
+                            variant="ghost"
+                            size="icon"
+                            onClick={() => toggleRead(item.id)}
+                            aria-label={
+                              item.read
+                                ? t("notifications.markUnread", "Mark unread")
+                                : t("notifications.markRead", "Mark read")
+                            }
+                            className="size-7 rounded-lg text-muted-foreground hover:text-foreground cursor-pointer"
+                          >
+                            {item.read ? (
+                              <RotateCcw
+                                className="size-3.5"
+                                aria-hidden="true"
+                              />
+                            ) : (
+                              <CheckCheck
+                                className="size-3.5"
+                                aria-hidden="true"
+                              />
+                            )}
+                          </Button>
+                        </TooltipTrigger>
+                        <TooltipContent side="bottom">
+                          {item.read
+                            ? t("notifications.markUnread", "Mark unread")
+                            : t("notifications.markRead", "Mark read")}
+                        </TooltipContent>
+                      </Tooltip>
+
+                      <Tooltip>
+                        <TooltipTrigger asChild>
+                          <Button
+                            variant="ghost"
+                            size="icon"
+                            onClick={() => setPendingDelete(item)}
+                            aria-label={t("common.delete", "Delete")}
+                            className="size-7 rounded-lg text-muted-foreground hover:text-destructive cursor-pointer"
+                          >
+                            <Trash2 className="size-3.5" aria-hidden="true" />
+                          </Button>
+                        </TooltipTrigger>
+                        <TooltipContent side="bottom">
+                          {t("common.delete", "Delete")}
+                        </TooltipContent>
+                      </Tooltip>
                     </div>
                   </div>
                 </div>
@@ -226,10 +291,14 @@ export default function Notifications() {
           </AlertDialogHeader>
 
           <AlertDialogFooter>
-            <AlertDialogCancel>{t("common.cancel", "Cancel")}</AlertDialogCancel>
+            <AlertDialogCancel>
+              {t("common.cancel", "Cancel")}
+            </AlertDialogCancel>
             <AlertDialogAction
               variant="destructive"
-              onClick={() => pendingDelete && deleteNotification(pendingDelete.id)}
+              onClick={() =>
+                pendingDelete && deleteNotification(pendingDelete.id)
+              }
             >
               {t("notifications.deleteConfirm", "Delete")}
             </AlertDialogAction>
@@ -259,7 +328,9 @@ export default function Notifications() {
           </AlertDialogHeader>
 
           <AlertDialogFooter>
-            <AlertDialogCancel>{t("common.cancel", "Cancel")}</AlertDialogCancel>
+            <AlertDialogCancel>
+              {t("common.cancel", "Cancel")}
+            </AlertDialogCancel>
             <AlertDialogAction variant="destructive" onClick={clearAll}>
               {t("notifications.clearAllConfirm", "Clear all")}
             </AlertDialogAction>

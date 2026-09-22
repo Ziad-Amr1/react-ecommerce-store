@@ -7,6 +7,7 @@
     "menu": "Меню",
     "admin": "Администрирование",
     "cancel": "Отмена",
+    "close": "Закрыть",
     "delete": "Удалить",
     "viewDetails": "Подробнее"
   },
@@ -1542,6 +1543,7 @@
     "seoDescription": "Полные детали, функции и характеристики этого товара в Oversea Store.",
     "powerDelivery": "Питание (Power Delivery)",
     "displaySupport": "Поддержка дисплеев",
+    "discountOff": "Скидка {{percent}}%",
     "ethernet": "Ethernet",
     "usbPorts": "Порты USB",
     "sdCard": "Карты SD/microSD",

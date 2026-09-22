@@ -203,6 +203,11 @@ export default function ProductDetails() {
   const reviewsCount = Number(product.numReviews) || 320;
   const isOutOfStock = product.stock === 0;
 
+  // The API response does not carry key-feature data, so the feature grid is
+  // built from hardware profile values that only make sense for electronics.
+  const isElectronics =
+    String(product.category || "").toLowerCase() === "electronics";
+
   const handleAddToCart = async () => {
     if (isOutOfStock || isAdding) return;
 
@@ -322,7 +327,7 @@ export default function ProductDetails() {
         url={`/products/${productId}`}
         type="product"
       />
-      <div className="mx-auto max-w-6xl space-y-6 px-4 sm:px-6">
+      <div className="mx-auto max-w-6xl space-y-8 px-4 sm:px-6">
         {/* Breadcrumb Bar */}
         <nav aria-label="Breadcrumb" className="flex items-center gap-1.5 text-xs text-muted-foreground flex-wrap mb-2">
           <Link to="/" className="hover:text-foreground transition-colors">
@@ -358,18 +363,19 @@ export default function ProductDetails() {
         {/* Top Product Section (2 Columns) */}
         <div className="grid gap-8 lg:grid-cols-2 items-start">
           {/* LEFT COLUMN: Gallery & Key Features */}
-          <div className="space-y-6">
+          <div className="min-w-0 space-y-6">
             {/* Gallery Box */}
-            <div className="flex gap-4">
-              {/* Vertical Thumbnail Strip (ONLY shown if images.length > 1) */}
+            <div className="flex flex-col gap-3 sm:flex-row sm:gap-4">
+              {/* Thumbnail Strip (ONLY shown if images.length > 1).
+                  Below the main image on mobile, vertical at sm+. */}
               {images.length > 1 && (
-                <div className="flex flex-col gap-3 shrink-0">
+                <div className="order-2 flex gap-3 shrink-0 sm:order-1 sm:flex-col">
                   {images.map((image, index) => (
                     <button
                       key={index}
                       type="button"
                       onClick={() => setSelectedImage(index)}
-                      className={`relative size-14 sm:size-16 overflow-hidden rounded-xl border bg-card transition-all cursor-pointer ${
+                      className={`relative size-12 sm:size-16 overflow-hidden rounded-xl border bg-card transition-all cursor-pointer ${
                         index === selectedImage
                           ? "border-primary ring-2 ring-primary/20 shadow-xs"
                           : "border-border opacity-70 hover:opacity-100"
@@ -386,7 +392,7 @@ export default function ProductDetails() {
               )}
 
               {/* Main Image Container */}
-              <div className="relative flex-1 aspect-square overflow-hidden rounded-3xl border border-border/60 bg-muted/30 dark:bg-muted/10 shadow-xs group flex items-center justify-center">
+              <div className="relative order-1 min-w-0 flex-1 aspect-square overflow-hidden rounded-3xl border border-border/60 bg-muted/30 dark:bg-muted/10 shadow-xs group flex items-center justify-center sm:order-2">
                 {currentImage ? (
                   <img
                     src={currentImage}
@@ -435,42 +441,45 @@ export default function ProductDetails() {
               </div>
             </div>
 
-            {/* Key Features Section */}
-            <Card className="rounded-3xl border border-border/80 bg-card shadow-xs py-0 gap-0">
-              <CardContent className="p-5 sm:p-6 space-y-4">
-                <h3 className="font-display text-lg font-bold text-foreground">
-                  {t("productDetails.keyFeatures", "Key Features")}
-                </h3>
+            {/* Key Features Section (hardware profile values only exist for
+                electronics; the API returns no key-feature data) */}
+            {isElectronics && (
+              <Card className="rounded-3xl border border-border/80 bg-card shadow-xs py-0 gap-0">
+                <CardContent className="p-5 sm:p-6 space-y-4">
+                  <h3 className="font-display text-lg font-bold text-foreground">
+                    {t("productDetails.keyFeatures", "Key Features")}
+                  </h3>
 
-                <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
-                  {keyFeatures.map((feat, i) => {
-                    const IconComp = feat.icon;
-                    return (
-                      <div
-                        key={i}
-                        className="flex flex-col items-center justify-center p-3.5 text-center rounded-2xl border border-border/60 bg-muted/20 hover:bg-muted/40 transition-colors"
-                      >
-                        <div className="mb-2 flex size-9 items-center justify-center rounded-xl bg-background border border-border/50 text-foreground shadow-2xs">
-                          <IconComp className="size-4" />
+                  <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
+                    {keyFeatures.map((feat, i) => {
+                      const IconComp = feat.icon;
+                      return (
+                        <div
+                          key={i}
+                          className="flex flex-col items-center justify-center p-3.5 text-center rounded-2xl border border-border/60 bg-muted/20 hover:bg-muted/40 transition-colors"
+                        >
+                          <div className="mb-2 flex size-9 items-center justify-center rounded-xl bg-background border border-border/50 text-foreground shadow-2xs">
+                            <IconComp className="size-4" />
+                          </div>
+                          <span className="font-display font-bold text-sm text-foreground leading-tight">
+                            {feat.value}
+                          </span>
+                          <span className="text-[11px] text-muted-foreground mt-0.5 leading-tight">
+                            {feat.desc || feat.title}
+                          </span>
                         </div>
-                        <span className="font-display font-bold text-sm text-foreground leading-tight">
-                          {feat.value}
-                        </span>
-                        <span className="text-[11px] text-muted-foreground mt-0.5 leading-tight">
-                          {feat.desc || feat.title}
-                        </span>
-                      </div>
-                    );
-                  })}
-                </div>
-              </CardContent>
-            </Card>
+                      );
+                    })}
+                  </div>
+                </CardContent>
+              </Card>
+            )}
           </div>
 
           {/* RIGHT COLUMN: Product Info & Purchasing */}
-          <div className="space-y-6">
+          <div className="min-w-0 space-y-6">
             <Card className="rounded-3xl border border-border/80 bg-card shadow-xs py-0 gap-0">
-              <CardContent className="p-6 sm:p-7 space-y-5">
+              <CardContent className="p-6 sm:p-7 space-y-6">
                 {/* Brand & Action Links Bar */}
                 <div className="flex items-center justify-between gap-2">
                   {product.brand ? (
@@ -508,12 +517,12 @@ export default function ProductDetails() {
                 </div>
 
                 {/* Product Title & Subtitle */}
-                <div className="space-y-1">
-                  <h1 className="font-display text-2xl sm:text-3xl font-bold tracking-tight text-foreground">
+                <div className="min-w-0 space-y-1.5">
+                  <h1 className="break-words font-display text-2xl sm:text-3xl font-bold tracking-tight text-foreground">
                     {productName}
                   </h1>
                   {product.shortDescription && (
-                    <p className="text-sm text-muted-foreground leading-relaxed">
+                    <p className="break-words text-sm text-muted-foreground leading-relaxed">
                       {product.shortDescription}
                     </p>
                   )}
@@ -539,20 +548,24 @@ export default function ProductDetails() {
                 </div>
 
                 {/* Pricing, Discount & Stock Status */}
-                <div className="flex flex-wrap items-center justify-between gap-4 pt-3 border-t border-border/60">
-                  <div className="flex items-baseline gap-2.5">
-                    <span className="font-display text-3xl font-bold tabular-nums text-foreground">
+                <div className="flex flex-col gap-4 pt-4 border-t border-border/60 sm:flex-row sm:items-end sm:justify-between">
+                  {/* Price hierarchy */}
+                  <div className="space-y-1.5">
+                    <span className="block font-display text-3xl sm:text-4xl font-bold tabular-nums text-foreground">
                       {formatCurrency(displayPrice)}
                     </span>
                     {hasDiscount && (
-                      <span className="text-base text-muted-foreground line-through tabular-nums">
-                        {formatCurrency(product.price)}
-                      </span>
-                    )}
-                    {hasDiscount && (
-                      <Badge className="bg-red-500 text-white text-xs font-bold px-2.5 py-0.5 rounded-full border-none">
-                        {salePercentage}% off
-                      </Badge>
+                      <div className="flex flex-wrap items-center gap-3">
+                        <span className="text-base text-muted-foreground line-through tabular-nums">
+                          {formatCurrency(product.price)}
+                        </span>
+                        <Badge className="bg-red-500 text-white text-xs font-bold px-2.5 py-1 rounded-full border-none">
+                          {t("productDetails.discountOff", {
+                            percent: salePercentage,
+                            defaultValue: "{{percent}}% off",
+                          })}
+                        </Badge>
+                      </div>
                     )}
                   </div>
 
@@ -638,35 +651,41 @@ export default function ProductDetails() {
                 </div>
 
                 {/* Value Props / Trust Card */}
-                <div className="grid grid-cols-3 gap-2 p-4 rounded-2xl border border-border/60 bg-muted/20 text-center">
-                  <div className="flex flex-col items-center space-y-1">
-                    <Truck className="size-5 text-muted-foreground" />
-                    <span className="font-semibold text-xs text-foreground">
-                      {t("productDetails.freeShipping", "Free shipping")}
-                    </span>
-                    <span className="text-[11px] text-muted-foreground">
-                      {t("productDetails.freeShippingDesc", "on orders over $100")}
-                    </span>
+                <div className="grid grid-cols-1 gap-3 p-4 rounded-2xl border border-border/60 bg-muted/20 sm:grid-cols-3 sm:gap-2 sm:p-4">
+                  <div className="flex min-w-0 items-center gap-3 sm:flex-col sm:gap-1 sm:text-center">
+                    <Truck className="size-5 shrink-0 text-muted-foreground" />
+                    <div className="min-w-0 sm:space-y-0.5">
+                      <span className="block font-semibold text-xs text-foreground">
+                        {t("productDetails.freeShipping", "Free shipping")}
+                      </span>
+                      <span className="block break-words text-[11px] text-muted-foreground">
+                        {t("productDetails.freeShippingDesc", "on orders over $100")}
+                      </span>
+                    </div>
                   </div>
 
-                  <div className="flex flex-col items-center space-y-1 border-x border-border/60 px-2">
-                    <ShieldCheck className="size-5 text-muted-foreground" />
-                    <span className="font-semibold text-xs text-foreground">
-                      {t("productDetails.officialWarranty", "1 year warranty")}
-                    </span>
-                    <span className="text-[11px] text-muted-foreground">
-                      {t("productDetails.officialWarrantyDesc", "Official warranty")}
-                    </span>
+                  <div className="flex min-w-0 items-center gap-3 border-y border-border/60 py-3 sm:flex-col sm:gap-1 sm:border-y-0 sm:py-0 sm:text-center">
+                    <ShieldCheck className="size-5 shrink-0 text-muted-foreground" />
+                    <div className="min-w-0 sm:space-y-0.5">
+                      <span className="block font-semibold text-xs text-foreground">
+                        {t("productDetails.officialWarranty", "1 year warranty")}
+                      </span>
+                      <span className="block break-words text-[11px] text-muted-foreground">
+                        {t("productDetails.officialWarrantyDesc", "Official warranty")}
+                      </span>
+                    </div>
                   </div>
 
-                  <div className="flex flex-col items-center space-y-1">
-                    <RotateCcw className="size-5 text-muted-foreground" />
-                    <span className="font-semibold text-xs text-foreground">
-                      {t("productDetails.easyReturns", "Easy returns")}
-                    </span>
-                    <span className="text-[11px] text-muted-foreground">
-                      {t("productDetails.easyReturnsDesc", "30-day return policy")}
-                    </span>
+                  <div className="flex min-w-0 items-center gap-3 sm:flex-col sm:gap-1 sm:text-center">
+                    <RotateCcw className="size-5 shrink-0 text-muted-foreground" />
+                    <div className="min-w-0 sm:space-y-0.5">
+                      <span className="block font-semibold text-xs text-foreground">
+                        {t("productDetails.easyReturns", "Easy returns")}
+                      </span>
+                      <span className="block break-words text-[11px] text-muted-foreground">
+                        {t("productDetails.easyReturnsDesc", "30-day return policy")}
+                      </span>
+                    </div>
                   </div>
                 </div>
 

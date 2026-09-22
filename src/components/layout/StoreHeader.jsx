@@ -105,7 +105,7 @@ export default function StoreHeader() {
   return (
     <header className="sticky top-0 z-(--z-nav) border-b bg-(--color-surface)">
       <div className="mx-auto flex w-full max-w-7xl items-center justify-between gap-2 sm:gap-4 px-3 sm:px-6 lg:px-8 py-3">
-        <Link to="/" className="flex shrink-0 items-center gap-2">
+        <Link to="/" className="flex min-w-0 shrink items-center gap-2">
           <img
             src={assetUrl("logo.webp")}
             alt={t("brand.logoAlt")}
@@ -115,7 +115,7 @@ export default function StoreHeader() {
             className={
               searchOpen
                 ? "hidden"
-                : "font-(--font-display) text-lg font-bold text-(--color-text-primary)"
+                : "truncate font-(--font-display) text-lg font-bold text-(--color-text-primary)"
             }
           >
             {t("brand.name")}
@@ -309,7 +309,7 @@ export default function StoreHeader() {
           </form>
         )}
 
-        <div className="flex items-center gap-2">
+        <div className="flex shrink-0 items-center gap-1 sm:gap-2">
           <Button
             ref={searchToggleRef}
             variant="outline"
@@ -494,7 +494,7 @@ export default function StoreHeader() {
                 <Menu size={20} />
               </Button>
             </SheetTrigger>
-            <SheetContent side={isRtl ? "right" : "left"} className="w-80 sm:w-96 flex flex-col p-0 gap-0">
+            <SheetContent side={isRtl ? "left" : "right"} className="w-[85vw] sm:w-96 flex flex-col p-0 gap-0">
               <SheetHeader className="p-4 border-b flex flex-row items-center justify-between text-start">
                 <SheetTitle className="flex items-center gap-2.5 font-display text-lg font-bold">
                   <img src={assetUrl("logo.webp")} alt="" className="size-7 object-contain" />

@@ -304,6 +304,7 @@ minPrice={filters.minPrice}
             applyFilters={filters.applyFilters}
             clearFilters={filters.clearFilters}
             isMobileFilterOpen={filters.isMobileFilterOpen}
+            setIsMobileFilterOpen={filters.setIsMobileFilterOpen}
             t={t}
           />
 

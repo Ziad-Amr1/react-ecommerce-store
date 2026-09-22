@@ -9,9 +9,11 @@ import ProductCard from "@/features/products/components/ProductCard";
 import ProductSkeleton from "@/features/products/components/ProductCardSkeleton";
 import { EmptyState, ErrorState } from "./LandingStates";
 
-const PER_VIEW_BASE = 2;
+const PER_VIEW_MOBILE = 1;
+const PER_VIEW_SM = 2;
 const PER_VIEW_LG = 4;
-const LG_BREAKPOINT = "(min-width: 64rem)";
+const SM_BREAKPOINT = "(min-width: 40rem)"; // Tailwind `sm`
+const LG_BREAKPOINT = "(min-width: 64rem)"; // Tailwind `lg`
 
 export default function FeaturedProducts() {
   const { t, i18n } = useTranslation();
@@ -22,11 +24,24 @@ export default function FeaturedProducts() {
     if (typeof window.matchMedia !== "function") {
       return undefined;
     }
-    const mq = window.matchMedia(LG_BREAKPOINT);
-    const sync = () => setPerView(mq.matches ? PER_VIEW_LG : PER_VIEW_BASE);
+    const smMq = window.matchMedia(SM_BREAKPOINT);
+    const lgMq = window.matchMedia(LG_BREAKPOINT);
+    const sync = () => {
+      if (lgMq.matches) {
+        setPerView(PER_VIEW_LG);
+      } else if (smMq.matches) {
+        setPerView(PER_VIEW_SM);
+      } else {
+        setPerView(PER_VIEW_MOBILE);
+      }
+    };
     sync();
-    mq.addEventListener("change", sync);
-    return () => mq.removeEventListener("change", sync);
+    smMq.addEventListener("change", sync);
+    lgMq.addEventListener("change", sync);
+    return () => {
+      smMq.removeEventListener("change", sync);
+      lgMq.removeEventListener("change", sync);
+    };
   }, []);
 
   const [page, setPage] = useState(0);
@@ -64,7 +79,7 @@ export default function FeaturedProducts() {
           <Skeleton className="h-5 w-20" />
         </div>
 
-        <div className="grid grid-cols-2 gap-3 sm:gap-6 lg:grid-cols-4">
+        <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 sm:gap-6 lg:grid-cols-4">
           <ProductSkeleton viewMode="compact" />
           <ProductSkeleton viewMode="compact" />
           <ProductSkeleton viewMode="compact" />
@@ -108,44 +123,50 @@ export default function FeaturedProducts() {
           </h2>
         </div>
 
-        <div className="flex items-center gap-3 rtl:flex-row">
-{totalPages > 1 && (
-          <>
-            <div className="flex items-center gap-1">
-              <Button
-                variant="outline"
-                size="icon"
-                className="cursor-pointer"
-                onClick={goPrevious}
-                disabled={clampedPage === 0}
-                aria-label={t("landing.featured.previous")}
-              >
-                <ChevronLeft className="size-4 rtl:rotate-180" aria-hidden="true" />
-              </Button>
+        <div className="flex flex-wrap items-center gap-2 sm:gap-3 rtl:flex-row">
+          {totalPages > 1 && (
+            <>
+              <div className="flex items-center gap-1">
+                <Button
+                  variant="outline"
+                  size="icon"
+                  className="cursor-pointer"
+                  onClick={goPrevious}
+                  disabled={clampedPage === 0}
+                  aria-label={t("landing.featured.previous")}
+                >
+                  <ChevronLeft
+                    className="size-4 rtl:rotate-180"
+                    aria-hidden="true"
+                  />
+                </Button>
 
-              <Button
-                variant="outline"
-                size="icon"
-                className="cursor-pointer"
-                onClick={goNext}
-                disabled={clampedPage === totalPages - 1}
-                aria-label={t("landing.featured.next")}
-              >
-                <ChevronRight className="size-4 rtl:rotate-180" aria-hidden="true" />
-              </Button>
-            </div>
+                <Button
+                  variant="outline"
+                  size="icon"
+                  className="cursor-pointer"
+                  onClick={goNext}
+                  disabled={clampedPage === totalPages - 1}
+                  aria-label={t("landing.featured.next")}
+                >
+                  <ChevronRight
+                    className="size-4 rtl:rotate-180"
+                    aria-hidden="true"
+                  />
+                </Button>
+              </div>
 
-            <span
-              className="text-sm tabular-nums text-(--color-text-secondary)"
-              aria-live="polite"
-            >
-              {t("landing.featured.pageCount", {
-                current: clampedPage + 1,
-                total: totalPages,
-              })}
-            </span>
-          </>
-        )}
+              <span
+                className="text-sm tabular-nums text-(--color-text-secondary)"
+                aria-live="polite"
+              >
+                {t("landing.featured.pageCount", {
+                  current: clampedPage + 1,
+                  total: totalPages,
+                })}
+              </span>
+            </>
+          )}
 
           {/* Swap back to ComingSoonButton ONLY while /products genuinely
             doesn't exist — a "view all" that 404s is worse than no link. */}
@@ -176,11 +197,15 @@ export default function FeaturedProducts() {
           {pages.map((pageProducts, index) => (
             <div
               key={pageProducts.map((p) => p._id).join("-")}
-              className="grid w-full shrink-0 grid-cols-2 gap-3 sm:gap-6 lg:grid-cols-4"
+              className="grid w-full shrink-0 grid-cols-1 gap-3 sm:grid-cols-2 sm:gap-6 lg:grid-cols-4"
               aria-hidden={index !== clampedPage}
             >
               {pageProducts.map((product) => (
-                <ProductCard key={product._id} product={product} viewMode="compact" />
+                <ProductCard
+                  key={product._id}
+                  product={product}
+                  viewMode="compact"
+                />
               ))}
             </div>
           ))}

@@ -1,5 +1,5 @@
 import { test, expect } from "@playwright/test";
-import { createApiState, installMockApi } from "./support/mockApi.js";
+import { createApiState, installMockApi, PRODUCTS } from "./support/mockApi.js";
 
 test.describe("Shop storefront", () => {
   let state;
@@ -59,5 +59,49 @@ test.describe("Shop storefront", () => {
     await page.goto("/products");
     await expect(page.locator("html")).toHaveAttribute("dir", "rtl");
     await expect(page.getByRole("heading", { level: 1, name: "المتجر" })).toBeVisible();
+  });
+
+  const EXTRA_PRODUCTS = PRODUCTS.map((p, i) => ({
+    ...p,
+    _id: `p${i + 100}`,
+    name: `Extra Product ${i + 1}`,
+    brand: "ExtraBrand",
+    price: 1000 + i,
+  }));
+
+  test("pagination stays on the clicked page instead of bouncing to page 1", async ({ page }) => {
+    state.products = [...PRODUCTS, ...EXTRA_PRODUCTS];
+    await page.goto("/products");
+
+    const next = page.getByRole("button", { name: "Next" });
+    await expect(next).toBeVisible();
+
+    await next.click();
+
+    await expect(page).toHaveURL(/page=2/);
+    await expect(page.getByText("Extra Product 1", { exact: true })).toBeVisible();
+    await expect(page.getByText("Wireless Headphones", { exact: true })).toBeHidden();
+  });
+
+  test("a filter change from a later page still resets to page 1", async ({ page }) => {
+    state.products = [...PRODUCTS, ...EXTRA_PRODUCTS];
+    await page.goto("/products");
+    await page.getByRole("button", { name: "Next" }).click();
+    await expect(page).toHaveURL(/page=2/);
+    await expect(page.getByText("Extra Product 1", { exact: true })).toBeVisible();
+
+    const requestPromise = page.waitForRequest(
+      (req) =>
+        req.url().includes("/api/products") &&
+        new URL(req.url()).searchParams.get("brand") === "TechNova",
+    );
+    await page.getByLabel("Brand").click();
+    await page.getByRole("option", { name: "TechNova" }).click();
+    await page.getByRole("button", { name: "Apply Filters" }).click();
+    await requestPromise;
+
+    await expect(page).toHaveURL(/page=1/);
+    await expect(page.getByText("Wireless Headphones", { exact: true })).toBeVisible();
+    await expect(page.getByText("Extra Product 1", { exact: true })).toBeHidden();
   });
 });

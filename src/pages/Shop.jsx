@@ -169,6 +169,7 @@ export default function Shop() {
   const prevApplied = useRef(filters.applied);
   const pendingPageReset = useRef(false);
   const lastWrittenUrl = useRef(null);
+  const incomingHydration = useRef(false);
 
   const { applied, hydrateFromUrl } = filters;
 
@@ -185,9 +186,21 @@ export default function Shop() {
     }
 
     if (current !== lastWrittenUrl.current) {
+      // The URL moved on its own (pagination clicks, back/forward, shared
+      // links). Rehydrate from it and honour whatever page it carries. The
+      // fresh `applied` object this schedules is flagged as incoming hydration
+      // so it is not mistaken for a user filter change on the next render.
+      incomingHydration.current = true;
       hydrateFromUrl(makeInitialFilters(searchParams));
       lastWrittenUrl.current = current;
       pendingPageReset.current = false;
+      return;
+    }
+
+    if (incomingHydration.current) {
+      // Just restored from the URL; this is not a user filter edit, so skip
+      // the reset-to-page-1 path that follows a real filter change.
+      incomingHydration.current = false;
       return;
     }
 

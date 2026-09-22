@@ -150,9 +150,8 @@ export default function PersonalInformation({
     <Card className="overflow-hidden">
       <CardHeader className="border-b bg-muted/20">
         <div className="flex items-start justify-between gap-4">
-          <div>
+          <div className="min-w-0 flex-1">
             <CardTitle>{t("profile.personalInformation.title")}</CardTitle>
-
             <p className="mt-1 text-sm text-muted-foreground">
               {t("profile.personalInformation.description")}
             </p>

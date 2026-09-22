@@ -69,7 +69,7 @@ export default function AccountActivity() {
                   key={key}
                   aria-disabled="true"
                   className={cn(
-                    "flex items-center gap-4 rounded-xl border border-border/60 p-4 transition-colors",
+                    "flex items-start gap-4 rounded-xl border border-border/60 p-4 transition-colors",
                     "bg-background/60 opacity-70 cursor-not-allowed",
                   )}
                 >
@@ -77,20 +77,23 @@ export default function AccountActivity() {
                     <Icon className="size-5" />
                   </div>
 
-                  <div className="min-w-0 flex-1">
-                    <p className="font-medium text-foreground/80">
-                      {t(`profile.activity.${key}.title`)}
-                    </p>
+                  <div className="min-w-0 flex-1 space-y-1">
+                    <div className="flex flex-wrap items-center gap-2">
+                      <p className="font-medium text-foreground/80">
+                        {t(`profile.activity.${key}.title`)}
+                      </p>
 
-                    <p className="mt-0.5 text-sm text-muted-foreground">
+                      <Badge
+                        variant="secondary"
+                        className="text-[11px] font-medium"
+                      >
+                        {t("profile.activity.comingSoon")}
+                      </Badge>
+                    </div>
+
+                    <p className="text-sm text-muted-foreground">
                       {t(`profile.activity.${key}.description`)}
                     </p>
-                  </div>
-
-                  <div className="flex shrink-0 items-center gap-2">
-                    <Badge variant="secondary" className="text-[11px] font-medium">
-                      {t("profile.activity.comingSoon")}
-                    </Badge>
                   </div>
                 </div>
               );

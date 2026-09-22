@@ -8,7 +8,7 @@ export default function NotFound() {
   const { t } = useTranslation();
 
   return (
-    <main className="relative flex min-h-screen items-center justify-center overflow-hidden px-6 py-16">
+    <main className="relative flex min-h-screen items-center justify-center overflow-hidden px-4 py-12 sm:px-6 sm:py-16">
       <SEO
         title={`${t("notFound.code")} - ${t("notFound.title")}`}
         description={t("notFound.description")}
@@ -23,22 +23,22 @@ export default function NotFound() {
         aria-hidden="true"
       />
 
-      <div className="relative flex flex-col items-center justify-center gap-5 text-center">
-        <div className="flex size-20 items-center justify-center rounded-2xl bg-(--color-surface-secondary)">
+      <div className="relative flex flex-col items-center justify-center gap-4 sm:gap-5 text-center">
+        <div className="flex size-16 sm:size-20 items-center justify-center rounded-2xl bg-(--color-surface-secondary)">
           <TriangleAlert
-            className="size-10 text-(--color-supporting)"
+            className="size-8 sm:size-10 text-(--color-supporting)"
             aria-hidden="true"
           />
         </div>
 
         <div className="flex flex-col items-center gap-2">
-          <h1 className="font-display text-5xl font-bold tracking-tight text-(--color-text-primary) sm:text-6xl">
+          <h1 className="font-display text-4xl font-bold tracking-tight text-(--color-text-primary) sm:text-6xl">
             {t("notFound.title")}
           </h1>
           <p className="text-sm font-semibold uppercase tracking-[0.18em] text-(--color-text-secondary)">
             {t("notFound.code")}
           </p>
-          <h2 className="font-display text-2xl font-bold text-(--color-text-primary)">
+          <h2 className="font-display text-xl sm:text-2xl font-bold text-(--color-text-primary)">
             {t("notFound.subtitle")}
           </h2>
         </div>

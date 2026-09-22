@@ -54,12 +54,16 @@ export default function LandingHero() {
 
             {/* Dual CTAs: primary filled, secondary outline — both lead to the
               real storefront catalog (/products, shipped with the shop PR). */}
-            <div className="flex flex-col gap-3 sm:flex-row xl:gap-4">
-              <Button asChild className="px-8">
+            <div className="flex w-full flex-col gap-3 sm:w-auto sm:flex-row xl:gap-4">
+              <Button asChild className="w-full px-8 sm:w-auto">
                 <Link to="/products">{t("landing.hero.shopNow")}</Link>
               </Button>
 
-              <Button asChild variant="outline" className="px-6">
+              <Button
+                asChild
+                variant="outline"
+                className="w-full px-6 sm:w-auto"
+              >
                 <Link to="/products">
                   {t("landing.hero.explore")}
                   <ArrowRight

@@ -14,6 +14,9 @@ export default function ShopSidebar({
   categories,
   selectedCategory,
   setSelectedCategory,
+  subcategories,
+  selectedSubcategory,
+  setSelectedSubcategory,
   brands,
   selectedBrand,
   setSelectedBrand,
@@ -82,6 +85,29 @@ export default function ShopSidebar({
             })}
           </div>
         </div>
+
+        {/* Subcategories — shown once a category is selected */}
+        {selectedCategory !== "All" && (
+          <div className="space-y-3 pt-3 border-t border-(--color-border)">
+            <label className="text-xs font-semibold text-(--color-text-secondary) uppercase tracking-wider">
+              {t("shop.subcategory", "Subcategory")}
+            </label>
+            <Select value={selectedSubcategory} onValueChange={setSelectedSubcategory}>
+              <SelectTrigger aria-label={t("shop.subcategory", "Subcategory")} className="w-full h-10 rounded-xl border-(--color-border) bg-(--color-surface-secondary) px-3.5 text-sm font-medium text-(--color-text-primary)">
+                <SelectValue placeholder={t("shop.allSubcategories", "All Subcategories")} />
+              </SelectTrigger>
+              <SelectContent>
+                {subcategories.map((sub) => (
+                  <SelectItem key={sub.name} value={sub.name}>
+                    {sub.name === "All"
+                      ? t("shop.allSubcategories", "All Subcategories")
+                      : sub.name}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+          </div>
+        )}
 
         {/* Brands */}
         <div className="space-y-3 pt-3 border-t border-(--color-border)">

@@ -256,7 +256,12 @@
     "sortTopRated": "Les mieux notés",
     "clearAllFilters": "Effacer tous les filtres",
     "filterUnlimited": "∞",
-    "applyFilters": "Appliquer les filtres"
+    "applyFilters": "Appliquer les filtres",
+    "subcategory": "Sous-catégorie",
+    "allSubcategories": "Toutes les sous-catégories",
+    "filterSubcategory": "Sous-catégorie :",
+    "searchPlaceholder": "Rechercher des produits...",
+    "catalogRefreshing": "Actualisation du catalogue produits..."
   },
   "dashboard": {
     "title": "Tableau de bord",
@@ -1394,7 +1399,8 @@
     "searchPlaceholder": "Rechercher des catégories...",
     "noResultsTitle": "Aucune catégorie trouvée",
     "noResultsDesc": "Essayez de rechercher avec un autre mot-clé.",
-    "clearSearch": "Effacer la recherche"
+    "clearSearch": "Effacer la recherche",
+    "subcategories": "Sous-catégories"
   },
   "help": {
     "title": "Centre d'aide & FAQ",

@@ -2,7 +2,13 @@ import { Search, X, LayoutGrid, List } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { useTranslation } from "react-i18next";
 
-export default function ShopSearchBar({ searchQuery, setSearchQuery, viewMode, setViewMode }) {
+export default function ShopSearchBar({
+  searchQuery,
+  setSearchQuery,
+  onSubmit,
+  viewMode,
+  setViewMode,
+}) {
   const { t } = useTranslation();
 
   return (
@@ -13,7 +19,12 @@ export default function ShopSearchBar({ searchQuery, setSearchQuery, viewMode, s
           type="search"
           value={searchQuery}
           onChange={(e) => setSearchQuery(e.target.value)}
-          placeholder={t("shop.filterSearch", "Search products...")}
+          onKeyDown={(e) => {
+            if (e.key === "Enter") {
+              onSubmit?.();
+            }
+          }}
+          placeholder={t("shop.searchPlaceholder", "Search products...")}
           className="ps-12 pe-10 py-6 text-sm bg-transparent border-none shadow-none focus-visible:ring-0 rounded-xl text-(--color-text-primary) placeholder:text-(--color-text-secondary) font-body"
         />
         {searchQuery && (

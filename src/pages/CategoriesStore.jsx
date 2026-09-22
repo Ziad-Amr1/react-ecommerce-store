@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
+import { Link } from "react-router";
 import { Search, Tag } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
@@ -79,14 +80,33 @@ export default function CategoriesStore() {
             </CardContent>
           </Card>
         ) : (
-          <ul className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
+<ul className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
             {filteredCategories.map((cat) => (
-              <li key={cat.key}>
+              <li key={cat.key} className="flex flex-col gap-3">
                 <CategoryCard
                   image={cat.image}
                   title={t(`landing.categories.names.${cat.key}`, cat.title)}
                   category={cat.category}
                 />
+                {cat.subcategories?.length > 0 && (
+                  <div>
+                    <p className="mb-2 text-xs font-semibold uppercase tracking-wider text-(--color-text-secondary)">
+                      {t("categoriesStore.subcategories", "Subcategories")}
+                    </p>
+                    <ul className="flex flex-wrap gap-1.5">
+                      {cat.subcategories.map((sub) => (
+                        <li key={sub}>
+                          <Link
+                            to={`/products?category=${encodeURIComponent(cat.category)}&subcategory=${encodeURIComponent(sub)}`}
+                            className="inline-block rounded-full border border-(--color-border) bg-(--color-surface) px-3 py-1 text-xs font-medium text-(--color-text-primary) transition-colors hover:border-(--color-primary) hover:text-(--color-primary)"
+                          >
+                            {sub}
+                          </Link>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                )}
               </li>
             ))}
           </ul>

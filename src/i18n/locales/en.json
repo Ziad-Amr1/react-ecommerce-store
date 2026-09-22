@@ -256,7 +256,12 @@
     "sortTopRated": "Top Rated",
     "clearAllFilters": "Clear All Filters",
     "filterUnlimited": "∞",
-    "applyFilters": "Apply Filters"
+    "applyFilters": "Apply Filters",
+    "subcategory": "Subcategory",
+    "allSubcategories": "All Subcategories",
+    "filterSubcategory": "Subcategory:",
+    "searchPlaceholder": "Search products...",
+    "catalogRefreshing": "Refreshing product catalog..."
   },
   "dashboard": {
     "title": "Dashboard Page",
@@ -1394,7 +1399,8 @@
     "searchPlaceholder": "Search categories...",
     "noResultsTitle": "No categories found",
     "noResultsDesc": "Try searching with a different keyword.",
-    "clearSearch": "Clear search"
+    "clearSearch": "Clear search",
+    "subcategories": "Subcategories"
   },
   "help": {
     "title": "Help Center & FAQ",

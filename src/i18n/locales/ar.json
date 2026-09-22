@@ -256,7 +256,12 @@
     "sortTopRated": "الأعلى تقييمًا",
     "clearAllFilters": "مسح جميع التصفية",
     "filterUnlimited": "∞",
-    "applyFilters": "تطبيق الفلاتر"
+    "applyFilters": "تطبيق الفلاتر",
+    "subcategory": "الفئة الفرعية",
+    "allSubcategories": "كل الفئات الفرعية",
+    "filterSubcategory": "الفئة الفرعية:",
+    "searchPlaceholder": "ابحث عن المنتجات...",
+    "catalogRefreshing": "جارٍ تحديث كتالوج المنتجات..."
   },
   "dashboard": {
     "title": "صفحة لوحة التحكم",
@@ -1394,7 +1399,8 @@
     "searchPlaceholder": "ابحث في الفئات...",
     "noResultsTitle": "لم يتم العثور على فئات",
     "noResultsDesc": "جرب البحث باستخدام كلمة رئيسية أخرى.",
-    "clearSearch": "مسح البحث"
+    "clearSearch": "مسح البحث",
+    "subcategories": "الفئات الفرعية"
   },
   "help": {
     "title": "مركز المساعدة والأسئلة الشائعة",

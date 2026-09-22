@@ -12,6 +12,7 @@ export default function ActiveFiltersBar({
   hasActiveFilters,
   clearFilters,
   clearCategory,
+  clearSubcategory,
   clearBrand,
   clearPrice,
   clearSort,
@@ -43,6 +44,17 @@ export default function ActiveFiltersBar({
             <X
               className="size-3.5 text-(--color-text-secondary) hover:text-(--color-error) cursor-pointer"
               onClick={clearCategory}
+            />
+          </Badge>
+        )}
+
+        {applied.subcategory !== "All" && (
+          <Badge variant="secondary" className="gap-1.5 py-1 px-2.5 rounded-lg bg-(--color-surface-secondary) text-(--color-text-primary) border border-(--color-border) font-normal text-xs">
+            {t("shop.filterSubcategory")}{" "}
+            <span className="font-semibold">{applied.subcategory}</span>
+            <X
+              className="size-3.5 text-(--color-text-secondary) hover:text-(--color-error) cursor-pointer"
+              onClick={clearSubcategory}
             />
           </Badge>
         )}

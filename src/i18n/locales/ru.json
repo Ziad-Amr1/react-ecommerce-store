@@ -256,7 +256,12 @@
     "sortTopRated": "Высокий рейтинг",
     "clearAllFilters": "Сбросить все фильтры",
     "filterUnlimited": "∞",
-    "applyFilters": "Применить фильтры"
+    "applyFilters": "Применить фильтры",
+    "subcategory": "Подкатегория",
+    "allSubcategories": "Все подкатегории",
+    "filterSubcategory": "Подкатегория:",
+    "searchPlaceholder": "Поиск товаров...",
+    "catalogRefreshing": "Обновление каталога товаров..."
   },
   "dashboard": {
     "title": "Панель управления",
@@ -1394,7 +1399,8 @@
     "searchPlaceholder": "Поиск категорий...",
     "noResultsTitle": "Категории не найдены",
     "noResultsDesc": "Попробуйте использовать другие ключевые слова.",
-    "clearSearch": "Очистить поиск"
+    "clearSearch": "Очистить поиск",
+    "subcategories": "Подкатегории"
   },
   "help": {
     "title": "Центр помощи и FAQ",

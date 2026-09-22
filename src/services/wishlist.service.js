@@ -22,7 +22,7 @@ export function getMyWishlist(signal) {
 
 export function addToWishlist(productId, signal) {
   return api
-    .post(`/wishlists/add/${productId}`, null, { signal })
+    .post(`/wishlists/add/${productId}`, {}, { signal })
     .then((response) => extractProducts(response.data));
 }
 

@@ -5,10 +5,16 @@
 // response contract the app already consumes (GET /products, GET /products/:id,
 // GET /, plus a demo auth flow for /auth/me, /auth/login, /auth/logout).
 //
+// A demo wishlist (/wishlists/my, /wishlists/add/:id, /wishlists/remove/:id,
+// /wishlists/clear) is ALSO served so the storefront's wishlist feature works
+// offline. It is session-scoped, in-memory only, and never persisted — restart
+// the server to reset it.
+//
 // SAFETY GUARANTEES:
 //   - Binds 127.0.0.1 only. No production URL, no credentials, no secrets.
-//   - Read-only: every mutating verb on /products/* returns 405. Nothing is
-//     ever written or persisted; the demo session lives only in memory.
+//   - The catalog is read-only: every mutating verb on /products/* returns 405.
+//     Nothing is ever written or persisted; the demo session lives only in
+//     memory and is reset on restart.
 //   - The dataset is loaded once at startup and never modified.
 //   - Started explicitly by the developer; the app only talks to it when
 //     VITE_API_URL points here. Default never touches the remote API.
@@ -43,6 +49,9 @@ const DEMO_USER = {
 
 const SESSION_COOKIE = "demo_seed_session";
 let demoAuthenticated = false;
+
+// In-memory demo wishlist (product objects). Session-scoped, never persisted.
+const DEMO_WISHLIST = [];
 
 const json = (res, status, body, extraHeaders = {}) => {
   res.writeHead(status, {
@@ -154,7 +163,7 @@ const server = createServer(async (req, res) => {
 
   if (method === "OPTIONS") {
     json(res, 204, {}, {
-      "Access-Control-Allow-Methods": "GET, POST, OPTIONS",
+      "Access-Control-Allow-Methods": "GET, POST, DELETE, OPTIONS",
       "Access-Control-Allow-Headers": "Content-Type",
       "Access-Control-Max-Age": "86400",
     });
@@ -199,6 +208,58 @@ const server = createServer(async (req, res) => {
       return;
     }
     json(res, 200, { user: DEMO_USER });
+    return;
+  }
+
+  // --- In-memory demo wishlist (mirrors the storefront contract) ---
+  const wishlistPayload = () => ({
+    success: true,
+    totalProducts: DEMO_WISHLIST.length,
+    wishlist: { products: DEMO_WISHLIST },
+  });
+
+  const requireAuth = () => {
+    if (demoAuthenticated) return true;
+    json(res, 401, { message: "Unauthenticated." });
+    return false;
+  };
+
+  if (url.pathname === "/wishlists/my" && method === "GET") {
+    if (!requireAuth()) return;
+    json(res, 200, wishlistPayload());
+    return;
+  }
+
+  const wishlistAddMatch = url.pathname.match(/^\/wishlists\/add\/([^/]+)$/);
+  if (wishlistAddMatch && method === "POST") {
+    if (!requireAuth()) return;
+    const id = decodeURIComponent(wishlistAddMatch[1]);
+    const product = products.find((p) => p._id === id);
+    if (!product) {
+      json(res, 404, { message: `Product "${id}" not found in the demo catalog.` });
+      return;
+    }
+    if (!DEMO_WISHLIST.some((p) => p._id === id)) {
+      DEMO_WISHLIST.push(product);
+    }
+    json(res, 200, { ...wishlistPayload(), message: "Product added to wishlist" });
+    return;
+  }
+
+  const wishlistRemoveMatch = url.pathname.match(/^\/wishlists\/remove\/([^/]+)$/);
+  if (wishlistRemoveMatch && method === "DELETE") {
+    if (!requireAuth()) return;
+    const id = decodeURIComponent(wishlistRemoveMatch[1]);
+    const index = DEMO_WISHLIST.findIndex((p) => p._id === id);
+    if (index !== -1) DEMO_WISHLIST.splice(index, 1);
+    json(res, 200, { ...wishlistPayload(), message: "Product removed from wishlist" });
+    return;
+  }
+
+  if (url.pathname === "/wishlists/clear" && method === "DELETE") {
+    if (!requireAuth()) return;
+    DEMO_WISHLIST.length = 0;
+    json(res, 200, { success: true, message: "Wishlist cleared" });
     return;
   }
 
@@ -258,6 +319,7 @@ server.listen(PORT, HOST, () => {
   console.log(`  Listening:  http://${HOST}:${PORT}`);
   console.log(`  Dataset:    ${products.length} products from data/demo/products.json`);
   console.log(`  Verb policy: GET only on /products (mutating verbs -> 405)`);
+  console.log("  Wishlist:   in-memory demo wishlist (session scoped, resets on restart)");
   console.log("  Session:    in-memory demo auth, never persisted");
   console.log("");
   console.log(`  Point the app here:  VITE_API_URL=http://${HOST}:${PORT} npm run dev`);

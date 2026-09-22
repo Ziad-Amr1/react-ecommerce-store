@@ -56,7 +56,7 @@ describe("wishlist.service", () => {
 
     await addToWishlist("p2");
 
-    expect(api.post).toHaveBeenCalledWith("/wishlists/add/p2", null, {
+    expect(api.post).toHaveBeenCalledWith("/wishlists/add/p2", {}, {
       signal: undefined,
     });
   });

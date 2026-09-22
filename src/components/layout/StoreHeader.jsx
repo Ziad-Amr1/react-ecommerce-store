@@ -1,4 +1,5 @@
-import { Link, useLocation } from "react-router";
+import { useRef, useState } from "react";
+import { Link, useLocation, useNavigate } from "react-router";
 import { useTranslation } from "react-i18next";
 import { assetUrl } from "@/utils/assetUrl";
 import {
@@ -17,6 +18,8 @@ import {
   ChevronRight,
   Bell,
   Tag,
+  Search,
+  X,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
@@ -46,7 +49,9 @@ export default function StoreHeader() {
   const { cart } = useCart();
   const { unreadCount } = useNotifications();
   const { pathname } = useLocation();
+  const navigate = useNavigate();
   const isDark = theme === "dark";
+  const isRtl = i18n.dir() === "rtl";
   const isAdmin = user?.role === "admin";
   const isHomeActive = pathname === "/";
   const isProductsActive = pathname.startsWith("/products");
@@ -56,6 +61,43 @@ export default function StoreHeader() {
   const isWishlistActive = pathname.startsWith("/wishlist");
   const isNotificationsActive = pathname.startsWith("/notifications");
   const isCartActive = pathname.startsWith("/cart");
+
+  // Header search has two intentional states: CLOSED (compact, search icon
+  // only) and OPEN (the nav slot becomes a search input with a close control).
+  const [searchOpen, setSearchOpen] = useState(false);
+  const [searchQuery, setSearchQuery] = useState("");
+  const searchToggleRef = useRef(null);
+  const searchInputRef = useRef(null);
+
+  const openSearch = () => {
+    setSearchOpen(true);
+    setSearchQuery("");
+  };
+
+  const closeSearch = () => {
+    setSearchOpen(false);
+    setSearchQuery("");
+    searchToggleRef.current?.focus();
+  };
+
+  const toggleSearch = () => {
+    if (searchOpen) {
+      closeSearch();
+    } else {
+      openSearch();
+    }
+  };
+
+  const handleSearchSubmit = (event) => {
+    event.preventDefault();
+    const query = searchQuery.trim();
+    if (!query) {
+      closeSearch();
+      return;
+    }
+    navigate(`/products?search=${encodeURIComponent(query)}`);
+    setSearchOpen(false);
+  };
 
   const userImage = user?.avatar || user?.image || user?.profileImage || user?.photoUrl;
   const userInitials = (user?.username || user?.name || user?.email || "U").slice(0, 2).toUpperCase();
@@ -69,14 +111,22 @@ export default function StoreHeader() {
             alt={t("brand.logoAlt")}
             className="size-8 shrink-0 object-contain"
           />
-          <span className="font-(--font-display) text-lg font-bold text-(--color-text-primary)">
+          <span
+            className={
+              searchOpen
+                ? "hidden"
+                : "font-(--font-display) text-lg font-bold text-(--color-text-primary)"
+            }
+          >
             {t("brand.name")}
           </span>
         </Link>
 
         <nav
           aria-label={t("store.header.navLabel")}
-          className="hidden items-center gap-1 md:flex"
+          className={
+            searchOpen ? "hidden" : "hidden items-center gap-1 md:flex"
+          }
         >
           <Button
             asChild
@@ -223,25 +273,87 @@ export default function StoreHeader() {
           )}
         </nav>
 
+        {searchOpen && (
+          <form
+            id="store-header-search-bar"
+            role="search"
+            aria-label={t("navigation.search.label", "Search")}
+            onSubmit={handleSearchSubmit}
+            className="flex min-w-0 flex-1 items-center"
+          >
+            <div className="relative w-full">
+              <Search
+                size={18}
+                aria-hidden="true"
+                className="pointer-events-none absolute start-4 top-1/2 size-4 -translate-y-1/2 text-(--color-text-secondary)"
+              />
+              <input
+                ref={searchInputRef}
+                type="search"
+                value={searchQuery}
+                onChange={(event) => setSearchQuery(event.target.value)}
+                onKeyDown={(event) => {
+                  if (event.key === "Escape") {
+                    closeSearch();
+                  }
+                }}
+                autoFocus
+                aria-label={t("navigation.search.label", "Search")}
+                placeholder={t(
+                  "navigation.search.placeholder",
+                  "Search products...",
+                )}
+                className="w-full rounded-full border border-(--color-border) bg-(--color-surface-secondary) ps-10 pe-4 py-2 text-sm text-(--color-text-primary) placeholder:text-(--color-text-secondary) focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-(--color-focus-ring)"
+              />
+            </div>
+          </form>
+        )}
+
         <div className="flex items-center gap-2">
+          <Button
+            ref={searchToggleRef}
+            variant="outline"
+            size="icon"
+            className="rounded-full cursor-pointer"
+            onClick={toggleSearch}
+            data-testid="store-search-toggle"
+            aria-expanded={searchOpen}
+            aria-controls={searchOpen ? "store-header-search-bar" : undefined}
+            aria-label={
+              searchOpen
+                ? t("navigation.search.close", "Close search")
+                : t("navigation.search.open", "Search")
+            }
+          >
+            {searchOpen ? (
+              <X size={20} aria-hidden="true" />
+            ) : (
+              <Search size={20} aria-hidden="true" />
+            )}
+          </Button>
+
           {isAdmin && (
             <Button
               asChild
               variant="outline"
               size="sm"
-              className="hidden rounded-full cursor-pointer sm:inline-flex"
+              className={
+                searchOpen
+                  ? "hidden"
+                  : "hidden rounded-full cursor-pointer sm:inline-flex"
+              }
             >
               <Link to="/admin">{t("store.header.adminLink")}</Link>
             </Button>
           )}
 
           {/* Desktop-only Language Switcher */}
-          <div className="hidden md:block">
+          <div className={searchOpen ? "hidden" : "hidden md:block"}>
             <LanguageSwitcher />
           </div>
 
           {/* Desktop-only Theme Switcher */}
-          <div className="hidden md:block">
+          <div className={searchOpen ? "hidden" : "hidden md:block"}>
             <Tooltip>
               <TooltipTrigger asChild>
                 <Button
@@ -275,8 +387,8 @@ export default function StoreHeader() {
           </div>
 
           {/* Desktop-only Notifications Switcher Dropdown */}
-          <div className="hidden md:block">
-            <NotificationDropdown />
+          <div className={searchOpen ? "hidden" : "hidden md:block"}>
+            {user && <NotificationDropdown />}
           </div>
 
           {/* Cart Icon Button (Visible on both desktop & mobile header) */}
@@ -382,7 +494,7 @@ export default function StoreHeader() {
                 <Menu size={20} />
               </Button>
             </SheetTrigger>
-            <SheetContent side="right" className="w-80 sm:w-96 flex flex-col p-0 gap-0 border-l">
+            <SheetContent side={isRtl ? "right" : "left"} className="w-80 sm:w-96 flex flex-col p-0 gap-0">
               <SheetHeader className="p-4 border-b flex flex-row items-center justify-between text-start">
                 <SheetTitle className="flex items-center gap-2.5 font-display text-lg font-bold">
                   <img src={assetUrl("logo.webp")} alt="" className="size-7 object-contain" />
@@ -491,25 +603,27 @@ export default function StoreHeader() {
                       </Button>
                     </SheetClose>
 
-                    <SheetClose asChild>
-                      <Button
-                        asChild
-                        variant={isNotificationsActive ? "secondary" : "ghost"}
-                        className={`justify-start gap-3 rounded-xl h-10 px-3 cursor-pointer ${isNotificationsActive ? "font-semibold text-primary bg-primary/10" : "text-foreground"}`}
-                      >
-                        <Link to="/notifications" className="w-full flex items-center justify-between">
-                          <div className="flex items-center gap-3">
-                            <Bell className={`size-4 shrink-0 ${isNotificationsActive ? "text-primary" : "text-muted-foreground"}`} />
-                            <span>{t("notifications.title", "Notifications")}</span>
-                          </div>
-                          {unreadCount > 0 && (
-                            <span className="flex h-5 min-w-5 items-center justify-center rounded-full bg-primary px-1.5 text-[10px] font-bold text-primary-foreground">
-                              {formatItemCount(unreadCount)}
-                            </span>
-                          )}
-                        </Link>
-                      </Button>
-                    </SheetClose>
+                    {user && (
+                      <SheetClose asChild>
+                        <Button
+                          asChild
+                          variant={isNotificationsActive ? "secondary" : "ghost"}
+                          className={`justify-start gap-3 rounded-xl h-10 px-3 cursor-pointer ${isNotificationsActive ? "font-semibold text-primary bg-primary/10" : "text-foreground"}`}
+                        >
+                          <Link to="/notifications" className="w-full flex items-center justify-between">
+                            <div className="flex items-center gap-3">
+                              <Bell className={`size-4 shrink-0 ${isNotificationsActive ? "text-primary" : "text-muted-foreground"}`} />
+                              <span>{t("notifications.title", "Notifications")}</span>
+                            </div>
+                            {unreadCount > 0 && (
+                              <span className="flex h-5 min-w-5 items-center justify-center rounded-full bg-primary px-1.5 text-[10px] font-bold text-primary-foreground">
+                                {formatItemCount(unreadCount)}
+                              </span>
+                            )}
+                          </Link>
+                        </Button>
+                      </SheetClose>
+                    )}
                   </div>
                 </div>
 
